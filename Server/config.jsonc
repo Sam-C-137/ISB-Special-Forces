@@ -1,0 +1,599 @@
+/*
+ * Spawn Configuration system copyright (©) 2025 TacticalToaster
+ * This program is free software: you can redistribute it and/or modify
+ * I recommend don't change any config if you don't know what it does.
+ * Config Notation: Patrol and Checkpoint settings are defined in the following format:
+ * "patrolChance", checkpointChance" or "huntChance 100 = 100% chance to spawn the ISB Squad, 50 = 50% chance, etc.
+ * "squadCount" or "holdZonesCount": Number of squads spawning
+ * "patrolMinSize": 1 = One Boss, Two Specialists and One Regular ISB PMC
+ * "patrolMinSize": 2 = One Boss, Two Specialists and Two Regular ISB PMC
+ * "patrolMinSize": 3 = One Boss, Two Specialists and Three Regular ISB PMC
+ * "patrolMinSize": 4 = One Boss, Two Specialists and Four Regular ISB PMC
+ * "patrolMinSize": 5 = One Boss, Two Specialists and Five Regular ISB PMC
+ * "checkpointMin": 1 = One Boss, Two Specialists and One Regular ISB PMC
+ * "checkpointMin": 2 = One Boss, Two Specialists and Two Regular ISB PMC
+ * "checkpointMin": 3 = One Boss, Two Specialists and Three Regular ISB PMC
+ * "checkpointMin": 4 = One Boss, Two Specialists and Four Regular ISB PMC
+ * "checkpointMin": 5 = One Boss, Two Specialists and Five Regular ISB PMC
+ * "huntMin": 1 = One Boss, Two Specialists and One Regular ISB PMC
+ * "huntMin": 2 = One Boss, Two Specialists and Two Regular ISB PMC
+ * "huntMin": 3 = One Boss, Two Specialists and Three Regular ISB PMC
+ * "huntMin": 4 = One Boss, Two Specialists and Four Regular ISB PMC
+ * "huntMin": 5 = One Boss, Two Specialists and Five Regular ISB PMC
+ * Changing the "patrolMaxSize", "checkpointMax" or "huntMax" values will increase the maximum amount of ISB PMCs that can spawn in range.
+ *
+ */
+{
+  "locations": {
+    "laboratory": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 35, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 4,
+        "mapZones": ["BotZoneBasement"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "BotZoneGate1, BotZoneGate2",
+            "checkpointChance": 35,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": -212.866,
+            "y": 0.054,
+            "z": -352.771
+          }
+        ]
+      },
+        "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 35, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": "BotZoneFloor1, BotZoneFloor2"
+          }
+        }
+      }
+    },
+    "sandbox": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 5, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 1,
+        "patrolMaxSize": 1,
+        "mapZones": ["ZoneSandbox"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneSandbox",
+            "checkpointChance": 0,  //SPAWN CHANCE
+            "checkpointMin": 0,
+            "checkpointMax": 0,
+            "checkpointRadius": 20,
+            "x": 71.932,
+            "y": 22.813,
+            "z": 79.707
+          }
+        ]
+      },
+        "hunt": {
+        "enableHunt": false,
+        "hunts": {
+          "ISB": {
+            "huntChance": 0, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "SandboxHigh": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 3,
+        "mapZones": ["ZoneSandbox"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneSandbox",
+            "checkpointChance": 0,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": 71.932,
+            "y": 22.813,
+            "z": 79.707
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 3,
+            "huntZones": "ZoneSandbox"
+          }
+        }
+      }
+    },
+    "TarkovStreets": {
+      "patrol": {
+        "EnableISBPatrols": false,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 3,
+        "mapZones": ["ZoneCinema", "ZoneSW00", "ZoneHotel_2"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneCard1",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 3,
+            "checkpointRadius": 20,
+            "x": 92.411, 
+            "y": 0.252,
+            "z": -47.751
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": false,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "bigmap": {
+      "patrol": {
+        "EnableISBPatrols": false,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 2,
+        "mapZones": ["ZoneCustoms", "ZoneBrige", "ZoneFactorySide"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneBrige",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": 107.550,
+            "y": 16.216,
+            "z": -47.927
+          }
+        ]
+      },
+        "hunt": {
+        "enableHunt": false,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "interchange": {
+      "patrol": {
+        "EnableISBPatrols": false,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 2,
+        "mapZones": ["ZoneRoad", "ZoneTrucks", "ZonePowerStation"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneCenter",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": 44.640,
+            "y": 36.603,
+            "z": -69.674
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": false,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Woods": {
+      "patrol": {
+        "EnableISBPatrols": false,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 3,
+        "patrolMaxSize": 3,
+        "mapZones": ["ZoneUsecBase", "ZoneBrokenVill", "ZoneScavBase2"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneHouse",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 3,
+            "checkpointMax": 3,
+            "checkpointRadius": 20,
+            "x": 395.043,
+            "y": -13.956,
+            "z": 181.716
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": false,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Factory4Day": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 20, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 1,
+        "patrolMaxSize": 1,
+        "mapZones": ["BotZone"],
+        "raidTimeMin": 960,
+        "raidTimeMax": 1080
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "BotZone",
+            "checkpointChance": 0,  //SPAWN CHANCE
+            "checkpointMin": 1,
+            "checkpointMax": 1,
+            "checkpointRadius": 20,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 20, //SPAWN CHANCE
+            "huntMin": 1,
+            "huntMax": 2,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Factory4Night": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 35, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 1,
+        "patrolMaxSize": 1,
+        "mapZones": ["BotZone"],
+        "raidTimeMin": 960,
+        "raidTimeMax": 1080
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "BotZone",
+            "checkpointChance": 0,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 4,
+            "checkpointRadius": 20,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 35, //SPAWN CHANCE
+            "huntMin": 4,
+            "huntMax": 4,
+            "huntZones": "BotZone"
+          }
+        }
+      }
+    },
+    "RezervBase": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 2,
+        "mapZones": ["ZoneBunkerStorage", "ZoneSubCommand", "ZoneBarrack"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": true,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneSubStorage",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": 57.334,
+            "y": -12.205,
+            "z": -127.209
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Labyrinth": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 35, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 2,
+        "mapZones": ["BotZone"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": true,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "BotZone",
+            "checkpointChance": 35,  //SPAWN CHANCE
+            "checkpointMin": 2,
+            "checkpointMax": 2,
+            "checkpointRadius": 20,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 35, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 3,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Lighthouse": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 30, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 2,
+        "mapZones": ["Zone_Village", "Zone_Blockpost", "Zone_DestroyedHouse"],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1500
+      },
+      "checkpoint": {
+        "enableISBHoldZones": true,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "Zone_Village",
+            "checkpointChance": 30,  //SPAWN CHANCE
+            "checkpointMin": 3,
+            "checkpointMax": 4,
+            "checkpointRadius": 20,
+            "x": 355.213,
+            "y": 15.017,
+            "z": 542.654
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 30, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Shoreline": {
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 4,
+        "patrolMaxSize": 4,
+        "mapZones": ["ZoneSmuglers", "ZoneTunnel", "ZoneMeteoStation", "ZonePassClose"],
+        "raidTimeMin": 120,
+        "raidTimeMax": 180
+      },
+      "checkpoint": {
+        "enableISBHoldZones": true,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "ZoneSanatorium1",
+            "checkpointChance": 25,  //SPAWN CHANCE
+            "checkpointMin": 1,
+            "checkpointMax": 1,
+            "checkpointRadius": 20,
+            "x": -183.011,
+            "y": -5.178,
+            "z": -118.656
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 25, //SPAWN CHANCE
+            "huntMin": 4,
+            "huntMax": 4,
+            "huntZones": ""
+          }
+        }
+      }
+    }
+  },
+  "debug": {
+    "logs": false,
+    "spawnAlways": false,
+    "spawnInstantlyAlways": false
+  },
+  "dayNight": {
+    "logs": false,
+    "ForceDayAppearance": false,
+    "ForceNightAppearance": false,
+    "nightStartHour": 21,
+    "nightEndHour": 7
+  },
+  "aishiLoyaltyCondition": {
+    "enabled": true,
+    "logs": false,
+    "minLoyaltyLevel": 4,
+    "breakOnHit": true,
+    "damageThreshold": 300,
+    "thresholdPerFaction": true,
+    "loseReputationOnKill": true,
+    "reputationLostPerKill": 0.25,
+    "showReputationLossInRaidResults": true,
+    "reputationMessage": "I appreciate loyalty very much. You hurt my people for no reason. Don't expect me to understand this or let it slide, because they won't understand it either—and they certainly won't go easy on you. You're going to lose points with me, so don't push my patience too far.",
+    "extendToPlayerAllies": true
+  },
+  "revenge": {
+    "enabled": true,
+    "logs": false,
+    "raidAmount": 6,
+    "refreshOnAdditionalKill": true,
+    "stackAdditionalKills": false,
+    "consumeOnScavRaid": false
+  },
+  "forcedHostility": {
+    "enabled": true,
+    "logs": false,
+    "friendlyBotTypes": [ 
+          "exUsec",
+          "gifter",
+          "bossKnight",
+          "followerBigPipe",
+          "followerBirdEye",
+          "848400", //RUAF Soldier (TacticalToaster)
+          "848401", //RUAF Senior Soldier (TacticalToaster)
+          "848402", //RUAF Heavy Soldier (TacticalToaster)
+          "848404", //RUAF Sniper (TacticalToaster)
+          "848405", //RUAF Machinegunner (TacticalToaster)
+          "848406", //RUAF REMNANT RIFLER (TacticalToaster)
+          "1170",   //UNTAR Soldier (TacticalToaster)
+          "1171",   //UNTAR Team Leader (TacticalToaster)
+          "1173",   //UNTAR Officer (TacticalToaster)
+          "13701",  //ISB Operator
+          "13709",  //ISB Specialist
+          "13710",  //ISB Team Leader
+          "13702",  //ISB STF-A "Cipher One"
+          "13703",  //ISB STF-A "Snake One"
+          "13704",  //ISB STF-A "Apex One"
+          "13705",  //ISB STF-A "The Chosen One"
+          "13706",  //ISB STF-A "The Dark Lord"
+          "13707",  //ISB STF-A "Vengeful The Chosen One"
+          "13708"  //ISB STF-A "Vengeful The Dark Lord"
+    ]
+  }
+}

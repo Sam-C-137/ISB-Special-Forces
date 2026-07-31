@@ -1,0 +1,76 @@
+[
+{
+  "id": "69417646c9c13c9353996c4e",
+  "description": "69417646c9c13c9353996c4e description",
+  "name": "69417646c9c13c9353996c4e name",
+  "imageUrl": "/files/achievement/ISBTAG02.png",
+  "assetPath": "",
+  "rewards": [],
+  "conditions": {
+      "availableForFinish": [
+        {
+          "id": "69d6bf5c7f8d5e215439e626",
+          "index": 0,
+          "dynamicLocale": false,
+          "visibilityConditions": [],
+          "globalQuestCounterId": "",
+          "parentId": "",
+          "value": 150,
+          "type": "Elimination",
+          "oneSessionOnly": false,
+          "completeInSeconds": 0,
+          "doNotResetIfCounterCompleted": false,
+          "isResetOnConditionFailed": false,
+          "isNecessary": false,
+          "counter": {
+            "id": "69d6bf5edb07f97d9fa97a61",
+            "conditions": [
+              {
+                "id": "69d6bf61788364f511704163",
+                "dynamicLocale": false,
+                "target": "Savage",
+                "value": 1,
+                "compareMethod": ">=",
+                "conditionType": "Kills",
+                "weapon": [
+                ],
+                "bodyPart": [
+                ],
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "distance": {
+                  "compareMethod": ">=",
+                  "value": 0
+                },
+                "resetOnSessionEnd": false,
+                "savageRole": [
+                  "ISBSpecialForces"
+                ],
+                "enemyEquipmentExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyHealthEffects": [],
+                "weaponCaliber": [],
+                "weaponModsExclusive": [],
+                "weaponModsInclusive": []
+              }
+            ]
+          },
+          "conditionType": "CounterCreator"
+        }
+      ],
+    "fail": []
+  },
+  "instantComplete": false,
+  "showNotificationsInGame": false,
+  "showProgress": true,
+  "prefab": "",
+  "rarity": "Rare",
+  "hidden": false,
+  "showConditions": false,
+  "progressBarEnabled": true,
+  "side": "Pmc",
+  "index": 3301
+}
+]

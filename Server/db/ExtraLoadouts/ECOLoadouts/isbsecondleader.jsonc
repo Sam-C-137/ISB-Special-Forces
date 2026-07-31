@@ -1,0 +1,476 @@
+{
+  "appearance": {
+    "body": {},
+    "feet": {},
+    "hands": {},
+    "head": {},
+    "voice": {}
+  },
+  "chances": {
+    "equipment": {
+      "ArmBand": 5,
+      "ArmorVest": 50,
+      "Backpack": 100,
+      "Earpiece": 100,
+      "Eyewear": 100,
+      "FaceCover": 40,
+      "FirstPrimaryWeapon": 100,
+      "Headwear": 100,
+      "Holster": 100,
+      "Pockets": 100,
+      "Scabbard": 100,
+      "SecondPrimaryWeapon": 100,
+      "SecuredContainer": 100,
+      "TacticalVest": 100
+    },
+    "equipmentMods": {
+      "mod_nvg": 100,
+      "back_plate": 100,
+      "front_plate": 100,
+      "left_side_plate": 100,
+      "right_side_plate": 100,
+      "mod_equipment": 100,
+      "mod_equipment_000": 100,
+      "mod_equipment_001": 100,
+      "mod_equipment_002": 100,
+      "mod_mount": 100,
+      "mod_muzzle": 100,
+      "mod_flashlight": 100,
+      "mod_tactical": 100
+    },
+    "weaponMods": {
+      "mod_scope_000": 100,
+      "mod_pistolgrip": 100,
+      "mod_reciever": 100,
+      "mod_pistol_grip": 100,
+      "mod_bipod": 100,
+      "mod_flashlight": 100,
+      "mod_foregrip": 100,
+      "mod_magazine": 100,
+      "mod_mount": 100,
+      "mod_mount_000": 100,
+      "mod_mount_001": 100,
+      "mod_mount_002": 100,
+      "mod_barrel": 100,
+      "mod_muzzle": 100,
+      "mod_muzzle_000": 100,
+      "mod_muzzle_001": 100,
+      "mod_scope": 100,
+      "mod_sight_front": 100,
+      "mod_sight_rear": 100,
+      "mod_stock": 100,
+      "mod_tactical": 100,
+      "mod_tactical_000": 100,
+      "mod_tactical_001": 100,
+      "mod_tactical_002": 100,
+      "mod_charge": 100,
+      "mod_stock_001": 100,
+      "mod_stock_002": 100,
+      "mod_stock_000": 100,
+      "mod_gas_block": 100,
+      "mod_handguard": 100,
+      "mod_mount_003": 100,
+      "mod_launcher": 100,
+      "mod_tactical002": 100,
+      "mod_pistolgrip_000": 100,
+      "mod_pistolgrip_001": 100,
+      "mod_tactical_003": 100
+    }
+  },
+  "experience": {
+    "aggressorBonus": {
+      "normal": 0
+    },
+    "level": {
+      "max": 1,
+      "min": 0
+    },
+    "reward": {
+      "normal": {
+        "max": 1500,
+        "min": 900
+      }
+    },
+    "standingForKill": {
+      "easy": 0.02,
+      "normal": 0.04,
+      "hard": 0.06
+    },
+    "useSimpleAnimator": false
+  },
+   "firstName": [],
+  "generation": {
+    "items": {
+      "backpackLoot": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 3,
+          "3": 4,
+          "4": 1,
+          "5": 1,
+          "6": 1,
+          "7": 1
+        },
+        "whitelist": []
+      },
+      "currency": {
+        "weights": {
+          "0": 0,
+          "1": 1,
+          "2": 0
+        },
+        "whitelist": []
+      },
+      "drink": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "drugs": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 5
+        },
+        "whitelist": []
+      },
+      "food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "grenades": {
+        "weights": {
+          "0": 0,
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "whitelist": []
+      },
+      "healing": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 6
+        },
+        "whitelist": []
+      },
+      "magazines": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 1,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      },
+      "pocketLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 6,
+          "4": 4
+        },
+        "whitelist": []
+      },
+      "specialItems": {
+        "weights": {
+          "0": 1,
+          "1": 0
+        },
+        "whitelist": []
+      },
+      "stims": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 3,
+          "3": 3
+        },
+        "whitelist": []
+      },
+      "vestLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 1,
+          "3": 2,
+          "4": 3,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      }
+    }
+  },
+  "health": {
+    "BodyParts": [
+      {
+        "Chest": {
+          "max": 275,
+          "min": 275
+        },
+        "Head": {
+          "max": 85,
+          "min": 85
+        },
+        "LeftArm": {
+          "max": 150,
+          "min": 150
+        },
+        "LeftLeg": {
+          "max": 125,
+          "min": 125
+        },
+        "RightArm": {
+          "max": 150,
+          "min": 150
+        },
+        "RightLeg": {
+          "max": 125,
+          "min": 125
+        },
+        "Stomach": {
+          "max": 255,
+          "min": 255
+        }
+      }
+    ],
+    "Energy": {
+      "max": 100,
+      "min": 100
+    },
+    "Hydration": {
+      "max": 100,
+      "min": 100
+    },
+    "Temperature": {
+      "max": 40,
+      "min": 36
+    }
+  },
+  "inventory": {
+    "Ammo": {},
+    "equipment": {
+      "ArmBand": {},
+      "ArmorVest": {},
+      "Backpack": {},
+      "Earpiece": {},
+      "Eyewear": {},
+      "FaceCover": {},
+      "FirstPrimaryWeapon": {},
+      "Headwear": {},
+      "Holster": {},
+      "Pockets": {},
+      "Scabbard": {},
+      "SecondPrimaryWeapon": {},
+      "SecuredContainer": {},
+      "TacticalVest": {}
+    },
+    "items": {
+      "Backpack": {
+        "5d1b376e86f774252519444e": 1, //Moonshine
+        "5d1b33a686f7742523398398": 1, //Superwater
+        "5c1267ee86f77416ec610f72": 1, //Prokill
+        "5d03794386f77420415576f5": 1, //Tank Battery
+        "6389c85357baa773a825b356": 1, //ACC
+        "6389c7f115805221fb410466": 1, //GPS
+        "57347ca924597744596b4e71": 1, //GPU
+        "5c052f6886f7746b1e3db148": 1, //COFDM
+        "5e2aedd986f7746d404f3aa4": 1, //GREEN BATTERY
+        "5d235b4d86f7742e017bc88a": 1, //GP COIN
+        "6656560053eaaa7a23349c86": 1, //LEGA MEDAL
+        "5d03775b86f774203e7e0c4b": 1, //PHASED ARRAY
+        "590c657e86f77412b013051d": 1, //GRIZZLY
+        "5d1b36a186f7742523398433": 1, //GAS
+        "5c05308086f7746b2101e90b": 1, //VIRTEX
+        "67cad1ec19b006e9e50f44d6": 1, //ARENA BP CASE 0
+        "59e3639286f7741777737013": 1, //LION
+        "59faff1d86f7746c51718c9c": 1, //BITCOIN
+        "64897ffc3656831810043165": 1, //SEALED CASE 1
+        "64898e9db18e646e992aba47": 1, //SEALED CASE 2
+        "648990314b4d2b31b63a46fc": 1, //SEALED CASE 3
+        "648996987063b903ff4b8561": 1, //SEALED CASE 4
+        "6489981f7063b903ff4b8565": 1, //SEALED CASE 5
+        "64899a35fc093676bb0f57e3": 1, //SEALED CASE 6
+        "64899ec0a236de328b12db52": 1, //SEALED CASE 7
+        "64899f4189de40533661a0c0": 1, //SEALED CASE 8
+        "6489a0a4fc493c59d15fec05": 1, //SEALED CASE 9
+        "6489a233a236de328b12db56": 1, //SEALED CASE 10
+        "6489a344fc493c59d15fec0f": 1, //SEALED CASE 11
+        "6489a7d87063b903ff4b85cc": 1, //SEALED CASE 12
+        "6489a97645f9ca4ba51c4dd0": 1, //SEALED CASE 13
+        "6489aa584b6fc03d00374e59": 1, //SEALED CASE 14
+        "6489ab9645f9ca4ba51c4dd7": 1, //SEALED CASE 15
+        "6489b2b131a2135f0d7d0fcb": 1, //SEALED CASE 16
+        "6489b73cebac5a4a1b73cab7": 1, //SEALED CASE 17
+        "6489b88bcf0cd80b7e749069": 1, //SEALED CASE 18
+        "6489b91dd0c36c0a4925c4b4": 1, //SEALED CASE 19
+        "6489b99eebac5a4a1b73cabc": 1, //SEALED CASE 20
+        "6489ba157c07471efa3e03b4": 1, //SEALED CASE 21
+        "6489ba92a74e43447b64d5e2": 1, //SEALED CASE 22
+        "6489bbd6d0c36c0a4925c4b8": 1, //SEALED CASE 23
+        "6489bd7b79295b4f753d486a": 1, //SEALED CASE 24
+        "6489bed4a53c8c047c3dc361": 1, //SEALED CASE 25
+        "6489bfa844d98e01bc4c420e": 1, //SEALED CASE 26
+        "6489c03c8bc5233fdc78e788": 1, //SEALED CASE 27
+        "6489c0508bc5233fdc78e78c": 1, //SEALED CASE 28
+        "6489c0df7c07471efa3e03b8": 1, //SEALED CASE 29
+        "6489c0f731a2135f0d7d0fd5": 1, //SEALED CASE 30
+        "6489c12f8bc5233fdc78e790": 1, //SEALED CASE 31
+        "6489c164a53c8c047c3dc365": 1, //SEALED CASE 32
+        "6489c200cf0cd80b7e74906d": 1, //SEALED CASE 33
+        "6489c2aad0c36c0a4925c4bc": 1, //SEALED CASE 34
+        "6489c30331a2135f0d7d0fd9": 1, //SEALED CASE 35
+        "6489c46eebac5a4a1b73cac0": 1, //SEALED CASE 36
+        "6489c5cb44d98e01bc4c4212": 1, //SEALED CASE 37
+        "6489c65cd0c36c0a4925c4c0": 1, //SEALED CASE 38
+        "6489c753a74e43447b64d5e6": 1, //SEALED CASE 39
+        "6489c80e7c07471efa3e03bc": 1, //SEALED CASE 40
+        "6489c8a1a53c8c047c3dc369": 1, //SEALED CASE 41
+        "6489c8dba53c8c047c3dc36d": 1, //SEALED CASE 42
+        "6489c99f7c07471efa3e03c0": 1, //SEALED CASE 43
+        "6489ca66d0c36c0a4925c4c4": 1, //SEALED CASE 44
+        "6489cad98bc5233fdc78e794": 1, //SEALED CASE 45
+        "6489cb4fa74e43447b64d5ea": 1, //SEALED CASE 46
+        "6489cc4379295b4f753d486e": 1, //SEALED CASE 47
+        "6489cca131a2135f0d7d0fdd": 1, //SEALED CASE 48
+        "6489d812cf0cd80b7e749071": 1, //SEALED CASE 49
+        "6489d89debac5a4a1b73caf7": 1  //SEALED CASE 50
+      },
+      "Pockets": {
+        "5e8488fa988a8701445df1e4": 1, //CALOK
+        "5696686a4bdc2da3298b456a": 1, //Dollars
+        "569668774bdc2da2298b4568": 1, //Euros
+        "5751a25924597722c463c472": 1, //Army Bandage
+        "5c0e534186f7747fa1419867": 1, //ETG
+        "69dedb462e45a1248bf6b96a": 1, //ETG DUAL
+        "5c0e530286f7747fa1419862": 1, //Propital
+        "637b6251104668754b72f8f9": 1, //Perfotoran
+        "60098ad7c2240c0fe85c570a": 1 //AFAK
+      },
+      "SecuredContainer": {
+        "69dedb462e45a1248bf6b96a": 9999, //ETG V2
+        "692dc61870449aedfa85120f": 10000, // Nammo AP4 (New)
+        "54527ac44bdc2d36668b4567": 10000, // M855A1
+        "601949593ae8f707c4608daa": 10000, // SSA AP
+        "59e690b686f7746c9f75e848": 10000, // M995
+        "5efb0c1bd79ff02a1f5e68d9": 10000, // M993
+        "692e3991aeebb57de9a2386b": 10000, // M948 (New)
+        "5a6086ea4f39f99cd479502f": 10000, // M61
+        "6768c25aa7b238f14a08d3f6": 10000, // M80A1
+        "5ba26835d4351e0035628ff5": 10000, // AP SX
+        "5ba2678ad4351e44f824b344": 10000, // FMJ SX
+        "6529243824cbe3c74a05e5c1": 10000, // SIG HYBRID
+        "6529302b8c26af6326029fb7": 10000, // SIG FMJ
+        "699b54a97d3c1c9f69f616b6": 10000, // SIG XM1186 AP (New)
+        "5efb0cabfb3e451d70735af5": 10000, // .45 AP
+        "699aab526ac4f65528f1fd63": 10000, // .45 ACP RIP AP (New)
+        "5cc80f38e4a949001152b560": 10000, // S190
+        "5cc80f53e4a949000e1ea4f8": 10000, // S191
+        "5efb0da7a29a85116f6ea05f": 10000, // 9x19 PBP
+        "5c925fa22e221601da359b7b": 10000, // 9x19 AP
+        "699aae8c9b6a4ab2b769c4a3": 10000, // 9x19 RIP AP (New)
+        "5fd20ff893a8961fc660a954": 10000, // .300 AP
+        "64b8725c4b75259c590fa899": 10000, // .300 CBJ
+        "699b6b88be849a7f65b7e866": 10000, // .300 VOR-TX (New)
+        "59e0d99486f7744a32234762": 10000, // 7.62 BP
+        "6931b6a2161edf5b558ee5bc": 10000, // 7.62 7N27 BS (New)
+        "601aa3d2b2bcb34913271e6d": 10000, // 7.62 MAI AP
+        "5fc275cf85fd526b824a571a": 10000, // LAPUA FMJ
+        "5fc382a9d724d907e2077dab": 10000, // LAPUA AP
+        "5ede474b0c226a66f5402622": 10000, // M381
+        "5f0c892565703e5c461894e9": 10000, // M433
+        "57a0e5022459774d1673f889": 10000, // SP6
+        "5c0d688c86f77413ae3407b2": 10000, // BP (9x39)
+        "5c0d5e4486f77478390952fe": 10000, // PPBS
+        "56dff026d2720bb8668b4567": 10000, // BS
+        "56dfef82d2720bbd668b4567": 10000, // BP (5.45)
+        "61962b617c6c7b169525f168": 10000, // 7N40
+        "5e85a9f4add9fe03027d9bf1": 10000, // 23x75mm Zvezda flashbang round
+        "5c0d591486f7744c505b416f": 10000, // RIP
+        "5d6e68a8a4b9360b6c0d54e2": 10000, // AP
+        "6576f4708ca9c4381d16cd9d": 10000, // 7N42 Zubilo
+        "699b42cc85f85eadd558c083": 10000 // 7N31 AP (New)
+        
+      },
+      "SpecialLoot": {},
+      "TacticalVest": {
+        "58d3db5386f77426186285a0": 1, //M67
+        "617fd91e5539a84ec44ce155": 1, //RGN Impact
+        "618a431df1eb8e24b8741deb": 1, //RGO Impact
+        "619256e5f8af2c1a4e1f5d92": 1, //Model 7290 Flashbang
+        "60098ad7c2240c0fe85c570a": 1, //AFAK
+        "5e8488fa988a8701445df1e4": 1  //Calok
+      }
+    },
+    "mods": {}
+  },
+  "lastName": [],
+  "skills": {
+    "Common": {
+      "BotReload": {
+        "max": 3000,
+        "min": 3000
+      },
+      "BotSound": {
+        "max": 1200,
+        "min": 1200
+      },
+      "Endurance": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Health": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Strength": {
+        "max": 5100,
+        "min": 5100
+      },
+      "RecoilControl": {
+        "max": 5100,
+        "min": 5100
+      },
+      "StressResistance": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Vitality": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Assault": {
+        "max": 5100,
+        "min": 5100
+      },
+      "SMG": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Sniper": {
+        "max": 5100,
+        "min": 5100
+      },
+      "DMR": {
+        "max": 5100,
+        "min": 5100
+      }
+    }
+  }
+}

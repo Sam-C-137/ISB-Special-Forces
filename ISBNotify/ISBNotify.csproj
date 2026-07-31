@@ -1,0 +1,74 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
+    <AssemblyName>ISBNotify</AssemblyName>
+    <RootNamespace>ISBInfo</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SPTRoot>C:\SPTIV\SPT</SPTRoot>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="ISBNotify.cs" />
+    <Compile Include="Networking\IISBNotifyNetworkBridge.cs" />
+    <Compile Include="Networking\NoNetworkBridge.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\..\SPT\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BepInEx">
+      <HintPath>..\..\..\..\SPTV\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort">
+      <HintPath>..\..\..\..\SPTV\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
+    </Reference>
+    <Reference Include="Comfort.Unity">
+      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\Comfort.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Fika.Core">
+      <HintPath>..\Reference\Fika.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="ReduceFakeInteriorShadow">
+      <HintPath>..\..\plugins\ReduceFakeInteriorShadow.dll</HintPath>
+    </Reference>
+    <Reference Include="spt-reflection">
+      <HintPath>..\..\..\..\SPTV\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="SPTarkov.Common">
+      <HintPath>..\..\..\..\SPTV\SPT_Runtime\SPTarkov.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="SPTarkov.DI">
+      <HintPath>..\..\..\..\SPTV\SPT_Runtime\SPTarkov.DI.dll</HintPath>
+    </Reference>
+    <Reference Include="SPTarkov.Reflection">
+      <HintPath>..\..\..\SPT\SPTarkov.Reflection.dll</HintPath>
+    </Reference>
+    <Reference Include="SPTarkov.Server.Core">
+      <HintPath>..\..\..\..\SPTV\SPT_Runtime\SPTarkov.Server.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\AishiKeysWorking\bin\Debug\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="WTT-ClientCommonLib">
+      <HintPath>..\..\..\..\SPTV\BepInEx\plugins\WTT-ClientCommonLib\WTT-ClientCommonLib.dll</HintPath>
+    </Reference>
+    <Reference Include="WTT-ServerCommonLib">
+      <HintPath>..\..\..\..\SPTV\SPT\user\mods\WTT-ServerCommonLib\WTT-ServerCommonLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
