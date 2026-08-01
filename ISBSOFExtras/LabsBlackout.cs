@@ -1,3 +1,4 @@
+using Audio.SpatialSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,8 +7,6 @@ using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using Comfort.Common;
-using BepInEx.Bootstrap;
-using BepInEx.Configuration;
 using EFT;
 using EFT.Interactive;
 using EFT.Weather;
@@ -55,7 +54,7 @@ namespace ISBSSOFExtra
             }
         }
 
-        public static void DisableAmbientLight(ManualLogSource logger)
+        public static void DisableAmbientLight()
         {
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
@@ -78,17 +77,16 @@ namespace ISBSSOFExtra
             tod.AmbientBrightness = AnimationCurve.Constant(0, 1, 0);
 
             var levelSettings = Singleton<LevelSettings>.Instance;
-            levelSettings.SkyColor = Color.black;
-            levelSettings.EquatorColor = Color.black;
-            levelSettings.GroundColor = Color.black;
-            levelSettings.AmbientIntensity = 0;
+        	levelSettings.SkyColor = Color.black;
+        	levelSettings.EquatorColor = Color.black;
+        	levelSettings.GroundColor = Color.black;
+        	levelSettings.AmbientIntensity = 0;
 
-            levelSettings.NightVisionSkyColor = Color.black;
-            levelSettings.NightVisionEquatorColor = Color.black;
-            levelSettings.NightVisionGroundColor = Color.black;
+        	levelSettings.NightVisionSkyColor = new Color(0.030f, 0.037f, 0.042f, 1f);
+        	levelSettings.NightVisionEquatorColor = new Color(0.013f, 0.014f, 0.015f, 1f);
+        	levelSettings.NightVisionGroundColor = new Color(0.031f, 0.030f, 0.028f, 1f);
             levelSettings.NightVisionAmbientIntensity = 0;
         }
-
 
         public static void DisableLights()
         {
@@ -182,6 +180,22 @@ namespace ISBSSOFExtra
 
         public static void DisableElectricSounds()
         {
+            var spatialAudioSystem = MonoBehaviourSingleton<SpatialAudioSystem>.Instance;
+            var gclass1122_0 = spatialAudioSystem.GetField<SpatialAudioSystem, GClass1122>("gclass1122_0");
+            var allRooms = gclass1122_0.GetField<GClass1122, List<SpatialAudioRoom>>("List_0");
+            var currentRooms = gclass1122_0.GetField<GClass1122, List<ISpatialAudioRoom>>("List_3");
+
+            foreach (var room in currentRooms)
+            {
+                room.StopRoomToneSound();
+            }
+            foreach (var room in allRooms)
+            {
+                // ambient sounds are attached to rooms,
+                // can't play sound if its null, haha
+                room.AmbientData.RoomTone = null;
+            }
+
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
             foreach (var sceneRootGO in scene.GetRootGameObjects())
@@ -197,99 +211,13 @@ namespace ISBSSOFExtra
                         if (childName.Contains("server") ||
                             childName.Contains("generator") ||
                             childName.Contains("electric") ||
+                            childName.Contains("airvent") ||
                             childName.Contains("turbine"))
                         {
                             child.gameObject.SetActive(false);
                         }
                     }
                     break;
-                }
-            }
-        }
-
-        public static IEnumerator DisableEmissiveMeshes(List<Material> materialsList, List<Renderer> renderersList)
-        {
-            // we know that almost all meshes in Laboratory_LIGHT/SBG_Laboratory_Light/OO
-            // are emissive glowing objects, so no need to generate giant lists via RecordEmissiveMeshes,
-            // just disable all of them
-
-            var sceneName = "Laboratory_LIGHT";
-            var scene = SceneManager.GetSceneByName(sceneName);
-            foreach (var sceneRootGO in scene.GetRootGameObjects())
-            {
-                if (sceneRootGO.name == "SBG_Laboratory_Light")
-                {
-                    var OO = sceneRootGO.transform.Find("OO");
-                    var childrenCount = OO.childCount;
-                    for (var i = 0; i < childrenCount; i++)
-                    {
-                        var child = OO.GetChild(i);
-                        DisableEmissiveMeshes(child, materialsList, renderersList);
-                        yield return null; // one root per frame to not bog cpu
-                    }
-                    break;
-                }
-            }
-        }
-
-        public static readonly int _EmissionPower = Shader.PropertyToID("_EmissionPower");
-        public static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
-
-        private static void DisableEmissiveMeshes(Transform root, List<Material> materialsList, List<Renderer> renderersList)
-        {
-            root.GetComponentsInChildren<Renderer>(true, renderersList);
-            foreach (var renderer in renderersList)
-            {
-                renderer.GetSharedMaterials(materialsList);
-                foreach (var sharedMaterial in materialsList)
-                {
-                    if (!sharedMaterial)
-                    {
-                        continue;
-                    }
-
-                    var shaderName = sharedMaterial.shader.name;
-                    if (shaderName == "p0/Reflective/Bumped Emissive Specular SMap" ||
-                        shaderName == "p0/Reflective/Bumped Animated Emissive Specular SMap")
-                    {
-                        sharedMaterial.SetFloat(_EmissionPower, 0);
-                    }
-                    if (shaderName == "Standard")
-                    {
-                        sharedMaterial.SetColor(_EmissionColor, Color.clear);
-                    }
-                    if (shaderName == "Decal/Ultra Deferred Decal Of God 3000")
-                    {
-                        sharedMaterial.SetColor(_EmissionColor, Color.clear);
-                    }
-                }
-                materialsList.Clear();
-            }
-            renderersList.Clear();
-        }
-
-        public static IEnumerator DisableEmissiveMeshesByPaths(
-            Dictionary<string, Dictionary<int, List<List<int>>>> emissiveMeshesPaths,
-            List<Material> materialsList,
-            List<Renderer> renderersList)
-        {
-            var scenesCount = SceneManager.sceneCount;
-            for (var i = 0; i < scenesCount; i++)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                if (scene.isLoaded && emissiveMeshesPaths.TryGetValue(scene.name, out var roots))
-                {
-                    var sceneRoots = scene.GetRootGameObjects();
-                    foreach (var (rootIndex, emissivePaths) in roots)
-                    {
-                        var root = sceneRoots[rootIndex].transform;
-                        foreach (var emissivePath in emissivePaths)
-                        {
-                            var emissive = Find(root, emissivePath);
-                            DisableEmissiveMeshes(emissive, materialsList, renderersList);
-                        }
-                        yield return null; // one root per frame to not bog cpu
-                    }
                 }
             }
         }
@@ -327,55 +255,32 @@ namespace ISBSSOFExtra
             return result;
         }
 
-#if DEBUG
-        public static Dictionary<string, Dictionary<int, List<List<int>>>> RecordEmissiveMeshes(string outputPath, ManualLogSource logger)
+        public static readonly int _EmissionPower = Shader.PropertyToID("_EmissionPower");
+        public static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
+        public static readonly int _SpecVals = Shader.PropertyToID("_SpecVals");
+
+        public static IEnumerator ChangeMaterialsOnAllMeshes()
         {
-            // some meshes outside of Laboratory_LIGHT scene glow too, record them
-
-            var targetMaterials = new HashSet<string>()
-            {
-                "Lab_screens_wall_mountains_renovation",
-                "lab_forest_wallpaper_renovation",
-                "lab_forest_wallpaper",
-                "lab_sky_wallpaper_renovation",
-                "lab_glow_renovation",
-                "Color_palette_emissive",
-                "Lab_ceiling_lamp_atlas",
-                "Lab_yellow_light",
-                "Lab_yellow_light 1",
-                "lab_generic_lamp 1",
-                "Lab_ceiling_lamp_atlas 1",
-                "Lab_poster_map_02",
-                "dieselSPG lights blue",
-                "dieselSPG lights blue 1",
-                "AreaLightSource_lab_renovation",
-                "AreaLightSource",
-                "lab_time_UI",
-                "lab_broadcast_tex",
-                "Lab_recreation_Turnstile_Cross",
-                "Lab_recreation_Turnstile_Arrow",
-                "work_zone_cloth_mat",
-                "Lab_lights_terragroup_logo",
-                "Lab_terragroup_logo_white",
-                "lab_letters_and_numbers_decal_grey",
-                "Lab_Wall_Cham_logo",
-            };
-            var excludedScenes = new HashSet<string>()
-            {
-                "Laboratory_LIGHT",
-            };
-
             var materialsList = new List<Material>(20);
-            var renderersList = new List<Renderer>(5000);
-            var namesList = new List<string>(15);
-            var result = new Dictionary<string, Dictionary<int, List<List<int>>>>();
+            var renderersList = new List<Renderer>(8300);
+            var materialsSet = new HashSet<Material>(900);
+            var excludedScenes = new HashSet<string>(15)
+            {
+                "Laboratory_AI",
+                "Laboratory_Sound",
+                "Laboratory_Culling",
+                "GameUIScene",
+            };
 
-            logger.LogWarning("Extra Emissive Meshes:");
+            // we have to tweak specular on all meshes, so just step through each scene,
+            // also tune emissives down along the way
+
             var scenesCount = SceneManager.sceneCount;
             for (var i = 0; i < scenesCount; i++)
             {
                 var scene = SceneManager.GetSceneAt(i);
-                if (scene.isLoaded && !excludedScenes.Contains(scene.name))
+                var sceneName = scene.name;
+                if (scene.isLoaded && !excludedScenes.Contains(sceneName) && !sceneName.Contains("PhysicsWorld_"))
                 {
                     var sceneRoots = scene.GetRootGameObjects();
                     for (var k = 0; k < sceneRoots.Length; k++)
@@ -387,27 +292,51 @@ namespace ISBSSOFExtra
                             renderer.GetSharedMaterials(materialsList);
                             foreach (var sharedMaterial in materialsList)
                             {
-                                if (sharedMaterial && targetMaterials.Contains(sharedMaterial.name))
+                                // we iterate through shared materials, so some are encountered on multiple renderers,
+                                // skip already adjusted materials, otherwise they will be adjusted multiple times
+                                if (sharedMaterial && !materialsSet.Contains(sharedMaterial))
                                 {
-                                    var pathString = GetGameObjectPath_String(renderer.gameObject, scene.name, namesList);
-                                    var path = GetGameObjectPath_Parents(renderer.gameObject, sceneRoot.name);
-                                    AddGameObjectPath(path, k, scene.name, result);
-                                    logger.LogWarning(pathString);
+                                    var shaderName = sharedMaterial.shader.name;
+                                    switch (shaderName)
+                                    {
+                                        case "p0/Reflective/Bumped Specular SMap":
+                                        {
+                                            var spec = sharedMaterial.GetVector(_SpecVals);
+                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
+                                            break;
+                                        }
+                                        case "p0/Reflective/Bumped Emissive Specular SMap":
+                                        case "p0/Reflective/Bumped Animated Emissive Specular SMap":
+                                        {
+                                            var spec = sharedMaterial.GetVector(_SpecVals);
+                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
+                                            sharedMaterial.SetFloat(_EmissionPower, 0);
+                                            break;
+                                        }
+                                        case "Standard":
+                                        {
+                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
+                                            break;
+                                        }
+                                        case "Decal/Ultra Deferred Decal Of God 3000":
+                                        {
+                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
+                                            break;
+                                        }
+                                    }
+                                    materialsSet.Add(sharedMaterial);
                                 }
                             }
                             materialsList.Clear();
                         }
                         renderersList.Clear();
                     }
+                    yield return null;
                 }
             }
-
-            var json = JsonConvert.SerializeObject(result);
-            File.WriteAllText(outputPath, json);
-
-            return result;
         }
 
+#if DEBUG
         public static Dictionary<string, Dictionary<int, List<List<int>>>> RecordAutomaticDoors(string outputPath, ManualLogSource logger)
         {
             var triggersList = new List<TriggerZone>(10);

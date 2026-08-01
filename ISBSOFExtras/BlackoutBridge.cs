@@ -10,7 +10,6 @@ namespace ISBSSOFExtra
 {
     internal static class BlackoutBridge
     {
-        internal const string EmissiveMeshesFileName = "emissive_meshes.json";
         internal const string AutomaticDoorsFileName = "automatic_doors.json";
         internal const string BlackoutSoundFileName = "black_out_huge.wav";
         internal const string GateBExfilName = "lab_Hangar_Gate";

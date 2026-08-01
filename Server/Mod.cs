@@ -1,5 +1,6 @@
 using ISBSpecialForcesServer;
 using ISBSpecialForcesServer.Controllers;
+using ISBSpecialForces.Services;
 using Microsoft.Extensions.Logging;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.DI;
@@ -68,6 +69,7 @@ public class ISBSpecialForces2(
     WTTServerCommonLib.WTTServerCommonLib commonLib,
     IReadOnlyList<SptMod> modList,
     ISBSpawnController ISBSpawnController,
+    CustomBotLoadoutItemsService customBotLoadoutItemsService,
     ILogger<ISBSpecialForces2> logger
 ) : IOnLoad
 {
@@ -139,6 +141,7 @@ public class ISBSpecialForces2(
             ("com.crackbone.artem-wtt",             "WTT - Artem",                  "ArtemLoadouts"),
             ("com.salco.salcosarmory",              "SALCO's ARMORY",               "SalcoIndustriesLoadouts"),
             ("com.emilanderss0n.tgc",               "Tactical Gear Component",      "TGCLoadouts"),
+            ("com.manimal.csgas",                   "Manimal's CS Gas",             "ManimalGasLoadouts"),
         };
 
         var detectedSpecialLoadoutMods = specialLoadoutMods
@@ -157,8 +160,15 @@ public class ISBSpecialForces2(
 
             foreach (var mod in detectedSpecialLoadoutMods)
             {
+                var relativeLoadoutDirectory = Path.Join("db", "ExtraLoadouts", mod.LoadoutFolder);
+
                 await commonLib.CustomBotLoadoutService.CreateCustomBotLoadouts(assembly,
-                    Path.Join("db", "ExtraLoadouts", mod.LoadoutFolder));
+                    relativeLoadoutDirectory);
+
+                customBotLoadoutItemsService.MergeItems(
+                    assembly,
+                    relativeLoadoutDirectory,
+                    mod.DisplayName);
             }
         }
 

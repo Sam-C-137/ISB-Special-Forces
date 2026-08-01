@@ -53,7 +53,8 @@ public class ISBWeaponPresetController(
             { "KS-1Loadouts",               new[] { "com.spy.jsoc-swr" } },
             { "ArtemLoadouts",              new[] { "com.crackbone.artem-wtt" } },
             { "SalcoIndustriesLoadouts",    new[] { "com.salco.salcosarmory", "com.combatarsenal.core" } },
-            { "TGCLoadouts",                new[] { "com.emilanderss0n.tgc" } }
+            { "TGCLoadouts",                new[] { "com.emilanderss0n.tgc" } },
+            { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } }
         };
 
     private readonly object _generationLock = new();
