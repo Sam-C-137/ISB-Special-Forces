@@ -255,6 +255,87 @@ namespace ISBSSOFExtra
             return result;
         }
 
+        public static readonly int _EmissionPower = Shader.PropertyToID("_EmissionPower");
+        public static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
+        public static readonly int _SpecVals = Shader.PropertyToID("_SpecVals");
+
+        public static IEnumerator ChangeMaterialsOnAllMeshes()
+        {
+            var materialsList = new List<Material>(20);
+            var renderersList = new List<Renderer>(8300);
+            var materialsSet = new HashSet<Material>(900);
+            var excludedScenes = new HashSet<string>(15)
+            {
+                "Laboratory_AI",
+                "Laboratory_Sound",
+                "Laboratory_Culling",
+                "GameUIScene",
+            };
+
+            // we have to tweak specular on all meshes, so just step through each scene,
+            // also tune emissives down along the way
+
+            var scenesCount = SceneManager.sceneCount;
+            for (var i = 0; i < scenesCount; i++)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                var sceneName = scene.name;
+                if (scene.isLoaded && !excludedScenes.Contains(sceneName) && !sceneName.Contains("PhysicsWorld_"))
+                {
+                    var sceneRoots = scene.GetRootGameObjects();
+                    for (var k = 0; k < sceneRoots.Length; k++)
+                    {
+                        var sceneRoot = sceneRoots[k];
+                        sceneRoot.GetComponentsInChildren<Renderer>(true, renderersList);
+                        foreach (var renderer in renderersList)
+                        {
+                            renderer.GetSharedMaterials(materialsList);
+                            foreach (var sharedMaterial in materialsList)
+                            {
+                                // we iterate through shared materials, so some are encountered on multiple renderers,
+                                // skip already adjusted materials, otherwise they will be adjusted multiple times
+                                if (sharedMaterial && !materialsSet.Contains(sharedMaterial))
+                                {
+                                    var shaderName = sharedMaterial.shader.name;
+                                    switch (shaderName)
+                                    {
+                                        case "p0/Reflective/Bumped Specular SMap":
+                                        {
+                                            var spec = sharedMaterial.GetVector(_SpecVals);
+                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
+                                            break;
+                                        }
+                                        case "p0/Reflective/Bumped Emissive Specular SMap":
+                                        case "p0/Reflective/Bumped Animated Emissive Specular SMap":
+                                        {
+                                            var spec = sharedMaterial.GetVector(_SpecVals);
+                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
+                                            sharedMaterial.SetFloat(_EmissionPower, 0);
+                                            break;
+                                        }
+                                        case "Standard":
+                                        {
+                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
+                                            break;
+                                        }
+                                        case "Decal/Ultra Deferred Decal Of God 3000":
+                                        {
+                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
+                                            break;
+                                        }
+                                    }
+                                    materialsSet.Add(sharedMaterial);
+                                }
+                            }
+                            materialsList.Clear();
+                        }
+                        renderersList.Clear();
+                    }
+                    yield return null;
+                }
+            }
+        }
+
 #if DEBUG
         public static Dictionary<string, Dictionary<int, List<List<int>>>> RecordAutomaticDoors(string outputPath, ManualLogSource logger)
         {

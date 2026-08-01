@@ -3244,6 +3244,8 @@ namespace ISBSSOFExtra
                 LabsBlackout.DisableLights();
 
                 yield return null;
+
+                yield return LabsBlackout.ChangeMaterialsOnAllMeshes();
             }
 
             Log.LogInfo("ISB SOF Blackout: Laboratory Blackout Protocol completed.");
