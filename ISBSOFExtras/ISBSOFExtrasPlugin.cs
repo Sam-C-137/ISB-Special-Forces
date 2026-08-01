@@ -152,11 +152,7 @@ namespace ISBSSOFExtra
         private string _ISBSpecialForces_AishiDeathRadiosFolder;
         private string _ISBSpecialForces_AishiHeavyDamageRadiosFolder;
         private string _blackoutSoundPath;
-        private string _emissiveMeshesPath;
         private string _automaticDoorsPath;
-
-        private Dictionary<string, Dictionary<int, List<List<int>>>> _emissiveMeshes =
-            new Dictionary<string, Dictionary<int, List<List<int>>>>();
 
         private Dictionary<string, Dictionary<int, List<List<int>>>> _automaticDoors =
             new Dictionary<string, Dictionary<int, List<List<int>>>>();
@@ -404,14 +400,7 @@ namespace ISBSSOFExtra
             _ISBSpecialForces_AishiDeathRadiosFolder = Path.Combine(_dataFolder, "ISBSpecialForces_AishiDeathRadios");
             _ISBSpecialForces_AishiHeavyDamageRadiosFolder = Path.Combine(_dataFolder, "ISBSpecialForces_AishiHeavyDamageRadios");
             _blackoutSoundPath = Path.Combine(_dataFolder, BlackoutBridge.BlackoutSoundFileName);
-            _emissiveMeshesPath = ResolveOptionalBlackoutDataPath(pluginDir, BlackoutBridge.EmissiveMeshesFileName);
             _automaticDoorsPath = ResolveOptionalBlackoutDataPath(pluginDir, BlackoutBridge.AutomaticDoorsFileName);
-
-            _emissiveMeshes = BlackoutBridge.LoadPathMap(
-                _emissiveMeshesPath,
-                Log,
-                "extra emissive mesh"
-            );
 
             _automaticDoors = BlackoutBridge.LoadPathMap(
                 _automaticDoorsPath,
@@ -3255,13 +3244,6 @@ namespace ISBSSOFExtra
                 LabsBlackout.DisableLights();
 
                 yield return null;
-                var materialsList = new List<Material>(20);
-                var renderersList = new List<Renderer>(5000);
-                yield return LabsBlackout.DisableEmissiveMeshes(materialsList, renderersList);
-                yield return LabsBlackout.DisableEmissiveMeshesByPaths(
-                    _emissiveMeshes,
-                    materialsList,
-                    renderersList);
             }
 
             Log.LogInfo("ISB SOF Blackout: Laboratory Blackout Protocol completed.");
