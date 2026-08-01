@@ -79,17 +79,16 @@ namespace ISBSSOFExtra
             tod.AmbientBrightness = AnimationCurve.Constant(0, 1, 0);
 
             var levelSettings = Singleton<LevelSettings>.Instance;
-            levelSettings.SkyColor = Color.black;
-            levelSettings.EquatorColor = Color.black;
-            levelSettings.GroundColor = Color.black;
-            levelSettings.AmbientIntensity = 0;
+        	levelSettings.SkyColor = Color.black;
+        	levelSettings.EquatorColor = Color.black;
+        	levelSettings.GroundColor = Color.black;
+        	levelSettings.AmbientIntensity = 0;
 
-            levelSettings.NightVisionSkyColor = Color.black;
-            levelSettings.NightVisionEquatorColor = Color.black;
-            levelSettings.NightVisionGroundColor = Color.black;
+        	levelSettings.NightVisionSkyColor = new Color(0.030f, 0.037f, 0.042f, 1f);
+        	levelSettings.NightVisionEquatorColor = new Color(0.013f, 0.014f, 0.015f, 1f);
+        	levelSettings.NightVisionGroundColor = new Color(0.031f, 0.030f, 0.028f, 1f);
             levelSettings.NightVisionAmbientIntensity = 0;
         }
-
 
         public static void DisableLights()
         {
