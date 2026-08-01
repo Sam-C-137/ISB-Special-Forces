@@ -3246,7 +3246,7 @@ namespace ISBSSOFExtra
                 LabsBlackout.DisableAutomaticLights();
 
                 yield return null;
-                LabsBlackout.DisableAmbientLight(Logger);
+                LabsBlackout.DisableAmbientLight();
 
                 yield return null;
                 LabsBlackout.DisableElectricSounds();

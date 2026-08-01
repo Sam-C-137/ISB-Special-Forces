@@ -56,7 +56,7 @@ namespace ISBSSOFExtra
             }
         }
 
-        public static void DisableAmbientLight(ManualLogSource logger)
+        public static void DisableAmbientLight()
         {
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
