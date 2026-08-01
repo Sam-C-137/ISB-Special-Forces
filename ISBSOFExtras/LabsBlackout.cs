@@ -7,8 +7,6 @@ using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using Comfort.Common;
-using BepInEx.Bootstrap;
-using BepInEx.Configuration;
 using EFT;
 using EFT.Interactive;
 using EFT.Weather;
