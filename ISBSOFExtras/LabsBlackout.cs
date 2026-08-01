@@ -1,3 +1,4 @@
+using Audio.SpatialSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -182,6 +183,22 @@ namespace ISBSSOFExtra
 
         public static void DisableElectricSounds()
         {
+            var spatialAudioSystem = MonoBehaviourSingleton<SpatialAudioSystem>.Instance;
+            var gclass1122_0 = spatialAudioSystem.GetField<SpatialAudioSystem, GClass1122>("gclass1122_0");
+            var allRooms = gclass1122_0.GetField<GClass1122, List<SpatialAudioRoom>>("List_0");
+            var currentRooms = gclass1122_0.GetField<GClass1122, List<ISpatialAudioRoom>>("List_3");
+
+            foreach (var room in currentRooms)
+            {
+                room.StopRoomToneSound();
+            }
+            foreach (var room in allRooms)
+            {
+                // ambient sounds are attached to rooms,
+                // can't play sound if its null, haha
+                room.AmbientData.RoomTone = null;
+            }
+
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
             foreach (var sceneRootGO in scene.GetRootGameObjects())
@@ -197,6 +214,7 @@ namespace ISBSSOFExtra
                         if (childName.Contains("server") ||
                             childName.Contains("generator") ||
                             childName.Contains("electric") ||
+                            childName.Contains("airvent") ||
                             childName.Contains("turbine"))
                         {
                             child.gameObject.SetActive(false);
