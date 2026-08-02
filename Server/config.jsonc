@@ -494,19 +494,16 @@
       }
     },
     "suburbs": {
-      // Icebreaker uses the internal SPT map id "suburbs".
-      // This entry is applied by the dedicated Icebreaker loader after the map is registered.
+        // MANIMAL USE THE VANILLA SUBURBS MAP AS BASE FOR THE ICEBREAKER MAP.
+        // THE ISB INTEGRATION IS A TEST FEATURE AND IS NOT FULLY IMPLEMENTED YET. 
+        // PLEASE REPORT ANY ISSUES AND DON'T CHANGE ANYTHING WITHOUT KNOW EXACTLY WHAT IT DOES.
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 25, //SPAWN CHANCE
         "squadCount": 1,
         "patrolMinSize": 2,
         "patrolMaxSize": 3,
-        "mapZones": [
-          "BotZoneFront",
-          "BotZoneKitchen",
-          "BotZoneRoom_Eng"
-        ],
+        "mapZones": [],
         "raidTimeMin": 300,
         "raidTimeMax": 900
       },
@@ -516,8 +513,15 @@
         "holdMapZones": []
       },
       "hunt": {
-        "enableHunt": false,
-        "hunts": {}
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 100, //SPAWN CHANCE
+            "huntMin": 2,
+            "huntMax": 3,
+            "huntZones": ""
+          }
+        }
       }
     },
     "Shoreline": {
