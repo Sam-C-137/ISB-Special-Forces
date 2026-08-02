@@ -86,7 +86,8 @@ public class ISBSpawnController(
         { "ArtemLoadouts",              new[] { "com.crackbone.artem-wtt" } },
         { "SalcoIndustriesLoadouts",    new[] { "com.salco.salcosarmory", "com.combatarsenal.core" } },
         { "TGCLoadouts",                new[] { "com.emilanderss0n.tgc" } },
-        { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } }
+        { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } },
+        { "CAGLoadouts",                new[] { "com.wtt.cag" } }
     };
 
     private static float _lastRaidHour = -1f;
@@ -174,6 +175,13 @@ public class ISBSpawnController(
             {
                 _lastRaidHour = 3f;
                 LogDebug($"[ISB] ISB Evernight Squadron Map Detected: {mapId} => Forced nighttime operations equipment (Fixed Loadout)");
+                ApplyDayNightAppearance();
+                return;
+            }
+            if (mapId.Contains("suburbs"))
+            {
+                _lastRaidHour = 3f;
+                LogDebug($"[ISB] ISB Evernight Squadron Map Detected: {mapId} => Forced nighttime operations equipment (Icebreaker Fixed Loadout)");
                 ApplyDayNightAppearance();
                 return;
             }
@@ -612,47 +620,23 @@ public class ISBSpawnController(
         return result;
     }
 
+    private const string IcebreakerMapId = "suburbs";
+    private const string IcebreakerModGuid = "com.manimal.icebreaker";
+
     public void AdjustAllISBSpawns()
     {
         try
         {
             ApplyDayNightAppearance();
 
-            var tables = databaseService.GetTables();
             var mainConfig = configController.ModConfig;
 
             foreach (var map in mainConfig.locations.Keys)
             {
-                logger.Info($"Adjusting ISB spawns for {map}.");
-
-                if (!tables.Locations.GetDictionary().ContainsKey(map))
-                {
-                    logger.Info($"No location data found for {map}. Skipping ISB spawn adjustment.");
+                if (string.Equals(map, IcebreakerMapId, StringComparison.OrdinalIgnoreCase))
                     continue;
-                }
 
-                var mapConfig = mainConfig.locations[map];
-                var patrolConfig = mapConfig.patrol;
-                var checkpointConfig = mapConfig.checkpoint;
-                var huntConfig = mapConfig.hunt;
-                var location = tables.Locations.GetDictionary()[map];
-                var spawns = location.Base.BossLocationSpawn;
-
-                var removedSpawnCount = spawns.RemoveAll(IsManagedISBSpawn);
-
-                if (removedSpawnCount > 0)
-                    logger.Info($"Removed {removedSpawnCount} previous ISB-managed spawns from {map}.");
-
-                if (patrolConfig.EnableISBPatrols)
-                    AdjustPatrolSpawnsForMap(map, mapConfig, mainConfig, spawns);
-
-                if (checkpointConfig.enableISBHoldZones)
-                    AdjustCheckpointSpawnsForMap(map, mapConfig, mainConfig, spawns);
-
-                if (huntConfig?.enableHunt == true)
-                    AdjustHuntSpawnsForMap(map, mapConfig, mainConfig, spawns);
-
-                AddISBSecretSpawns(map, spawns);
+                AdjustISBSpawnsForMapInternal(map, mainConfig);
             }
         }
         catch (Exception ex)
@@ -660,6 +644,71 @@ public class ISBSpawnController(
             logger.Error($"Error adjusting ISB spawns: {ex.Message}");
             throw;
         }
+    }
+
+    public void AdjustIcebreakerSpawns()
+    {
+        if (!InstalledModGuids.Contains(IcebreakerModGuid))
+        {
+            logger.Info("Icebreaker is not installed. Skipping ISB spawns for suburbs.");
+            return;
+        }
+
+        logger.Info("Icebreaker detected. Applying ISB spawns to suburbs.");
+        AdjustISBSpawnsForMap(IcebreakerMapId);
+    }
+
+    public void AdjustISBSpawnsForMap(string map)
+    {
+        try
+        {
+            AdjustISBSpawnsForMapInternal(map, configController.ModConfig);
+        }
+        catch (Exception ex)
+        {
+            logger.Error($"Error adjusting ISB spawns for {map}: {ex.Message}");
+            throw;
+        }
+    }
+
+    private void AdjustISBSpawnsForMapInternal(string map, MainConfig mainConfig)
+    {
+        if (!mainConfig.locations.TryGetValue(map, out var mapConfig))
+        {
+            logger.Info($"No ISB spawn configuration found for {map}. Skipping ISB spawn adjustment.");
+            return;
+        }
+
+        logger.Info($"Adjusting ISB spawns for {map}.");
+
+        var locations = databaseService.GetTables().Locations.GetDictionary();
+
+        if (!locations.TryGetValue(map, out var location) || location?.Base is null)
+        {
+            logger.Info($"No location data found for {map}. Skipping ISB spawn adjustment.");
+            return;
+        }
+
+        var patrolConfig = mapConfig.patrol;
+        var checkpointConfig = mapConfig.checkpoint;
+        var huntConfig = mapConfig.hunt;
+        var spawns = location.Base.BossLocationSpawn;
+
+        var removedSpawnCount = spawns.RemoveAll(IsManagedISBSpawn);
+
+        if (removedSpawnCount > 0)
+            logger.Info($"Removed {removedSpawnCount} previous ISB-managed spawns from {map}.");
+
+        if (patrolConfig.EnableISBPatrols)
+            AdjustPatrolSpawnsForMap(map, mapConfig, mainConfig, spawns);
+
+        if (checkpointConfig.enableISBHoldZones)
+            AdjustCheckpointSpawnsForMap(map, mapConfig, mainConfig, spawns);
+
+        if (huntConfig?.enableHunt == true)
+            AdjustHuntSpawnsForMap(map, mapConfig, mainConfig, spawns);
+
+        AddISBSecretSpawns(map, spawns);
     }
 
     private static bool IsManagedISBSpawn(BossLocationSpawn spawn)

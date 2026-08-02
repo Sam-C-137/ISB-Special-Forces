@@ -3,6 +3,9 @@ using EFT;
 using Newtonsoft.Json;
 using SPT.Common.Http;
 using System;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ISBSpecialForces.Components
@@ -148,14 +151,18 @@ namespace ISBSpecialForces.Components
                 response.standingAfter,
                 response.standingDelta);
 
-            if (response.showInRaidResults && response.standingDelta < 0d)
-            {
-                Plugin.LogSource.LogInfo(
-                    $"[ISB AISHI LOYALTY] Post-raid Standing entry armed");
-            }
-
             if (response.standingDelta < 0d)
             {
+                RefreshLocalAishiStanding(response.standingAfter);
+
+                if (response.showInRaidResults)
+                {
+                    Plugin.LogSource.LogInfo(
+                        $"[ISB AISHI LOYALTY] Post-raid Standing entry armed with delta {response.standingDelta:F3}.");
+
+                    ISBNativeFenceStandingBridge.TryRecord(response.standingDelta);
+                }
+
                 Plugin.LogSource.LogInfo(
                     $"[ISB AISHI LOYALTY] First ISB kill of the raid: Aishi standing " +
                     $"{response.standingBefore:F3} -> {response.standingAfter:F3} " +
@@ -189,6 +196,65 @@ namespace ISBSpecialForces.Components
                 else
                     Plugin.LogSource.LogWarning(message);
             });
+        }
+
+        private static void RefreshLocalAishiStanding(double standingAfter)
+        {
+            try
+            {
+                var profile = Singleton<GameWorld>.Instance?.MainPlayer?.Profile;
+                if (profile?.TradersInfo == null
+                    || !profile.TradersInfo.TryGetValue(AishiTraderId, out var aishi)
+                    || aishi == null)
+                {
+                    Plugin.LogSource.LogWarning(
+                        $"[ISB AISHI LOYALTY] Aishi ({AishiTraderId}) was not found in the local profile trader list.");
+                    return;
+                }
+
+                var flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+                var setStandingMethod = aishi.GetType()
+                    .GetMethods(flags)
+                    .FirstOrDefault(method =>
+                        string.Equals(method.Name, "SetStanding", StringComparison.Ordinal)
+                        && method.GetParameters().Length == 1);
+
+                if (setStandingMethod != null)
+                {
+                    var parameterType = Nullable.GetUnderlyingType(
+                        setStandingMethod.GetParameters()[0].ParameterType)
+                        ?? setStandingMethod.GetParameters()[0].ParameterType;
+                    var convertedParameter = Convert.ChangeType(
+                        standingAfter,
+                        parameterType,
+                        CultureInfo.InvariantCulture);
+
+                    setStandingMethod.Invoke(aishi, new[] { convertedParameter });
+                    return;
+                }
+
+                var standingProperty = aishi.GetType().GetProperty("Standing", flags);
+                if (standingProperty == null || !standingProperty.CanWrite)
+                {
+                    throw new MissingMemberException(
+                        aishi.GetType().FullName,
+                        "SetStanding/Standing");
+                }
+
+                var propertyType = Nullable.GetUnderlyingType(standingProperty.PropertyType)
+                    ?? standingProperty.PropertyType;
+                var convertedValue = Convert.ChangeType(
+                    standingAfter,
+                    propertyType,
+                    CultureInfo.InvariantCulture);
+
+                standingProperty.SetValue(aishi, convertedValue);
+            }
+            catch (Exception ex)
+            {
+                Plugin.LogSource.LogWarning(
+                    $"[ISB AISHI LOYALTY] Server standing was updated, but the local profile mirror could not be refreshed: {ex.Message}");
+            }
         }
 
         private static bool TryGetLocalAishiStanding(out double standing)

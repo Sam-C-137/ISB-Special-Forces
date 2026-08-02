@@ -14,9 +14,12 @@ public class ConfigController
     public ConfigController(ModHelper modHelper)
     {
         _modHelper = modHelper;
+        Reload();
+    }
 
+    public void Reload()
+    {
         var pathToMod = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
-
         ModConfig = _modHelper.GetJsonDataFromFile<MainConfig>(pathToMod, "config.jsonc");
     }
 }

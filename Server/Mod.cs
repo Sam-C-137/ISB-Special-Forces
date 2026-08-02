@@ -25,7 +25,7 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "ISB Special Forces";
     public override string Author { get; init; } = "SamC137";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 0);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 1);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.13");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
@@ -142,6 +142,7 @@ public class ISBSpecialForces2(
             ("com.salco.salcosarmory",              "SALCO's ARMORY",               "SalcoIndustriesLoadouts"),
             ("com.emilanderss0n.tgc",               "Tactical Gear Component",      "TGCLoadouts"),
             ("com.manimal.csgas",                   "Manimal's CS Gas",             "ManimalGasLoadouts"),
+            ("com.wtt.cag",                         "WTT - Clothing and Gear",      "CAGLoadouts"),
         };
 
         var detectedSpecialLoadoutMods = specialLoadoutMods
@@ -306,9 +307,10 @@ public class CustomStaticRouter : StaticRouter
                 "/client/match/local/end",
                 async (url, info, sessionID, output) =>
                 {
-                    _aishiLoyaltyConditionController.PrepareRaidEnd(sessionID);
                     _isbRevengeController.EndRaid(sessionID);
+                    _aishiLoyaltyConditionController.EndRaid(sessionID);
                     _ISBSpawnController.AdjustAllISBSpawns();
+                    _ISBSpawnController.AdjustIcebreakerSpawns();
                     return await new ValueTask<object>(output ?? string.Empty);
                 }
             ),

@@ -493,6 +493,33 @@
         }
       }
     },
+    "suburbs": {
+      // Icebreaker uses the internal SPT map id "suburbs".
+      // This entry is applied by the dedicated Icebreaker loader after the map is registered.
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 25, //SPAWN CHANCE
+        "squadCount": 1,
+        "patrolMinSize": 2,
+        "patrolMaxSize": 3,
+        "mapZones": [
+          "BotZoneFront",
+          "BotZoneKitchen",
+          "BotZoneRoom_Eng"
+        ],
+        "raidTimeMin": 300,
+        "raidTimeMax": 900
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": []
+      },
+      "hunt": {
+        "enableHunt": false,
+        "hunts": {}
+      }
+    },
     "Shoreline": {
       "patrol": {
         "EnableISBPatrols": true,

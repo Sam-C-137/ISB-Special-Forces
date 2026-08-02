@@ -54,7 +54,8 @@ public class ISBWeaponPresetController(
             { "ArtemLoadouts",              new[] { "com.crackbone.artem-wtt" } },
             { "SalcoIndustriesLoadouts",    new[] { "com.salco.salcosarmory", "com.combatarsenal.core" } },
             { "TGCLoadouts",                new[] { "com.emilanderss0n.tgc" } },
-            { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } }
+            { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } },
+            { "CAGLoadouts",                new[] { "com.wtt.cag" } }
         };
 
     private readonly object _generationLock = new();
