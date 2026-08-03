@@ -3244,7 +3244,6 @@ namespace ISBSSOFExtra
                 LabsBlackout.DisableLights();
 
                 yield return null;
-
                 yield return LabsBlackout.ChangeMaterialsOnAllMeshes();
             }
 
