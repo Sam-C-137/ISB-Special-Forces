@@ -6,6 +6,7 @@ using SPTarkov.Server.Core.Models.Eft.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Enums;
 using SPTarkov.Server.Core.Models.Spt.Mod;
+using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Models.Spt.Config;
 using SPTarkov.Server.Core.Services;
 using SPTarkov.Server.Core.Models.Eft.Match;
@@ -17,6 +18,19 @@ using ISB.MixedAmmo;
 using IOPath = System.IO.Path;
 
 namespace ISBSpecialForcesServer.Controllers;
+
+public record ISBManagedSpawnRequest : IRequestData
+{
+    public string locationId { get; set; } = string.Empty;
+}
+
+public sealed class ISBManagedSpawnResponse
+{
+    public bool success { get; set; }
+    public string locationId { get; set; } = string.Empty;
+    public string reason { get; set; } = string.Empty;
+    public List<BossLocationSpawn> spawns { get; set; } = new();
+}
 
 public class ISBAppearanceOverride
 {
@@ -622,6 +636,79 @@ public class ISBSpawnController(
 
     private const string IcebreakerMapId = "suburbs";
     private const string IcebreakerModGuid = "com.manimal.icebreaker";
+
+    public ISBManagedSpawnResponse RefreshManagedSpawnsForMap(string? requestedMap)
+    {
+        var response = new ISBManagedSpawnResponse
+        {
+            locationId = requestedMap ?? string.Empty
+        };
+
+        if (string.IsNullOrWhiteSpace(requestedMap))
+        {
+            response.reason = "The location id was empty.";
+            return response;
+        }
+
+        var normalizedRequestedMap = NormalizeMapId(requestedMap);
+        var configuredMap = configController.ModConfig.locations.Keys.FirstOrDefault(
+            map => NormalizeMapId(map) == normalizedRequestedMap);
+
+        if (string.IsNullOrEmpty(configuredMap))
+        {
+            response.reason = $"No ISB spawn configuration matches '{requestedMap}'.";
+            return response;
+        }
+
+        response.locationId = configuredMap;
+
+        if (string.Equals(configuredMap, IcebreakerMapId, StringComparison.OrdinalIgnoreCase)
+            && !InstalledModGuids.Contains(IcebreakerModGuid))
+        {
+            response.reason = "Icebreaker is not installed.";
+            return response;
+        }
+
+        try
+        {
+            AdjustISBSpawnsForMapInternal(configuredMap, configController.ModConfig);
+
+            var locations = databaseService.GetTables().Locations.GetDictionary();
+
+            if (!locations.TryGetValue(configuredMap, out var location) || location?.Base is null)
+            {
+                response.reason = $"No location data was found for '{configuredMap}'.";
+                return response;
+            }
+
+            response.spawns = location.Base.BossLocationSpawn
+                .Where(IsManagedISBSpawn)
+                .ToList();
+
+            if (response.spawns.Count == 0)
+            {
+                response.reason = $"No ISB-managed spawn waves were generated for '{configuredMap}'.";
+                return response;
+            }
+
+            response.success = true;
+            return response;
+        }
+        catch (Exception ex)
+        {
+            response.reason = ex.Message;
+            logger.Error($"Failed to refresh ISB spawns for {requestedMap}: {ex.Message}");
+            return response;
+        }
+    }
+
+    private static string NormalizeMapId(string value)
+    {
+        return new string((value ?? string.Empty)
+            .Where(char.IsLetterOrDigit)
+            .Select(char.ToLowerInvariant)
+            .ToArray());
+    }
 
     public void AdjustAllISBSpawns()
     {

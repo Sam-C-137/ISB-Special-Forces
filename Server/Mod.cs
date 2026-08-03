@@ -303,14 +303,21 @@ public class CustomStaticRouter : StaticRouter
                 }
             ),
 
+            new RouteAction<ISBManagedSpawnRequest>(
+                "/ISB/spawns/refresh",
+                async (url, info, sessionID, output) =>
+                {
+                    var result = _ISBSpawnController.RefreshManagedSpawnsForMap(info?.locationId);
+                    return await new ValueTask<string>(_httpResponseUtil.NoBody(result));
+                }
+            ),
+
             new RouteAction(
                 "/client/match/local/end",
                 async (url, info, sessionID, output) =>
                 {
                     _isbRevengeController.EndRaid(sessionID);
                     _aishiLoyaltyConditionController.EndRaid(sessionID);
-                    _ISBSpawnController.AdjustAllISBSpawns();
-                    _ISBSpawnController.AdjustIcebreakerSpawns();
                     return await new ValueTask<object>(output ?? string.Empty);
                 }
             ),

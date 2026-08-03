@@ -22,7 +22,7 @@ namespace ISBInfo
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
@@ -32,6 +32,7 @@ namespace ISBInfo
 
         private const float INITIAL_DELAY_FOR_COUNT = 20f;
         private const float BOTS_SCAN = 15f;
+        private const float MANUAL_NOTIFICATION_COOLDOWN = 3f;
 
         private const int ISBCommanderEnum = 13707;
         private const int ISBFollowerCommanderEnum = 13708;
@@ -59,6 +60,7 @@ namespace ISBInfo
         private bool _networkRaidStateInitialized;
         private bool _networkReadyRequestLogged;
         private float _nextNetworkReadySendTime;
+        private float _nextManualNotificationTime;
         private static int NetworkCommanderCount;
         private static bool NetworkCountsInitialized;
 
@@ -151,7 +153,7 @@ namespace ISBInfo
             TryInitializeOptionalFikaBridge();
 
             Logger.LogInfo(
-                "ISB SOF Notifier 1.0.0 initialized. Local mode is ready; " +
+                "ISB SOF Notifier 1.0.1 initialized. Local mode is ready; " +
                 "the optional Fika addon can attach independently.");
         }
 
@@ -358,6 +360,12 @@ namespace ISBInfo
 
             if (InitialMessageShown && UnityInput.Current.GetKeyDown(KeyCode.O))
             {
+                if (Time.realtimeSinceStartup < _nextManualNotificationTime)
+                    return;
+
+                _nextManualNotificationTime =
+                    Time.realtimeSinceStartup + MANUAL_NOTIFICATION_COOLDOWN;
+
                 if (IsEventAuthority())
                     RebuildAliveCounts();
 
@@ -654,6 +662,7 @@ namespace ISBInfo
             {
                 Instance.ResetNetworkHandshakeState();
                 Instance._networkRaidStateInitialized = false;
+                Instance._nextManualNotificationTime = 0f;
             }
 
             ISBAliveCounts.Clear();

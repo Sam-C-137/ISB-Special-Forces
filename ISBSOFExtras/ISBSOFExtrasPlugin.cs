@@ -24,7 +24,7 @@ namespace ISBSSOFExtra
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "1.0.0";
+        public const string PluginVersion = "1.0.1";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
@@ -3244,7 +3244,6 @@ namespace ISBSSOFExtra
                 LabsBlackout.DisableLights();
 
                 yield return null;
-
                 yield return LabsBlackout.ChangeMaterialsOnAllMeshes();
             }
 

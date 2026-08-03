@@ -14,6 +14,12 @@ namespace ISBSpecialForces.Patches
             return typeof(BotsController).GetMethod(nameof(BotsController.Init), BindingFlags.Public | BindingFlags.Instance);
         }
 
+        [PatchPrefix]
+        protected static void PatchPrefix()
+        {
+            ISBSpawnRefreshBridge.RefreshCurrentRaid();
+        }
+
         [PatchPostfix]
         protected static void PatchPostfix(BotsController __instance)
         {

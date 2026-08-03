@@ -499,27 +499,27 @@
         // PLEASE REPORT ANY ISSUES AND DON'T CHANGE ANYTHING WITHOUT KNOW EXACTLY WHAT IT DOES.
       "patrol": {
         "EnableISBPatrols": true,
-        "patrolChance": 25, //SPAWN CHANCE
+        "patrolChance": 30, //SPAWN CHANCE
         "squadCount": 1,
         "patrolMinSize": 2,
         "patrolMaxSize": 3,
-        "mapZones": [],
-        "raidTimeMin": 300,
-        "raidTimeMax": 900
+        "mapZones": ["BotZoneRoom_Eng"],
+        "raidTimeMin": 1,
+        "raidTimeMax": 10
       },
       "checkpoint": {
         "enableISBHoldZones": false,
-        "holdZonesCount": 1,
+        "holdZonesCount": 0,
         "holdMapZones": []
       },
       "hunt": {
-        "enableHunt": true,
+        "enableHunt": false,
         "hunts": {
           "ISB": {
-            "huntChance": 100, //SPAWN CHANCE
+            "huntChance": 0, //SPAWN CHANCE
             "huntMin": 2,
             "huntMax": 3,
-            "huntZones": ""
+            "huntZones": "BotZoneStern"
           }
         }
       }
