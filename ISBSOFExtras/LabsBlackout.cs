@@ -196,11 +196,6 @@ namespace ISBSSOFExtra
                 room.StopRoomToneSound();
             }
 
-            foreach (var room in currentRooms)
-            {
-                room.StopRoomToneSound();
-            }
-
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
             foreach (var sceneRootGO in scene.GetRootGameObjects())
