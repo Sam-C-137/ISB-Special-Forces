@@ -1,13 +1,29 @@
-# ISB Special Forces
+ISB Special Forces
 
-<p align="center">
-<a href="#description"><strong>Description</strong></a> · <a href="#installation"><strong>Installation</strong></a> · <a href="#locations"><strong>Locations</strong></a> · <a href="#behavior"><strong>Behavior</strong></a> · <a href="#equipment-nighttime"><strong>Equipment (Nighttime)</strong></a> · <a href="#equipment-daytime"><strong>Equipment (Daytime)</strong></a> · <a href="#images"><strong>Images</strong></a><br>
-<a href="#recommended-mods"><strong>Recommended Mods</strong></a> · <a href="#compatibilities-and-incompatibilities"><strong>Compatibilities & Incompatibilities</strong></a> · <a href="#known-issues"><strong>Known Issues</strong></a> · <a href="#faq"><strong>FAQ</strong></a> · <a href="#discord-for-feedbacks-and-questions"><strong>Discord for Feedbacks and Questions</strong></a> · <a href="#for-the-beta-testers"><strong>For the Beta Testers</strong></a> · <a href="#special-thanks-and-credits"><strong>Special Thanks and Credits</strong></a>
+<p id="tabs" align="center">
+  <a href="#description"><img src="https://img.shields.io/badge/Description-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Description"></a>
+  <a href="#installation"><img src="https://img.shields.io/badge/Installation-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Installation"></a>
+  <a href="#locations"><img src="https://img.shields.io/badge/Locations-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Locations"></a>
+  <a href="#behavior"><img src="https://img.shields.io/badge/Behavior-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Behavior"></a>
+  <br>
+  <a href="#equipment-nighttime"><img src="https://img.shields.io/badge/Equipment_%28Nighttime%29-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Equipment (Nighttime)"></a>
+  <a href="#equipment-daytime"><img src="https://img.shields.io/badge/Equipment_%28Daytime%29-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Equipment (Daytime)"></a>
+  <a href="#images"><img src="https://img.shields.io/badge/Images-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Images"></a>
+  <a href="#recommended-mods"><img src="https://img.shields.io/badge/Recommended_Mods-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Recommended Mods"></a>
+  <br>
+  <a href="#compatibilities-and-incompatibilities"><img src="https://img.shields.io/badge/Compatibilities_%26_Incompatibilities-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Compatibilities & Incompatibilities"></a>
+  <a href="#known-issues"><img src="https://img.shields.io/badge/Known_Issues-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Known Issues"></a>
+  <a href="#faq"><img src="https://img.shields.io/badge/FAQ-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="FAQ"></a>
+  <a href="#discord-for-feedbacks-and-questions"><img src="https://img.shields.io/badge/Discord_for_Feedbacks_and_Questions-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Discord for Feedbacks and Questions"></a>
+  <br>
+  <a href="#for-the-beta-testers"><img src="https://img.shields.io/badge/For_the_Beta_Testers-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="For the Beta Testers"></a>
+  <a href="#special-thanks-and-credits"><img src="https://img.shields.io/badge/Special_Thanks_and_Credits-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Special Thanks and Credits"></a>
 </p>
 
 ---
 
 <a id="description"></a>
+
 <details open>
 <summary><strong>📖 Description</strong></summary>
 
@@ -16,126 +32,129 @@
 >
 > **Advice for Lore Enthusiasts**: The ISB is an original faction and has no connection to the canonical events of Escape from Tarkov or Contract Wars. However, references to past events and canonical elements, as well as those mentioned after 1.0, have been added to the faction's history and quests, in addition to original stories which are presented during [Aishi's](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi) quests.
 
+The war in Tarkov is at a critical stage, after so much time acting behind the scenes, covering up and cleaning up the traces of USEC's poorly executed operations. The ISB leader finally decides to intervene and send all of the agency efforts to Tarkov with the aim of taking control of the conflict.
 
----
-The war in **Tarkov** is at a critical stage, after so much time acting behind the scenes, covering up and cleaning up the traces of USEC's poorly executed operations. The **ISB leader** finally decides to intervene and send all of the agency efforts to Tarkov with the aim of taking control of the conflict.
+ 
 
-&nbsp;
+At first, ISB operators and their leader just wanted to finish the USEC's work, but as the conflict unfolded, it became clear that TerraGroup was not worth all the chaos that had been created with the sole purpose of protecting them.
 
-At first, **ISB operators** and their leader just wanted to finish the USEC's work, but as the conflict unfolded, it became clear that TerraGroup was not worth all the chaos that had been created with the sole purpose of protecting them. 
+ 
 
-&nbsp;
+Although ISB employees were once only the best agents who had passed through USEC, today ISB does not only have agents from the West related to USEC or other private and public security forces. ISB today is a closed coalition of members from many different groups who have come together for a single purpose: to end the conflict in Tarkov at any and all costs.
 
-Although ISB employees were once only the best agents who had passed through USEC, today ISB does not only have agents from the West related to USEC or other private and public security forces. ISB today is a closed coalition of members from many different groups who have come together for a single purpose: to **end the conflict in Tarkov at any and all costs.**
-***
-*Did you like ISB's content? Consider supporting me on [Ko-Fi](https://ko-fi.com/samc137)—it helps me buy Monster so I can keep setting up bots and assots without sleep.*
+Did you like ISB's content? Consider supporting me on Ko-Fi—it helps me buy Monster so I can keep setting up bots and assots without sleep.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="installation"></a>
+
 <details>
 <summary><strong>📦 Installation</strong></summary>
 
-1. Ensure that you have [SPT 4.0.13](https://github.com/sp-tarkov/build/releases) or [higher](https://forge.sp-tarkov.com/installer) installed.
-1. Ensure you have the dependency [ISB Aishi](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi) 1.0.0 or higher installed. 
-1. Ensure you have the dependency [MoreBotsAPI](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi) 2.0.1 or higher installed. 
-1. Ensure you have the dependency [BigBrain](https://forge.sp-tarkov.com/mod/902/bigbrain) 1.4.0 or higher installed. 
-1. Ensure you have the dependency [WTT - CommonLib](https://forge.sp-tarkov.com/mod/2310/wtt-commonlib)  2.0.23 or higher installed. 
-1. Ensure you have the dependency [WTT - Content Backport](https://forge.sp-tarkov.com/mod/2512/wtt-content-backport) 1.1.0 or higher installed. 
-1. Download the latest version of [ISB Special Forces](https://forge.sp-tarkov.com/mod/2485/isb-special-forces).
-1. Unzip the file and move the files to your SPT installation as shown in the GIF below.
-<img src="https://i.imgur.com/wByb5Ln.gif" alt="Install">
+Ensure that you have SPT 4.0.13 or higher installed.
+
+Ensure you have the dependency ISB Aishi 1.0.0 or higher installed.
+
+Ensure you have the dependency MoreBotsAPI 2.0.1 or higher installed.
+
+Ensure you have the dependency BigBrain 1.4.0 or higher installed.
+
+Ensure you have the dependency WTT - CommonLib  2.0.23 or higher installed.
+
+Ensure you have the dependency WTT - Content Backport 1.1.0 or higher installed.
+
+Download the latest version of ISB Special Forces.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="locations"></a>
+
 <details>
 <summary><strong>🗺️ Locations</strong></summary>
 
-> **ℹ️ NOTE**
->
-> Don't expect bots to always be in their designated spots, as they move around frequently. In addition, using any mod that modifies or alters the spawning mechanics may cause ISB agents to spawn in unintended locations, making encounters more unpredictable.
+ℹ️ NOTE
+
+Don't expect bots to always be in their designated spots, as they move around frequently. In addition, using any mod that modifies or alters the spawning mechanics may cause ISB agents to spawn in unintended locations, making encounters more unpredictable.
+
+The ISB patrols can be found on all maps and locations below, both during daytime and nighttime raids.
+
+GroundZero  - Spawn Rate: 25% (5 - 6 Operatives, Early and Late Raid), 5% in Low Level GroundZero (4 Operatives - Late Raid only)
 
 
-The **ISB patrols** can be found on all maps and locations below, both during daytime and nighttime raids.
 
-**GroundZero**  - Spawn Rate: **25%** (5 - 6 Operatives, Early and Late Raid), **5%** in Low Level GroundZero (4 Operatives - Late Raid only)
-- Has to be expected everywhere
-<img src="https://i.imgur.com/IcMymMb.jpeg" alt="GroundZero">
+Labyrinth  - Spawn Rate: 40% (5 Operatives, Early and Late Raid)
 
-**Labyrinth**  - Spawn Rate: **40%** (5 Operatives, Early and Late Raid)
-- Has to be expected everywhere
-<img src="https://i.imgur.com/CI1SzvP.jpeg" alt="GroundZero">
 
-**The Lab**  - Spawn Rate: **40%** (5 - 6 Operatives Early Raid | 4 Operatives Late Raid)
-- At Parking Zone (Parking Gate Extraction)
-- At Hangar Zone (Hangar Gate Extraction)
-- At the First Level Floor of The Lab
-<img src="https://i.imgur.com/rlChomA.jpeg" alt="TheLab">
 
-**Lighthouse**  - Spawn Rate: **30%** (6 - 7 Operatives Early Raid | 5 Operatives Late Raid)
-- In the village near the “Patch to Shoreline” extraction site
-- At the Scav Snipers spot on the mountain near the “Southern Road” extraction point
-- At the Roadblock near the Rogue Base (Water Treatment Plant)
-- At the Train Station and Industrial Zone behind the Rogue Base (Water Treatment Plant)
-<img src="https://i.imgur.com/MRe5gpS.jpeg" alt="Lighthouse">
+The Lab  - Spawn Rate: 40% (5 - 6 Operatives Early Raid | 4 Operatives Late Raid)
 
-**Reserve**  - Spawn Rate: **25%** (5 Operatives Early and Late Raid)
-- At the main barracks marked with black bishop, black pawn and helicopter area.
-- At the path from the queen down to the pawns.
-- At the main gate (Scav Lands Extraction)
-- At the command area of the underground bunker system
-<img src="https://i.imgur.com/M1CPkx2.jpeg" alt="Reserve">
+At Parking Zone (Parking Gate Extraction)
 
-**Shoreline**  - Spawn Rate: **25%** (5 Operatives Early Raid | 6 Operatives Late Raid)
-- At the weather station
-- At the road close to Road to Customs Extraction
-- At the Smugglers' base
-- At the Tunnel (Tunnel Extraction)
-<img src="https://i.imgur.com/30IGkSI.jpeg" alt="Shoreline">
+At Hangar Zone (Hangar Gate Extraction)
+
+Lighthouse  - Spawn Rate: 30% (6 - 7 Operatives Early Raid | 5 Operatives Late Raid)
+
+In the village near the “Patch to Shoreline” extraction site
+
+At the Scav Snipers spot on the mountain near the “Southern Road” extraction point
+
+At the Roadblock near the Rogue Base (Water Treatment Plant)
+
+Reserve  - Spawn Rate: 25% (5 Operatives Early and Late Raid)
+
+At the main barracks marked with black bishop, black pawn and helicopter area.
+
+At the path from the queen down to the pawns.
+
+At the main gate (Scav Lands Extraction)
+
+Shoreline  - Spawn Rate: 25% (5 Operatives Early Raid | 6 Operatives Late Raid)
+
+At the weather station
+
+At the road close to Road to Customs Extraction
+
+At the Smugglers' base
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="behavior"></a>
+
 <details>
 <summary><strong>⚔️ Behavior</strong></summary>
 
-> **🚨 IMPORTANT**
->
-> SPT 4.X was based on version 0.16.9 of EFT. Because of this, the behavior of Bosses and Guards is extremely dangerous and shooting accuracy is worryingly high.
->
-> ISB operators are based on the combat mechanics of the Rogues, Glukhar and Glukhar Guards so the use of mods such as [SAIN](https://forge.sp-tarkov.com/mod/791/sain-solarints-ai-modifications-full-ai-combat-system-replacement)  or mods that help you avoid frustrating deaths from headshots, such as [Headshot Damage Redirection](https://forge.sp-tarkov.com/mod/2489/headshot-damage-redirection), are HIGHLY recommended.
+🚨 IMPORTANT
 
+SPT 4.X was based on version 0.16.9 of EFT. Because of this, the behavior of Bosses and Guards is extremely dangerous and shooting accuracy is worryingly high.
 
-> **⚠️ WARNING**
->
-> **ISB** agents and operators are **extremely aggressive** towards all factions except soldiers from **Russian Armed Forces (RUAF)** and Rogues (EX-USEC Operatives).
->
-> They are positioned at specific points during raids, patrol the area looking for enemies, and if they find any, they move in to identify their targets.
->
-> When one of the operators spots an enemy, they usually rush together to take them down at all costs.
+ISB operators are based on the combat mechanics of the Rogues, Glukhar and Glukhar Guards so the use of mods such as SAIN  or mods that help you avoid frustrating deaths from headshots, such as Headshot Damage Redirection, are HIGHLY recommended.
 
+⚠️ WARNING
 
-> **ℹ️ NOTE**
->
-> When you first encounter the ISB, check your gear and make sure you're ready for combat—they're really tough bosses that offer great loot, but it's often best to just avoid combat and retreat.
+ISB agents and operators are extremely aggressive towards all factions except soldiers from Russian Armed Forces (RUAF) and Rogues (EX-USEC Operatives).
 
+They are positioned at specific points during raids, patrol the area looking for enemies, and if they find any, they move in to identify their targets.
 
-***
-**Close Quarters Combat**
+When one of the operators spots an enemy, they usually rush together to take them down at all costs.
 
-ISB operators typically move in groups, which is neither advantageous nor recommended for direct combat. It is highly advisable to engage them individually to avoid being eliminated, since all operators are equipped with very powerful weapons and ammunition. 
+ℹ️ NOTE
+
+When you first encounter the ISB, check your gear and make sure you're ready for combat—they're really tough bosses that offer great loot, but it's often best to just avoid combat and retreat.
+
+Close Quarters Combat
+
+ISB operators typically move in groups, which is neither advantageous nor recommended for direct combat. It is highly advisable to engage them individually to avoid being eliminated, since all operators are equipped with very powerful weapons and ammunition.
 
 <img src="https://i.imgur.com/jd27M4K.gif" alt="Labs01">
 <img src="https://i.imgur.com/7g5yRgq.gif" alt="Factory01">
 
-**Long Range Combat**
+Long Range Combat
 
 ISB operators have a very long line of sight, but they can still take you down a few times before you get into close-quarters combat. When you spot ISB operators, it’s recommended that you try to take them down from a distance before closing in. They’ll usually approach you first after detecting you, but taking out one or two operators from the squad before the impending combat is a great strategy.
 
@@ -147,20 +166,19 @@ ISB operators have a very long line of sight, but they can still take you down a
 </details>
 
 <a id="equipment-nighttime"></a>
+
 <details>
 <summary><strong>🌙 Equipment (Nighttime)</strong></summary>
 
-> **⚠️ WARNING**
->
-> ISB agents and operators are usually found using mostly Western NATO weapons, but some modern Russian equipment is also part of their arsenal.
->
-> In summary, they use high-end equipment and highly powerful ammunition in all their weapons, as well as items not previously found in Tarkov or on common enemies.
+⚠️ WARNING
 
+ISB agents and operators are usually found using mostly Western NATO weapons, but some modern Russian equipment is also part of their arsenal.
 
-### Team Leader Equipment
+In summary, they use high-end equipment and highly powerful ammunition in all their weapons, as well as items not previously found in Tarkov or on common enemies.
 
+Team Leader Equipment
 
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -209,9 +227,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -255,9 +271,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -301,9 +315,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR VEST**
+ARMOR VEST
 
 <table width="100%">
   <thead>
@@ -324,8 +336,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -418,8 +429,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -443,8 +453,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -507,9 +516,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -543,8 +550,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -577,8 +583,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -607,13 +612,9 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
+Specialist Equipment
 
-***
-
-### Specialist Equipment
-
-
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -672,9 +673,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -713,9 +712,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -739,9 +736,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR VEST**
+ARMOR VEST
 
 <table width="100%">
   <thead>
@@ -798,8 +793,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -844,8 +838,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -869,8 +862,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -921,9 +913,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -957,8 +947,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -997,8 +986,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -1032,12 +1020,9 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-***
+Operator Equipment
 
-### Operator Equipment
-
-
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -1206,9 +1191,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -1244,8 +1227,7 @@ ISB operators have a very long line of sight, but they can still take you down a
 
 
 
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -1284,9 +1266,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR**
+ARMOR
 
 <table width="100%">
   <thead>
@@ -1367,8 +1347,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -1503,8 +1482,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -1558,8 +1536,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -1610,8 +1587,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -1710,8 +1686,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -1804,9 +1779,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -1865,26 +1838,24 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="equipment-daytime"></a>
+
 <details>
 <summary><strong>☀️ Equipment (Daytime)</strong></summary>
 
-> **⚠️ WARNING**
->
-> ISB agents and operators are usually found using mostly Western NATO weapons, but some modern Russian equipment is also part of their arsenal.
->
-> In summary, they use high-end equipment and highly powerful ammunition in all their weapons, as well as items not previously found in Tarkov or on common enemies.
+⚠️ WARNING
 
+ISB agents and operators are usually found using mostly Western NATO weapons, but some modern Russian equipment is also part of their arsenal.
 
-### Team Leader Equipment
+In summary, they use high-end equipment and highly powerful ammunition in all their weapons, as well as items not previously found in Tarkov or on common enemies.
 
+Team Leader Equipment
 
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -1913,9 +1884,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -1936,8 +1905,7 @@ ISB operators have a very long line of sight, but they can still take you down a
 
 
 
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -1961,9 +1929,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR VEST**
+ARMOR VEST
 
 <table width="100%">
   <thead>
@@ -1984,9 +1950,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -2031,9 +1995,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -2057,9 +2019,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -2098,9 +2058,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -2134,8 +2092,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -2168,9 +2125,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -2199,13 +2154,9 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
+Specialist Equipment
 
-***
-
-### Specialist Equipment
-
-
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -2259,9 +2210,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -2292,8 +2241,7 @@ ISB operators have a very long line of sight, but they can still take you down a
 
 
 
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -2322,9 +2270,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR VEST**
+ARMOR VEST
 
 <table width="100%">
   <thead>
@@ -2369,9 +2315,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -2404,9 +2348,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -2430,9 +2372,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -2471,9 +2411,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -2507,8 +2445,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -2547,8 +2484,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -2582,12 +2518,9 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-***
+Operator Equipment
 
-### Operator Equipment
-
-
-**PRIMARY WEAPON**
+PRIMARY WEAPON
 
 <table width="100%">
   <thead>
@@ -2668,8 +2601,7 @@ ISB operators have a very long line of sight, but they can still take you down a
 
 
 
----
-**SECONDARY WEAPON**
+SECONDARY WEAPON
 
 <table width="100%">
   <thead>
@@ -2695,8 +2627,7 @@ ISB operators have a very long line of sight, but they can still take you down a
 
 
 
----
-**HOLSTER WEAPON**
+HOLSTER WEAPON
 
 <table width="100%">
   <thead>
@@ -2730,9 +2661,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**ARMOR**
+ARMOR
 
 <table width="100%">
   <thead>
@@ -2777,9 +2706,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**CHEST RIG**
+CHEST RIG
 
 <table width="100%">
   <thead>
@@ -2842,9 +2769,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**EARPIECE**
+EARPIECE
 
 <table width="100%">
   <thead>
@@ -2883,9 +2808,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**HEADWEAR**
+HEADWEAR
 
 <table width="100%">
   <thead>
@@ -2936,9 +2859,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**FACECOVER**
+FACECOVER
 
 <table width="100%">
   <thead>
@@ -2983,9 +2904,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**BACKPACKS**
+BACKPACKS
 
 <table width="100%">
   <thead>
@@ -3030,9 +2949,7 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
----
-**RARE ITEMS**
+RARE ITEMS
 
 <table width="100%">
   <thead>
@@ -3091,12 +3008,12 @@ ISB operators have a very long line of sight, but they can still take you down a
   </tbody>
 </table>
 
-
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="images"></a>
+
 <details>
 <summary><strong>🖼️ Images</strong></summary>
 
@@ -3113,237 +3030,231 @@ ISB operators have a very long line of sight, but they can still take you down a
 </details>
 
 <a id="recommended-mods"></a>
+
 <details>
 <summary><strong>🧩 Recommended Mods</strong></summary>
 
-- [TacticalToaster Bot Mods](https://forge.sp-tarkov.com/user/7768/tacticaltoaster#mods)  - The three TacticalToaster mods that add custom bots are recommended for the best experience with ISB special forces. [UNTAR Go Home!](https://forge.sp-tarkov.com/mod/2342/untar-go-home), [RUAF Come Home!](https://forge.sp-tarkov.com/mod/2427/ruaf-come-home), and the latest [WTT - Black Division \[REDACTED\] Home.](https://forge.sp-tarkov.com/mod/2511/wtt-black-division-redacted-home) ISB agents have customized behavior and hostility with each faction of the aforementioned mods, as well as related missions for [Aishi](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi).
+TacticalToaster Bot Mods  - The three TacticalToaster mods that add custom bots are recommended for the best experience with ISB special forces. UNTAR Go Home!, RUAF Come Home!, and the latest WTT - Black Division [REDACTED] Home. ISB agents have customized behavior and hostility with each faction of the aforementioned mods, as well as related missions for Aishi.
 
-- [ORBIT](https://forge.sp-tarkov.com/mod/2706/orbit) - With ORBIT, you'll be able to watch the ISB patrol the maps in a much more dynamic (and also less lethal—recommended) way; while their default behavior is to hunt down enemy bots, ORBIT will make them patrol all areas of the map more naturally.
+ORBIT - With ORBIT, you'll be able to watch the ISB patrol the maps in a much more dynamic (and also less lethal—recommended) way; while their default behavior is to hunt down enemy bots, ORBIT will make them patrol all areas of the map more naturally.
 
-- [SAIN](https://forge.sp-tarkov.com/mod/791/sain-solarints-ai-modifications-full-ai-combat-system-replacement) - It is highly recommended to use Solarint's AI Modifications (SAIN) mod, as this mod is based on the Rogues and in this version of Tarkov, Rogues, Boss Guards, and Bosses, which have SCARY accuracy for headshots. It is recommended to use SAIN to avoid frustrating situations, as all enemies in this mod use very powerful ammunition.
+SAIN - It is highly recommended to use Solarint's AI Modifications (SAIN) mod, as this mod is based on the Rogues and in this version of Tarkov, Rogues, Boss Guards, and Bosses, which have SCARY accuracy for headshots. It is recommended to use SAIN to avoid frustrating situations, as all enemies in this mod use very powerful ammunition.
 
-- [Headshot Damage Redirection](https://forge.sp-tarkov.com/mod/2489/headshot-damage-redirection) - If you don't want to use SAIN, a great option is “Headshot Damage Redirection” This way, you'll also avoid very frustrating situations with highly frequent headshots.
+Headshot Damage Redirection - If you don't want to use SAIN, a great option is “Headshot Damage Redirection” This way, you'll also avoid very frustrating situations with highly frequent headshots.
 
-- [Dynamic Maps](https://forge.sp-tarkov.com/mod/1431/dynamic-maps) - If you like to have a more accurate location of enemies, “Dynamic Maps” is a great choice, in addition to having other incredible features useful for quests, learning maps, and much more. 
+Dynamic Maps - If you like to have a more accurate location of enemies, “Dynamic Maps” is a great choice, in addition to having other incredible features useful for quests, learning maps, and much more.
 
-- [ACCURATE CIRCULAR RADAR](https://forge.sp-tarkov.com/mod/1100/accurate-circular-radar) - ACCURATE CIRCULAR RADAR has the same premise as Dynamic Maps, and I particularly like both of them, but if you prefer something closer to your in-game HUD and similar to other games, this mod may be useful.
+ACCURATE CIRCULAR RADAR - ACCURATE CIRCULAR RADAR has the same premise as Dynamic Maps, and I particularly like both of them, but if you prefer something closer to your in-game HUD and similar to other games, this mod may be useful.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="compatibilities-and-incompatibilities"></a>
+
 <details>
 <summary><strong>🔄 Compatibilities & Incompatibilities</strong></summary>
 
-**Compatibilities**
+Compatibilities
 
-1. [SAIN (Full Compatibility)](https://forge.sp-tarkov.com/mod/791/sain-solarints-ai-modifications-full-ai-combat-system-replacement) - Thanks to MoreBotsAPI, SAIN is fully compatible, and you can change the behavior settings however you like if you prefer a specific preset.
+SAIN (Full Compatibility) - Thanks to MoreBotsAPI, SAIN is fully compatible, and you can change the behavior settings however you like if you prefer a specific preset.
 
-- [ORBIT](https://forge.sp-tarkov.com/mod/2706/orbit) - The ISB Take Over option is also available in ORBIT. (Enabled by default) Disable it if you want them to follow their original behavior (forced enemy hunting).
+ORBIT - The ISB Take Over option is also available in ORBIT. (Enabled by default) Disable it if you want them to follow their original behavior (forced enemy hunting).
 
-1. [ABPS - Acid's Bot Placement System (Compatible)](https://forge.sp-tarkov.com/mod/2097/abps-acids-bot-placement-system) - This mod has been tested in ~~hundreds in raids~~ with ABPS, and it seems to work perfectly.
+ABPS - Acid's Bot Placement System (Compatible) - This mod has been tested in hundreds in raids with ABPS, and it seems to work perfectly.
 
-**Incompatibilities**
+Incompatibilities
 
-1. **Possible incompatibilities** - Any mod that overwrites or overrides the Boss Spawn system may cause problems with the appearance of that mod, since the system used is the Vanilla Boss Spawn system.
+Possible incompatibilities - Any mod that overwrites or overrides the Boss Spawn system may cause problems with the appearance of that mod, since the system used is the Vanilla Boss Spawn system.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="known-issues"></a>
+
 <details>
 <summary><strong>⚠️ Known Issues</strong></summary>
 
-- None for now... for now.
+None for now... for now.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="faq"></a>
+
 <details>
 <summary><strong>❓ FAQ</strong></summary>
 
-> **ℹ️ NOTE**
->
-> I spent some time thinking about questions that most people might have when they first try out the mod, and I want to list them here to make things easier for you.
+ℹ️ NOTE
 
+I spent some time thinking about questions that most people might have when they first try out the mod, and I want to list them here to make things easier for you.
 
-**What is ISB? Does it appear in EFT?**
+What is ISB? Does it appear in EFT?
 
-*I've included some additional details in the “Description” tab, but to summarize: It's an original “faction” that doesn't exist in the vanilla game or story. It's simply a reimagining of a special internal agency within USEC.*
+I've included some additional details in the “Description” tab, but to summarize: It's an original “faction” that doesn't exist in the vanilla game or story. It's simply a reimagining of a special internal agency within USEC.
 
-***
+These bots are really on point / I have some feedback or an idea for them
 
-**These bots are really on point / I have some feedback or an idea for them**
+If you're experiencing any issues with how the bots are behaving or have questions or suggestions about the equipment, you can go to the Discord tab and create a thread there.
 
-*If you're experiencing any issues with how the bots are behaving or have questions or suggestions about the equipment, you can go to the Discord tab and create a thread there.*
+I'd like to change or modify the bots' equipment pool. How can I do that?
 
-***
+Well, changing the bots' equipment pool can be a bit challenging if you don't have some experience with the settings. You can find all the main options in “SPT\user\mods\ISB-SpecialForces\db\bots\sharedTypes,” where you'll see all the possible names, equipment that can appear, outfits, and voices. If you have any specific questions, join Discord or leave a comment, and I'll check it out as soon as possible.
 
-**I'd like to change or modify the bots' equipment pool. How can I do that?**
+The bots aren't spawning, or I can't find them.
 
-*Well, changing the bots' equipment pool can be a bit challenging if you don't have some experience with the settings. You can find all the main options in “SPT\user\mods\ISB-SpecialForces\db\bots\sharedTypes,” where you'll see all the possible names, equipment that can appear, outfits, and voices. If you have any specific questions, join Discord or leave a comment, and I'll check it out as soon as possible.*
-
-***
-
-**The bots aren't spawning, or I can't find them.**
-
-*If you're using ABPS or another mod that alters how spawns work, the bots may behave differently when they appear or have spawn delays. I recommend checking the specific settings of the spawn mod you're using and also paying attention to the triggers. ISB operators eliminate everything within their range.*
+If you're using ABPS or another mod that alters how spawns work, the bots may behave differently when they appear or have spawn delays. I recommend checking the specific settings of the spawn mod you're using and also paying attention to the triggers. ISB operators eliminate everything within their range.
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="discord-for-feedbacks-and-questions"></a>
+
 <details>
 <summary><strong>💬 Discord for Feedbacks and Questions</strong></summary>
 
 At first, I thought about just answering questions or feedback in the Forge comments, but I knew I’d end up forgetting about them, so I decided to create a Discord server to centralize feedback, bug reports, questions, and anything else you’d like to share.
 
-Here’s the link to join --> [ISB Headquarters](https://discord.gg/AajQ7bH5A7)
+Here’s the link to join --> ISB Headquarters
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="for-the-beta-testers"></a>
+
 <details>
 <summary><strong>🧪 For the Beta Testers</strong></summary>
 
-**Everyone involved in this project is new to modding, so all the feedback we received during both the closed and public testing phases was extremely important from start to finish, and I want to express my immense gratitude to everyone for their participation. We had over 100 people during the tests, most of whom were very engaged and contributed a great deal. Below, so that you testers don’t get too lost and can see everything that’s changed, I’ll include some (extensive) update notes from both Aishi and ISB SOF**
+Everyone involved in this project is new to modding, so all the feedback we received during both the closed and public testing phases was extremely important from start to finish, and I want to express my immense gratitude to everyone for their participation. We had over 100 people during the tests, most of whom were very engaged and contributed a great deal. Below, so that you testers don’t get too lost and can see everything that’s changed, I’ll include some (extensive) update notes from both Aishi and ISB SOF
 
-**As a token of our appreciation, all test participants—whether they actively contributed or simply played—have had their Discord and other platform usernames added to the ISB Operators’ name pool. In addition, Aishi will be giving out a special reward to those who have completed the “ISB Testing” mission on their current profile. (If you participated in the tests and reset your profile, I can guide you on how to claim the reward.)**
+As a token of our appreciation, all test participants—whether they actively contributed or simply played—have had their Discord and other platform usernames added to the ISB Operators’ name pool. In addition, Aishi will be giving out a special reward to those who have completed the “ISB Testing” mission on their current profile. (If you participated in the tests and reset your profile, I can guide you on how to claim the reward.)
 
-***
-**ISB Aishi Changes**
+ISB Aishi Changes
 
->**Services:**
->
->**Advanced Insurance:** Aishi now offers the option to insure items with a fast turnaround (1–6 hours) for a higher fee. Modified ISB items remain ineligible for insurance.
->
->**Advanced Repair:** Repair efficiency has been slightly reduced and the price slightly increased for better balance.
->
->**Customization:** Many new outfits have been added, including variants of the ISB Daytime bots and White Tusks.
->
->**Assort:** All prices have been adjusted, and more cool items have been added without quest restrictions—such as backpacks, special ammunition, and medical supplies—though some are still unlocked through quests.
-***
+Services:
 
->**Quests:**
->
->**Initial Storylines:** Various quality-of-life adjustments to rewards and objective display.
->
->**New Questlines:** The entire continuation of the “Sanitary Investigation” questline is available, along with all follow-ups to the progression stories and the UNTAR story arc.
-***
->**Items:**
->
->**Chest Armor & Chest Rigs:** Several new rigs and armor sets have been added, mainly heavy models like the Black Zabralo, as well as more helmets and rigs for daytime play
->
->**Cosmetics:** For those who liked the gas masks and don’t want to spend time hunting down ISB bots or spawns on other bots, an unarmored option has been added and is available at the Flea Market
->
->**Keycards:** The ISB technically has a much higher access level than USEC agents during the TerraGroup Contract, so all ISB keycards now open many more locations than just the Labs entrance turnstile : )
->
->**Ammo:** All ammo types have been slightly rebalanced, and their models have also been updated for better visuals.
-***
->**Systems**
->
->**Faction Banners:** Think Tarkov has too many factions? Aishi will give you a free lesson. While the map is loading, several banners with descriptions and some fun facts about the various factions in the game will be visible, including the original ISB faction.
->
->**Bot Loadouts:** Rogues, Goons, and RUAF (if installed) may spawn with ISB-exclusive gear—after all, they value their partners.
-***
-**ISB SOF Changes**
+Advanced Insurance: Aishi now offers the option to insure items with a fast turnaround (1–6 hours) for a higher fee. Modified ISB items remain ineligible for insurance.
 
->**Balance:** ISB Operators shouldn't be quite that... powerful, so they've undergone some adjustments to better fit the new squad composition, where they are the weakest members.
->
->**Operator Health Points:**
->Head: 65 --> 60
->
->Chest: 250 --> 225
->
->Stomach: 235 --> 190
->
->Arms: 115 --> 110
->
->Legs: 105 --> 105 (Same)
->
-***
->**Operator Ammo:**
->All ammo with a high spawn probability has been replaced with a tier lower version. It will be more common to find ISB operators with slightly weaker ammo, although all the most powerful types will still remain in their active pool (but with a lower chance)
->
->**Most Common Ammunition by Caliber**:
->
->556x45NATO: M995 --> M855A1
->
->762x51NATO: M993 --> M61
->
->46x30mm: AP SX --> FMJ SX
->
->762x35mm: .300 AP --> .300 CBJ
->
->762x39mm: MAI AP --> BP
->
->545x39: BS --> 7N40/BP
->
->**New Types of Bots:**
->Having just the operator was too simple; now ISB squads will be a bit more coordinated with 3 types of bots.
->
->ISB Team Leader: Always equipped with the best gear and ammunition, he prefers to stay at a distance while the rest of the team does the work.
->
->ISB Specialist: The team’s heavyweight Breacher; armed with shotguns or LMGs, he provides suppressive fire while regular operators advance.
->
->March Five (“The Chosen One”): A special secret boss that appears when certain conditions are met.
->
->March Six (“The Dark Lord”): A special secret boss that appears when certain conditions are met.
->
->**New Events and Systems:**
->
->Blackout: A 50% base chance that all the lights in the Labs will go out if the ISB is present. Bring NVGs : )
->
->Conditional Truce: If you’re at LL4 with Aishi, ISB bots won’t be hostile toward you unless you eliminate one of them; if you do, they’ll remain hostile for 6 raids.
->
->New radios and an exclusive voice line from Aishi—after all, she coordinates her team from HQ, so you can hear her voice too. Everything is configurable via F12 (and we’re also testing the radio effect).
+Advanced Repair: Repair efficiency has been slightly reduced and the price slightly increased for better balance.
+
+Customization: Many new outfits have been added, including variants of the ISB Daytime bots and White Tusks.
+
+Assort: All prices have been adjusted, and more cool items have been added without quest restrictions—such as backpacks, special ammunition, and medical supplies—though some are still unlocked through quests.
+
+Quests:
+
+Initial Storylines: Various quality-of-life adjustments to rewards and objective display.
+
+New Questlines: The entire continuation of the “Sanitary Investigation” questline is available, along with all follow-ups to the progression stories and the UNTAR story arc.
+
+Items:
+
+Chest Armor & Chest Rigs: Several new rigs and armor sets have been added, mainly heavy models like the Black Zabralo, as well as more helmets and rigs for daytime play
+
+Cosmetics: For those who liked the gas masks and don’t want to spend time hunting down ISB bots or spawns on other bots, an unarmored option has been added and is available at the Flea Market
+
+Keycards: The ISB technically has a much higher access level than USEC agents during the TerraGroup Contract, so all ISB keycards now open many more locations than just the Labs entrance turnstile : )
+
+Ammo: All ammo types have been slightly rebalanced, and their models have also been updated for better visuals.
+
+Systems
+
+Faction Banners: Think Tarkov has too many factions? Aishi will give you a free lesson. While the map is loading, several banners with descriptions and some fun facts about the various factions in the game will be visible, including the original ISB faction.
+
+Bot Loadouts: Rogues, Goons, and RUAF (if installed) may spawn with ISB-exclusive gear—after all, they value their partners.
+
+ISB SOF Changes
+
+Balance: ISB Operators shouldn't be quite that... powerful, so they've undergone some adjustments to better fit the new squad composition, where they are the weakest members.
+
+Operator Health Points:Head: 65 --> 60
+
+Chest: 250 --> 225
+
+Stomach: 235 --> 190
+
+Arms: 115 --> 110
+
+Legs: 105 --> 105 (Same)
+
+Operator Ammo:All ammo with a high spawn probability has been replaced with a tier lower version. It will be more common to find ISB operators with slightly weaker ammo, although all the most powerful types will still remain in their active pool (but with a lower chance)
+
+Most Common Ammunition by Caliber:
+
+556x45NATO: M995 --> M855A1
+
+762x51NATO: M993 --> M61
+
+46x30mm: AP SX --> FMJ SX
+
+762x35mm: .300 AP --> .300 CBJ
+
+762x39mm: MAI AP --> BP
+
+545x39: BS --> 7N40/BP
+
+New Types of Bots:Having just the operator was too simple; now ISB squads will be a bit more coordinated with 3 types of bots.
+
+ISB Team Leader: Always equipped with the best gear and ammunition, he prefers to stay at a distance while the rest of the team does the work.
+
+ISB Specialist: The team’s heavyweight Breacher; armed with shotguns or LMGs, he provides suppressive fire while regular operators advance.
+
+March Five (“The Chosen One”): A special secret boss that appears when certain conditions are met.
+
+March Six (“The Dark Lord”): A special secret boss that appears when certain conditions are met.
+
+New Events and Systems:
+
+Blackout: A 50% base chance that all the lights in the Labs will go out if the ISB is present. Bring NVGs : )
+
+Conditional Truce: If you’re at LL4 with Aishi, ISB bots won’t be hostile toward you unless you eliminate one of them; if you do, they’ll remain hostile for 6 raids.
+
+New radios and an exclusive voice line from Aishi—after all, she coordinates her team from HQ, so you can hear her voice too. Everything is configurable via F12 (and we’re also testing the radio effect).
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
 </details>
 
 <a id="special-thanks-and-credits"></a>
+
 <details>
 <summary><strong>💜 Special Thanks and Credits</strong></summary>
 
-**Working on this mod was my first experience dealing with this language, methods, and SPT itself, as well as the way Tarkov works, which made it quite challenging, along with the development of [Aishi](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi). We checked out so many mods and asked so many people to understand how everything worked, and many experienced modders from the SPT community helped us immensely.**
+Working on this mod was my first experience dealing with this language, methods, and SPT itself, as well as the way Tarkov works, which made it quite challenging, along with the development of Aishi. We checked out so many mods and asked so many people to understand how everything worked, and many experienced modders from the SPT community helped us immensely.
 
-- I am very grateful to [TacticalToaster](https://forge.sp-tarkov.com/user/7768/tacticaltoaster) for providing the [Repo](https://github.com/TacticalToaster/MoreBotsAPI-Example), working on [MoreBotsAPI](https://forge.sp-tarkov.com/mod/2426/morebotsapi), and for his extensive support during the development of this mod. If it weren't for him answering tons of questions, this mod would have been impossible.
+I am very grateful to TacticalToaster for providing the Repo, working on MoreBotsAPI, and for his extensive support during the development of this mod. If it weren't for him answering tons of questions, this mod would have been impossible.
 
-- A big thank you to [7Bpencil](https://forge.sp-tarkov.com/user/106491/7bpencil#mods) for all his work in fully developing the ISB Blackout system at Labs; you have him to thank for the entire dark and challenging environment.
+A big thank you to 7Bpencil for all his work in fully developing the ISB Blackout system at Labs; you have him to thank for the entire dark and challenging environment.
 
-- Many thanks to **Acer** for his impeccable artwork for ISB. If anyone is interested in his work, I highly recommend reaching out to him via the [WTT Discord](https://discord.com/invite/welcometotarkov)
+Many thanks to Acer for his impeccable artwork for ISB. If anyone is interested in his work, I highly recommend reaching out to him via the WTT Discord
 
-- Thank you so much, [zarbar](https://x.com/zaryhc/), for recording Aishi's voice lines for the radio. We're still going to make major improvements to the post-production effects to really make your perfect work shine even brighter.
+Thank you so much, zarbar, for recording Aishi's voice lines for the radio. We're still going to make major improvements to the post-production effects to really make your perfect work shine even brighter.
 
-- A big thank you to  **letmedowneasy** for contributing some unique and exclusive designs for items and clothing used in ISB, as well as for items from [Aishi’s](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi)—incredible work that’s been invaluable to the project.
+A big thank you to  letmedowneasy for contributing some unique and exclusive designs for items and clothing used in ISB, as well as for items from Aishi’s—incredible work that’s been invaluable to the project.
 
-- Many thanks to the [WTT Team](https://www.welcometotarkov.com), especially [GrooveypenguinX](https://forge.sp-tarkov.com/user/30890/grooveypenguinx). They helped with many specific questions on [Discord](https://discord.com/invite/welcometotarkov) that were very important. I would also like to take this opportunity to thank the team once again for the [Content Backport of 1.0](https://forge.sp-tarkov.com/mod/2512/wtt-content-backport), which came much sooner than I had imagined. I was trying to backport some items from the **Black Division** to integrate into this mod, and it was very exhausting to learn, but their work greatly sped up the development of this mod.
+Many thanks to the WTT Team, especially GrooveypenguinX. They helped with many specific questions on Discord that were very important. I would also like to take this opportunity to thank the team once again for the Content Backport of 1.0, which came much sooner than I had imagined. I was trying to backport some items from the Black Division to integrate into this mod, and it was very exhausting to learn, but their work greatly sped up the development of this mod.
 
-- Many thanks to [turbodestroyer](https://forge.sp-tarkov.com/user/71742/turbodestroyer) for teaching me how to retexture items. Originally, the plan for this mod was to integrate it with [Couturier's](https://forge.sp-tarkov.com/mod/2239/couturier-gear-and-clothing-pack) items, but since he was already using [Aishi's](https://forge.sp-tarkov.com/mod/2478/ISB-Aishi) resources, I couldn't find a way to do that, but it's still in the plans. 
+Many thanks to turbodestroyer for teaching me how to retexture items. Originally, the plan for this mod was to integrate it with Couturier's items, but since he was already using Aishi's resources, I couldn't find a way to do that, but it's still in the plans.
 
-- Many thanks to the [SAIN](https://forge.sp-tarkov.com/mod/791/sain-solarints-ai-modifications-full-ai-combat-system-replacement) developers: [Solarint](https://forge.sp-tarkov.com/user/27463/solarint), [ArchangelWTF](https://forge.sp-tarkov.com/user/52282/archangelwtf), [Lacyway](https://forge.sp-tarkov.com/user/47969/lacyway), and [DrakiaXYZ](https://forge.sp-tarkov.com/user/27605/drakiaxyz). The SPT experience with bots using SAIN is unbelievable and extremely positive.
+Many thanks to the SAIN developers: Solarint, ArchangelWTF, Lacyway, and DrakiaXYZ. The SPT experience with bots using SAIN is unbelievable and extremely positive.
 
-- Many thanks to [AcidPhantasm](https://forge.sp-tarkov.com/user/48110/acidphantasm) and [Arys](https://forge.sp-tarkov.com/user/13652/arys), who also answered many questions about key elements for the development of this mod.
+Many thanks to AcidPhantasm and Arys, who also answered many questions about key elements for the development of this mod.
 
-- Many thanks to [DrakiaXYZ](https://forge.sp-tarkov.com/user/27605/drakiaxyz) for his work with [BigBrain](https://forge.sp-tarkov.com/mod/902/bigbrain), another very important tool for working with bots. 
+Many thanks to DrakiaXYZ for his work with BigBrain, another very important tool for working with bots.
 
-- Many thanks to Vipperexe, Loghan, Cathy and all the Beta Testers for contributing to the development and testing of this mod and providing feedback that drove improvements during development.
----
-**To give ISB agents a different look, some unique assets were used and created by very talented people.**
+Many thanks to Vipperexe, Loghan, Cathy and all the Beta Testers for contributing to the development and testing of this mod and providing feedback that drove improvements during development.
+
+To give ISB agents a different look, some unique assets were used and created by very talented people.
 
 Assets that were used in this mod:
 
-- Unix 5000 Gas Mask by [Eugen Vahrushin](https://www.linkedin.com/in/eugen-vahrushin-60b671195)
+Unix 5000 Gas Mask by Eugen Vahrushin
 
-- MSA G1 SCBA Chemical Mask by [Dan](https://x.com/DPMArtisan)
+MSA G1 SCBA Chemical Mask by Dan
 
 <p align="right"><a href="#isb-special-forces">⬆ Back to top</a></p>
 
