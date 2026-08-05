@@ -17,6 +17,7 @@
   <br>
   <a href="#for-the-beta-testers"><img src="https://img.shields.io/badge/For_the_Beta_Testers-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="For the Beta Testers"></a>
   <a href="#special-thanks-and-credits"><img src="https://img.shields.io/badge/Special_Thanks_and_Credits-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Special Thanks and Credits"></a>
+  <a href="#support-me"><img src="https://img.shields.io/badge/Support_Me_%F0%9F%92%9C-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Support Me 💜"></a>
 </p>
 
 ---
@@ -47,11 +48,6 @@ Although ISB employees were once limited to the best agents who had passed throu
 
 > **End the conflict in Tarkov at any and all costs.**
 
----
-
-> **💜 SUPPORT THE PROJECT**
->
-> Did you like ISB's content? Consider supporting me on Ko-Fi—it helps me buy Monster so I can keep setting up bots and assots without sleep.
 
 <p align="right"><a href="#tabs"><strong>⬆ BACK TO TABS</strong></a></p>
 
@@ -3234,6 +3230,23 @@ To give ISB agents a distinct appearance, unique assets created by talented arti
 
 - **Unix 5000 Gas Mask** — Eugen Vahrushin
 - **MSA G1 SCBA Chemical Mask** — Dan
+
+<p align="right"><a href="#tabs"><strong>⬆ BACK TO TABS</strong></a></p>
+
+</details>
+
+<a id="support-me"></a>
+
+<details>
+<summary><strong>💜 Support Me</strong></summary>
+
+*Did you like ISB's content? Consider supporting me on [Ko-Fi](https://ko-fi.com/samc137)—it helps me buy Monster so I can keep setting up bots and assots without sleep.*
+
+<p align="center">
+  <a href="https://ko-fi.com/samc137">
+    <img src="https://i.imgur.com/hNvoOiM.png" alt="Support ISB Special Forces on Ko-Fi">
+  </a>
+</p>
 
 <p align="right"><a href="#tabs"><strong>⬆ BACK TO TABS</strong></a></p>
 
