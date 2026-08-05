@@ -191,6 +191,10 @@ namespace ISBSSOFExtra
                 // can't play sound if its null, haha
                 room.AmbientData.RoomTone = null;
             }
+            foreach (var room in currentRooms)
+            {
+                room.StopRoomToneSound();
+            }
 
             foreach (var room in currentRooms)
             {
