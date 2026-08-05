@@ -20,6 +20,11 @@ ISB Special Forces
   <a href="#special-thanks-and-credits"><img src="https://img.shields.io/badge/Special_Thanks_and_Credits-172033?style=for-the-badge&labelColor=0d1117&color=172033" alt="Special Thanks and Credits"></a>
 </p>
 
+<p align="center">
+<a href="#description"><strong>Description</strong></a> · <a href="#installation"><strong>Installation</strong></a> · <a href="#locations"><strong>Locations</strong></a> · <a href="#behavior"><strong>Behavior</strong></a> · <a href="#equipment-nighttime"><strong>Equipment (Nighttime)</strong></a> · <a href="#equipment-daytime"><strong>Equipment (Daytime)</strong></a> · <a href="#images"><strong>Images</strong></a><br>
+<a href="#recommended-mods"><strong>Recommended Mods</strong></a> · <a href="#compatibilities-and-incompatibilities"><strong>Compatibilities & Incompatibilities</strong></a> · <a href="#known-issues"><strong>Known Issues</strong></a> · <a href="#faq"><strong>FAQ</strong></a> · <a href="#discord-for-feedbacks-and-questions"><strong>Discord for Feedbacks and Questions</strong></a> · <a href="#for-the-beta-testers"><strong>For the Beta Testers</strong></a> · <a href="#special-thanks-and-credits"><strong>Special Thanks and Credits</strong></a>
+</p>
+
 ---
 
 <a id="description"></a>
