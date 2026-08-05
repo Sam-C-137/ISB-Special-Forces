@@ -12,6 +12,6 @@ namespace ISBSpecialForces
         public const string PreLoadGUID = "com.samc137.isbspecialforces";
         public const string PluginName = "ISBSpecialForces";
         public const string PreLoadName = "ISBSpecialForces";
-        public const string Version = "1.0.1";
+        public const string Version = "1.0.2";
     }
 }

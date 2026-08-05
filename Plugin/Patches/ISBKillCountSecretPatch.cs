@@ -40,6 +40,9 @@ namespace ISBSpecialForces.Patches
             if (ISBSecretsManager.AlreadyFired(TriggerId))
                 return;
 
+            if (!ISBSecretsManager.IsEnabledForRaid(TriggerId))
+                return;
+
             var gameWorld = Singleton<GameWorld>.Instance;
 
             if (gameWorld?.MainPlayer == null || aggressor.ProfileId != gameWorld.MainPlayer.ProfileId)

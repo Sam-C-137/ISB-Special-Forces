@@ -86,6 +86,10 @@ namespace ISBSpecialForces.Components
                 return;
 
             nextCheck = Time.time + 1f;
+
+            if (!clashFired && !ISBSecretsManager.IsEnabledForRaid(ClashTriggerId))
+                return;
+
             RefreshBotRegistriesFromWorld();
             PruneDeadBots();
 

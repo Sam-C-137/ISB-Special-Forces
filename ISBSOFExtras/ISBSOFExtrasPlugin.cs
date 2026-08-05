@@ -24,7 +24,7 @@ namespace ISBSSOFExtra
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
@@ -2098,7 +2098,7 @@ namespace ISBSSOFExtra
             _audioClipCache[fullPath] = clip;
             onLoaded?.Invoke(clip);
 
-            Log.LogInfo(
+            Log.LogDebug(
                 $"ISB SOF Audio Plugin: Audio clip ready | clip: {clip.name} | " +
                 $"length: {clip.length:F2}s | samples: {clip.samples} | channels: {clip.channels} | " +
                 $"frequency: {clip.frequency}Hz | state: {clip.loadState}.");
@@ -2292,7 +2292,7 @@ namespace ISBSSOFExtra
                         throw new InvalidOperationException("AudioClip.SetData failed.");
                     }
 
-                    Log.LogInfo(
+                    Log.LogDebug(
                         $"ISB SOF Audio Plugin: PCM WAV decoded '{Path.GetFileName(fullPath)}' " +
                         $"({channels}ch, {sampleRate}Hz, {bitsPerSample}-bit, {decodedClip.length:F2}s).");
 

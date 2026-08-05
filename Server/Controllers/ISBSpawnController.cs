@@ -6,7 +6,6 @@ using SPTarkov.Server.Core.Models.Eft.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Enums;
 using SPTarkov.Server.Core.Models.Spt.Mod;
-using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Models.Spt.Config;
 using SPTarkov.Server.Core.Services;
 using SPTarkov.Server.Core.Models.Eft.Match;
@@ -18,19 +17,6 @@ using ISB.MixedAmmo;
 using IOPath = System.IO.Path;
 
 namespace ISBSpecialForcesServer.Controllers;
-
-public record ISBManagedSpawnRequest : IRequestData
-{
-    public string locationId { get; set; } = string.Empty;
-}
-
-public sealed class ISBManagedSpawnResponse
-{
-    public bool success { get; set; }
-    public string locationId { get; set; } = string.Empty;
-    public string reason { get; set; } = string.Empty;
-    public List<BossLocationSpawn> spawns { get; set; } = new();
-}
 
 public class ISBAppearanceOverride
 {
@@ -301,7 +287,7 @@ public class ISBSpawnController(
                 continue;
             }
 
-            var key = botType.ToLower();
+            var key = botType.ToLowerInvariant();
             if (!tables.Bots.Types.ContainsKey(key))
             {
                 logger.Warn($"[ISB] Bot type not found on DB: {key}");
@@ -376,6 +362,9 @@ public class ISBSpawnController(
         string suffix,
         string key)
     {
+        if (configController.ModConfig?.enableCollabLoadoutsAndAppearances != true)
+            return;
+
         var appliedColabs = new List<string>();
 
         foreach (var (folder, guids) in ColabFolders)
@@ -637,79 +626,6 @@ public class ISBSpawnController(
     private const string IcebreakerMapId = "suburbs";
     private const string IcebreakerModGuid = "com.manimal.icebreaker";
 
-    public ISBManagedSpawnResponse RefreshManagedSpawnsForMap(string? requestedMap)
-    {
-        var response = new ISBManagedSpawnResponse
-        {
-            locationId = requestedMap ?? string.Empty
-        };
-
-        if (string.IsNullOrWhiteSpace(requestedMap))
-        {
-            response.reason = "The location id was empty.";
-            return response;
-        }
-
-        var normalizedRequestedMap = NormalizeMapId(requestedMap);
-        var configuredMap = configController.ModConfig.locations.Keys.FirstOrDefault(
-            map => NormalizeMapId(map) == normalizedRequestedMap);
-
-        if (string.IsNullOrEmpty(configuredMap))
-        {
-            response.reason = $"No ISB spawn configuration matches '{requestedMap}'.";
-            return response;
-        }
-
-        response.locationId = configuredMap;
-
-        if (string.Equals(configuredMap, IcebreakerMapId, StringComparison.OrdinalIgnoreCase)
-            && !InstalledModGuids.Contains(IcebreakerModGuid))
-        {
-            response.reason = "Icebreaker is not installed.";
-            return response;
-        }
-
-        try
-        {
-            AdjustISBSpawnsForMapInternal(configuredMap, configController.ModConfig);
-
-            var locations = databaseService.GetTables().Locations.GetDictionary();
-
-            if (!locations.TryGetValue(configuredMap, out var location) || location?.Base is null)
-            {
-                response.reason = $"No location data was found for '{configuredMap}'.";
-                return response;
-            }
-
-            response.spawns = location.Base.BossLocationSpawn
-                .Where(IsManagedISBSpawn)
-                .ToList();
-
-            if (response.spawns.Count == 0)
-            {
-                response.reason = $"No ISB-managed spawn waves were generated for '{configuredMap}'.";
-                return response;
-            }
-
-            response.success = true;
-            return response;
-        }
-        catch (Exception ex)
-        {
-            response.reason = ex.Message;
-            logger.Error($"Failed to refresh ISB spawns for {requestedMap}: {ex.Message}");
-            return response;
-        }
-    }
-
-    private static string NormalizeMapId(string value)
-    {
-        return new string((value ?? string.Empty)
-            .Where(char.IsLetterOrDigit)
-            .Select(char.ToLowerInvariant)
-            .ToArray());
-    }
-
     public void AdjustAllISBSpawns()
     {
         try
@@ -731,6 +647,41 @@ public class ISBSpawnController(
             logger.Error($"Error adjusting ISB spawns: {ex.Message}");
             throw;
         }
+    }
+
+    public void AdjustISBSpawnsForRaid(GetRaidConfigurationRequestData? info)
+    {
+        if (info is null || string.IsNullOrWhiteSpace(info.Location))
+        {
+            logger.Warn("[ISB] Unable to reapply spawns: raid location is missing.");
+            return;
+        }
+
+        var requestedMap = NormalizeMapId(info.Location);
+        var configuredMap = configController.ModConfig.locations.Keys
+            .FirstOrDefault(map => NormalizeMapId(map) == requestedMap);
+
+        if (configuredMap is null)
+        {
+            logger.Info($"No ISB spawn configuration found for {info.Location}. Skipping raid spawn adjustment.");
+            return;
+        }
+
+        if (string.Equals(configuredMap, IcebreakerMapId, StringComparison.OrdinalIgnoreCase))
+        {
+            AdjustIcebreakerSpawns();
+            return;
+        }
+
+        AdjustISBSpawnsForMap(configuredMap);
+    }
+
+    private static string NormalizeMapId(string value)
+    {
+        return new string(value
+            .Where(char.IsLetterOrDigit)
+            .Select(character => char.ToLowerInvariant(character))
+            .ToArray());
     }
 
     public void AdjustIcebreakerSpawns()
@@ -795,7 +746,8 @@ public class ISBSpawnController(
         if (huntConfig?.enableHunt == true)
             AdjustHuntSpawnsForMap(map, mapConfig, mainConfig, spawns);
 
-        AddISBSecretSpawns(map, spawns);
+        if (mapConfig.enableSecrets)
+            AddISBSecretSpawns(map, spawns);
     }
 
     private static bool IsManagedISBSpawn(BossLocationSpawn spawn)
@@ -972,7 +924,7 @@ public class ISBSpawnController(
             var secret = new BossLocationSpawn
             {
                 BossName = "ISBBossCommander",
-                BossChance = 20,
+                BossChance = 100,
                 BossDifficulty = "impossible",
                 BossEscortType = "ISBFollowerCommander",
                 BossEscortAmount = "1",
@@ -996,7 +948,7 @@ public class ISBSpawnController(
         var bdClash = new BossLocationSpawn
         {
             BossName = "ISBBossCommander",
-            BossChance = 15,
+            BossChance = 100,
             BossDifficulty = "impossible",
             BossEscortType = "ISBSecondLeader",
             BossEscortAmount = "6",
@@ -1047,7 +999,7 @@ public class ISBSpawnController(
             var massacre = new BossLocationSpawn
             {
                 BossName = "ISBBossCommander",
-                BossChance = 25,
+                BossChance = 100,
                 BossDifficulty = "impossible",
                 BossEscortType = "ISBFollowerCommander",
                 BossEscortAmount = "1",
@@ -1073,7 +1025,7 @@ public class ISBSpawnController(
             var relic = new BossLocationSpawn
             {
                 BossName = "ISBBossCommander",
-                BossChance = 10,
+                BossChance = 100,
                 BossDifficulty = "impossible",
                 BossEscortType = "ISBFollowerCommander",
                 BossEscortAmount = "1",
@@ -1099,7 +1051,7 @@ public class ISBSpawnController(
             var local = new BossLocationSpawn
             {
                 BossName = "ISBBossCommander",
-                BossChance = 10,
+                BossChance = 100,
                 BossDifficulty = "impossible",
                 BossEscortType = "ISBFollowerCommander",
                 BossEscortAmount = "1",

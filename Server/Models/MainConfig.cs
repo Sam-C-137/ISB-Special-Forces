@@ -13,6 +13,8 @@ public class MainConfig
     public RevengeConfig revenge { get; set; } = new();
 
     public ForcedHostilityConfig forcedHostility { get; set; } = new();
+
+    public bool enableCollabLoadoutsAndAppearances { get; set; } = true;
 }
 
 public class RevengeConfig
@@ -134,6 +136,7 @@ public class FactionHuntConfig
 
 public class MapConfig
 {
+    public bool enableSecrets { get; set; } = true;
     public MapPatrolConfig patrol { get; set; }
     public MapCheckpointConfig checkpoint { get; set; }
     public MapHuntConfig hunt { get; set; }

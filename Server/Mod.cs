@@ -25,7 +25,7 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "ISB Special Forces";
     public override string Author { get; init; } = "SamC137";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 1);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 2);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.13");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
@@ -69,6 +69,7 @@ public class ISBSpecialForces2(
     WTTServerCommonLib.WTTServerCommonLib commonLib,
     IReadOnlyList<SptMod> modList,
     ISBSpawnController ISBSpawnController,
+    ConfigController configController,
     CustomBotLoadoutItemsService customBotLoadoutItemsService,
     ILogger<ISBSpecialForces2> logger
 ) : IOnLoad
@@ -149,7 +150,8 @@ public class ISBSpecialForces2(
             .Where(m => modList.Any(mod => mod.ModMetadata.ModGuid == m.Guid))
             .ToList();
 
-        if (detectedSpecialLoadoutMods.Count > 0)
+        if (configController.ModConfig?.enableCollabLoadoutsAndAppearances == true
+            && detectedSpecialLoadoutMods.Count > 0)
         {
             var namesJoined = string.Join("\", \"", detectedSpecialLoadoutMods.Select(m => m.DisplayName));
 
@@ -299,16 +301,8 @@ public class CustomStaticRouter : StaticRouter
                 async (url, info, sessionID, output) =>
                 {
                     _ISBSpawnController.SetRaidHourFromConfig(info);
+                    _ISBSpawnController.AdjustISBSpawnsForRaid(info);
                     return await new ValueTask<string>(output ?? string.Empty);
-                }
-            ),
-
-            new RouteAction<ISBManagedSpawnRequest>(
-                "/ISB/spawns/refresh",
-                async (url, info, sessionID, output) =>
-                {
-                    var result = _ISBSpawnController.RefreshManagedSpawnsForMap(info?.locationId);
-                    return await new ValueTask<string>(_httpResponseUtil.NoBody(result));
                 }
             ),
 

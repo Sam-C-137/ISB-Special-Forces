@@ -47,6 +47,9 @@ namespace ISBSpecialForces.Patches
             if (RaidChangesUtil.LocationId == null || RaidChangesUtil.LocationId.ToLower() != "lighthouse")
                 return;
 
+            if (!ISBSecretsManager.IsEnabledForRaid(TriggerId))
+                return;
+
             var gameWorld = Singleton<GameWorld>.Instance;
 
             if (gameWorld?.MainPlayer == null || aggressor.ProfileId != gameWorld.MainPlayer.ProfileId)

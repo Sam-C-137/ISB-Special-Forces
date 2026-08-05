@@ -40,7 +40,8 @@ public class ISBWeaponPresetController(
     DatabaseService databaseService,
     ModHelper modHelper,
     ISBLogger logger,
-    IReadOnlyList<SptMod> modList)
+    IReadOnlyList<SptMod> modList,
+    ConfigController configController)
 {
     private static readonly IReadOnlyDictionary<string, string[]> CollabPresetFolders =
         new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
@@ -99,32 +100,35 @@ public class ISBWeaponPresetController(
                         collabFolderNames));
                 }
 
-                foreach (var (folder, guids) in CollabPresetFolders)
+                if (configController.ModConfig?.enableCollabLoadoutsAndAppearances == true)
                 {
-                    if (!guids.Any(InstalledModGuids.Contains))
-                        continue;
-
-                    var collabAppearanceRoot = IOPath.Combine(appearanceRoot, folder);
-                    var legacyCollabRoot = IOPath.Combine(presetRoot, folder);
-                    var collabPresetRoot = HasPresetRoleDirectories(collabAppearanceRoot)
-                        ? collabAppearanceRoot
-                        : legacyCollabRoot;
-
-                    if (!Directory.Exists(collabPresetRoot))
-                        continue;
-
-                    var collabPresets = LoadPresets(
-                        collabPresetRoot,
-                        isNight,
-                        folder);
-
-                    loaded.AddRange(collabPresets);
-
-                    if (collabPresets.Count > 0)
+                    foreach (var (folder, guids) in CollabPresetFolders)
                     {
-                        logger.Info(
-                            $"[ISB WEAPON PRESETS] Active collab '{folder}' added " +
-                            $"{collabPresets.Count} preset(s) from '{collabPresetRoot}'.");
+                        if (!guids.Any(InstalledModGuids.Contains))
+                            continue;
+
+                        var collabAppearanceRoot = IOPath.Combine(appearanceRoot, folder);
+                        var legacyCollabRoot = IOPath.Combine(presetRoot, folder);
+                        var collabPresetRoot = HasPresetRoleDirectories(collabAppearanceRoot)
+                            ? collabAppearanceRoot
+                            : legacyCollabRoot;
+
+                        if (!Directory.Exists(collabPresetRoot))
+                            continue;
+
+                        var collabPresets = LoadPresets(
+                            collabPresetRoot,
+                            isNight,
+                            folder);
+
+                        loaded.AddRange(collabPresets);
+
+                        if (collabPresets.Count > 0)
+                        {
+                            logger.Info(
+                                $"[ISB WEAPON PRESETS] Active collab '{folder}' added " +
+                                $"{collabPresets.Count} preset(s) from '{collabPresetRoot}'.");
+                        }
                     }
                 }
 

@@ -26,6 +26,7 @@
 {
   "locations": {
     "laboratory": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 35, //SPAWN CHANCE
@@ -65,6 +66,7 @@
       }
     },
     "sandbox": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 5, //SPAWN CHANCE
@@ -104,6 +106,7 @@
       }
     },
     "SandboxHigh": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 25, //SPAWN CHANCE
@@ -143,6 +146,7 @@
       }
     },
     "TarkovStreets": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": false,
         "patrolChance": 25, //SPAWN CHANCE
@@ -182,6 +186,7 @@
       }
     },
     "bigmap": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": false,
         "patrolChance": 25, //SPAWN CHANCE
@@ -221,6 +226,7 @@
       }
     },
     "interchange": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": false,
         "patrolChance": 25, //SPAWN CHANCE
@@ -260,6 +266,7 @@
       }
     },
     "Woods": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": false,
         "patrolChance": 25, //SPAWN CHANCE
@@ -299,6 +306,7 @@
       }
     },
     "Factory4Day": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 20, //SPAWN CHANCE
@@ -338,6 +346,7 @@
       }
     },
     "Factory4Night": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 35, //SPAWN CHANCE
@@ -377,6 +386,7 @@
       }
     },
     "RezervBase": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 25, //SPAWN CHANCE
@@ -416,6 +426,7 @@
       }
     },
     "Labyrinth": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 35, //SPAWN CHANCE
@@ -455,6 +466,7 @@
       }
     },
     "Lighthouse": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 30, //SPAWN CHANCE
@@ -497,6 +509,7 @@
         // MANIMAL USE THE VANILLA SUBURBS MAP AS BASE FOR THE ICEBREAKER MAP.
         // THE ISB INTEGRATION IS A TEST FEATURE AND IS NOT FULLY IMPLEMENTED YET. 
         // PLEASE REPORT ANY ISSUES AND DON'T CHANGE ANYTHING WITHOUT KNOW EXACTLY WHAT IT DOES.
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 30, //SPAWN CHANCE
@@ -525,6 +538,7 @@
       }
     },
     "Shoreline": {
+      "enableSecrets": true,
       "patrol": {
         "EnableISBPatrols": true,
         "patrolChance": 25, //SPAWN CHANCE
@@ -564,6 +578,7 @@
       }
     }
   },
+  "enableCollabLoadoutsAndAppearances": true,
   "debug": {
     "logs": false,
     "spawnAlways": false,

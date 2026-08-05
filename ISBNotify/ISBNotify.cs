@@ -22,7 +22,7 @@ namespace ISBInfo
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "1.0.1";
+        public const string PluginVersion = "1.0.2";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
@@ -153,7 +153,7 @@ namespace ISBInfo
             TryInitializeOptionalFikaBridge();
 
             Logger.LogInfo(
-                "ISB SOF Notifier 1.0.1 initialized. Local mode is ready; " +
+                $"ISB SOF Notifier {PluginVersion} initialized. Local mode is ready; " +
                 "the optional Fika addon can attach independently.");
         }
 

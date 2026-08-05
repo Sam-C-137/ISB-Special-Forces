@@ -26,6 +26,9 @@ namespace ISBSpecialForces.Components
             if (RaidChangesUtil.LocationId == null || RaidChangesUtil.LocationId.ToLower() != "shoreline")
                 return;
 
+            if (!ISBSecretsManager.IsEnabledForRaid(TriggerId))
+                return;
+
             var gameWorld = Singleton<GameWorld>.Instance;
 
             if (gameWorld?.MainPlayer == null)
