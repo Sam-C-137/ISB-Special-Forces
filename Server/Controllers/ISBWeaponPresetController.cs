@@ -107,6 +107,9 @@ public class ISBWeaponPresetController(
                         if (!guids.Any(InstalledModGuids.Contains))
                             continue;
 
+                        if (configController.ModConfig?.IsCollabLoadoutEnabled(folder) != true)
+                            continue;
+
                         var collabAppearanceRoot = IOPath.Combine(appearanceRoot, folder);
                         var legacyCollabRoot = IOPath.Combine(presetRoot, folder);
                         var collabPresetRoot = HasPresetRoleDirectories(collabAppearanceRoot)

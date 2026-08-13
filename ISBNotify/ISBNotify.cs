@@ -22,7 +22,7 @@ namespace ISBInfo
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.0.3";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
@@ -46,6 +46,8 @@ namespace ISBInfo
         private static bool InitialMessageShown;
         private static bool NoAliveMessageShown;
         private static bool CommanderAlertShown;
+        private static bool LocalPlayerObservedInRaid;
+        private static bool LocalRaidPresentationEnded;
         private static readonly HashSet<int> CommanderKIAShown = new HashSet<int>();
 
         private static readonly Dictionary<int, int> ISBAliveCounts = new Dictionary<int, int>();
@@ -122,14 +124,14 @@ namespace ISBInfo
                 "Settings for the ISB SOF Notifier plugin",
                 "Enable in-raid Notifier",
                 true,
-                "When enabled, if you are in a raid where ISB operations are taking place, you will receive a notification indicating which types of operators are active and their respective numbers."
+                "When enabled, if you are in a raid where ISB operations are taking place, you will receive a notification indicating which types of Operatives are active and their respective numbers."
             );
 
             OnlyInitialAlert = Config.Bind(
                 "Settings for the ISB SOF Notifier plugin",
                 "Only Show Initial Alert",
                 false,
-                "When enabled, you will only receive the single initial notification at the start of the raid, and not the recurring updates that refresh as operators are eliminated. You can still press the O key at any time to manually check the current status."
+                "When enabled, you will only receive the single initial notification at the start of the raid, and not the recurring updates that refresh as Operatives are eliminated. You can still press the O key at any time to manually check the current status."
             );
 
             EnableCommanderAlert = Config.Bind(
@@ -417,7 +419,66 @@ namespace ISBInfo
 
         private static bool CanPresentLocally()
         {
-            return !IsHeadless();
+            if (IsHeadless())
+                return false;
+
+            RefreshLocalRaidPresentationState();
+            return !LocalRaidPresentationEnded;
+        }
+
+        private static void RefreshLocalRaidPresentationState()
+        {
+            if (LocalRaidPresentationEnded || IsHeadless())
+                return;
+
+            if (!Singleton<GameWorld>.Instantiated || Singleton<GameWorld>.Instance == null)
+            {
+                if (LocalPlayerObservedInRaid)
+                    LocalRaidPresentationEnded = true;
+
+                return;
+            }
+
+            GameWorld gameWorld = Singleton<GameWorld>.Instance;
+            Player mainPlayer = gameWorld.MainPlayer;
+
+            if (mainPlayer == null)
+            {
+                if (LocalPlayerObservedInRaid)
+                    LocalRaidPresentationEnded = true;
+
+                return;
+            }
+
+            if (mainPlayer.HealthController != null && !mainPlayer.HealthController.IsAlive)
+            {
+                LocalPlayerObservedInRaid = true;
+                LocalRaidPresentationEnded = true;
+                return;
+            }
+
+            if (gameWorld.AllAlivePlayersList == null)
+                return;
+
+            bool playerStillInRaid = false;
+
+            foreach (Player player in gameWorld.AllAlivePlayersList)
+            {
+                if (ReferenceEquals(player, mainPlayer))
+                {
+                    playerStillInRaid = true;
+                    break;
+                }
+            }
+
+            if (playerStillInRaid)
+            {
+                LocalPlayerObservedInRaid = true;
+                return;
+            }
+
+            if (LocalPlayerObservedInRaid)
+                LocalRaidPresentationEnded = true;
         }
 
         private static bool ShouldTrackState()
@@ -463,7 +524,10 @@ namespace ISBInfo
 
         private static bool IsLocalNetworkClientRaidReady()
         {
-            return Singleton<GameWorld>.Instantiated &&
+            RefreshLocalRaidPresentationState();
+
+            return !LocalRaidPresentationEnded &&
+                   Singleton<GameWorld>.Instantiated &&
                    Singleton<GameWorld>.Instance != null &&
                    Singleton<GameWorld>.Instance.MainPlayer != null;
         }
@@ -638,6 +702,12 @@ namespace ISBInfo
             }
         }
 
+        public static void MarkLocalRaidPresentationEnded()
+        {
+            LocalPlayerObservedInRaid = true;
+            LocalRaidPresentationEnded = true;
+        }
+
         private static bool IsPluginEnabled()
         {
             return EnablePlugin == null || EnablePlugin.Value;
@@ -654,6 +724,8 @@ namespace ISBInfo
             InitialMessageShown = false;
             NoAliveMessageShown = false;
             CommanderAlertShown = false;
+            LocalPlayerObservedInRaid = false;
+            LocalRaidPresentationEnded = false;
             CommanderKIAShown.Clear();
             NetworkCommanderCount = 0;
             NetworkCountsInitialized = false;
@@ -858,7 +930,7 @@ namespace ISBInfo
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("=== ISB SOF ACTIVITY DETECTED ===");
-            sb.AppendLine("ISB SOF Operators have been seen in your current raid.");
+            sb.AppendLine("ISB SOF Operatives have been seen in your current raid.");
             sb.AppendLine("Extreme caution is advised!");
             sb.AppendLine();
             sb.AppendLine($"Total Alive ({total}):  {BuildTotalEmojiBar()}");
@@ -892,7 +964,7 @@ namespace ISBInfo
                 return;
 
             NotificationManagerClass.DisplayMessageNotification(
-                "No ISB Operators remaining in the Current Raid. ISB HQ has ordered a complete withdrawal. You may rest, but remain on alert.",
+                "No ISB Operatives remaining in the Current Raid. ISB HQ has ordered a complete withdrawal. You may rest, but remain on alert.",
                 ENotificationDurationType.Long
             );
         }

@@ -79,6 +79,8 @@ namespace ISBInfo.Fika
                 OnNetworkManagerDestroyed);
             FikaEventDispatcher.SubscribeEvent<FikaRaidStartedEvent>(
                 OnRaidStarted);
+            FikaEventDispatcher.SubscribeEvent<FikaGameEndedEvent>(
+                OnGameEnded);
 
             EnsureNetworkManager();
             _log.LogInfo(
@@ -166,6 +168,8 @@ namespace ISBInfo.Fika
                     OnNetworkManagerDestroyed);
                 FikaEventDispatcher.UnsubscribeEvent<FikaRaidStartedEvent>(
                     OnRaidStarted);
+                FikaEventDispatcher.UnsubscribeEvent<FikaGameEndedEvent>(
+                    OnGameEnded);
             }
 
             _initialized = false;
@@ -210,6 +214,17 @@ namespace ISBInfo.Fika
 
             _isServer = fikaEvent.IsServer;
             EnsureNetworkManager();
+        }
+
+        private void OnGameEnded(FikaGameEndedEvent fikaEvent)
+        {
+            if (!Active || fikaEvent == null)
+                return;
+
+            ISBInfoPlugin.MarkLocalRaidPresentationEnded();
+
+            lock (_queueLock)
+                _receivedPayloads.Clear();
         }
 
         private void EnsureNetworkManager()

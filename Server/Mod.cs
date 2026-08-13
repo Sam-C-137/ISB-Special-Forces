@@ -25,15 +25,15 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "ISB Special Forces";
     public override string Author { get; init; } = "SamC137";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 2);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 3);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.13");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
     {
         { "com.morebotsapi.tacticaltoaster", new SemanticVersioning.Range(">=2.0.1") },
         { "com.wtt.commonlib", new SemanticVersioning.Range(">=2.0.23") },
-        { "com.wtt.contentbackport", new SemanticVersioning.Range(">=1.1.0") },
-        { "com.samc137.aishi", new SemanticVersioning.Range(">=1.0.0") }
+        { "com.wtt.contentbackport", new SemanticVersioning.Range(">=1.1.4") },
+        { "com.samc137.aishi", new SemanticVersioning.Range(">=1.0.3") }
     };
     public override string? Url { get; init; }
     public override bool? IsBundleMod { get; init; }
@@ -148,6 +148,7 @@ public class ISBSpecialForces2(
 
         var detectedSpecialLoadoutMods = specialLoadoutMods
             .Where(m => modList.Any(mod => mod.ModMetadata.ModGuid == m.Guid))
+            .Where(m => configController.ModConfig?.IsCollabLoadoutEnabled(m.LoadoutFolder) == true)
             .ToList();
 
         if (configController.ModConfig?.enableCollabLoadoutsAndAppearances == true

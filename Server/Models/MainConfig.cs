@@ -15,6 +15,25 @@ public class MainConfig
     public ForcedHostilityConfig forcedHostility { get; set; } = new();
 
     public bool enableCollabLoadoutsAndAppearances { get; set; } = true;
+
+    public Dictionary<string, bool> collabLoadoutsAndAppearances { get; set; } = new();
+
+    public bool IsCollabLoadoutEnabled(string folder)
+    {
+        if (!enableCollabLoadoutsAndAppearances)
+            return false;
+
+        if (collabLoadoutsAndAppearances is null || collabLoadoutsAndAppearances.Count == 0)
+            return true;
+
+        foreach (var entry in collabLoadoutsAndAppearances)
+        {
+            if (string.Equals(entry.Key, folder, StringComparison.OrdinalIgnoreCase))
+                return entry.Value;
+        }
+
+        return true;
+    }
 }
 
 public class RevengeConfig

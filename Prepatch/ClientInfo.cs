@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +12,6 @@ namespace ISBSpecialForces
         public const string PreLoadGUID = "com.samc137.isbspecialforces";
         public const string PluginName = "ISBSpecialForces";
         public const string PreLoadName = "ISBSpecialForces";
-        public const string Version = "1.0.2";
+        public const string Version = "1.0.3";
     }
 }

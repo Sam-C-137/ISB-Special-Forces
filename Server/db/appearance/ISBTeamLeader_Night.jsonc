@@ -66,7 +66,9 @@
         "5c488a752e221602b412af63": 1, //MDR 556
         "6895bb82c4519957df062f82": 1, //MODEL 1
         "69f572b4492391522e8fb0de": 1, //NL15 Tactical
-        "69f67aaf276f5880ea08136f": 1  //SPEAR 556
+        "69f67aaf276f5880ea08136f": 1, //SPEAR 556
+        "6a15ae2ae5267ba21c07f98f": 1, //HK RAL 8000
+        "69f9ebbcaae020b0db02f65d": 1  //QBZ
       },
       "Headwear": {
         "6a01221f642040cc21286f0e": 2, //Modified 6B47 Ratnik-BSh helmet (Black)
@@ -190,6 +192,10 @@
       },
       "Caliber762x25TT": {
         "68c15f77ed3d7df9220debd6": 1  //TT M995
+      },
+      "Caliber58x42": {
+        "6a426637ddc63098d100ae67": 1, //DVC12
+        "6a42662fcb506840dd053827": 1  //DVX12
       }
     },
     "mixedAmmo": {
@@ -235,6 +241,131 @@
       }
     },
     "mods": {
+      "69f9ebbcaae020b0db02f65d": {
+        "mod_pistol_grip": [
+          "69f9ecb8df2c2358a9041858"
+        ],
+        "mod_magazine": [
+          "69f9ec5a7596e93e340c0a1e"
+        ],
+        "mod_reciever": [
+          "69f9ecc5df2c2358a904185c"
+        ],
+        "mod_stock": [
+          "69f9f0c325db06fcf60a88e6"
+        ]
+      },
+      "69f9ecc5df2c2358a904185c": {
+        "mod_scope": [
+          "6a3ceaf01ac10a22850e295a"
+        ],
+        "mod_barrel": [
+          "69fb18608a19a890b70a6ba4"
+        ],
+        "mod_handguard": [
+          "69f9f1356b45e1d5210c6961"
+        ],
+        "mod_sight_rear": [
+          "69f9f0a86b45e1d5210c6955"
+        ]
+      },
+      "6a3ceaf01ac10a22850e295a": {
+        "mod_scope": [
+          "6a3ceaff7047a606b90f5321"
+        ]
+      },
+      "69fb18608a19a890b70a6ba4": {
+        "mod_muzzle": [
+          "69f9eca1ddaf0c377d0eb74e"
+        ],
+        "mod_gas_block": [
+          "69f9ec0cddaf0c377d0eb748"
+        ]
+      },
+      "69f9eca1ddaf0c377d0eb74e": {
+        "mod_muzzle": [
+          "69f9f0d3df2c2358a9041867"
+        ]
+      },
+      "69f9f1356b45e1d5210c6961": {
+        "mod_mount_000": [
+          "689c8b454b91399db3085f2a"
+        ],
+        "mod_tactical": [
+          "644a3df63b0b6f03e101e065"
+        ],
+        "mod_foregrip": [
+          "651a8bf3a8520e48047bf708"
+        ]
+      },
+      "69f9f0c325db06fcf60a88e6": {
+        "mod_stock_000": [
+          "69f9f0b58676a3db2a096808"
+        ]
+      },
+      "6a15ae2ae5267ba21c07f98f": {
+        "mod_pistol_grip": [
+          "571659bb2459771fb2755a12"
+        ],
+        "mod_magazine": [
+          "6a1579bfb507e45a68038d7f"
+        ],
+        "mod_reciever": [
+          "6a15ae3e81a4baf60b09bc33"
+        ],
+        "mod_stock": [
+          "5c793fc42e221600114ca25d"
+        ],
+        "mod_charge": [
+          "6a1d4dae46b486ac34084778"
+        ]
+      },
+      "6a15ae3e81a4baf60b09bc33": {
+        "mod_scope": [
+          "6567e751a715f85433025998"
+        ],
+        "mod_barrel": [
+          "5c6d85e02e22165df16b81f4"
+        ],
+        "mod_handguard": [
+          "6a15b13db507e45a68038de8"
+        ],
+        "mod_sight_rear": [
+          "5c18b9192e2216398b5a8104"
+        ]
+      },
+      "6567e751a715f85433025998": {
+        "mod_scope": [
+          "69fc2eed42c2198ea9ca68de"
+        ]
+      },
+      "5c6d85e02e22165df16b81f4": {
+        "mod_muzzle": [
+          "609269c3b0e443224b421cc1"
+        ],
+        "mod_gas_block": [
+          "5bb20dcad4351e3bac1212da"
+        ]
+      },
+      "6a15b13db507e45a68038de8": {
+        "mod_foregrip": [
+          "655df24fdf80b12750626d0a"
+        ],
+        "mod_sight_front": [
+          "5c18b90d2e2216152142466b"
+        ],
+        "mod_tactical_000": [
+          "6a186ccfbe0d66d438005e4e"
+        ],
+        "mod_tactical_001": [
+          "626becf9582c3e319310b837"
+        ]
+      },
+      "5c793fc42e221600114ca25d": {
+        "mod_stock_000": [
+          "68bb2a3831ee03fbc00931e6"
+        ]
+      },
       "69d27591df93e6952a031c84": { //FORT Gladiator-S plate carrier (Lightweight, Viking)
         "Back_plate": [
           "692644216a57eab92f4d703b"

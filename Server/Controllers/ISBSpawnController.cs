@@ -372,6 +372,9 @@ public class ISBSpawnController(
             if (!guids.Any(InstalledModGuids.Contains))
                 continue;
 
+            if (configController.ModConfig?.IsCollabLoadoutEnabled(folder) != true)
+                continue;
+
             var filePath = IOPath.Combine(appearanceDir, folder, $"{botType}_{suffix}.jsonc");
             if (!File.Exists(filePath))
                 continue;

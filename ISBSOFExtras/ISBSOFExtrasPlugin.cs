@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
@@ -24,7 +24,7 @@ namespace ISBSSOFExtra
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "1.0.2";
+        public const string PluginVersion = "1.0.3";
         public const string FikaPluginGuid = "com.fika.core";
 
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
@@ -188,7 +188,7 @@ namespace ISBSSOFExtra
         private const float HEAVY_DAMAGE_THRESHOLD = 60f;
         private const float HEAVY_DAMAGE_CHECK_INTERVAL = 1.5f;
         private const float HEAVY_DAMAGE_REACTION_DELAY = 2.5f;
-        private const float RADIO_MIN_DISTANCE = 1.5f;
+        private const float RADIO_MIN_DISTANCE = 1.0f;
         private const float RADIO_MAX_DISTANCE = 45f;
         private const float RADIO_BASE_VOLUME = 0.26f;
         private const float RADIO_SPATIAL_BLEND = 1f;
@@ -320,7 +320,7 @@ namespace ISBSSOFExtra
             _announcementsVolume = Config.Bind(
                 "USEC ISB Special Forces Audio Plugin Config",
                 "Laboratory Announcements Volume",
-                50f,
+                35f,
                 new ConfigDescription(
                     "Volume of the Laboratory intercom announcements, from 0 to 100. Changes apply in real time, even while an announcement is already playing.",
                     new AcceptableValueRange<float>(0f, 100f)
@@ -330,7 +330,7 @@ namespace ISBSSOFExtra
             _radioVolume = Config.Bind(
                 "USEC ISB Special Forces Audio Plugin Config",
                 "ISB Radio Volume",
-                80f,
+                60f,
                 new ConfigDescription(
                     "Volume of all ISB radio communications, from 0 to 100. Changes apply in real time. even while an radios is already playing.",
                     new AcceptableValueRange<float>(0f, 100f)
@@ -340,7 +340,7 @@ namespace ISBSSOFExtra
             _laboratoryBlackoutChance = Config.Bind(
                 "USEC ISB Special Forces Blackout Config",
                 "Laboratory Blackout Event Chance",
-                50,
+                60,
                 new ConfigDescription(
                     "Chance, from 0 to 100, for the complete Laboratory Blackout Event. In Fika, the host or headless decides for every player.",
                     new AcceptableValueRange<int>(0, 100)
