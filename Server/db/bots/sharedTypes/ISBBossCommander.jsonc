@@ -2480,8 +2480,8 @@
     },
     "reward": {
       "normal": {
-        "max": 90000,
-        "min": 90000
+        "max": 20000,
+        "min": 20000
       }
     },
     "standingForKill": {
@@ -2673,7 +2673,9 @@
       "Pockets": {},
       "Scabbard": {},
       "SecondPrimaryWeapon": {},
-      "SecuredContainer": {},
+      "SecuredContainer": {
+        "5c0a794586f77461c458f892": 1
+      },
       "TacticalVest": {}
     },
     "items": {
@@ -2735,49 +2737,111 @@
 
       },
       "SecuredContainer": {
-        "69dedb462e45a1248bf6b96a": 9999, //ETG V2
-        "692dc61870449aedfa85120f": 10000, // Nammo AP4 (New)
+        // MEDS
+        "69dedb462e45a1248bf6b96a": 9999, // ETG V2
+
+        // 5.56x45 NATO
         "54527ac44bdc2d36668b4567": 10000, // M855A1
-        "601949593ae8f707c4608daa": 10000, // SSA AP
+        "59e6906286f7746c9f75e847": 10000, // M856A1
         "59e690b686f7746c9f75e848": 10000, // M995
-        "5efb0c1bd79ff02a1f5e68d9": 10000, // M993
-        "692e3991aeebb57de9a2386b": 10000, // M948 (New)
+        "601949593ae8f707c4608daa": 10000, // SSA AP
+        "692dc61870449aedfa85120f": 10000, // Nammo AP4 (New)
+
+        // 7.62x51 NATO
         "5a6086ea4f39f99cd479502f": 10000, // M61
+        "5efb0c1bd79ff02a1f5e68d9": 10000, // M993
         "6768c25aa7b238f14a08d3f6": 10000, // M80A1
-        "5ba26835d4351e0035628ff5": 10000, // AP SX
+        "692e3991aeebb57de9a2386b": 10000, // M948 (New)
+
+        // 4.6x30mm
         "5ba2678ad4351e44f824b344": 10000, // FMJ SX
-        "6529243824cbe3c74a05e5c1": 10000, // SIG HYBRID
+        "5ba26835d4351e0035628ff5": 10000, // AP SX
+        "6a30ec62eb1babffc84227d8": 10000, // DM11
+
+        // 6.8x51mm
+        "6529243824cbe3c74a05e5c1": 10000, // SIG Hybrid
         "6529302b8c26af6326029fb7": 10000, // SIG FMJ
         "699b54a97d3c1c9f69f616b6": 10000, // SIG XM1186 AP (New)
-        "5efb0cabfb3e451d70735af5": 10000, // .45 AP
+
+        // .45 ACP
+        "5efb0cabfb3e451d70735af5": 10000, // .45 ACP AP
         "699aab526ac4f65528f1fd63": 10000, // .45 ACP RIP AP (New)
-        "5cc80f38e4a949001152b560": 10000, // S190
-        "5cc80f53e4a949000e1ea4f8": 10000, // S191
-        "5efb0da7a29a85116f6ea05f": 10000, // 9x19 PBP
-        "5c925fa22e221601da359b7b": 10000, // 9x19 AP
-        "699aae8c9b6a4ab2b769c4a3": 10000, // 9x19 RIP AP (New)
+
+        // 5.7x28mm
+        "5cc80f38e4a949001152b560": 10000, // SS190
+        "5cc80f53e4a949000e1ea4f8": 10000, // L191
+
+        // 9x19mm
+        "5c925fa22e221601da359b7b": 10000, // AP 6.3
+        "5efb0da7a29a85116f6ea05f": 10000, // PBP
+        "699aae8c9b6a4ab2b769c4a3": 10000, // RIP AP (New)
+
+        // .300 Blackout
         "5fd20ff893a8961fc660a954": 10000, // .300 AP
         "64b8725c4b75259c590fa899": 10000, // .300 CBJ
         "699b6b88be849a7f65b7e866": 10000, // .300 VOR-TX (New)
-        "59e0d99486f7744a32234762": 10000, // 7.62 BP
-        "6931b6a2161edf5b558ee5bc": 10000, // 7.62 7N27 BS (New)
-        "601aa3d2b2bcb34913271e6d": 10000, // 7.62 MAI AP
-        "5fc275cf85fd526b824a571a": 10000, // LAPUA FMJ
-        "5fc382a9d724d907e2077dab": 10000, // LAPUA AP
+
+        // 7.62x39mm
+        "59e0d99486f7744a32234762": 10000, // BP
+        "601aa3d2b2bcb34913271e6d": 10000, // MAI AP
+        "6931b6a2161edf5b558ee5bc": 10000, // 7N27 BS (New)
+
+        // .338 Lapua Magnum
+        "5fc275cf85fd526b824a571a": 10000, // FMJ
+        "5fc382a9d724d907e2077dab": 10000, // AP
+
+        // 40x46mm
         "5ede474b0c226a66f5402622": 10000, // M381
         "5f0c892565703e5c461894e9": 10000, // M433
-        "57a0e5022459774d1673f889": 10000, // SP6
-        "5c0d688c86f77413ae3407b2": 10000, // BP (9x39)
-        "5c0d5e4486f77478390952fe": 10000, // PPBS
+
+        // 9x39mm
+        "57a0e5022459774d1673f889": 10000, // SP-6
+        "5c0d688c86f77413ae3407b2": 10000, // BP
+        "61962d879bb3d20b0946d385": 10000, // PAB-9
+
+        // 5.45x39mm
+        "56dfef82d2720bbd668b4567": 10000, // BP
         "56dff026d2720bb8668b4567": 10000, // BS
-        "56dfef82d2720bbd668b4567": 10000, // BP (5.45)
+        "5c0d5e4486f77478390952fe": 10000, // PPBS
         "61962b617c6c7b169525f168": 10000, // 7N40
-        "5e85a9f4add9fe03027d9bf1": 10000, // 23x75mm Zvezda flashbang round
+        "6a30ed97ce95057496b93476": 10000, // 7N24M
+
+        // 12 Gauge
         "5c0d591486f7744c505b416f": 10000, // RIP
-        "5d6e68a8a4b9360b6c0d54e2": 10000, // AP
+        "5d6e68a8a4b9360b6c0d54e2": 10000, // AP-20
+
+        // 23x75mm
+        "5e85a9f4add9fe03027d9bf1": 10000, // Zvezda flashbang round
+
+        // 9x21mm
+        "5a26ac0ec4a28200741e1e18": 10000, // BT gzh
         "6576f4708ca9c4381d16cd9d": 10000, // 7N42 Zubilo
-        "699b42cc85f85eadd558c083": 10000 // 7N31 AP (New)
-        
+        "699b42cc85f85eadd558c083": 10000, // 7N31 AP (New)
+
+        // 7.62x54R
+        "560d61e84bdc2da74d8b4571": 10000, // SNB
+        "5e023d34e8a400319a28ed44": 10000, // BT
+        "5e023d48186a883be655e551": 10000, // BS
+
+        // 5.8x42mm
+        "6a42662fcb506840dd053827": 10000, // DVX12
+        "6a426637ddc63098d100ae67": 10000, // DVC12
+
+        // 12.7x55mm
+        "5cadf6eeae921500134b2799": 10000, // PS12B
+
+        // .50 BMG
+        "67dc255ee3028a8b120efc48": 10000, // M33
+        "67dc2648ba5b79876906a166": 10000, // M903 SLAP
+
+        // .50 AE
+        "668fe62ac62660a5d8071446": 10000, // .50 AE FMJ
+
+        // 7.62x25mm TT
+        "68c15f77ed3d7df9220debd6": 10000, // M995
+
+        // .357 Magnum
+        "62330b3ed4dc74626d570b95": 10000 // FMJ
       },
       "SpecialLoot": {},
       "TacticalVest": {}

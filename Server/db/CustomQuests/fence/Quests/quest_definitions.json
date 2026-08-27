@@ -1,0 +1,242 @@
+{
+  "6a8f758e89e9b37443ceab22": {
+    "QuestName": "Sem Piedade",
+    "_id": "6a8f758e89e9b37443ceab22",
+    "acceptPlayerMessage": "6a8f758e89e9b37443ceab22 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "6a8f758e89e9b37443ceab22 changeQuestMessageText",
+    "completePlayerMessage": "6a8f758e89e9b37443ceab22 completePlayerMessage",
+    "conditions": {
+      "AvailableForFinish": [
+        {
+        "completeInSeconds": 0,
+        "conditionType": "CounterCreator",
+        "counter": {
+        "conditions": [
+        {
+        "bodyPart": [],
+        "compareMethod": ">=",
+        "conditionType": "Kills",
+        "daytime": {},
+        "distance": {},
+        "dynamicLocale": false,
+        "enemyEquipmentExclusive": [],
+        "enemyEquipmentInclusive": [],
+        "enemyHealthEffects": [],
+        "id": "6a8f75966b274535b2294d7c",
+        "resetOnSessionEnd": false,
+        "savageRole": [
+          "ISBTeamLeader"
+        ],
+        "target": "Savage",
+        "value": 1,
+        "weapon": [],
+        "weaponCaliber": [],
+        "weaponModsExclusive": [],
+        "weaponModsInclusive": []
+        },
+        {
+          "conditionType": "Location",
+          "dynamicLocale": false,
+          "id": "6a8f759a20bb1c5e451a8745",
+          "target": [
+          "laboratory"
+          ]
+        }
+        ],
+          "id": "6a8f759ded0dccf6f76d08a9"
+        },
+        "doNotResetIfCounterCompleted": false,
+        "dynamicLocale": false,
+        "globalQuestCounterId": "",
+        "id": "6a8f759fc801900d0075bee2",
+        "index": 0,
+        "isNecessary": false,
+        "isResetOnConditionFailed": false,
+        "oneSessionOnly": false,
+        "parentId": "",
+        "type": "Elimination",
+        "value": 3,
+        "visibilityConditions": []
+      },
+        {
+        "completeInSeconds": 0,
+        "conditionType": "CounterCreator",
+        "counter": {
+        "conditions": [
+        {
+        "bodyPart": [],
+        "compareMethod": ">=",
+        "conditionType": "Kills",
+        "daytime": {},
+        "distance": {},
+        "dynamicLocale": false,
+        "enemyEquipmentExclusive": [],
+        "enemyEquipmentInclusive": [],
+        "enemyHealthEffects": [],
+        "id": "6a8f75c04623206ca087a736",
+        "resetOnSessionEnd": false,
+        "savageRole": [
+          "ISBTeamLeader"
+        ],
+        "target": "Savage",
+        "value": 1,
+        "weapon": [],
+        "weaponCaliber": [],
+        "weaponModsExclusive": [],
+        "weaponModsInclusive": []
+        },
+        {
+          "conditionType": "Location",
+          "dynamicLocale": false,
+          "id": "6a8f75ca6c507c67dc0c6df2",
+          "target": [
+          "Shoreline"
+          ]
+        }
+        ],
+          "id": "6a8f75ced69be73969b3e302"
+        },
+        "doNotResetIfCounterCompleted": false,
+        "dynamicLocale": false,
+        "globalQuestCounterId": "",
+        "id": "6a8f75d13bdc1cae3f20b490",
+        "index": 0,
+        "isNecessary": false,
+        "isResetOnConditionFailed": false,
+        "oneSessionOnly": false,
+        "parentId": "",
+        "type": "Elimination",
+        "value": 3,
+        "visibilityConditions": []
+      },
+        {
+        "completeInSeconds": 0,
+        "conditionType": "CounterCreator",
+        "counter": {
+        "conditions": [
+        {
+        "bodyPart": [],
+        "compareMethod": ">=",
+        "conditionType": "Kills",
+        "daytime": {},
+        "distance": {},
+        "dynamicLocale": false,
+        "enemyEquipmentExclusive": [],
+        "enemyEquipmentInclusive": [],
+        "enemyHealthEffects": [],
+        "id": "6a8f75f18a633d8dc23da0dc",
+        "resetOnSessionEnd": false,
+        "savageRole": [
+          "ISBTeamLeader"
+        ],
+        "target": "Savage",
+        "value": 1,
+        "weapon": [],
+        "weaponCaliber": [],
+        "weaponModsExclusive": [],
+        "weaponModsInclusive": []
+        },
+        {
+          "conditionType": "Location",
+          "dynamicLocale": false,
+          "id": "6a8f75ef65cacf8ff98dc613",
+          "target": [
+          "Labyrinth"
+          ]
+        }
+        ],
+          "id": "6a8f75ed3c0e10d576935e04"
+        },
+        "doNotResetIfCounterCompleted": false,
+        "dynamicLocale": false,
+        "globalQuestCounterId": "",
+        "id": "6a8f75ec34db919e217c2a71",
+        "index": 0,
+        "isNecessary": false,
+        "isResetOnConditionFailed": false,
+        "oneSessionOnly": false,
+        "parentId": "",
+        "type": "Elimination",
+        "value": 3,
+        "visibilityConditions": []
+      }
+      ],
+      "AvailableForStart": [],
+      "Fail": []
+    },
+    "declinePlayerMessage": "6a8f758e89e9b37443ceab22 declinePlayerMessage",
+    "description": "6a8f758e89e9b37443ceab22 description",
+    "failMessageText": "6a8f758e89e9b37443ceab22 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/Fence_1.jpg",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "any",
+    "name": "6a8f758e89e9b37443ceab22 name",
+    "note": "6a8f758e89e9b37443ceab22 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "6a8f795d9b980b56661fca3c",
+          "index": 0,
+          "type": "Experience",
+          "value": "10000",
+          "unknown": false
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "6a8f795d50868ccd959a2383",
+          "index": 1,
+          "target": "690766de550bc322a810ea1e",
+          "type": "TraderStanding",
+          "value": "-0.03",
+          "unknown": true
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "6a8f795da5b93292ace85140",
+          "index": 2,
+          "target": "579dc571d53a0658a154fbec",
+          "type": "TraderStanding",
+          "value": "0.03",
+          "unknown": false
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "6a8f795d6cc585c112aca2a4",
+          "index": 3,
+          "items": [
+            {
+              "_id": "6a8f795de068a350d38303e2",
+              "_tpl": "6a8f39899225d6a63dd472a1",
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            }
+          ],
+          "target": "6a8f795de068a350d38303e2",
+          "type": "Item",
+          "value": "1",
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "6a8f758e89e9b37443ceab22 startedMessageText",
+    "status": 0,
+    "successMessageText": "6a8f758e89e9b37443ceab22 successMessageText",
+    "traderId": "579dc571d53a0658a154fbec",
+                "type": "Standing"
+            }
+}

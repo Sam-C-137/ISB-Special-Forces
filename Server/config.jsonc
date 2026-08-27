@@ -2,25 +2,13 @@
  * Spawn Configuration system copyright (©) 2025 TacticalToaster
  * This program is free software: you can redistribute it and/or modify
  * I recommend don't change any config if you don't know what it does.
- * Config Notation: Patrol and Checkpoint settings are defined in the following format:
- * "patrolChance", checkpointChance" or "huntChance 100 = 100% chance to spawn the ISB Squad, 50 = 50% chance, etc.
- * "squadCount" or "holdZonesCount": Number of squads spawning
- * "patrolMinSize": 1 = One Boss, Two Specialists and One Regular ISB PMC
- * "patrolMinSize": 2 = One Boss, Two Specialists and Two Regular ISB PMC
- * "patrolMinSize": 3 = One Boss, Two Specialists and Three Regular ISB PMC
- * "patrolMinSize": 4 = One Boss, Two Specialists and Four Regular ISB PMC
- * "patrolMinSize": 5 = One Boss, Two Specialists and Five Regular ISB PMC
- * "checkpointMin": 1 = One Boss, Two Specialists and One Regular ISB PMC
- * "checkpointMin": 2 = One Boss, Two Specialists and Two Regular ISB PMC
- * "checkpointMin": 3 = One Boss, Two Specialists and Three Regular ISB PMC
- * "checkpointMin": 4 = One Boss, Two Specialists and Four Regular ISB PMC
- * "checkpointMin": 5 = One Boss, Two Specialists and Five Regular ISB PMC
- * "huntMin": 1 = One Boss, Two Specialists and One Regular ISB PMC
- * "huntMin": 2 = One Boss, Two Specialists and Two Regular ISB PMC
- * "huntMin": 3 = One Boss, Two Specialists and Three Regular ISB PMC
- * "huntMin": 4 = One Boss, Two Specialists and Four Regular ISB PMC
- * "huntMin": 5 = One Boss, Two Specialists and Five Regular ISB PMC
- * Changing the "patrolMaxSize", "checkpointMax" or "huntMax" values will increase the maximum amount of ISB PMCs that can spawn in range.
+ * Config Notation: Patrol, Checkpoint and Hunt squads all use the same explicit formation format.
+ * "patrolChance", "checkpointChance" or "huntChance": 100 = 100% chance to spawn the configured squad, 50 = 50%, etc.
+ * "squadCount" or "holdZonesCount": Number of squads/locations selected by that spawn system.
+ * "primaryWildtype": WildType used as BossName / primary bot for the BossLocationSpawn entry.
+ * "formation": Literal WildType -> exact bot count. Any registered custom WildType can be added without changing the spawn code.
+ * Example: { "ISBTeamLeader": 1, "ISBSecondLeader": 2, "ISBSpecialForces": 3 } = exactly 6 bots.
+ * Existing variable min/max sizes were migrated to one fixed formation using the rounded midpoint of the old range.
  *
  * Hunts are a special type of patrol that actively hunt targets on the map in the following order of priority:
  * Black Div --> PMC Bots --> Hostile Bots --> Player.
@@ -42,8 +30,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 30, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 4,
+        "primaryWildtype": "ISBSpecialForces",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 0,
+          "ISBSpecialForces": 5
+        },
         "mapZones": ["BotZoneBasement"],
         "raidTimeMin": 1380, //23 MINUTES 
         "raidTimeMax": 1680  //28 MINUTES
@@ -54,9 +46,13 @@
         "holdMapZones": [
           {
             "checkpointZone": "BotZoneGate1, BotZoneGate2",
-            "checkpointChance": 30,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "checkpointChance": 10,  //SPAWN CHANCE
+            "primaryWildtype": "ISBSecondLeader",
+            "formation": {
+              "ISBTeamLeader": 0,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 2
+            },
             "checkpointRadius": 20,
             "x": -212.866,
             "y": 0.054,
@@ -69,8 +65,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 30, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 4
+            },
             "huntZones": "BotZoneFloor1, BotZoneFloor2"
           }
         }
@@ -82,8 +82,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 5, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 1,
-        "patrolMaxSize": 1,
+        "primaryWildtype": "ISBSpecialForces",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 0,
+          "ISBSpecialForces": 3
+        },
         "mapZones": ["ZoneSandbox"],
         "raidTimeMin": 1380, //23 MINUTES 
         "raidTimeMax": 1680  //28 MINUTES
@@ -95,8 +99,8 @@
           {
             "checkpointZone": "ZoneSandbox",
             "checkpointChance": 0,  //SPAWN CHANCE
-            "checkpointMin": 0,
-            "checkpointMax": 0,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {},
             "checkpointRadius": 20,
             "x": 71.932,
             "y": 22.813,
@@ -109,8 +113,8 @@
         "hunts": {
           "ISB": {
             "huntChance": 0, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {},
             "huntZones": ""
           }
         }
@@ -122,8 +126,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 3,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 2
+        },
         "mapZones": ["ZoneSandbox"],
         "raidTimeMin": 1380, //23 MINUTES 
         "raidTimeMax": 1680  //28 MINUTES
@@ -135,8 +143,12 @@
           {
             "checkpointZone": "ZoneSandbox",
             "checkpointChance": 0,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 2
+            },
             "checkpointRadius": 20,
             "x": 71.932,
             "y": 22.813,
@@ -149,8 +161,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 3,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 2
+            },
             "huntZones": "ZoneSandbox"
           }
         }
@@ -162,8 +178,12 @@
         "EnableISBPatrols": false,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 3,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 3
+        },
         "mapZones": ["ZoneCinema", "ZoneSW00", "ZoneHotel_2"],
         "raidTimeMin": 2040, //34 MINUTES
         "raidTimeMax": 2280  //38 MINUTES
@@ -175,8 +195,12 @@
           {
             "checkpointZone": "ZoneCard1",
             "checkpointChance": 20,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 3,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "checkpointRadius": 20,
             "x": 92.411, 
             "y": 0.252,
@@ -189,8 +213,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "huntZones": "" 
           }
         }
@@ -202,8 +230,12 @@
         "EnableISBPatrols": false,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 2,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 2
+        },
         "mapZones": ["ZoneCustoms", "ZoneBrige", "ZoneFactorySide"],
         "raidTimeMin": 1800, //30 MINUTES
         "raidTimeMax": 1980  //33 MINUTES
@@ -215,8 +247,12 @@
           {
             "checkpointZone": "ZoneBrige",
             "checkpointChance": 20,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 2
+            },
             "checkpointRadius": 20,
             "x": 107.550,
             "y": 16.216,
@@ -229,8 +265,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "huntZones": ""
           }
         }
@@ -242,8 +282,12 @@
         "EnableISBPatrols": false,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 2,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 2
+        },
         "mapZones": ["ZoneRoad", "ZoneTrucks", "ZonePowerStation"],
         "raidTimeMin": 2040, //34 MINUTES
         "raidTimeMax": 2280  //38 MINUTES
@@ -255,8 +299,12 @@
           {
             "checkpointZone": "ZoneCenter",
             "checkpointChance": 20,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 2
+            },
             "checkpointRadius": 20,
             "x": 44.640,
             "y": 36.603,
@@ -269,8 +317,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "huntZones": ""
           }
         }
@@ -282,8 +334,12 @@
         "EnableISBPatrols": false,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 3,
-        "patrolMaxSize": 3,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 3
+        },
         "mapZones": ["ZoneUsecBase", "ZoneBrokenVill", "ZoneScavBase2"],
         "raidTimeMin": 1800, //30 MINUTES
         "raidTimeMax": 1980  //33 MINUTES
@@ -295,8 +351,12 @@
           {
             "checkpointZone": "ZoneHouse",
             "checkpointChance": 20,  //SPAWN CHANCE
-            "checkpointMin": 3,
-            "checkpointMax": 3,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "checkpointRadius": 20,
             "x": 395.043,
             "y": -13.956,
@@ -309,8 +369,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "huntZones": ""
           }
         }
@@ -320,10 +384,14 @@
       "enableSecrets": true, //WHITE TUSK EVENTS
       "patrol": {
         "EnableISBPatrols": true,
-        "patrolChance": 20, //SPAWN CHANCE
+        "patrolChance": 30, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 1,
-        "patrolMaxSize": 1,
+        "primaryWildtype": "ISBSecondLeader",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 1,
+          "ISBSpecialForces": 5
+        },
         "mapZones": ["BotZone"],
         "raidTimeMin": 960, //16 MINUTES
         "raidTimeMax": 1080  //18 MINUTES
@@ -335,48 +403,12 @@
           {
             "checkpointZone": "BotZone",
             "checkpointChance": 0,  //SPAWN CHANCE
-            "checkpointMin": 1,
-            "checkpointMax": 1,
-            "checkpointRadius": 20,
-            "x": 0,
-            "y": 0,
-            "z": 0
-          }
-        ]
-      },
-      "hunt": {
-        "enableHunt": true,
-        "hunts": {
-          "ISB": {
-            "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 1,
-            "huntMax": 2,
-            "huntZones": ""
-          }
-        }
-      }
-    },
-    "Factory4Night": {
-      "enableSecrets": true, //WHITE TUSK EVENTS
-      "patrol": {
-        "EnableISBPatrols": true,
-        "patrolChance": 30, //SPAWN CHANCE
-        "squadCount": 1,
-        "patrolMinSize": 1,
-        "patrolMaxSize": 1,
-        "mapZones": ["BotZone"],
-        "raidTimeMin": 1200, //20 MINUTES 
-        "raidTimeMax": 1380  //23 MINUTES
-      },
-      "checkpoint": {
-        "enableISBHoldZones": false,
-        "holdZonesCount": 1,
-        "holdMapZones": [
-          {
-            "checkpointZone": "BotZone",
-            "checkpointChance": 0,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 1
+            },
             "checkpointRadius": 20,
             "x": 0,
             "y": 0,
@@ -389,8 +421,64 @@
         "hunts": {
           "ISB": {
             "huntChance": 30, //SPAWN CHANCE
-            "huntMin": 4,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 3
+            },
+            "huntZones": ""
+          }
+        }
+      }
+    },
+    "Factory4Night": {
+      "enableSecrets": true, //WHITE TUSK EVENTS
+      "patrol": {
+        "EnableISBPatrols": true,
+        "patrolChance": 30, //SPAWN CHANCE
+        "squadCount": 1,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 3,
+          "ISBSpecialForces": 2
+        },
+        "mapZones": ["BotZone"],
+        "raidTimeMin": 1200, //20 MINUTES 
+        "raidTimeMax": 1380  //23 MINUTES
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 1,
+        "holdMapZones": [
+          {
+            "checkpointZone": "BotZone",
+            "checkpointChance": 0,  //SPAWN CHANCE
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
+            "checkpointRadius": 20,
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        ]
+      },
+      "hunt": {
+        "enableHunt": true,
+        "hunts": {
+          "ISB": {
+            "huntChance": 30, //SPAWN CHANCE
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 3
+            },
             "huntZones": "BotZone"
           }
         }
@@ -402,8 +490,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 2,
+        "primaryWildtype": "ISBSpecialForces",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 0,
+          "ISBSpecialForces": 5
+        },
         "mapZones": ["ZoneBunkerStorage", "ZoneSubCommand", "ZoneBarrack"],
         "raidTimeMin": 1800, //30 MINUTES
         "raidTimeMax": 1980  //33 MINUTES
@@ -414,9 +506,13 @@
         "holdMapZones": [
           {
             "checkpointZone": "ZoneSubStorage",
-            "checkpointChance": 25,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "checkpointChance": 15,  //SPAWN CHANCE
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 3
+            },
             "checkpointRadius": 20,
             "x": 57.334,
             "y": -12.205,
@@ -429,8 +525,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBSecondLeader",
+            "formation": {
+              "ISBTeamLeader": 0,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 4
+            },
             "huntZones": ""
           }
         }
@@ -442,8 +542,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 30, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 2,
+        "primaryWildtype": "ISBSpecialForces",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 0,
+          "ISBSpecialForces": 6
+        },
         "mapZones": ["BotZone"],
         "raidTimeMin": 1200, //20 MINUTES 
         "raidTimeMax": 1380  //23 MINUTES
@@ -454,9 +558,13 @@
         "holdMapZones": [
           {
             "checkpointZone": "BotZone",
-            "checkpointChance": 35,  //SPAWN CHANCE
-            "checkpointMin": 2,
-            "checkpointMax": 2,
+            "checkpointChance": 15,  //SPAWN CHANCE
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 0
+            },
             "checkpointRadius": 20,
             "x": 0,
             "y": 0,
@@ -469,8 +577,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 30, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 3, 
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 4,
+              "ISBSpecialForces": 0
+            }, 
             "huntZones": ""
           }
         }
@@ -482,8 +594,12 @@
         "EnableISBPatrols": true,
         "patrolChance": 30, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 2,
-        "patrolMaxSize": 2,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {
+          "ISBTeamLeader": 1,
+          "ISBSecondLeader": 2,
+          "ISBSpecialForces": 2
+        },
         "mapZones": ["Zone_Village", "Zone_Blockpost", "Zone_DestroyedHouse"],
         "raidTimeMin": 2040, //34 MINUTES
         "raidTimeMax": 2280  //38 MINUTES
@@ -494,9 +610,13 @@
         "holdMapZones": [
           {
             "checkpointZone": "Zone_Village",
-            "checkpointChance": 30,  //SPAWN CHANCE
-            "checkpointMin": 3,
-            "checkpointMax": 4,
+            "checkpointChance": 15,  //SPAWN CHANCE
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 4
+            },
             "checkpointRadius": 20,
             "x": 355.213,
             "y": 15.017,
@@ -509,27 +629,52 @@
         "hunts": {
           "ISB": {
             "huntChance": 30, //SPAWN CHANCE
-            "huntMin": 2,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 3
+            },
             "huntZones": ""
           }
         }
       }
     },
     "suburbs": {
-        // MANIMAL USE THE VANILLA SUBURBS MAP AS BASE FOR THE ICEBREAKER MAP.
-        // THE ISB INTEGRATION IS A TEST FEATURE AND IS NOT FULLY IMPLEMENTED YET. 
-        // PLEASE REPORT ANY ISSUES AND DON'T CHANGE ANYTHING WITHOUT KNOW EXACTLY WHAT IT DOES.
-      "enableSecrets": false, //WHITE TUSK EVENTS
+      "enableSecrets": false,
+      "icebreakerScriptedSpawns": {
+        "enabled": true,
+        "spawnChance": 30, 
+        "squads": {
+          "BotZoneRoom_Eng": {
+            "enabled": true,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 3
+            }
+          },
+          "BotZoneStern": {
+            "enabled": true,
+            "primaryWildtype": "ISBSecondLeader",
+            "formation": {
+              "ISBTeamLeader": 0,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 3
+            }
+          }
+        }
+      },
       "patrol": {
-        "EnableISBPatrols": true,
-        "patrolChance": 30, //SPAWN CHANCE
-        "squadCount": 1,
-        "patrolMinSize": 1,
-        "patrolMaxSize": 1,
-        "mapZones": ["BotZoneRoom_Eng"],
-        "raidTimeMin": 1,
-        "raidTimeMax": 10
+        "EnableISBPatrols": false,
+        "patrolChance": 0,
+        "squadCount": 0,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {},
+        "mapZones": [],
+        "raidTimeMin": 0,
+        "raidTimeMax": 0
       },
       "checkpoint": {
         "enableISBHoldZones": false,
@@ -537,15 +682,83 @@
         "holdMapZones": []
       },
       "hunt": {
-        "enableHunt": true,
-        "hunts": {
-          "ISB": {
-            "huntChance": 30, //SPAWN CHANCE
-            "huntMin": 1,
-            "huntMax": 1,
-            "huntZones": "BotZoneStern"
+        "enableHunt": false,
+        "hunts": {}
+      }
+    },
+    "terminal": {
+      "enableSecrets": false,
+      "terminalScriptedSpawns": {
+        "enabled": true,
+        "spawnChance": 30,
+        "squads": {
+          "Zone1VSRF1Spawn3": {
+            "enabled": true,
+            "primaryWildtype": "ISBSpecialForces",
+            "formation": {
+              "ISBTeamLeader": 0,
+              "ISBSecondLeader": 0,
+              "ISBSpecialForces": 2
+            }
+          },
+          "Zone1VSRFStoreAmbush10": {
+            "enabled": true,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 1
+            }
+          },
+          "Zone2VSRFPassMiddle15": {
+            "enabled": true,
+            "primaryWildtype": "ISBSecondLeader",
+            "formation": {
+              "ISBTeamLeader": 0,
+              "ISBSecondLeader": 1,
+              "ISBSpecialForces": 4
+            }
+          },
+          "Zone2BDPort30": {
+            "enabled": true,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 3,
+              "ISBSpecialForces": 0
+            }
+          },
+          "Zone2VSRFExit33": {
+            "enabled": true,
+            "primaryWildtype": "ISBBossCommander",
+            "formation": {
+              "ISBBossCommander": 1,
+              "ISBFollowerCommander": 1,
+              "ISBTeamLeader": 2,
+              "ISBSecondLeader": 0,
+              "ISBSpecialForces": 2
+            }
           }
         }
+      },
+      "patrol": {
+        "EnableISBPatrols": false,
+        "patrolChance": 0,
+        "squadCount": 0,
+        "primaryWildtype": "ISBTeamLeader",
+        "formation": {},
+        "mapZones": [],
+        "raidTimeMin": 0,
+        "raidTimeMax": 0
+      },
+      "checkpoint": {
+        "enableISBHoldZones": false,
+        "holdZonesCount": 0,
+        "holdMapZones": []
+      },
+      "hunt": {
+        "enableHunt": false,
+        "hunts": {}
       }
     },
     "Shoreline": {
@@ -554,11 +767,15 @@
         "EnableISBPatrols": true,
         "patrolChance": 20, //SPAWN CHANCE
         "squadCount": 1,
-        "patrolMinSize": 4,
-        "patrolMaxSize": 4,
+        "primaryWildtype": "ISBSecondLeader",
+        "formation": {
+          "ISBTeamLeader": 0,
+          "ISBSecondLeader": 1,
+          "ISBSpecialForces": 4
+        },
         "mapZones": ["ZoneSmuglers", "ZoneTunnel", "ZoneMeteoStation", "ZonePassClose"],
-        "raidTimeMin": 120,
-        "raidTimeMax": 180
+        "raidTimeMin": 1120,
+        "raidTimeMax": 1180
       },
       "checkpoint": {
         "enableISBHoldZones": true,
@@ -567,8 +784,12 @@
           {
             "checkpointZone": "ZoneSanatorium1",
             "checkpointChance": 20,  //SPAWN CHANCE
-            "checkpointMin": 1,
-            "checkpointMax": 1,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 1
+            },
             "checkpointRadius": 20,
             "x": -183.011,
             "y": -5.178,
@@ -581,8 +802,12 @@
         "hunts": {
           "ISB": {
             "huntChance": 20, //SPAWN CHANCE
-            "huntMin": 4,
-            "huntMax": 4,
+            "primaryWildtype": "ISBTeamLeader",
+            "formation": {
+              "ISBTeamLeader": 1,
+              "ISBSecondLeader": 2,
+              "ISBSpecialForces": 4
+            },
             "huntZones": ""
           }
         }
@@ -592,14 +817,18 @@
   "dogtags": {
     "enabled": true,
     "displaySide": "ISB",
+    "displayLevel": "[REDACTED]",
+    "displayDeathTime": "[REDACTED]",
+    "displayStatus": "[REDACTED]",
+    "displayWeapon": "[REDACTED]",
     "internalSide": "Usec",
-    "populateIdentityData": true,
+    "populateIdentityData": false,
     "dogtagTplByWildType": {
-      "ISBSpecialForces": "",
-      "ISBBossCommander": "",
-      "ISBFollowerCommander": "",
-      "ISBTeamLeader": "",
-      "ISBSecondLeader": ""
+      "ISBSpecialForces": "6a8f0a4350e8e920dd389fd7",
+      "ISBBossCommander": "6a8f1e1f60f1022c46406c5b",
+      "ISBFollowerCommander": "6a8f1e1f60f1022c46406c5b",
+      "ISBTeamLeader": "6a8f1e073b022db2a04c1b76",
+      "ISBSecondLeader": "6a8f0e0be1730357d098267b"
     }
   },
   "enableCollabLoadoutsAndAppearances": true,
@@ -664,9 +893,6 @@
           "848404", //RUAF Sniper (TacticalToaster)
           "848405", //RUAF Machinegunner (TacticalToaster)
           "848406", //RUAF REMNANT RIFLER (TacticalToaster)
-          "1170",   //UNTAR Soldier (TacticalToaster)
-          "1171",   //UNTAR Team Leader (TacticalToaster)
-          "1173",   //UNTAR Officer (TacticalToaster)
           "13701",  //ISB Operator
           "13709",  //ISB Specialist
           "13710",  //ISB Team Leader
@@ -676,7 +902,7 @@
           "13705",  //ISB STF-A "The Chosen One"
           "13706",  //ISB STF-A "The Dark Lord"
           "13707",  //ISB STF-A "Vengeful The Chosen One"
-          "13708"  //ISB STF-A "Vengeful The Dark Lord"
+          "13708"   //ISB STF-A "Vengeful The Dark Lord"
     ]
   }
 }
