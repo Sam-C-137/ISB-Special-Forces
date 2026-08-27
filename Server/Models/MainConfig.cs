@@ -14,6 +14,8 @@ public class MainConfig
 
     public ForcedHostilityConfig forcedHostility { get; set; } = new();
 
+    public DogtagConfig dogtags { get; set; } = new();
+
     public bool enableCollabLoadoutsAndAppearances { get; set; } = true;
 
     public Dictionary<string, bool> collabLoadoutsAndAppearances { get; set; } = new();
@@ -33,6 +35,61 @@ public class MainConfig
         }
 
         return true;
+    }
+}
+
+public class DogtagConfig
+{
+    public bool enabled { get; set; } = true;
+
+    public string displaySide { get; set; } = "ISB";
+
+    public string internalSide { get; set; } = "Usec";
+
+    public bool populateIdentityData { get; set; } = true;
+
+    public Dictionary<string, string> dogtagTplByWildType { get; set; } = new()
+    {
+        { "ISBSpecialForces", "" },
+        { "ISBBossCommander", "" },
+        { "ISBFollowerCommander", "" },
+        { "ISBTeamLeader", "" },
+        { "ISBSecondLeader", "" }
+    };
+
+    public bool TryGetTemplate(string role, out string templateId)
+    {
+        templateId = null;
+
+        if (string.IsNullOrWhiteSpace(role) || dogtagTplByWildType is null)
+            return false;
+
+        var lookupRole = role;
+
+        if (string.Equals(role, "13701", StringComparison.OrdinalIgnoreCase))
+            lookupRole = "ISBSpecialForces";
+        else if (string.Equals(role, "13707", StringComparison.OrdinalIgnoreCase))
+            lookupRole = "ISBBossCommander";
+        else if (string.Equals(role, "13708", StringComparison.OrdinalIgnoreCase))
+            lookupRole = "ISBFollowerCommander";
+        else if (string.Equals(role, "13709", StringComparison.OrdinalIgnoreCase))
+            lookupRole = "ISBTeamLeader";
+        else if (string.Equals(role, "13710", StringComparison.OrdinalIgnoreCase))
+            lookupRole = "ISBSecondLeader";
+
+        foreach (var entry in dogtagTplByWildType)
+        {
+            if (!string.Equals(entry.Key, lookupRole, StringComparison.OrdinalIgnoreCase))
+                continue;
+
+            if (string.IsNullOrWhiteSpace(entry.Value))
+                return false;
+
+            templateId = entry.Value.Trim();
+            return true;
+        }
+
+        return false;
     }
 }
 

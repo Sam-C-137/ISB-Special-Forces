@@ -23,7 +23,7 @@ namespace ISBSpecialForces.Patches
             var brainList = new List<string>() { "PMC", "ExUsec", "Assault", "PmcUsec", "PmcBear", "PmcUSEC", "PmcBEAR" };
             var typesList = new List<int>() { 13701, 13709, 13710, 13707, 13708 }.ConvertAll(x => (WildSpawnType)x);
 
-            BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brainList, 4, typesList);
+            BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brainList, 25, typesList);
             BrainManager.AddCustomLayer(typeof(ISBOrderFlankLayer), brainList, 81, typesList);
             BrainManager.AddCustomLayer(typeof(ISBOrderAssaultLayer), brainList, 82, typesList);
             BrainManager.AddCustomLayer(typeof(ISBOrderPursuitLayer), brainList, 83, typesList);

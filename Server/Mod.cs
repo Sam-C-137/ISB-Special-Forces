@@ -25,15 +25,15 @@ public record ModMetadata : AbstractModMetadata
     public override string Name { get; init; } = "ISB Special Forces";
     public override string Author { get; init; } = "SamC137";
     public override List<string>? Contributors { get; init; } = new() { };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 3);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 0, 4);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.13");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
     {
         { "com.morebotsapi.tacticaltoaster", new SemanticVersioning.Range(">=2.0.1") },
-        { "com.wtt.commonlib", new SemanticVersioning.Range(">=2.0.23") },
-        { "com.wtt.contentbackport", new SemanticVersioning.Range(">=1.1.4") },
-        { "com.samc137.aishi", new SemanticVersioning.Range(">=1.0.3") }
+        { "com.wtt.commonlib", new SemanticVersioning.Range(">=2.0.24") },
+        { "com.wtt.contentbackport", new SemanticVersioning.Range(">=1.1.5") },
+        { "com.samc137.aishi", new SemanticVersioning.Range(">=1.0.4") }
     };
     public override string? Url { get; init; }
     public override bool? IsBundleMod { get; init; }
@@ -128,6 +128,46 @@ public class ISBSpecialForces2(
         }
 
         await commonLib.CustomLocaleService.CreateCustomLocales(Assembly.GetExecutingAssembly());
+
+        await commonLib.CustomQuestService.CreateCustomQuests(assembly);
+
+        await commonLib.CustomAssortSchemeService.CreateCustomAssortSchemes(assembly);
+
+        if (modList.Any(mod => mod.ModMetadata.ModGuid == "com.ruafcomehome.tacticaltoaster"))
+        {
+            await commonLib.CustomQuestService.CreateCustomQuests(assembly,
+                Path.Join("db", "ISBAndRuaf", "Quests"));
+            await commonLib.CustomHideoutRecipeService.CreateHideoutRecipes(assembly,
+                Path.Join("db", "ISBAndRuaf", "Recipes"));
+            await commonLib.CustomItemServiceExtended.CreateCustomItems(assembly,
+                Path.Join("db", "ISBAndRuaf", "Itens"));
+            await commonLib.CustomAssortSchemeService.CreateCustomAssortSchemes(assembly,
+                Path.Join("db", "ISBAndRuaf", "Assort"));
+        }
+
+        if (modList.Any(mod => mod.ModMetadata.ModGuid == "com.blackdiv.tacticaltoaster"))
+        {
+            await commonLib.CustomQuestService.CreateCustomQuests(assembly,
+                Path.Join("db", "ISBAndBlackDiv", "Quests"));
+            await commonLib.CustomHideoutRecipeService.CreateHideoutRecipes(assembly,
+                Path.Join("db", "ISBAndBlackDiv", "Recipes"));
+            await commonLib.CustomItemServiceExtended.CreateCustomItems(assembly,
+                Path.Join("db", "ISBAndBlackDiv", "Itens"));
+            await commonLib.CustomAssortSchemeService.CreateCustomAssortSchemes(assembly,
+                Path.Join("db", "ISBAndBlackDiv", "Assort"));
+        }
+
+        if (modList.Any(mod => mod.ModMetadata.ModGuid == "com.untargh.tacticaltoaster"))
+        {
+            await commonLib.CustomQuestService.CreateCustomQuests(assembly,
+                Path.Join("db", "ISBAndUntar", "Quests"));
+            await commonLib.CustomHideoutRecipeService.CreateHideoutRecipes(assembly,
+                Path.Join("db", "ISBAndUntar", "Recipes"));
+            await commonLib.CustomItemServiceExtended.CreateCustomItems(assembly,
+                Path.Join("db", "ISBAndUntar", "Itens"));
+            await commonLib.CustomAssortSchemeService.CreateCustomAssortSchemes(assembly,
+                Path.Join("db", "ISBAndUntar", "Assort"));
+        }
 
         await commonLib.CustomAchievementService.CreateCustomAchievements(assembly);
 
@@ -235,6 +275,15 @@ public class CustomDynamicRouter : DynamicRouter
                 async (url, info, sessionID, output) =>
                 {
                     var result = _configController.ModConfig;
+                    return await new ValueTask<string>(_httpResponseUtil.NoBody(result));
+                }
+            ),
+
+            new RouteAction(
+                "/ISB/dogtags",
+                async (url, info, sessionID, output) =>
+                {
+                    var result = _configController.ModConfig.dogtags ?? new DogtagConfig();
                     return await new ValueTask<string>(_httpResponseUtil.NoBody(result));
                 }
             ),

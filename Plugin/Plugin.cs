@@ -83,6 +83,11 @@ namespace ISBSpecialForces
             this.GetOrAddComponent<ISBAishiReputationWorker>();
 
             new TarkovInitPatch().Enable();
+            new ISBDogtagSidePatch().Enable();
+            new ISBDogtagLevelPatch().Enable();
+            new ISBDogtagDeathTimePatch().Enable();
+            new ISBDogtagStatusPatch().Enable();
+            new ISBDogtagWeaponPatch().Enable();
             new BotOwnerActivatePatch().Enable();
             new BotsControllerInitPatch().Enable();
             new GoonsRoguesSecretPatch().Enable();
