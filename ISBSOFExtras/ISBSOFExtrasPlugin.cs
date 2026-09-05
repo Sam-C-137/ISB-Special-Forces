@@ -560,6 +560,13 @@ namespace ISBSSOFExtra
 
         private void Update()
         {
+#if DEBUG
+            if (Input.GetKeyDown(KeyCode.F10))
+            {
+                StartCoroutine(DisableIcebreakerBlackout());
+            }
+#endif
+
             if (!FikaActive)
                 return;
 
@@ -3163,6 +3170,14 @@ namespace ISBSSOFExtra
                 "ISB SOF Blackout: Event chance roll " + roll.ToString("F2", CultureInfo.InvariantCulture) +
                 " against " + chance + "% -> " +
                 (_blackoutSelectedForRaid ? "selected" : "skipped") + ".");
+        }
+
+        private IEnumerator DisableIcebreakerBlackout()
+        {
+            LabsBlackout.DisableLights();
+
+            yield return null;
+            yield return IcebreakerBlackout.DisableFlares(Logger);
         }
 
         private IEnumerator DisableLaboratoryBlackout(

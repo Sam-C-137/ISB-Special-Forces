@@ -88,6 +88,7 @@ namespace ISBSSOFExtra
             levelSettings.NightVisionAmbientIntensity = 0;
         }
 
+        // note: this works for all maps
         public static void DisableLights()
         {
             // TODO this also disables lights on guns, which is hard to avoid, but kinda cool on its own
@@ -191,11 +192,6 @@ namespace ISBSSOFExtra
                 // can't play sound if its null, haha
                 room.AmbientData.RoomTone = null;
             }
-            foreach (var room in currentRooms)
-            {
-                room.StopRoomToneSound();
-            }
-
             foreach (var room in currentRooms)
             {
                 room.StopRoomToneSound();
