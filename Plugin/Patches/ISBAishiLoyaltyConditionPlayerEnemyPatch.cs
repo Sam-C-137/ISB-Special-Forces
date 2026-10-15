@@ -25,29 +25,17 @@ namespace ISBSpecialForces.Patches
 
             if (!__result)
                 return;
-
-            if (!ISBAishiLoyaltyConditionState.Holding)
-                return;
-
-            var protectedTarget = ISBAishiLoyaltyConditionState.IsEligibleAggressor(player) ||
-                                  ISBAishiLoyaltyConditionState.IsPlayerAllyBot(player);
-
+            var protectedTarget = ISBAishiLoyaltyConditionState.ProtectsTarget(player);
             if (!protectedTarget)
                 return;
-
-            var initialBot = __instance.InitialBot;
-
+            var initialBot = __instance._initialBot;
             if (initialBot == null)
                 return;
-
             var role = initialBot.Profile.Info.Settings.Role;
-
             if (!ISBAishiLoyaltyConditionState.IsProtectedFrom(role))
                 return;
-
             if (ISBRevengeBridge.HasPendingRevenge(__instance, player))
                 return;
-
             __result = false;
         }
     }

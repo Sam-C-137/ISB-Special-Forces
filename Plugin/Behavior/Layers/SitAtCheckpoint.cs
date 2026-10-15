@@ -9,28 +9,26 @@ namespace ISBSpecialForces.Behavior.Actions
     internal class SitAtCheckpoint : CustomLogic
     {
         protected BotISBManager isbManager { get; private set; }
-        private GClass278 holdPosition;
-        private GClass395 baseSteeringLogic;
+
+        private HoldPosition holdPosition;
+        private LookAround baseSteeringLogic;
         private float sitStart = -1f;
         private float sitDuration = 0f;
-
         public SitAtCheckpoint(BotOwner botOwner) : base(botOwner)
         {
             isbManager = botOwner.GetOrAddISBManager();
-            holdPosition = new GClass278(BotOwner);
-            baseSteeringLogic = new GClass395();
+            holdPosition = new HoldPosition(BotOwner);
+            baseSteeringLogic = new LookAround();
         }
 
         public override void Start()
         {
             sitStart = Time.time;
             sitDuration = UnityEngine.Random.Range(10f, 30f);
-
-            if (GClass856.IsTrue100(50))
+            if (MyExtensions.IsTrue100(50))
                 BotOwner.SetPose(1);
             else
                 BotOwner.SetPose(0);
-
             BotOwner.GetPlayer.MovementContext.SetPatrol(true);
         }
 
@@ -43,15 +41,16 @@ namespace ISBSpecialForces.Behavior.Actions
         public override void Update(CustomLayer.ActionData data)
         {
             isbManager.UpdateGuardPoint();
+            if (isbManager.guardPoint == null)
+                return;
             holdPosition.UpdateNodeByMain(data);
             baseSteeringLogic.Update(BotOwner);
-
             if (Time.time > sitStart + sitDuration)
             {
                 isbManager.ShouldSwitchCover = true;
                 isbManager.guardPointDirty = true;
                 sitDuration = UnityEngine.Random.Range(10f, 30f);
-                sitStart = -1f;
+                sitStart = Time.time;
             }
         }
     }

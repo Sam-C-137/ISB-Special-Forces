@@ -1,3 +1,5 @@
+using SPTarkov.Server.Core.Helpers.Items;
+using SPTarkov.Server.Core.Generators.Bot;
 using System.Threading;
 using HarmonyLib;
 using ISB.MixedAmmo;
@@ -11,57 +13,57 @@ using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Spt.Bots;
 
 namespace ISBSpecialForcesServer.Patches;
-
-[Injectable(TypePriority = OnLoadOrder.PostDBModLoader)]
+[Injectable(TypePriority = OnLoadOrder.PostLoad)]
 public class MixedAmmoPatch : IOnLoad
 {
     private static ILogger<MixedAmmoPatch> _logger;
-
     private static readonly HashSet<string> ISBRoles = new(StringComparer.OrdinalIgnoreCase)
     {
         "ISBSpecialForces",
+        "ISBBossFirefly",
+        "ISBFollowerVipper",
+        "ISBFollowerLoghan",
+        "ISBFollowerSpearthrower",
         "ISBBossCommander",
         "ISBFollowerCommander",
         "ISBTeamLeader",
-        "ISBSecondLeader"
+        "ISBSecondLeader",
+        "ISBScout",
+        "ISBHeavy",
+        "ISBFollowerZofia",
+        "ISBAssassin",
+        "ISBMarksman",
+        "ISBFollowerEvernight",
+        "ISBFollowerNemesis"
     };
-
     private static readonly AsyncLocal<string?> CurrentRole = new();
-
     private static readonly AsyncLocal<string?> CurrentBotKey = new();
-
     public MixedAmmoPatch(ILogger<MixedAmmoPatch> logger)
     {
         _logger = logger;
     }
 
-    public Task OnLoad()
+    public Task OnLoadAsync(CancellationToken cancellationToken)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var harmony = new Harmony("com.samc137.isbspecialforces.mixedammo");
         var weaponGen = AccessTools.Method(typeof(BotWeaponGenerator), "GenerateWeaponByTpl");
         var extraMags = AccessTools.Method(typeof(BotWeaponGenerator), "AddExtraMagazinesToInventory");
         var fillMag = AccessTools.Method(typeof(ItemHelper), "FillMagazineWithCartridge");
-
         if (weaponGen is null || extraMags is null || fillMag is null)
         {
             return Task.CompletedTask;
         }
 
         harmony.Patch(weaponGen, prefix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(WeaponGenPrefix))));
-
-        harmony.Patch(extraMags,
-            prefix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(ExtraMagsPrefix))),
-            postfix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(ExtraMagsPostfix))));
-
+        harmony.Patch(extraMags, prefix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(ExtraMagsPrefix))), postfix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(ExtraMagsPostfix))));
         harmony.Patch(fillMag, postfix: new HarmonyMethod(AccessTools.Method(typeof(MixedAmmoPatch), nameof(FillMagazinePostfix))));
-
         return Task.CompletedTask;
     }
 
     private static void WeaponGenPrefix(MongoId weaponParentId, BotGenerationDetails botGenerationDetails)
     {
         var role = botGenerationDetails?.RoleLowercase;
-
         if (role is not null && ISBRoles.Contains(role))
         {
             CurrentRole.Value = role;
@@ -94,12 +96,7 @@ public class MixedAmmoPatch : IOnLoad
         CurrentBotKey.Value = null;
     }
 
-    private static void FillMagazinePostfix(
-        ItemHelper __instance,
-        List<Item> magazineWithChildCartridges,
-        TemplateItem magTemplate,
-        MongoId cartridgeTpl,
-        double minSizeMultiplier)
+    private static void FillMagazinePostfix(ItemHelper __instance, List<Item> magazineWithChildCartridges, TemplateItem magTemplate, MongoId cartridgeTpl, double minSizeMultiplier)
     {
         if (minSizeMultiplier < 1)
         {
@@ -141,14 +138,10 @@ public class MixedAmmoPatch : IOnLoad
 
         var magazineId = magazineWithChildCartridges[0].Id;
         var filled = 0;
-
         for (var i = magazineWithChildCartridges.Count - 1; i >= 1; i--)
         {
             var item = magazineWithChildCartridges[i];
-
-            if (item.ParentId is not null
-                && magazineId.Equals(item.ParentId)
-                && string.Equals(item.SlotId, "cartridges", StringComparison.OrdinalIgnoreCase))
+            if (item.ParentId is not null && magazineId.Equals(item.ParentId) && string.Equals(item.SlotId, "cartridges", StringComparison.OrdinalIgnoreCase))
             {
                 filled += (int)(item.Upd?.StackObjectsCount ?? 0);
                 magazineWithChildCartridges.RemoveAt(i);

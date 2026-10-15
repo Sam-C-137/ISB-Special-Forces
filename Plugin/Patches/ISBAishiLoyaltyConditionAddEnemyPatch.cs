@@ -18,18 +18,11 @@ namespace ISBSpecialForces.Patches
         {
             if (ISBAishiLoyaltyConditionState.ShouldForceHostility(__instance, person))
                 return true;
-
-            if (!ISBAishiLoyaltyConditionState.Holding)
-                return true;
-
-            var initialBot = __instance.InitialBot;
-
+            var initialBot = __instance._initialBot;
             if (initialBot == null)
                 return true;
-
             var groupRole = initialBot.Profile.Info.Settings.Role;
             var groupIsISB = WildSpawnTypeExtensions.IsISB(groupRole);
-
             if (groupIsISB)
             {
                 if (ISBAishiLoyaltyConditionState.IsCommander(groupRole))
@@ -38,12 +31,9 @@ namespace ISBSpecialForces.Patches
                     return true;
                 }
 
-                var protectedTarget = ISBAishiLoyaltyConditionState.IsEligibleAggressor(person) ||
-                                      ISBAishiLoyaltyConditionState.IsPlayerAllyBot(person);
-
+                var protectedTarget = ISBAishiLoyaltyConditionState.ProtectsTarget(person);
                 if (!protectedTarget)
                     return true;
-
                 if (ISBRevengeBridge.HasPendingRevenge(__instance, person))
                 {
                     ISBAishiLoyaltyConditionState.LogCause(cause, groupRole, "PASS (pending revenge)");
@@ -51,25 +41,16 @@ namespace ISBSpecialForces.Patches
                 }
 
                 ISBAishiLoyaltyConditionState.LogCause(cause, groupRole, "LOCKED");
-
                 __result = false;
                 return false;
             }
 
             if (!ISBAishiLoyaltyConditionState.ExtendToPlayerAllies)
                 return true;
-
             if (!ISBAishiLoyaltyConditionState.IsProtectedISBBot(person))
                 return true;
-
-            var mainPlayer = Singleton<GameWorld>.Instance?.MainPlayer;
-
-            if (!ISBAishiLoyaltyConditionState.IsEligiblePlayer(mainPlayer))
+            if (!ISBAishiLoyaltyConditionState.IsProtectedAllyGroup(__instance))
                 return true;
-
-            if (!__instance.IsAlly(mainPlayer))
-                return true;
-
             __result = false;
             return false;
         }

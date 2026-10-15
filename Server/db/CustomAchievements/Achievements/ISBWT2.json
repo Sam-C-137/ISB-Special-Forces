@@ -1,12 +1,42 @@
 [
-{
-  "id": "6a5d431a5243a4c3a0d2afe9",
-  "description": "6a5d431a5243a4c3a0d2afe9 description",
-  "name": "6a5d431a5243a4c3a0d2afe9 name",
-  "imageUrl": "/files/achievement/SPECIAL2.png",
-  "assetPath": "",
-  "rewards": [],
-  "conditions": {
+  {
+    "id": "6a5d431a5243a4c3a0d2afe9",
+    "description": "6a5d431a5243a4c3a0d2afe9 description",
+    "name": "6a5d431a5243a4c3a0d2afe9 name",
+    "imageUrl": "/files/achievement/SPECIAL2.png",
+    "assetPath": "",
+    "rewards": [
+      {
+        "id": "d8595efab2d008f12cd990f7",
+        "type": "Item",
+        "index": 0,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 10,
+        "findInRaid": true,
+        "target": "532778d8d16eeec7e62d190d",
+        "items": [
+          {
+            "_id": "532778d8d16eeec7e62d190d",
+            "_tpl": "692e39aea47e15277d847591",
+            "upd": {
+              "StackObjectsCount": 10
+            }
+          },
+          {
+            "_id": "893115fb1bbf0feef86f9fa6",
+            "_tpl": "692e3991aeebb57de9a2386b",
+            "parentId": "532778d8d16eeec7e62d190d",
+            "slotId": "cartridges",
+            "location": 0,
+            "upd": {
+              "StackObjectsCount": 40
+            }
+          }
+        ]
+      }
+    ],
+    "conditions": {
       "availableForFinish": [
         {
           "id": "6a5d43102879b5236fd30fef",
@@ -32,10 +62,8 @@
                 "value": 1,
                 "compareMethod": ">=",
                 "conditionType": "Kills",
-                "weapon": [
-                ],
-                "bodyPart": [
-                ],
+                "weapon": [],
+                "bodyPart": [],
                 "daytime": {
                   "from": 0,
                   "to": 0
@@ -61,17 +89,17 @@
           "conditionType": "CounterCreator"
         }
       ],
-    "fail": []
-  },
-  "instantComplete": false,
-  "showNotificationsInGame": false,
-  "showProgress": true,
-  "prefab": "",
-  "rarity": "Legendary",
-  "hidden": false,
-  "showConditions": false,
-  "progressBarEnabled": true,
-  "side": "Pmc",
-  "index": 3301
-}
+      "fail": []
+    },
+    "instantComplete": false,
+    "showNotificationsInGame": false,
+    "showProgress": true,
+    "prefab": "",
+    "rarity": "Legendary",
+    "hidden": false,
+    "showConditions": false,
+    "progressBarEnabled": true,
+    "side": "Pmc",
+    "index": 3301
+  }
 ]

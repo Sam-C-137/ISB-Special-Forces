@@ -17,26 +17,18 @@ namespace ISBSpecialForces.Patches
         {
             if (!ISBForcedHostilityState.Enabled)
                 return true;
-
             if (person == null || !person.IsAI)
                 return true;
-
-            var initialBot = __instance.InitialBot;
-
+            var initialBot = __instance._initialBot;
             if (initialBot == null)
                 return true;
-
             if (!WildSpawnTypeExtensions.IsISB(initialBot.Profile.Info.Settings.Role))
                 return true;
-
             var role = person.Profile?.Info?.Settings?.Role;
-
             if (role == null)
                 return true;
-
             if (!ISBForcedHostilityState.IsFriendlyToISB(role.Value))
                 return true;
-
             __result = false;
             return false;
         }

@@ -1,12 +1,218 @@
 [
-{
-  "id": "6941763c6b2e0c64d04ef254",
-  "description": "6941763c6b2e0c64d04ef254 description",
-  "name": "6941763c6b2e0c64d04ef254 name",
-  "imageUrl": "/files/achievement/ISBTAG01.png",
-  "assetPath": "",
-  "rewards": [],
-  "conditions": {
+  {
+    "id": "6941763c6b2e0c64d04ef254",
+    "description": "6941763c6b2e0c64d04ef254 description",
+    "name": "6941763c6b2e0c64d04ef254 name",
+    "imageUrl": "/files/achievement/ISBTAG01.png",
+    "assetPath": "",
+    "rewards": [
+      {
+        "id": "9929228a8c30a63e9a1f6b25",
+        "type": "Item",
+        "index": 0,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 50,
+        "findInRaid": true,
+        "target": "f531ec4a6f08518f00651c75",
+        "items": [
+          {
+            "_id": "f531ec4a6f08518f00651c75",
+            "_tpl": "65702558cfc010a0f5006a25",
+            "upd": {
+              "StackObjectsCount": 50
+            }
+          },
+          {
+            "_id": "250028bc4d297f5922f1b81c",
+            "_tpl": "58dd3ad986f77403051cba8f",
+            "parentId": "f531ec4a6f08518f00651c75",
+            "slotId": "cartridges",
+            "location": 0,
+            "upd": {
+              "StackObjectsCount": 20
+            }
+          }
+        ]
+      },
+      {
+        "id": "f01b717fdd77d59aa3aa6fa6",
+        "type": "Item",
+        "index": 1,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 30,
+        "findInRaid": true,
+        "target": "828004b023fd6cd83484f93f",
+        "items": [
+          {
+            "_id": "828004b023fd6cd83484f93f",
+            "_tpl": "657024ecc5d7d4cb4d07856d",
+            "upd": {
+              "StackObjectsCount": 30
+            }
+          },
+          {
+            "_id": "d9b8a16d48b38edf6d4bcb98",
+            "_tpl": "59e6906286f7746c9f75e847",
+            "parentId": "828004b023fd6cd83484f93f",
+            "slotId": "cartridges",
+            "location": 0,
+            "upd": {
+              "StackObjectsCount": 50
+            }
+          }
+        ]
+      },
+      {
+        "id": "860f32bfe0fc59aa15db4fbc",
+        "type": "Item",
+        "index": 2,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 1,
+        "findInRaid": true,
+        "target": "28e0bad24b73a4cf5b1f4393",
+        "items": [
+          {
+            "_id": "28e0bad24b73a4cf5b1f4393",
+            "_tpl": "5dcbd56fdbd3d91b3e5468d5",
+            "upd": {
+              "FireMode": {
+                "FireMode": "single"
+              },
+              "StackObjectsCount": 1
+            }
+          },
+          {
+            "_id": "f55547d50dbb245a09e196c6",
+            "_tpl": "5dcbd6dddbd3d91b3e5468de",
+            "parentId": "28e0bad24b73a4cf5b1f4393",
+            "slotId": "mod_pistol_grip"
+          },
+          {
+            "_id": "6df87981763dc9329e62a35c",
+            "_tpl": "5a3501acc4a282000d72293a",
+            "parentId": "28e0bad24b73a4cf5b1f4393",
+            "slotId": "mod_magazine"
+          },
+          {
+            "_id": "e222310f5429fdf366dcfc2d",
+            "_tpl": "5dcbd6b46ec07c0c4347a564",
+            "parentId": "28e0bad24b73a4cf5b1f4393",
+            "slotId": "mod_handguard"
+          },
+          {
+            "_id": "a2dd657a17fdf29132627f99",
+            "_tpl": "5dcbe9431e1f4616d354987e",
+            "parentId": "28e0bad24b73a4cf5b1f4393",
+            "slotId": "mod_barrel"
+          },
+          {
+            "_id": "a8f387d9b28d455dfedc4846",
+            "_tpl": "5dcbe965e4ed22586443a79d",
+            "parentId": "a2dd657a17fdf29132627f99",
+            "slotId": "mod_muzzle"
+          }
+        ]
+      },
+      {
+        "id": "a3ac5dd7287b1239a0df253b",
+        "type": "Item",
+        "index": 3,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 1,
+        "findInRaid": true,
+        "target": "0a2246d86c487b6c89cd1655",
+        "items": [
+          {
+            "_id": "0a2246d86c487b6c89cd1655",
+            "_tpl": "6895bb82c4519957df062f82",
+            "upd": {
+              "Repairable": {
+                "Durability": 100,
+                "MaxDurability": 100
+              },
+              "StackObjectsCount": 1
+            }
+          },
+          {
+            "_id": "33f9f7a520a35dd43d8b8178",
+            "_tpl": "55802f5d4bdc2dac148b458f",
+            "parentId": "0a2246d86c487b6c89cd1655",
+            "slotId": "mod_pistol_grip"
+          },
+          {
+            "_id": "d124a976b69efbbd722c3c3f",
+            "_tpl": "5aaa5dfee5b5b000140293d3",
+            "parentId": "0a2246d86c487b6c89cd1655",
+            "slotId": "mod_magazine"
+          },
+          {
+            "_id": "660fa01c7163ac845b86193d",
+            "_tpl": "6895becad55f0ebf6a0c0311",
+            "parentId": "0a2246d86c487b6c89cd1655",
+            "slotId": "mod_reciever"
+          },
+          {
+            "_id": "46df945d625958ec894be549",
+            "_tpl": "63d3d44a2a49307baf09386d",
+            "parentId": "660fa01c7163ac845b86193d",
+            "slotId": "mod_barrel"
+          },
+          {
+            "_id": "5634cdbb3b7d33c512add1d4",
+            "_tpl": "6405ff6bd4578826ec3e377a",
+            "parentId": "46df945d625958ec894be549",
+            "slotId": "mod_muzzle"
+          },
+          {
+            "_id": "e836baefd36cbf180d7af365",
+            "_tpl": "56eabcd4d2720b66698b4574",
+            "parentId": "46df945d625958ec894be549",
+            "slotId": "mod_gas_block"
+          },
+          {
+            "_id": "7d0683f873709655b103c285",
+            "_tpl": "6895bd19d55f0ebf6a0c0306",
+            "parentId": "660fa01c7163ac845b86193d",
+            "slotId": "mod_handguard"
+          },
+          {
+            "_id": "c9f98aac3b3cf0e4848422c3",
+            "_tpl": "5bc09a30d4351e00367fb7c8",
+            "parentId": "7d0683f873709655b103c285",
+            "slotId": "mod_sight_front"
+          },
+          {
+            "_id": "ab7bfb201e2b2409a54f1986",
+            "_tpl": "5bc09a18d4351e003562b68e",
+            "parentId": "660fa01c7163ac845b86193d",
+            "slotId": "mod_sight_rear"
+          },
+          {
+            "_id": "e03242c1e3cda86f9731d581",
+            "_tpl": "5c793fb92e221644f31bfb64",
+            "parentId": "0a2246d86c487b6c89cd1655",
+            "slotId": "mod_stock"
+          },
+          {
+            "_id": "09d4595c2beb9942fab28ea8",
+            "_tpl": "56eabf3bd2720b75698b4569",
+            "parentId": "e03242c1e3cda86f9731d581",
+            "slotId": "mod_stock_000"
+          },
+          {
+            "_id": "157c8dc0a7fdd731aa52e006",
+            "_tpl": "6895bf08e2d16810ba0bf43e",
+            "parentId": "0a2246d86c487b6c89cd1655",
+            "slotId": "mod_charge"
+          }
+        ]
+      }
+    ],
+    "conditions": {
       "availableForFinish": [
         {
           "id": "69d6bf300bc602141e544ac8",
@@ -32,10 +238,8 @@
                 "value": 1,
                 "compareMethod": ">=",
                 "conditionType": "Kills",
-                "weapon": [
-                ],
-                "bodyPart": [
-                ],
+                "weapon": [],
+                "bodyPart": [],
                 "daytime": {
                   "from": 0,
                   "to": 0
@@ -46,7 +250,9 @@
                 },
                 "resetOnSessionEnd": false,
                 "savageRole": [
-                  "ISBSpecialForces"
+                  "ISBSpecialForces",
+                  "ISBHeavy",
+                  "ISBMarksman"
                 ],
                 "enemyEquipmentExclusive": [],
                 "enemyEquipmentInclusive": [],
@@ -60,17 +266,17 @@
           "conditionType": "CounterCreator"
         }
       ],
-    "fail": []
-  },
-  "instantComplete": false,
-  "showNotificationsInGame": false,
-  "showProgress": true,
-  "prefab": "",
-  "rarity": "Common",
-  "hidden": false,
-  "showConditions": false,
-  "progressBarEnabled": true,
-  "side": "Pmc",
-  "index": 3301
-}
+      "fail": []
+    },
+    "instantComplete": false,
+    "showNotificationsInGame": false,
+    "showProgress": true,
+    "prefab": "",
+    "rarity": "Common",
+    "hidden": false,
+    "showConditions": false,
+    "progressBarEnabled": true,
+    "side": "Pmc",
+    "index": 3301
+  }
 ]

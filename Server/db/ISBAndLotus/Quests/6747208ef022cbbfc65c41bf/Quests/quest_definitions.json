@@ -1,0 +1,358 @@
+{
+  "a3b3fae920584af7b941a2fc": {
+    "QuestName": "ContainmentBreach - Emergency Antidotes",
+    "_id": "a3b3fae920584af7b941a2fc",
+    "acceptPlayerMessage": "a3b3fae920584af7b941a2fc acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "a3b3fae920584af7b941a2fc changeQuestMessageText",
+    "completePlayerMessage": "a3b3fae920584af7b941a2fc completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "f095606e99ba50bddc5297df",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "c9304d1a70414b398f840595"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "8c9d1ebc13c4444dcf548062",
+          "index": 0,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "29d3521830e5a078ac470990"
+          ],
+          "value": 5,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "a3b3fae920584af7b941a2fc declinePlayerMessage",
+    "description": "a3b3fae920584af7b941a2fc description",
+    "failMessageText": "a3b3fae920584af7b941a2fc failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/a3b3fae920584af7b941a2fc",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "any",
+    "name": "a3b3fae920584af7b941a2fc name",
+    "note": "a3b3fae920584af7b941a2fc note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "7b04b61744b66aee53b76ae7",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 25000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "abe53b6c563f6a96cb6db5c5",
+          "index": 1,
+          "target": "6747208ef022cbbfc65c41bf",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "d684ecea56031285430ff246",
+          "index": 2,
+          "items": [
+            {
+              "_id": "57d8d07b8c8e499ab3eaf01d",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 260000
+              }
+            }
+          ],
+          "target": "57d8d07b8c8e499ab3eaf01d",
+          "type": "Item",
+          "unknown": false,
+          "value": 260000
+        },
+        {
+          "id": "f4ca27444eaebb2fac3bc3d4",
+          "index": 3,
+          "type": "Item",
+          "target": "28755ee2ed5b36d3ef59a893",
+          "value": "4",
+          "items": [
+            {
+              "_id": "28755ee2ed5b36d3ef59a893",
+              "_tpl": "5c0e534186f7747fa1419867",
+              "upd": {
+                "StackObjectsCount": 4
+              }
+            }
+          ],
+          "findInRaid": true,
+          "availableInGameEditions": [],
+          "unknown": false
+        },
+        {
+          "id": "34f507b586a3ca6bee611ae5",
+          "index": 4,
+          "type": "AssortmentUnlock",
+          "traderId": "6747208ef022cbbfc65c41bf",
+          "loyaltyLevel": 3,
+          "target": "4a07c8e4e6725cf851a082c8",
+          "items": [
+            {
+              "_id": "4a07c8e4e6725cf851a082c8",
+              "_tpl": "619cbf7d23893217ec30b689",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "a3b3fae920584af7b941a2fc startedMessageText",
+    "status": 0,
+    "successMessageText": "a3b3fae920584af7b941a2fc successMessageText",
+    "traderId": "6747208ef022cbbfc65c41bf",
+    "type": "PickUp"
+  },
+  "6e49a30eafa8409bbf623897": {
+    "QuestName": "ContainmentBreach - Anomalous Research",
+    "_id": "6e49a30eafa8409bbf623897",
+    "acceptPlayerMessage": "6e49a30eafa8409bbf623897 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "6e49a30eafa8409bbf623897 changeQuestMessageText",
+    "completePlayerMessage": "6e49a30eafa8409bbf623897 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "6025837389c8c29fbb8c50c2",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "a3b3fae920584af7b941a2fc"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "ecc7f337c046da7ce520763b",
+          "index": 0,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "0056a97d873bba252113c74b",
+            "06f0d5bdc44c4ddcd0759d31",
+            "1254eb68d298789e43b45ed3",
+            "1800c994e11cfa35b423e8ed",
+            "36be503998aadd53701c57e3",
+            "45e6cfe53aabe0b5e846cad5",
+            "4a2e4aaef50cda01112c41b2",
+            "51574a824fe10af4518191af",
+            "57d2c307a64e179e8995e061",
+            "6183f2a51cb013b5ab62a796",
+            "72eb2bb2416ee48ee80d63d4",
+            "73cc246044b1d66dd70aedb7",
+            "90c688feeba7c89aa1a3c8a7",
+            "922129d70c57a265f61ee8b1",
+            "9644da05612ad219e7fc4387",
+            "9df4b9812799170d2f7295f7",
+            "a38cbf3abbfdcbedaa1b9a0e",
+            "a8d639d499ac25709f630d2c",
+            "b27508815b9307ccd1bffa36",
+            "b543125009b989d7287b58ab",
+            "cd19a7a32ec3820a6ea48800",
+            "d180bb453e8bb2027c5fa540",
+            "f131c988930a86c7e5610c57",
+            "fac4f1a658ad562cddde72c6"
+          ],
+          "value": 2,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "6e49a30eafa8409bbf623897 declinePlayerMessage",
+    "description": "6e49a30eafa8409bbf623897 description",
+    "failMessageText": "6e49a30eafa8409bbf623897 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/6e49a30eafa8409bbf623897",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "any",
+    "name": "6e49a30eafa8409bbf623897 name",
+    "note": "6e49a30eafa8409bbf623897 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "398217ab6e157e58cafd98e8",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 25000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "a1eeb8785bd9d58bf73818f3",
+          "index": 1,
+          "target": "6747208ef022cbbfc65c41bf",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "8d87703493345debe42bc01a",
+          "index": 2,
+          "items": [
+            {
+              "_id": "c8050039a11eb7393bb6d575",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 260000
+              }
+            }
+          ],
+          "target": "c8050039a11eb7393bb6d575",
+          "type": "Item",
+          "unknown": false,
+          "value": 260000
+        },
+        {
+          "id": "743a6458f8d16c20c8a223e8",
+          "index": 3,
+          "type": "Item",
+          "target": "9605ca95b285a35fe7a52898",
+          "value": "1",
+          "items": [
+            {
+              "_id": "9605ca95b285a35fe7a52898",
+              "_tpl": "c5c72a7a3bf1f02421a145bb",
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            }
+          ],
+          "findInRaid": true,
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "56c1fc5f4d472e58d39e14eb",
+          "index": 4,
+          "type": "AssortmentUnlock",
+          "traderId": "6747208ef022cbbfc65c41bf",
+          "loyaltyLevel": 4,
+          "target": "7ff49b1a961a64e75ae87a54",
+          "items": [
+            {
+              "_id": "7ff49b1a961a64e75ae87a54",
+              "_tpl": "57372b832459776701014e41",
+              "upd": {}
+            },
+            {
+              "_id": "e0ce7fe78733ca349ac7941d",
+              "_tpl": "56dff026d2720bb8668b4567",
+              "parentId": "7ff49b1a961a64e75ae87a54",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 120
+              }
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        },
+        {
+          "id": "1237a9dc0c7d1f9ba96f9741",
+          "index": 5,
+          "type": "AssortmentUnlock",
+          "traderId": "6747208ef022cbbfc65c41bf",
+          "loyaltyLevel": 4,
+          "target": "83aa1d20b2a6b9b18f0e7e16",
+          "items": [
+            {
+              "_id": "83aa1d20b2a6b9b18f0e7e16",
+              "_tpl": "6489851fc827d4637f01791b",
+              "upd": {}
+            },
+            {
+              "_id": "46db40303e01ede85042eb0d",
+              "_tpl": "601aa3d2b2bcb34913271e6d",
+              "parentId": "83aa1d20b2a6b9b18f0e7e16",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 20
+              }
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "6e49a30eafa8409bbf623897 startedMessageText",
+    "status": 0,
+    "successMessageText": "6e49a30eafa8409bbf623897 successMessageText",
+    "traderId": "6747208ef022cbbfc65c41bf",
+    "type": "PickUp"
+  }
+}

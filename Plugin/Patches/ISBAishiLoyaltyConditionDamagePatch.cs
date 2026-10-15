@@ -13,55 +13,34 @@ namespace ISBSpecialForces.Patches
         }
 
         [PatchPrefix]
-        protected static void PatchPrefix(Player __instance, DamageInfoStruct damageInfo)
+        protected static void PatchPrefix(Player __instance, EFT.Ballistics.DamageInfo damageInfo)
         {
-            if (!ISBAishiLoyaltyConditionState.Holding)
+            if (!ISBFikaAuthority.IsAiAuthority && !ISBAishiLoyaltyConditionState.IsEligiblePlayer(damageInfo.Player?.iPlayer))
                 return;
-
             if (!ISBAishiLoyaltyConditionState.BreakOnHit)
                 return;
-
             var aggressor = damageInfo.Player;
-
             if (aggressor == null)
                 return;
-
             var aggressorPlayer = aggressor.iPlayer;
-
-            if (!ISBAishiLoyaltyConditionState.IsEligibleAggressor(aggressorPlayer))
+            if (!ISBAishiLoyaltyConditionState.ProtectsHuman(aggressorPlayer))
                 return;
-
             if (__instance == null || !__instance.IsAI)
                 return;
-
             var victimRole = __instance.Profile.Info.Settings.Role;
-
             if (!ISBAishiLoyaltyConditionState.IsProtectedFrom(victimRole))
                 return;
-
             var damage = damageInfo.Damage;
-
             if (damage <= 0f)
                 return;
-
-            var botTotal = ISBAishiLoyaltyConditionDamageTracker.Accumulate(__instance.ProfileId, damage);
-            var factionTotal = ISBAishiLoyaltyConditionDamageTracker.FactionTotal;
-
+            var botTotal = ISBAishiLoyaltyConditionDamageTracker.Accumulate(aggressorPlayer.ProfileId, __instance.ProfileId, damage);
+            var factionTotal = ISBAishiLoyaltyConditionDamageTracker.GetFactionTotal(aggressorPlayer.ProfileId);
             var threshold = ISBAishiLoyaltyConditionState.DamageThreshold;
-
-            var reached = ISBAishiLoyaltyConditionState.ThresholdPerFaction
-                ? factionTotal >= threshold
-                : botTotal >= threshold;
-
+            var reached = ISBAishiLoyaltyConditionState.ThresholdPerFaction ? factionTotal >= threshold : botTotal >= threshold;
             ISBAishiLoyaltyConditionState.LogDamage(damage, botTotal, factionTotal, threshold, reached);
-
             if (!reached)
                 return;
-
-            ISBAishiLoyaltyConditionState.Break(
-                victimRole,
-                aggressorPlayer.ProfileId,
-                registerRevenge: ISBAishiLoyaltyConditionState.IsEligiblePlayer(aggressorPlayer));
+            ISBAishiLoyaltyConditionState.Break(victimRole, aggressorPlayer.ProfileId, registerRevenge: ISBAishiLoyaltyConditionState.IsEligiblePlayer(aggressorPlayer));
         }
     }
 }

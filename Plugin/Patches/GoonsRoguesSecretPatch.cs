@@ -13,17 +13,14 @@ namespace ISBSpecialForces.Patches
         private const string TriggerId = "isb_secret_expurgo_farol_hunt";
         private const int RequiredGoons = 3;
         private const int RequiredRogues = 6;
-
         private static readonly HashSet<WildSpawnType> GoonRoles = new HashSet<WildSpawnType>
         {
             WildSpawnType.bossKnight,
             WildSpawnType.followerBigPipe,
             WildSpawnType.followerBirdEye,
         };
-
-        private static readonly HashSet<string> goonsKilled = new HashSet<string>();
-        private static readonly HashSet<string> roguesKilled = new HashSet<string>();
-
+        private static readonly Dictionary<string, HashSet<string>> goonsKilled = new Dictionary<string, HashSet<string>>();
+        private static readonly Dictionary<string, HashSet<string>> roguesKilled = new Dictionary<string, HashSet<string>>();
         public static void Reset()
         {
             goonsKilled.Clear();
@@ -38,35 +35,33 @@ namespace ISBSpecialForces.Patches
         [PatchPostfix]
         protected static void PatchPostfix(Player __instance, IPlayer aggressor)
         {
-            if (__instance == null || aggressor == null)
+            if (!ISBFikaAuthority.IsAiAuthority || __instance?.Profile?.Info?.Settings == null || !ISBSecretsManager.IsHumanAggressor(aggressor))
                 return;
-
             if (ISBSecretsManager.AlreadyFired(TriggerId))
                 return;
-
             if (RaidChangesUtil.LocationId == null || RaidChangesUtil.LocationId.ToLower() != "lighthouse")
                 return;
-
             if (!ISBSecretsManager.IsEnabledForRaid(TriggerId))
                 return;
-
-            var gameWorld = Singleton<GameWorld>.Instance;
-
-            if (gameWorld?.MainPlayer == null || aggressor.ProfileId != gameWorld.MainPlayer.ProfileId)
-                return;
-
             var role = __instance.Profile.Info.Settings.Role;
-
+            if (!GoonRoles.Contains(role) && role != WildSpawnType.exUsec)
+                return;
+            if (!goonsKilled.TryGetValue(aggressor.ProfileId, out var playerGoons))
+                goonsKilled[aggressor.ProfileId] = playerGoons = new HashSet<string>();
+            if (!roguesKilled.TryGetValue(aggressor.ProfileId, out var playerRogues))
+                roguesKilled[aggressor.ProfileId] = playerRogues = new HashSet<string>();
             if (GoonRoles.Contains(role))
-                goonsKilled.Add(__instance.ProfileId);
+                playerGoons.Add(__instance.ProfileId);
             else if (role == WildSpawnType.exUsec)
-                roguesKilled.Add(__instance.ProfileId);
+                playerRogues.Add(__instance.ProfileId);
             else
                 return;
+            if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+            {
+                Plugin.LogSource.LogInfo($"[ISB BOSS'S HATRED] Rogues Eliminated: The Goons {playerGoons.Count}/{RequiredGoons}, Regular Operatives (ExUsec) {playerRogues.Count}/{RequiredRogues}.");
+            }
 
-            Plugin.LogSource.LogInfo($"[ISB BOSS'S HATRED] Rogues Eliminated: The Goons {goonsKilled.Count}/{RequiredGoons}, Regular Operatives (ExUsec) {roguesKilled.Count}/{RequiredRogues}.");
-
-            if (goonsKilled.Count >= RequiredGoons && roguesKilled.Count >= RequiredRogues)
+            if (playerGoons.Count >= RequiredGoons && playerRogues.Count >= RequiredRogues)
                 ISBSecretsManager.Fire(TriggerId);
         }
     }

@@ -18,7 +18,6 @@ namespace ISBSpecialForces.Components
             ["isb_secret_local_hunt"] = 10,
         };
         private static readonly Dictionary<string, bool> raidRolls = new Dictionary<string, bool>();
-
         public static void ResetRaid()
         {
             fired.Clear();
@@ -29,10 +28,8 @@ namespace ISBSpecialForces.Components
         {
             if (!chances.TryGetValue(triggerId, out var chance))
                 return true;
-
             if (raidRolls.TryGetValue(triggerId, out var enabled))
                 return enabled;
-
             enabled = chance >= 100 || (chance > 0 && Random.value * 100f < chance);
             raidRolls[triggerId] = enabled;
             return enabled;
@@ -40,18 +37,16 @@ namespace ISBSpecialForces.Components
 
         public static bool Fire(string triggerId)
         {
+            if (!ISBFikaAuthority.IsAiAuthority)
+                return false;
             if (fired.Contains(triggerId))
                 return true;
-
             if (!IsEnabledForRaid(triggerId))
                 return false;
-
-            var eventHandler = Singleton<BotEventHandler>.Instance;
-
+            var eventHandler = Singleton<GlobalEventDispatcher>.Instance;
             if (eventHandler == null)
             {
-                Plugin.LogSource.LogWarning(
-                    $"[ISB SECRET] BotEventHandler is unavailable. Trigger '{triggerId}' was not fired and may retry.");
+                Plugin.LogSource.LogWarning($"[ISB SECRET] BotEventHandler is unavailable. Trigger '{triggerId}' was not fired and may retry.");
                 return false;
             }
 
@@ -59,17 +54,21 @@ namespace ISBSpecialForces.Components
             {
                 eventHandler.AnyEvent(triggerId);
                 fired.Add(triggerId);
-                Plugin.LogSource.LogInfo($"[ISB SECRET] Trigger '{triggerId}' fired.");
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                {
+                    Plugin.LogSource.LogInfo($"[ISB SECRET] Trigger '{triggerId}' fired.");
+                }
+
                 return true;
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                Plugin.LogSource.LogWarning(
-                    $"[ISB SECRET] Trigger '{triggerId}' failed: {ex.Message}");
                 return false;
             }
         }
 
+        internal static bool IsHuman(Player player) => player != null && !player.IsAI && player.HealthController?.IsAlive == true;
+        internal static bool IsHumanAggressor(IPlayer player) => player != null && !player.IsAI && !string.IsNullOrEmpty(player.ProfileId);
         public static bool AlreadyFired(string triggerId)
         {
             return fired.Contains(triggerId);

@@ -6,22 +6,22 @@ namespace ISBSpecialForces.Behavior.Actions
 {
     public abstract class GoToCustomAction : CustomLogic
     {
-        private GClass395 baseSteeringLogic;
-        private GClass212 goToCoverPoint;
-        private GClass31 goToData;
-
+        private LookAround baseSteeringLogic;
+        private GoToCoverPoint goToCoverPoint;
+        private MoveToCoverActionResultData goToData;
         public GoToCustomAction(BotOwner botOwner) : base(botOwner)
         {
-            goToCoverPoint = new GClass212(BotOwner);
-            baseSteeringLogic = new GClass395();
+            goToCoverPoint = new GoToCoverPoint(BotOwner);
+            baseSteeringLogic = new LookAround();
         }
 
         public override void Start()
         {
-            SetDataPoint(GetGoToPoint());
-
+            var point = GetGoToPoint();
+            if (point == null)
+                return;
+            SetDataPoint(point);
             BotOwner.AimingManager.CurrentAiming.LoseTarget();
-
             base.Start();
         }
 
@@ -33,9 +33,11 @@ namespace ISBSpecialForces.Behavior.Actions
 
         public override void Update(CustomLayer.ActionData data)
         {
-            SetDataPoint(GetGoToPoint());
+            var point = GetGoToPoint();
+            if (point == null)
+                return;
+            SetDataPoint(point);
             goToCoverPoint.UpdateNodeByMain(goToData);
-
             UpdateBotMovement();
             UpdateSteering();
         }
@@ -44,7 +46,6 @@ namespace ISBSpecialForces.Behavior.Actions
         {
             BotOwner.SetPose(1f);
             BotOwner.BotLay.GetUp(true);
-
             BotOwner.Mover.Sprint(false);
             BotOwner.SetTargetMoveSpeed(1f);
         }
@@ -59,7 +60,6 @@ namespace ISBSpecialForces.Behavior.Actions
         {
             if (goToData == null)
                 goToData = new(point);
-
             goToData.Point = point;
         }
 

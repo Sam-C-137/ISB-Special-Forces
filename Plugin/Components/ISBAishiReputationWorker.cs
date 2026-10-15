@@ -8,7 +8,6 @@ namespace ISBSpecialForces.Components
     {
         private const int MaximumActionsPerFrame = 16;
         private static readonly ConcurrentQueue<Action> PendingActions = new ConcurrentQueue<Action>();
-
         public static void Enqueue(Action action)
         {
             if (action != null)
@@ -18,19 +17,16 @@ namespace ISBSpecialForces.Components
         private void Update()
         {
             var processed = 0;
-
             while (processed < MaximumActionsPerFrame && PendingActions.TryDequeue(out var action))
             {
                 processed++;
-
                 try
                 {
                     action();
                 }
                 catch (Exception ex)
                 {
-                    Plugin.LogSource?.LogError(
-                        $"[ISB AISHI LOYALTY] Deferred reputation action failed: {ex}");
+                    Plugin.LogSource?.LogError($"[ISB AISHI LOYALTY] Deferred reputation action failed: {ex}");
                 }
             }
         }

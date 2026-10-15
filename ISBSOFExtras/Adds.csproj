@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<?xml version='1.0' encoding='utf-8'?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="15.0">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,7 +12,7 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTIV</SPTRoot>
+    <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTV</SPTRoot>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,54 +32,83 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Unity.TextMeshPro">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.VideoModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="0Harmony">
       <HintPath>$(SPTRoot)\BepInEx\core\0Harmony.dll</HintPath>
+    <Private>false</Private></Reference>
+    <Reference Include="ItemComponent.Types">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\ItemComponent.Types.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="BepInEx">
       <HintPath>$(SPTRoot)\BepInEx\core\BepInEx.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="BepInEx.Harmony">
       <HintPath>$(SPTRoot)\BepInEx\core\BepInEx.Harmony.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="Comfort">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="CommonExtensions">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\CommonExtensions.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>$(SPTRoot)\SPT\Mono.Cecil.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\Mono.Cecil.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="Mono.Cecil.Pdb">
-      <HintPath>$(SPTRoot)\SPT\Mono.Cecil.Pdb.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\Mono.Cecil.Pdb.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="Mono.Cecil.Rocks">
-      <HintPath>$(SPTRoot)\SPT\Mono.Cecil.Rocks.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\Mono.Cecil.Rocks.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="MonoMod.Iced">
-      <HintPath>$(SPTRoot)\SPT\MonoMod.Iced.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\SPT_Runtime\MonoMod.Iced.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="MonoMod.ILHelpers">
-      <HintPath>$(SPTRoot)\SPT\MonoMod.ILHelpers.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\SPT_Runtime\MonoMod.ILHelpers.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="MonoMod.RuntimeDetour">
-      <HintPath>$(SPTRoot)\SPT\MonoMod.RuntimeDetour.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\MonoMod.RuntimeDetour.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="MonoMod.Utils">
-      <HintPath>$(SPTRoot)\SPT\MonoMod.Utils.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\MonoMod.Utils.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="Sirenix.Serialization">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Sirenix.Serialization.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
+    <Reference Include="spt-common">
+      <HintPath>$(SPTRoot)\BepInEx\plugins\spt\spt-common.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="spt-reflection">
       <HintPath>$(SPTRoot)\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    <Private>false</Private></Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+    <Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AIModule">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.AIModule.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -90,54 +119,131 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.AnimationModule">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.AssetBundleModule">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.AudioModule">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.ParticleSystemModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.UIModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="WTT-ClientCommonLib">
-      <HintPath>$(SPTRoot)\BepInEx\plugins\WTT-ClientCommonLib\WTT-ClientCommonLib.dll</HintPath>
-    </Reference>
+      <HintPath>..\Reference\WTT-ClientCommonLib.dll</HintPath>
+    <Private>false</Private></Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISBSOFExtrasPlugin.cs" />
+    <Compile Include="Scp173Sight.cs" />
+    <Compile Include="AudioVolumeConfig.cs" />
+    <Compile Include="ContainmentAchievementIcons.cs" />
+    <Compile Include="Audio\AudioCache.cs" />
+    <Compile Include="Audio\TakeoverAlarmAudio.cs" />
+    <Compile Include="Audio\RadioChatter.cs" />
+    <Compile Include="Audio\PortableRadio.cs" />
+    <Compile Include="Audio\PortableRadioTiming.cs" />
+    <Compile Include="Audio\MapAnnouncements.cs" />
+    <Compile Include="Audio\LaboratoryPa.cs" />
+    <Compile Include="Networking\AudioNetwork.cs" />
+    <Compile Include="Networking\EventContentCheck.cs" />
+    <Compile Include="Networking\FacilityNetwork.cs" />
+    <Compile Include="FacilityControls.cs" />
+    <Compile Include="AnnouncementAudioSwitches.cs" />
+    <Compile Include="AuthorizationQuestActions.cs" />
+    <Compile Include="LabsAuthorizationQuests.cs" />
+    <Compile Include="QuestProgressNotifications.cs" />
+    <Compile Include="DecontaminationSurvivalQuest.cs" />
+    <Compile Include="QuestAcceptanceConfirmation.cs" />
+    <Compile Include="LabsContainmentQuestWarning.cs" />
+    <Compile Include="LabsEventSpawns.cs" />
+    <Compile Include="..\Shared\BlackDivisionCheckpointPolicy.cs" Link="BlackDivisionCheckpointPolicy.cs" />
+    <Compile Include="LabsEventScenery.cs" />
+    <Compile Include="LabsBlackoutSequence.cs" />
+    <Compile Include="SpawnProgress.cs" />
+    <Compile Include="RaidLifecycle.cs" />
+    <Compile Include="PcmWavDecoder.cs" />
+    <Compile Include="LabsAnnouncementConfig.cs" />
+    <Compile Include="Decontamination\*.cs" />
+    <Compile Include="..\Shared\ISBRaidMode.cs" />
+    <Compile Include="..\Shared\ISBEffectNotifications.cs" />
+    <Compile Include="..\Shared\ISBLocalizedText.cs" />
     <Compile Include="NetworkBridge.cs" />
     <Compile Include="LabsBlackout.cs" />
+    <Compile Include="LabsEmergencyLighting.cs" />
+    <Compile Include="EmergencyLightCulling.cs" />
+    <Compile Include="CorpseLightBudget.cs" />
+    <Compile Include="AlarmLightPulse.cs" />
+    <Compile Include="BlackoutTargets.cs" />
+    <Compile Include="LabsKeycardLockdown.cs" />
+    <Compile Include="LabsNativeAnnouncements.cs" />
+    <Compile Include="LabsKeycardBattery.cs" />
+    <Compile Include="ReaderBatteryEffects.cs" />
+    <Compile Include="LabsEmergencyElevators.cs" />
+    <Compile Include="LabsOfficeScene.cs" />
+    <Compile Include="LabsOfficeTerminal.cs" />
+    <Compile Include="TerminalControls.cs" />
+    <Compile Include="AnnouncementFade.cs" />
+    <Compile Include="FacilitySequence.cs" />
+    <Compile Include="FacilityPowerTiming.cs" />
+    <Compile Include="DeadManSwitch.cs" />
+    <Compile Include="FacilityDestructionEffects.cs" />
+    <Compile Include="OfficeScreenCanvas.cs" />
+    <Compile Include="OfficeComputerBoot.cs" />
+    <Compile Include="OfficeRadio.cs" />
+    <Compile Include="LabsOfficeModel.cs" />
+    <Compile Include="LabsOfficeKeypad.cs" />
+
+    <Compile Include="LabsOfficeIntegration.cs" />
+    <Compile Include="OfficeMapInteractions.cs" />
+    <Compile Include="OfficeReaders.cs" />
+    <Compile Include="..\Shared\OfficeAccess.cs" Link="OfficeAccess.cs" />
+    <Compile Include="..\Shared\OfficeKteBriefing.cs" Link="OfficeKteBriefing.cs" />
+    <Compile Include="..\Shared\OfficeRaidOperations.cs" Link="OfficeRaidOperations.cs" />
+    <Compile Include="ManimalLabsBlackoutCompatibility.cs" />
+    <Compile Include="ManimalLabsCullingCompatibility.cs" />
+    <Compile Include="LabsTakeoverInfrastructure.cs" />
+    <Compile Include="TakeoverFire.cs" />
+    <Compile Include="TakeoverProps.cs" />
+    <Compile Include="LabsSpawnSafety.cs" />
+    <Compile Include="TakeoverBarbedWire.cs" />
+    <Compile Include="TakeoverScenerySettings.cs" />
+    <Compile Include="ContainmentChanceSettings.cs" />
+    <Compile Include="TakeoverSirens.cs" />
+    <Compile Include="ShorelineFireAssets.cs" />
+    <Compile Include="TakeoverFlameTrigger.cs" />
+    <Compile Include="TakeoverCarAssets.cs" />
+    <Compile Include="WavefrontMesh.cs" />
     <Compile Include="BlackoutBridge.cs" />
     <Compile Include="LabsBlackoutExfilUiPatcher.cs" />
     <Compile Include="SubtitleSystem.cs" />
@@ -147,8 +253,47 @@
     <Content Include="Blackout\automatic_doors.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Blackout\labs_announcements.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\decontamination.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\pre_blackout_sequences.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\takeover_infrastructure.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\takeover_props.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\props\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\takeover_fire.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\takeover_sirens.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\shoreline-fire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\shoreline-smoke.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\reserve-armored\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Blackout\shoreline-car\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ISBSpecialForces_Videos\*.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ISBSpecialForces_Audios\*.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -158,6 +303,38 @@
     <Content Include="ISBSpecialForces_Audios\Subtitles\locales\*.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ISBSpecialForces_Audios\ISBSpecialForces_WhiteTusksCommon\**\*.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ISBSpecialForces_Audios\ISBSpecialForces_WhiteTuskAishi\**\*.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-</Project>
+  <ItemGroup>
+    <EmbeddedResource Include="Office\keypad\*.png"><LogicalName>ISB.Office.keypad.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+
+
+    <EmbeddedResource Include="Office\keypad.bundle"><LogicalName>ISB.Office.keypad.bundle</LogicalName></EmbeddedResource>
+    <Content Include="Office\DeadManSwitchImage.jpg"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="Office\*.bundle;Office\*.wav"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="Office\*.png"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="Office\terminal_files.json"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <Content Include="Office\LICENSE-Keypad"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+    <EmbeddedResource Include="Office\LICENSE-Blackout"><LogicalName>ISB.Office.LICENSE-Blackout.txt</LogicalName></EmbeddedResource>
+    <Content Include="Office\LICENSE-Blackout"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content>
+  </ItemGroup>
+<ItemGroup><Compile Include="LabsVariantMenu.cs" /><Compile Include="TakeoverAlarmChoice.cs" /><Compile Include="LabsMenuRequestRetry.cs" /></ItemGroup><PropertyGroup><DefineConstants>$(DefineConstants);ISB_SPT41</DefineConstants></PropertyGroup>
+<ItemGroup><Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference></ItemGroup>
+<ItemGroup><RequiredKeypadTexture Include="Office\keypad\Background.png;Office\keypad\Background_Shadow.png;Office\keypad\Substrate_Gray.png;Office\keypad\Substrate_Red.png;Office\keypad\Substrate_Green.png;Office\keypad\Flashing_Red.png;Office\keypad\Flashing_Green.png;Office\keypad\Light_Red.png;Office\keypad\Light_Green.png;Office\keypad\Button_Normal.png;Office\keypad\Button_Highlighted.png;Office\keypad\Button_Disabled.png;Office\keypad\Icon_Del_Static.png;Office\keypad\Icon_Enter_Static.png;Office\keypad\Number_Enter.png" /></ItemGroup>
+<Target Name="VerifyKeypadTextures" BeforeTargets="PrepareForBuild"><Error Condition="!Exists('%(RequiredKeypadTexture.Identity)')" Text="Missing keypad texture: %(RequiredKeypadTexture.Identity)" /></Target>
+<ItemGroup><Reference Include="netstandard"><HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath><Private>false</Private></Reference></ItemGroup>
+<ItemGroup><Compile Include="OptionalBallisticsCompatibility.cs" />
+    <Compile Include="OptionalScenePresenceCache.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="Scp173Config.cs" /><Compile Include="Scp173Event.cs" /></ItemGroup>
+<ItemGroup><Compile Include="Scp173Identity.cs" /></ItemGroup><ItemGroup><Compile Include="Scp173DebugBridge.cs" /></ItemGroup><ItemGroup><Reference Include="AnimationSystem.Types"><HintPath>C:\SPTV\EscapeFromTarkov_Data\Managed\AnimationSystem.Types.dll</HintPath><Private>false</Private></Reference></ItemGroup><ItemGroup><Reference Include="bsg.console.core"><HintPath>C:\SPTV\EscapeFromTarkov_Data\Managed\bsg.console.core.dll</HintPath><Private>false</Private></Reference></ItemGroup>  <ItemGroup>
+    <EmbeddedResource Include="Scp173SightSurfaces.json">
+      <LogicalName>ISB.Nightmare.SightSurfaces</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+<ItemGroup><Compile Include="NightmareBehaviour.cs" /><Compile Include="NightmareContainmentRoom.cs" /><Compile Include="NightmareFacility.cs" /></ItemGroup><ItemGroup><Compile Include="LabsRenderTextureCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="LocalPlayerModCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="WttResourceCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="AishiGasMaskCompatibility.cs" /></ItemGroup></Project>

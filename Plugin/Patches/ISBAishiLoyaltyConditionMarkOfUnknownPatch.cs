@@ -17,18 +17,11 @@ namespace ISBSpecialForces.Patches
         {
             if (!__result)
                 return;
-
-            if (!ISBAishiLoyaltyConditionState.Holding)
+            if (!ISBAishiLoyaltyConditionState.ProtectsHuman(player))
                 return;
-
-            if (!ISBAishiLoyaltyConditionState.IsEligibleAggressor(player))
+            var initialBot = __instance._groups?._initialBot;
+            if (initialBot?.Profile?.Info?.Settings == null || !ISBAishiLoyaltyConditionState.IsProtectedFrom(initialBot.Profile.Info.Settings.Role))
                 return;
-
-            var initialBot = __instance.Groups?.InitialBot;
-
-            if (initialBot != null && ISBAishiLoyaltyConditionState.IsCommander(initialBot.Profile.Info.Settings.Role))
-                return;
-
             __result = false;
         }
     }

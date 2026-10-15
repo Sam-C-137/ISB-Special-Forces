@@ -3,7 +3,7 @@ using EFT;
 using HarmonyLib;
 using ISBSpecialForces.Components;
 using ISBSpecialForces.Controllers;
-using ISBSpecialForces.Behavior.Orders.Components;
+using ISBSpecialForces.Behavior.BlackDivision;
 using SPT.Reflection.Patching;
 using System.Reflection;
 
@@ -20,67 +20,71 @@ namespace ISBSpecialForces.Patches
         [HarmonyPriority(Priority.Last)]
         protected static void PatchPostfix(BotOwner __instance)
         {
-            ISBForcedHostilityState.OnBotActivated(__instance);
-
-            if (WildSpawnTypeExtensions.IsISB(__instance.Profile.Info.Settings.Role))
+            if (!ISBFikaAuthority.IsAiAuthority || __instance?.Profile?.Info?.Settings == null)
+                return;
+            UnityEngine.Profiling.Profiler.BeginSample("ISB.BotActivation");
+            try
             {
-                __instance.GetOrAddISBManager();
-                __instance.GetOrAddOrderAgent();
-                ApplyAishiLoyaltyCondition(__instance);
-            }
+                ISBSpawnProgressBridge.MarkSpawn(__instance);
+                ISBAishiLoyaltyConditionState.EnsureRaidInitialized();
+                ISBForcedHostilityState.OnBotActivated(__instance);
+                ISBLabsGatePassage.Register(__instance);
+                var clashManager = MonoBehaviourSingleton<ISBBlackDivClashManager>.Instance;
+                clashManager?.RegisterBot(__instance);
+                if (WildSpawnTypeExtensions.IsISB(__instance.Profile.Info.Settings.Role))
+                {
+                    __instance.GetPlayer.Physical.OnWeightUpdated();
+                    __instance.GetOrAddISBManager();
+                    ISBTacticalAgent.GetOrAdd(__instance);
+                    ApplyAishiLoyaltyCondition(__instance);
+                }
+                else if (MonoBehaviourSingleton<ISBCheckpointManager>.Instance?.IsBlackDivisionCheckpointBot(__instance) == true)
+                {
+                    var checkpointBot = __instance.GetOrAddISBManager();
+                    if (!checkpointBot.HasAssignedCheckpoint())
+                        checkpointBot.Init(__instance);
+                }
 
-            ISBPitFireTeamCompatibility.SyncBot(__instance);
+                ISBPitFireTeamCompatibility.SyncBot(__instance);
+            }
+            finally
+            {
+                UnityEngine.Profiling.Profiler.EndSample();
+            }
         }
 
-        private static void ApplyAishiLoyaltyCondition(BotOwner botOwner)
+        internal static void ApplyAishiLoyaltyCondition(BotOwner botOwner)
         {
+            if (!ISBFikaAuthority.IsAiAuthority || botOwner == null)
+                return;
             var group = botOwner.BotsGroup;
-
             if (group == null)
                 return;
-
             var gameWorld = Singleton<GameWorld>.Instance;
-
             if (gameWorld == null)
                 return;
-
-            if (ISBAishiLoyaltyConditionState.Broken)
-            {
-                ISBAishiLoyaltyConditionState.ApplyHostilityToGroupOnce(group);
+            ISBAishiLoyaltyConditionState.ApplyHostilityToGroupOnce(group);
+            var players = gameWorld.AllAlivePlayersList;
+            if (players == null)
                 return;
-            }
-
-            var mainPlayer = gameWorld.MainPlayer;
-
-            if (mainPlayer == null)
-                return;
-
-            if (mainPlayer.Side == EPlayerSide.Savage)
-            {
-                group.AddEnemy(mainPlayer, EBotEnemyCause.initial);
-                ISBAishiLoyaltyConditionState.AnnounceScavHostility();
-                return;
-            }
-
-            if (!ISBAishiLoyaltyConditionState.Holding)
-                return;
-
             var role = botOwner.Profile.Info.Settings.Role;
-
             if (!ISBAishiLoyaltyConditionState.IsProtectedFrom(role))
                 return;
-
-            if (!ISBAishiLoyaltyConditionState.IsEligiblePlayer(mainPlayer))
-                return;
-
-            if (ISBRevengeBridge.HasPendingRevenge(group, mainPlayer))
+            foreach (var player in players)
             {
-                Plugin.LogSource.LogInfo($"[ISB] '{botOwner.Profile.Nickname}' remembers the last raid. No Aishi protection for you.");
-                return;
-            }
+                if (player == null || player.IsAI)
+                    continue;
+                if (player.Side == EPlayerSide.Savage)
+                {
+                    group.AddEnemy(player, EBotEnemyCause.initial);
+                    continue;
+                }
 
-            group.RemoveEnemy(mainPlayer, EBotEnemyCause.initial);
-            group.AddNeutral(mainPlayer);
+                if (!ISBAishiLoyaltyConditionState.ProtectsHuman(player) || ISBRevengeBridge.HasPendingRevenge(group, player))
+                    continue;
+                group.RemoveEnemy(player, EBotEnemyCause.initial);
+                group.AddNeutral(player);
+            }
         }
     }
 }

@@ -10,7 +10,6 @@ namespace ISBSpecialForces
     public class ISBSpecialForces : BaseUnityPlugin
     {
         public static ISBSpecialForces Instance;
-
         public void Awake()
         {
             Instance = this;

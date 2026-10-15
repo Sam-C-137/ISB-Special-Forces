@@ -1,123 +1,153 @@
 [
-{
-  "id": "6a5d422c743a1afbb2183f54",
-  "description": "6a5d422c743a1afbb2183f54 description",
-  "name": "6a5d422c743a1afbb2183f54 name",
-  "imageUrl": "/files/achievement/SPECIAL.png",
-  "assetPath": "",
-  "rewards": [],
-  "conditions": {
-    "availableForFinish": [
+  {
+    "id": "6a5d422c743a1afbb2183f54",
+    "description": "6a5d422c743a1afbb2183f54 description",
+    "name": "6a5d422c743a1afbb2183f54 name",
+    "imageUrl": "/files/achievement/SPECIAL.png",
+    "assetPath": "",
+    "rewards": [
       {
-        "id": "6a5d56ddc4906b8bafca9c85",
+        "id": "3bd48a07c17c5b9d453597d1",
+        "type": "Item",
         "index": 0,
-        "dynamicLocale": false,
-        "visibilityConditions": [],
-        "globalQuestCounterId": "",
-        "parentId": "",
-        "value": 1,
-        "type": "Completion",
-        "oneSessionOnly": true,
-        "completeInSeconds": 0,
-        "doNotResetIfCounterCompleted": false,
-        "isResetOnConditionFailed": false,
-        "isNecessary": false,
-        "counter": {
-          "id": "6a5d56e01f86ed51d5a07bfd",
-          "conditions": [
-            {
-              "id": "6a5d56e23689c3bad22d7859",
-              "dynamicLocale": false,
-              "target": "Savage",
-              "compareMethod": ">=",
-              "value": 1,
-              "weapon": [],
-              "distance": {
-                "value": 0,
-                "compareMethod": ">="
-              },
-              "weaponModsInclusive": [],
-              "weaponModsExclusive": [],
-              "enemyEquipmentInclusive": [],
-              "enemyEquipmentExclusive": [],
-              "weaponCaliber": [],
-              "savageRole": [
-                "ISBBossCommander"
-              ],
-              "bodyPart": [],
-              "daytime": {
-                "from": 0,
-                "to": 0
-              },
-              "enemyHealthEffects": [],
-              "resetOnSessionEnd": false,
-              "conditionType": "Kills"
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 10,
+        "findInRaid": true,
+        "target": "03472dee7f9b8ce8be960922",
+        "items": [
+          {
+            "_id": "03472dee7f9b8ce8be960922",
+            "_tpl": "692dd013f000b7372c0610fe",
+            "upd": {
+              "StackObjectsCount": 10
             }
-          ]
-        },
-        "conditionType": "CounterCreator"
-      },
-      {
-        "id": "6a5d56f39c59c439938bb2ca",
-        "index": 1,
-        "dynamicLocale": false,
-        "visibilityConditions": [],
-        "globalQuestCounterId": "",
-        "parentId": "",
-        "value": 1,
-        "type": "Completion",
-        "oneSessionOnly": true,
-        "completeInSeconds": 0,
-        "doNotResetIfCounterCompleted": false,
-        "isResetOnConditionFailed": false,
-        "isNecessary": false,
-        "counter": {
-          "id": "6a5d56f615c30afdee0585c1",
-          "conditions": [
-            {
-              "id": "6a5d56f8f36c489aeb18eabe",
-              "dynamicLocale": false,
-              "target": "Savage",
-              "compareMethod": ">=",
-              "value": 1,
-              "weapon": [],
-              "distance": {
-                "value": 0,
-                "compareMethod": ">="
-              },
-              "weaponModsInclusive": [],
-              "weaponModsExclusive": [],
-              "enemyEquipmentInclusive": [],
-              "enemyEquipmentExclusive": [],
-              "weaponCaliber": [],
-              "savageRole": [
-                "ISBFollowerCommander"
-              ],
-              "bodyPart": [],
-              "daytime": {
-                "from": 0,
-                "to": 0
-              },
-              "enemyHealthEffects": [],
-              "resetOnSessionEnd": false,
-              "conditionType": "Kills"
+          },
+          {
+            "_id": "c84d344a84880cbb818da3ab",
+            "_tpl": "692dc61870449aedfa85120f",
+            "parentId": "03472dee7f9b8ce8be960922",
+            "slotId": "cartridges",
+            "location": 0,
+            "upd": {
+              "StackObjectsCount": 100
             }
-          ]
-        },
-        "conditionType": "CounterCreator"
+          }
+        ]
       }
     ],
-    "fail": []
-  },
-  "instantComplete": false,
-  "showNotificationsInGame": true,
-  "showProgress": true,
-  "prefab": "",
-  "rarity": "Legendary",
-  "hidden": false,
-  "showConditions": false,
-  "progressBarEnabled": false,
-  "side": "Pmc",
-  "index": 3301
-}
+    "conditions": {
+      "availableForFinish": [
+        {
+          "id": "6a5d56ddc4906b8bafca9c85",
+          "index": 0,
+          "dynamicLocale": false,
+          "visibilityConditions": [],
+          "globalQuestCounterId": "",
+          "parentId": "",
+          "value": 1,
+          "type": "Completion",
+          "oneSessionOnly": true,
+          "completeInSeconds": 0,
+          "doNotResetIfCounterCompleted": false,
+          "isResetOnConditionFailed": false,
+          "isNecessary": false,
+          "counter": {
+            "id": "6a5d56e01f86ed51d5a07bfd",
+            "conditions": [
+              {
+                "id": "6a5d56e23689c3bad22d7859",
+                "dynamicLocale": false,
+                "target": "Savage",
+                "compareMethod": ">=",
+                "value": 1,
+                "weapon": [],
+                "distance": {
+                  "value": 0,
+                  "compareMethod": ">="
+                },
+                "weaponModsInclusive": [],
+                "weaponModsExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyEquipmentExclusive": [],
+                "weaponCaliber": [],
+                "savageRole": [
+                  "ISBBossCommander"
+                ],
+                "bodyPart": [],
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "enemyHealthEffects": [],
+                "resetOnSessionEnd": false,
+                "conditionType": "Kills"
+              }
+            ]
+          },
+          "conditionType": "CounterCreator"
+        },
+        {
+          "id": "6a5d56f39c59c439938bb2ca",
+          "index": 1,
+          "dynamicLocale": false,
+          "visibilityConditions": [],
+          "globalQuestCounterId": "",
+          "parentId": "",
+          "value": 1,
+          "type": "Completion",
+          "oneSessionOnly": true,
+          "completeInSeconds": 0,
+          "doNotResetIfCounterCompleted": false,
+          "isResetOnConditionFailed": false,
+          "isNecessary": false,
+          "counter": {
+            "id": "6a5d56f615c30afdee0585c1",
+            "conditions": [
+              {
+                "id": "6a5d56f8f36c489aeb18eabe",
+                "dynamicLocale": false,
+                "target": "Savage",
+                "compareMethod": ">=",
+                "value": 1,
+                "weapon": [],
+                "distance": {
+                  "value": 0,
+                  "compareMethod": ">="
+                },
+                "weaponModsInclusive": [],
+                "weaponModsExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyEquipmentExclusive": [],
+                "weaponCaliber": [],
+                "savageRole": [
+                  "ISBFollowerCommander"
+                ],
+                "bodyPart": [],
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "enemyHealthEffects": [],
+                "resetOnSessionEnd": false,
+                "conditionType": "Kills"
+              }
+            ]
+          },
+          "conditionType": "CounterCreator"
+        }
+      ],
+      "fail": []
+    },
+    "instantComplete": false,
+    "showNotificationsInGame": true,
+    "showProgress": true,
+    "prefab": "",
+    "rarity": "Legendary",
+    "hidden": false,
+    "showConditions": false,
+    "progressBarEnabled": false,
+    "side": "Pmc",
+    "index": 3301
+  }
 ]

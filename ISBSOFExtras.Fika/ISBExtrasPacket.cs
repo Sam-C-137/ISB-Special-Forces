@@ -5,7 +5,6 @@ namespace ISBSSOFExtra.Fika
     public struct ISBExtrasPacket : INetSerializable
     {
         public string Payload;
-
         public void Serialize(NetDataWriter writer)
         {
             writer.PutLargeString(Payload ?? string.Empty);

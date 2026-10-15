@@ -6,12 +6,8 @@ namespace ISB.MixedAmmo
 {
     public static class ISBMixedAmmoState
     {
-        private static readonly ConcurrentDictionary<string, Dictionary<string, CaliberIntDefinition>> Registry =
-            new(StringComparer.OrdinalIgnoreCase);
-
+        private static readonly ConcurrentDictionary<string, Dictionary<string, CaliberIntDefinition>> Registry = new(StringComparer.OrdinalIgnoreCase);
         private static readonly ConcurrentDictionary<string, bool> BotRollCache = new();
-
-
         public static void Clear(string botRole)
         {
             Registry.TryRemove(botRole, out _);
@@ -31,7 +27,6 @@ namespace ISB.MixedAmmo
             }
 
             var target = Registry.GetOrAdd(botRole, _ => new Dictionary<string, CaliberIntDefinition>(StringComparer.OrdinalIgnoreCase));
-
             lock (target)
             {
                 foreach (var kvp in mixes)
@@ -44,7 +39,6 @@ namespace ISB.MixedAmmo
         public static bool TryGet(string botRole, string caliber, out CaliberIntDefinition mix)
         {
             mix = null!;
-
             if (!Registry.TryGetValue(botRole, out var byCaliber))
             {
                 return false;

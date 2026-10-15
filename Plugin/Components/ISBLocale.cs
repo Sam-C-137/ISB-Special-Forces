@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -7,23 +7,19 @@ namespace ISBSpecialForces.Components
 {
     internal static class ISBLocale
     {
-        private static readonly object SyncRoot = new object();
+        private static readonly object SyncRoot = new object ();
         private static readonly List<MethodInfo> LocalizedMethods = new List<MethodInfo>();
         private static MethodInfo _workingMethod;
         private static bool _initialized;
-
         public static void Initialize()
         {
             lock (SyncRoot)
             {
                 if (_initialized)
                     return;
-
                 _initialized = true;
-
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                     AddAssemblyMethods(assembly);
-
                 AppDomain.CurrentDomain.AssemblyLoad += OnAssemblyLoad;
             }
         }
@@ -36,15 +32,11 @@ namespace ISBSpecialForces.Components
         public static bool TryTranslate(string key, out string translated)
         {
             translated = null;
-
             if (string.IsNullOrWhiteSpace(key))
                 return false;
-
             Initialize();
-
             MethodInfo workingMethod;
             MethodInfo[] methods;
-
             lock (SyncRoot)
             {
                 workingMethod = _workingMethod;
@@ -53,18 +45,14 @@ namespace ISBSpecialForces.Components
 
             if (TryInvoke(workingMethod, key, out translated))
                 return true;
-
             foreach (var method in methods)
             {
                 if (ReferenceEquals(method, workingMethod))
                     continue;
-
                 if (!TryInvoke(method, key, out translated))
                     continue;
-
                 lock (SyncRoot)
                     _workingMethod = method;
-
                 return true;
             }
 
@@ -76,7 +64,6 @@ namespace ISBSpecialForces.Components
         {
             if (args?.LoadedAssembly == null)
                 return;
-
             lock (SyncRoot)
                 AddAssemblyMethods(args.LoadedAssembly);
         }
@@ -85,9 +72,7 @@ namespace ISBSpecialForces.Components
         {
             if (assembly == null || assembly.IsDynamic)
                 return;
-
             Type[] types;
-
             try
             {
                 types = assembly.GetTypes();
@@ -101,30 +86,23 @@ namespace ISBSpecialForces.Components
                 return;
             }
 
-            var candidates = types
-                .SelectMany(GetStaticMethodsSafe)
-                .Where(IsLocalizedMethod)
-                .OrderByDescending(ScoreLocalizedMethod);
-
+            var candidates = types.SelectMany(GetStaticMethodsSafe).Where(IsLocalizedMethod).OrderByDescending(ScoreLocalizedMethod);
             foreach (var candidate in candidates)
             {
                 if (!LocalizedMethods.Contains(candidate))
                     LocalizedMethods.Add(candidate);
             }
 
-            LocalizedMethods.Sort((left, right) =>
-                ScoreLocalizedMethod(right).CompareTo(ScoreLocalizedMethod(left)));
+            LocalizedMethods.Sort((left, right) => ScoreLocalizedMethod(right).CompareTo(ScoreLocalizedMethod(left)));
         }
 
         private static IEnumerable<MethodInfo> GetStaticMethodsSafe(Type type)
         {
             if (type == null)
                 return Array.Empty<MethodInfo>();
-
             try
             {
-                return type.GetMethods(
-                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+                return type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
             }
             catch
             {
@@ -134,29 +112,28 @@ namespace ISBSpecialForces.Components
 
         private static bool IsLocalizedMethod(MethodInfo method)
         {
-            if (method == null
-                || !string.Equals(method.Name, "Localized", StringComparison.Ordinal)
-                || method.ReturnType != typeof(string)
-                || method.ContainsGenericParameters)
+            if (method == null || !string.Equals(method.Name, "Localized", StringComparison.Ordinal) || method.ReturnType != typeof(string) || method.ContainsGenericParameters)
             {
                 return false;
             }
 
             var parameters = method.GetParameters();
-            return parameters.Length == 1
-                && parameters[0].ParameterType == typeof(string);
+            return parameters.Length >= 1 && parameters[0].ParameterType == typeof(string) && parameters.Skip(1).All(parameter => parameter.IsOptional);
         }
 
         private static bool TryInvoke(MethodInfo method, string key, out string translated)
         {
             translated = null;
-
             if (method == null)
                 return false;
-
             try
             {
-                translated = method.Invoke(null, new object[] { key }) as string;
+                var parameters = method.GetParameters();
+                var arguments = new object[parameters.Length];
+                arguments[0] = key;
+                for (int i = 1; i < arguments.Length; i++)
+                    arguments[i] = parameters[i].DefaultValue;
+                translated = method.Invoke(null, arguments) as string;
                 return IsValidTranslation(translated, key);
             }
             catch
@@ -168,8 +145,7 @@ namespace ISBSpecialForces.Components
 
         private static bool IsValidTranslation(string translated, string key)
         {
-            return !string.IsNullOrWhiteSpace(translated)
-                && !string.Equals(translated, key, StringComparison.Ordinal);
+            return !string.IsNullOrWhiteSpace(translated) && !string.Equals(translated, key, StringComparison.Ordinal);
         }
 
         private static int ScoreLocalizedMethod(MethodInfo method)
@@ -177,7 +153,6 @@ namespace ISBSpecialForces.Components
             var typeName = method.DeclaringType?.FullName ?? string.Empty;
             var assemblyName = method.DeclaringType?.Assembly.GetName().Name ?? string.Empty;
             var score = 0;
-
             if (typeName.IndexOf("Localization", StringComparison.OrdinalIgnoreCase) >= 0)
                 score += 60;
             if (typeName.IndexOf("Locale", StringComparison.OrdinalIgnoreCase) >= 0)
@@ -188,7 +163,6 @@ namespace ISBSpecialForces.Components
                 score += 20;
             if (method.IsPublic)
                 score += 5;
-
             return score;
         }
     }

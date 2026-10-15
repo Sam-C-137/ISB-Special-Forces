@@ -22,33 +22,117 @@ using Newtonsoft.Json;
 
 namespace ISBSSOFExtra
 {
-	public static class LabsBlackout
-	{
+    public static class LabsBlackout
+    {
+        private sealed class AmbientState
+        {
+            public bool Captured;
+            public GameObject AmbientManager;
+            public bool AmbientManagerActive;
+            public GameObject Stencil;
+            public bool StencilActive;
+            public AnimationCurve TodAmbientBrightness;
+            public Color SkyColor;
+            public Color EquatorColor;
+            public Color GroundColor;
+            public float AmbientIntensity;
+            public Color NightVisionSkyColor;
+            public Color NightVisionEquatorColor;
+            public Color NightVisionGroundColor;
+            public float NightVisionAmbientIntensity;
+        }
+
+        private sealed class SimpleLightState
+        {
+            public CullingLightObject Culling;
+            public float Multiplier;
+            public Light Light;
+            public bool Enabled;
+            public float Intensity;
+        }
+
+        private sealed class AdvancedLightState
+        {
+            public CullingAdvancedLightObject Culling;
+            public float Multiplier;
+            public Behaviour Light;
+            public bool Enabled;
+        }
+
+        private sealed class GameObjectState
+        {
+            public GameObject Object;
+            public bool Active;
+        }
+
+        private sealed class RoomToneState
+        {
+            public object Target;
+            public MemberInfo Member;
+            public object Value;
+        }
+
+        private sealed class MaterialState
+        {
+            public bool HasSpec;
+            public Vector4 Spec;
+            public bool HasEmissionPower;
+            public float EmissionPower;
+            public bool HasEmissionColor;
+            public Color EmissionColor;
+        }
+
+        private static readonly AmbientState SavedAmbient = new AmbientState();
+        private static readonly List<SimpleLightState> SavedSimpleLights = new List<SimpleLightState>();
+        private static readonly List<AdvancedLightState> SavedAdvancedLights = new List<AdvancedLightState>();
+        private static readonly List<GameObjectState> SavedElectricObjects = new List<GameObjectState>();
+        private static readonly List<RoomToneState> SavedRoomTones = new List<RoomToneState>();
+        private static readonly Dictionary<Material, MaterialState> SavedMaterials = new Dictionary<Material, MaterialState>();
+        private static GameObjectState SavedAutomaticLights;
+        private static bool LightsCaptured;
+        private static bool ElectricSoundsCaptured;
+        private static int _materialGeneration;
+        private static readonly HashSet<Material> PreparedMaterials = new HashSet<Material>();
+        private static readonly HashSet<Material> PreparedLightDecals = new HashSet<Material>();
+        private static readonly Dictionary<Material, bool> SavedLightDecals = new Dictionary<Material, bool>();
+        private static bool _materialsReady, _materialsPreparing;
         public static void DisableExfils()
         {
+            if (Singleton<GameWorld>.Instance == null)
+                return;
+            var controller = CommonAssets.Scripts.Game.ExfiltrationController.Instance;
+            if (controller == null || controller.ExfiltrationPoints == null)
+                return;
+            BlackoutBridge.CaptureExfilStates(null);
             var exfils = new HashSet<string>()
             {
                 "lab_Hangar_Gate",
                 "lab_Parking_Gate",
             };
-            foreach (var exfil in ExfiltrationControllerClass.Instance.ExfiltrationPoints)
+            foreach (var exfil in controller.ExfiltrationPoints)
             {
-                if (!exfils.Contains(exfil.Settings.Name))
+                if (exfil == null || exfil.Settings == null || string.IsNullOrEmpty(exfil.Settings.Name))
+                    continue;
+                if (!exfils.Contains(exfil.Settings.Name) && !LabsFinalLockdown.PreservesVent(exfil.Settings.Name))
                 {
-    				exfil.Status = EExfiltrationStatus.NotPresent;
+                    exfil.Status = EExfiltrationStatus.NotPresent;
                 }
             }
 
             var sceneName = "Laboratory_Collector_Exit";
             var scene = SceneManager.GetSceneByName(sceneName);
+            if (!scene.IsValid() || !scene.isLoaded)
+                return;
             foreach (var sceneRootGO in scene.GetRootGameObjects())
             {
                 if (sceneRootGO.name == "TRANSITS")
                 {
                     foreach (var transit in sceneRootGO.GetComponentsInChildren<TransitPoint>(true))
                     {
-                        transit.Enabled = false;
+                        if (transit != null)
+                            transit.Enabled = false;
                     }
+
                     break;
                 }
             }
@@ -63,105 +147,215 @@ namespace ISBSSOFExtra
                 var sceneRootName = sceneRootGO.name;
                 if (sceneRootName == "ambientManager")
                 {
+                    if (!SavedAmbient.Captured)
+                    {
+                        SavedAmbient.AmbientManager = sceneRootGO;
+                        SavedAmbient.AmbientManagerActive = sceneRootGO.activeSelf;
+                    }
+
                     sceneRootGO.SetActive(false);
                     continue;
                 }
+
                 if (sceneRootName == "Stencil")
                 {
+                    if (!SavedAmbient.Captured)
+                    {
+                        SavedAmbient.Stencil = sceneRootGO;
+                        SavedAmbient.StencilActive = sceneRootGO.activeSelf;
+                    }
+
                     sceneRootGO.SetActive(false);
                     continue;
                 }
             }
 
             var tod = MonoBehaviourSingleton<TODSkySimple>.Instance;
-            tod.AmbientBrightness = AnimationCurve.Constant(0, 1, 0);
-
             var levelSettings = Singleton<LevelSettings>.Instance;
-        	levelSettings.SkyColor = Color.black;
-        	levelSettings.EquatorColor = Color.black;
-        	levelSettings.GroundColor = Color.black;
-        	levelSettings.AmbientIntensity = 0;
+            if (!SavedAmbient.Captured)
+            {
+                if (tod != null)
+                    SavedAmbient.TodAmbientBrightness = tod.AmbientBrightness;
+                if (levelSettings != null)
+                {
+                    SavedAmbient.SkyColor = levelSettings.SkyColor;
+                    SavedAmbient.EquatorColor = levelSettings.EquatorColor;
+                    SavedAmbient.GroundColor = levelSettings.GroundColor;
+                    SavedAmbient.AmbientIntensity = levelSettings.AmbientIntensity;
+                    SavedAmbient.NightVisionSkyColor = levelSettings.NightVisionSkyColor;
+                    SavedAmbient.NightVisionEquatorColor = levelSettings.NightVisionEquatorColor;
+                    SavedAmbient.NightVisionGroundColor = levelSettings.NightVisionGroundColor;
+                    SavedAmbient.NightVisionAmbientIntensity = levelSettings.NightVisionAmbientIntensity;
+                }
 
-        	levelSettings.NightVisionSkyColor = new Color(0.030f, 0.037f, 0.042f, 1f);
-        	levelSettings.NightVisionEquatorColor = new Color(0.013f, 0.014f, 0.015f, 1f);
-        	levelSettings.NightVisionGroundColor = new Color(0.031f, 0.030f, 0.028f, 1f);
-            levelSettings.NightVisionAmbientIntensity = 0;
+                SavedAmbient.Captured = true;
+            }
+
+            if (tod != null)
+                tod.AmbientBrightness = AnimationCurve.Constant(0, 1, 0);
+            if (levelSettings != null)
+            {
+                levelSettings.SkyColor = Color.black;
+                levelSettings.EquatorColor = Color.black;
+                levelSettings.GroundColor = Color.black;
+                levelSettings.AmbientIntensity = 0;
+                levelSettings.NightVisionSkyColor = new Color(0.030f, 0.037f, 0.042f, 1f);
+                levelSettings.NightVisionEquatorColor = new Color(0.013f, 0.014f, 0.015f, 1f);
+                levelSettings.NightVisionGroundColor = new Color(0.031f, 0.030f, 0.028f, 1f);
+                levelSettings.NightVisionAmbientIntensity = 0;
+            }
+        }
+
+        public static void RestoreAmbientLight()
+        {
+            if (!SavedAmbient.Captured)
+                return;
+            if (SavedAmbient.AmbientManager != null)
+                SavedAmbient.AmbientManager.SetActive(SavedAmbient.AmbientManagerActive);
+            if (SavedAmbient.Stencil != null)
+                SavedAmbient.Stencil.SetActive(SavedAmbient.StencilActive);
+            var tod = MonoBehaviourSingleton<TODSkySimple>.Instance;
+            if (tod != null && SavedAmbient.TodAmbientBrightness != null)
+                tod.AmbientBrightness = SavedAmbient.TodAmbientBrightness;
+            var levelSettings = Singleton<LevelSettings>.Instance;
+            if (levelSettings != null)
+            {
+                levelSettings.SkyColor = SavedAmbient.SkyColor;
+                levelSettings.EquatorColor = SavedAmbient.EquatorColor;
+                levelSettings.GroundColor = SavedAmbient.GroundColor;
+                levelSettings.AmbientIntensity = SavedAmbient.AmbientIntensity;
+                levelSettings.NightVisionSkyColor = SavedAmbient.NightVisionSkyColor;
+                levelSettings.NightVisionEquatorColor = SavedAmbient.NightVisionEquatorColor;
+                levelSettings.NightVisionGroundColor = SavedAmbient.NightVisionGroundColor;
+                levelSettings.NightVisionAmbientIntensity = SavedAmbient.NightVisionAmbientIntensity;
+                levelSettings.ApplySettings();
+            }
+        }
+
+        private static void CaptureLights()
+        {
+            if (LightsCaptured)
+                return;
+            var cullingManager = CullingManager.Instance;
+            if (cullingManager == null)
+                return;
+            var indices = cullingManager.GetField<CullingManager, List<int>>("_activeSpheresIndices");
+            var objects = cullingManager.GetField<CullingManager, CullingManager.CullingObjectData[]>("_objectsData");
+            var baseLightField = AccessTools.Field(typeof(CullingAdvancedLightObject), "_light");
+            if (!LightsCaptured)
+            {
+                SavedSimpleLights.Clear();
+                SavedAdvancedLights.Clear();
+            }
+
+            for (int i = 0; i < indices.Count; i++)
+            {
+                int index = indices[i];
+                ICullable cullingObject = objects[index].CullingObject;
+                if (cullingObject is CullingAdvancedLightObject advancedLight)
+                {
+                    Behaviour baseLight = baseLightField.GetValue(advancedLight) as Behaviour;
+                    if (!BlackoutTargets.IsFacilityComponent(baseLight))
+                        continue;
+                    if (!LightsCaptured)
+                    {
+                        SavedAdvancedLights.Add(new AdvancedLightState { Culling = advancedLight, Multiplier = 1f, Light = baseLight, Enabled = baseLight != null && baseLight.enabled });
+                    }
+
+                    continue;
+                }
+
+                if (cullingObject is CullingLightObject cullingLight)
+                {
+                    Light light = cullingLight.GetLight();
+                    if (!BlackoutTargets.IsFacilityComponent(light))
+                        continue;
+                    if (!LightsCaptured)
+                    {
+                        SavedSimpleLights.Add(new SimpleLightState { Culling = cullingLight, Multiplier = cullingLight.IntensityMultiplier, Light = light, Enabled = light != null && light.enabled, Intensity = light != null ? light.intensity : 0f });
+                    }
+                }
+            }
+
+            LightsCaptured = true;
+        }
+
+        public static IEnumerator ApplyBlackoutCadence(Func<bool> canContinue)
+        {
+            int generation = _materialGeneration;
+            yield return null;
+            if (generation != _materialGeneration || !canContinue())
+                yield break;
+            DisableAutomaticLights();
+            yield return null;
+            if (generation != _materialGeneration || !canContinue())
+                yield break;
+            DisableAmbientLight();
+            yield return null;
+            if (generation != _materialGeneration || !canContinue())
+                yield break;
+            DisableElectricSounds();
+            yield return null;
+            if (generation != _materialGeneration || !canContinue())
+                yield break;
+            DisableLights();
+            yield return null;
+            if (generation != _materialGeneration || !canContinue())
+                yield break;
+            ApplyPreparedMaterials();
         }
 
         public static void DisableLights()
         {
-            // TODO this also disables lights on guns, which is hard to avoid, but kinda cool on its own
-
-            var cullingManager = CullingManager.Instance;
-            var indices = cullingManager.GetField<CullingManager, List<int>>("list_0");
-        	var freeIndices = cullingManager.GetField<CullingManager, Queue<int>>("queue_0");
-            var objects = cullingManager.GetField<CullingManager, CullingManager.GStruct69[]>("gstruct69_0");
-            var baseLightField = AccessTools.Field(typeof(CullingAdvancedLightObject), "_light");
-
-            var i = 0;
-            while (i < indices.Count)
-            {
-                var index = indices[i];
-                var cullingObject = objects[index].CullingObject;
-                if (TryDisableLight(cullingObject, baseLightField))
-                {
-                    // unregister culling object to free cpu from processing disabled lights,
-                    // interestingly on labs all culling objects are lights.
-                    // Swap-remove places new object on this index, so no need for increment
-                    Unregister(i, cullingObject, freeIndices, objects, indices);
-                }
-                else
-                {
-                    i++;
-                }
-            }
+            DisableLightStage(0, 1);
+            ManimalLabsBlackoutCompatibility.SetBlackout(true);
         }
 
-        private static bool TryDisableLight(GInterface55 cullingObject, FieldInfo baseLightField)
+        private static void DisableLightStage(int stage, int stages)
         {
-            // TODO simply disabling light is not super nice, maybe add fade or flickering? Similar to LampController
-
-            if (cullingObject is CullingAdvancedLightObject advancedLight)
+            CaptureLights();
+            for (int i = stage; i < SavedSimpleLights.Count; i += stages)
             {
-                var baseLight = baseLightField.GetValue(advancedLight);
-                if (baseLight is AreaLight areaLight)
-                {
-                    areaLight.enabled = false;
-                    return true;
-                }
-                if (baseLight is TubeLight tubeLight)
-                {
-                    tubeLight.enabled = false;
-                    return true;
-                }
-            }
-            if (cullingObject is CullingLightObject light)
-            {
-                light.GetLight().enabled = false;
-                return true;
+                var state = SavedSimpleLights[i];
+                if (state.Culling != null)
+                    state.Culling.IntensityMultiplier = 0f;
+                if (state.Light != null)
+                    state.Light.enabled = false;
             }
 
-            return false;
+            for (int i = stage; i < SavedAdvancedLights.Count; i += stages)
+            {
+                var state = SavedAdvancedLights[i];
+                if (state.Culling != null)
+                    state.Culling.IntensityMultiplier = 0f;
+                if (state.Light != null)
+                    state.Light.enabled = false;
+            }
         }
 
-        // this is simplified version of CullingManager.Unregister, simplified
-        // because list_1 (early indices) and queue_0 (free indices) don't contain any items,
-        // so Contains check turns always false, and removing from list is
-        // done via swap remove for speed
-    	private static void Unregister(
-            int index,
-            GInterface55 o,
-            Queue<int> queue_0,
-            CullingManager.GStruct69[] gstruct69_0,
-            List<int> list_0)
-    	{
-			queue_0.Enqueue(o.Index);
-    		gstruct69_0[o.Index].Reset();
+        public static void RestoreLights()
+        {
+            if (!LightsCaptured)
+                return;
+            foreach (SimpleLightState state in SavedSimpleLights)
+            {
+                if (state.Culling != null)
+                    state.Culling.IntensityMultiplier = state.Multiplier;
+                if (state.Light != null)
+                {
+                    state.Light.intensity = state.Intensity;
+                    state.Light.enabled = state.Enabled;
+                }
+            }
 
-            var lastIndex = list_0.Count - 1;
-            list_0[index] = list_0[lastIndex];
-            list_0.RemoveAt(lastIndex);
-    	}
+            foreach (AdvancedLightState state in SavedAdvancedLights)
+            {
+                if (state.Culling != null)
+                    state.Culling.IntensityMultiplier = state.Multiplier;
+                if (state.Light != null)
+                    state.Light.enabled = state.Enabled;
+            }
+        }
 
         public static void DisableAutomaticLights()
         {
@@ -172,58 +366,119 @@ namespace ISBSSOFExtra
                 if (sceneRootGO.name == "UniversalTriggers")
                 {
                     var lightsTriggers = sceneRootGO.transform.Find("Lights_triggers");
-                    lightsTriggers.gameObject.SetActive(false);
+                    if (lightsTriggers != null)
+                    {
+                        if (SavedAutomaticLights == null)
+                        {
+                            SavedAutomaticLights = new GameObjectState
+                            {
+                                Object = lightsTriggers.gameObject,
+                                Active = lightsTriggers.gameObject.activeSelf
+                            };
+                        }
+
+                        lightsTriggers.gameObject.SetActive(false);
+                    }
+
                     break;
                 }
             }
         }
 
+        public static void RestoreAutomaticLights()
+        {
+            if (SavedAutomaticLights != null && SavedAutomaticLights.Object != null)
+                SavedAutomaticLights.Object.SetActive(SavedAutomaticLights.Active);
+        }
+
         public static void DisableElectricSounds()
         {
             var spatialAudioSystem = MonoBehaviourSingleton<SpatialAudioSystem>.Instance;
-            var gclass1122_0 = spatialAudioSystem.GetField<SpatialAudioSystem, GClass1122>("gclass1122_0");
-            var allRooms = gclass1122_0.GetField<GClass1122, List<SpatialAudioRoom>>("List_0");
-            var currentRooms = gclass1122_0.GetField<GClass1122, List<ISpatialAudioRoom>>("List_3");
+            if (spatialAudioSystem != null)
+            {
+                var audioRoomStorage = spatialAudioSystem.GetField<SpatialAudioSystem, AudioRoomStorage>("_audioRoomStorage");
+                var allRooms = audioRoomStorage.GetField<AudioRoomStorage, List<SpatialAudioRoom>>("_validSpatialAudioRooms");
+                var currentRooms = audioRoomStorage.GetField<AudioRoomStorage, List<ISpatialAudioRoom>>("list_3");
+                if (!ElectricSoundsCaptured)
+                    SavedRoomTones.Clear();
+                foreach (var room in allRooms)
+                {
+                    object ambientData = room?.AmbientData;
+                    if (ambientData == null)
+                        continue;
+                    Type type = ambientData.GetType();
+                    PropertyInfo property = type.GetProperty("RoomTone", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                    FieldInfo field = property == null ? type.GetField("RoomTone", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) : null;
+                    MemberInfo member = (MemberInfo)property ?? field;
+                    if (member == null)
+                        continue;
+                    object value = property != null ? property.GetValue(ambientData, null) : field.GetValue(ambientData);
+                    if (!ElectricSoundsCaptured)
+                    {
+                        SavedRoomTones.Add(new RoomToneState { Target = ambientData, Member = member, Value = value });
+                    }
 
-            foreach (var room in allRooms)
-            {
-                // ambient sounds are attached to rooms,
-                // can't play sound if its null, haha
-                room.AmbientData.RoomTone = null;
-            }
-            foreach (var room in currentRooms)
-            {
-                room.StopRoomToneSound();
-            }
+                    if (property != null)
+                        property.SetValue(ambientData, null, null);
+                    else
+                        field.SetValue(ambientData, null);
+                }
 
-            foreach (var room in currentRooms)
-            {
-                room.StopRoomToneSound();
+                foreach (var room in currentRooms)
+                    room?.StopRoomToneSound();
             }
 
             var sceneName = "Laboratory_Scripts";
             var scene = SceneManager.GetSceneByName(sceneName);
+            if (!ElectricSoundsCaptured)
+                SavedElectricObjects.Clear();
             foreach (var sceneRootGO in scene.GetRootGameObjects())
             {
-                if (sceneRootGO.name == "Laboratory_Sounds")
+                if (sceneRootGO.name != "Laboratory_Sounds")
+                    continue;
+                var sceneRootTransform = sceneRootGO.transform;
+                var childrenCount = sceneRootTransform.childCount;
+                for (var i = 0; i < childrenCount; i++)
                 {
-                    var sceneRootTransform = sceneRootGO.transform;
-                    var childrenCount = sceneRootTransform.childCount;
-                    for (var i = 0; i < childrenCount; i++)
+                    var child = sceneRootTransform.GetChild(i);
+                    var childName = child.name;
+                    if (childName.Contains("server") || childName.Contains("generator") || childName.Contains("electric") || childName.Contains("airvent") || childName.Contains("turbine"))
                     {
-                        var child = sceneRootTransform.GetChild(i);
-                        var childName = child.name;
-                        if (childName.Contains("server") ||
-                            childName.Contains("generator") ||
-                            childName.Contains("electric") ||
-                            childName.Contains("airvent") ||
-                            childName.Contains("turbine"))
+                        if (!ElectricSoundsCaptured)
                         {
-                            child.gameObject.SetActive(false);
+                            SavedElectricObjects.Add(new GameObjectState { Object = child.gameObject, Active = child.gameObject.activeSelf });
                         }
+
+                        child.gameObject.SetActive(false);
                     }
-                    break;
                 }
+
+                break;
+            }
+
+            ElectricSoundsCaptured = true;
+        }
+
+        public static void RestoreElectricSounds()
+        {
+            if (!ElectricSoundsCaptured)
+                return;
+            foreach (RoomToneState state in SavedRoomTones)
+            {
+                if (state.Target == null || state.Member == null)
+                    continue;
+                PropertyInfo property = state.Member as PropertyInfo;
+                FieldInfo field = state.Member as FieldInfo;
+                if (property != null)
+                    property.SetValue(state.Target, state.Value, null);
+                else if (field != null)
+                    field.SetValue(state.Target, state.Value);
+            }
+
+            foreach (GameObjectState state in SavedElectricObjects)
+            {
+                if (state.Object != null)
+                    state.Object.SetActive(state.Active);
             }
         }
 
@@ -236,7 +491,7 @@ namespace ISBSSOFExtra
                 if (scene.isLoaded && automaticDoorsPaths.TryGetValue(scene.name, out var roots))
                 {
                     var sceneRoots = scene.GetRootGameObjects();
-                    foreach (var (rootIndex, doorPaths) in roots)
+                    foreach (var(rootIndex, doorPaths)in roots)
                     {
                         var root = sceneRoots[rootIndex].transform;
                         foreach (var doorPath in doorPaths)
@@ -263,92 +518,193 @@ namespace ISBSSOFExtra
         public static readonly int _EmissionPower = Shader.PropertyToID("_EmissionPower");
         public static readonly int _EmissionColor = Shader.PropertyToID("_EmissionColor");
         public static readonly int _SpecVals = Shader.PropertyToID("_SpecVals");
-
-        public static IEnumerator ChangeMaterialsOnAllMeshes()
+        public static IEnumerator PrepareMaterials()
         {
-            var materialsList = new List<Material>(20);
-            var renderersList = new List<Renderer>(8300);
-            var materialsSet = new HashSet<Material>(900);
-            var excludedScenes = new HashSet<string>(15)
+            int generation = _materialGeneration;
+            while (_materialsPreparing && generation == _materialGeneration)
+                yield return null;
+            if (_materialsReady || generation != _materialGeneration)
+                yield break;
+            _materialsPreparing = true;
+            var renderers = new List<Renderer>(8300);
+            var materials = new List<Material>(20);
+            int processed = 0;
+            try
             {
-                "Laboratory_AI",
-                "Laboratory_Sound",
-                "Laboratory_Culling",
-                "GameUIScene",
-            };
-
-            // we have to tweak specular on all meshes, so just step through each scene,
-            // also tune emissives down along the way
-
-            var scenesCount = SceneManager.sceneCount;
-            for (var i = 0; i < scenesCount; i++)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                var sceneName = scene.name;
-                if (scene.isLoaded && !excludedScenes.Contains(sceneName) && !sceneName.Contains("PhysicsWorld_"))
+                for (int i = 0; i < SceneManager.sceneCount; i++)
                 {
-                    var sceneRoots = scene.GetRootGameObjects();
-                    for (var k = 0; k < sceneRoots.Length; k++)
+                    var scene = SceneManager.GetSceneAt(i);
+                    if (!scene.isLoaded || !scene.name.StartsWith("Laboratory_", StringComparison.Ordinal) || scene.name == "Laboratory_AI" || scene.name == "Laboratory_Sound" || scene.name == "Laboratory_Culling")
+                        continue;
+                    foreach (var root in scene.GetRootGameObjects())
                     {
-                        var sceneRoot = sceneRoots[k];
-                        sceneRoot.GetComponentsInChildren<Renderer>(true, renderersList);
-                        foreach (var renderer in renderersList)
+                        if (root == null || root.name.StartsWith(TakeoverSirens.RootPrefix, StringComparison.Ordinal) || root.name.StartsWith("ISB_ContainmentBreachFire_", StringComparison.Ordinal))
+                            continue;
+                        root.GetComponentsInChildren(true, renderers);
+                        foreach (var renderer in renderers)
                         {
-                            renderer.GetSharedMaterials(materialsList);
-                            foreach (var sharedMaterial in materialsList)
+                            if (generation != _materialGeneration)
+                                yield break;
+                            if (!BlackoutTargets.IsFacilityComponent(renderer))
+                                continue;
+                            renderer.GetSharedMaterials(materials);
+                            foreach (var material in materials)
                             {
-                                // we iterate through shared materials, so some are encountered on multiple renderers,
-                                // skip already adjusted materials, otherwise they will be adjusted multiple times
-                                if (sharedMaterial && !materialsSet.Contains(sharedMaterial))
+                                if (material == null || material.shader == null || (material.name.StartsWith(DecontaminationScreenRules.MaterialPrefix, StringComparison.Ordinal) || material.name.StartsWith("ISB_Prop_", StringComparison.Ordinal)))
+                                    continue;
+                                if (renderer.name.StartsWith("Emmisive_plane", StringComparison.OrdinalIgnoreCase) && material.name.Replace(" (Instance)", string.Empty) == "zapravka_light" && material.shader.name == "Decal/Ultra Deferred Decal Of God 3000")
+                                    PreparedLightDecals.Add(material);
+                                switch (material.shader.name)
                                 {
-                                    var shaderName = sharedMaterial.shader.name;
-                                    switch (shaderName)
-                                    {
-                                        case "p0/Reflective/Bumped Specular SMap":
-                                        {
-                                            var spec = sharedMaterial.GetVector(_SpecVals);
-                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
-                                            break;
-                                        }
-                                        case "p0/Reflective/Bumped Emissive Specular SMap":
-                                        case "p0/Reflective/Bumped Animated Emissive Specular SMap":
-                                        {
-                                            var spec = sharedMaterial.GetVector(_SpecVals);
-                                            sharedMaterial.SetVector(_SpecVals, spec * 0.4f);
-                                            sharedMaterial.SetFloat(_EmissionPower, 0);
-                                            break;
-                                        }
-                                        case "Standard":
-                                        {
-                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
-                                            break;
-                                        }
-                                        case "Decal/Ultra Deferred Decal Of God 3000":
-                                        {
-                                            sharedMaterial.SetColor(_EmissionColor, Color.clear);
-                                            break;
-                                        }
-                                    }
-                                    materialsSet.Add(sharedMaterial);
+                                    case "p0/Reflective/Bumped Specular SMap":
+                                    case "p0/Reflective/Bumped Emissive Specular SMap":
+                                    case "p0/Reflective/Bumped Animated Emissive Specular SMap":
+                                    case "Standard":
+                                    case "Decal/Ultra Deferred Decal Of God 3000":
+                                        PreparedMaterials.Add(material);
+                                        break;
                                 }
                             }
-                            materialsList.Clear();
+
+                            materials.Clear();
+                            if (++processed >= 256)
+                            {
+                                processed = 0;
+                                yield return null;
+                            }
                         }
-                        renderersList.Clear();
+
+                        renderers.Clear();
                     }
-                    yield return null;
+                }
+
+                if (generation == _materialGeneration)
+                    _materialsReady = true;
+            }
+            finally
+            {
+                if (generation == _materialGeneration)
+                    _materialsPreparing = false;
+            }
+        }
+
+        public static void ApplyPreparedMaterials(int stage = 0, int stages = 1)
+        {
+            int index = 0;
+            foreach (var material in PreparedLightDecals)
+            {
+                if (index++ % stages != stage || material == null || SavedLightDecals.ContainsKey(material))
+                    continue;
+                SavedLightDecals.Add(material, material.GetShaderPassEnabled("DEFERRED"));
+                material.SetShaderPassEnabled("DEFERRED", false);
+            }
+
+            index = 0;
+            foreach (var material in PreparedMaterials)
+            {
+                if (index++ % stages != stage)
+                    continue;
+                if (material == null || material.shader == null || SavedMaterials.ContainsKey(material) || (material.name.StartsWith(DecontaminationScreenRules.MaterialPrefix, StringComparison.Ordinal) || material.name.StartsWith("ISB_Prop_", StringComparison.Ordinal)))
+                    continue;
+                var saved = new MaterialState
+                {
+                    HasSpec = material.HasProperty(_SpecVals),
+                    HasEmissionPower = material.HasProperty(_EmissionPower),
+                    HasEmissionColor = material.HasProperty(_EmissionColor)
+                };
+                if (saved.HasSpec)
+                    saved.Spec = material.GetVector(_SpecVals);
+                if (saved.HasEmissionPower)
+                    saved.EmissionPower = material.GetFloat(_EmissionPower);
+                if (saved.HasEmissionColor)
+                    saved.EmissionColor = material.GetColor(_EmissionColor);
+                SavedMaterials.Add(material, saved);
+                switch (material.shader.name)
+                {
+                    case "p0/Reflective/Bumped Specular SMap":
+                        if (saved.HasSpec)
+                            material.SetVector(_SpecVals, saved.Spec * 0.4f);
+                        break;
+                    case "p0/Reflective/Bumped Emissive Specular SMap":
+                    case "p0/Reflective/Bumped Animated Emissive Specular SMap":
+                        if (saved.HasSpec)
+                            material.SetVector(_SpecVals, saved.Spec * 0.4f);
+                        if (saved.HasEmissionPower)
+                            material.SetFloat(_EmissionPower, 0f);
+                        break;
+                    default:
+                        if (saved.HasEmissionColor)
+                            material.SetColor(_EmissionColor, Color.clear);
+                        break;
                 }
             }
         }
 
+        private static void RestoreLightDecals()
+        {
+            foreach (var pair in SavedLightDecals)
+                if (pair.Key != null)
+                    pair.Key.SetShaderPassEnabled("DEFERRED", pair.Value);
+            SavedLightDecals.Clear();
+        }
+
+        public static void RestoreMaterials()
+        {
+            RestoreLightDecals();
+            foreach (KeyValuePair<Material, MaterialState> pair in SavedMaterials)
+            {
+                Material material = pair.Key;
+                MaterialState state = pair.Value;
+                if (material == null || state == null)
+                    continue;
+                if (state.HasSpec)
+                    material.SetVector(_SpecVals, state.Spec);
+                if (state.HasEmissionPower)
+                    material.SetFloat(_EmissionPower, state.EmissionPower);
+                if (state.HasEmissionColor)
+                    material.SetColor(_EmissionColor, state.EmissionColor);
+            }
+
+            SavedMaterials.Clear();
+        }
+
+        public static void RestoreFacilityPower()
+        {
+            RestoreAutomaticLights();
+            RestoreAmbientLight();
+            RestoreElectricSounds();
+            RestoreLights();
+            RestoreMaterials();
+            ManimalLabsBlackoutCompatibility.SetBlackout(false);
+        }
+
+        public static void ResetRestorationState()
+        {
+            _materialGeneration++;
+            RestoreLightDecals();
+            PreparedLightDecals.Clear();
+            PreparedMaterials.Clear();
+            _materialsReady = _materialsPreparing = false;
+            ManimalLabsBlackoutCompatibility.Reset();
+            SavedAmbient.Captured = false;
+            SavedAmbient.AmbientManager = null;
+            SavedAmbient.Stencil = null;
+            SavedAmbient.TodAmbientBrightness = null;
+            SavedSimpleLights.Clear();
+            SavedAdvancedLights.Clear();
+            SavedElectricObjects.Clear();
+            SavedRoomTones.Clear();
+            SavedMaterials.Clear();
+            SavedAutomaticLights = null;
+            LightsCaptured = false;
+            ElectricSoundsCaptured = false;
+        }
 #if DEBUG
         public static Dictionary<string, Dictionary<int, List<List<int>>>> RecordAutomaticDoors(string outputPath, ManualLogSource logger)
         {
             var triggersList = new List<TriggerZone>(10);
             var namesList = new List<string>(15);
             var result = new Dictionary<string, Dictionary<int, List<List<int>>>>();
-
-            logger.LogWarning("Automatic Doors:");
             var scenesCount = SceneManager.sceneCount;
             for (var i = 0; i < scenesCount; i++)
             {
@@ -367,11 +723,6 @@ namespace ISBSSOFExtra
                             {
                                 var path = GetGameObjectPath_Parents(trigger.gameObject, sceneRoot.name);
                                 AddGameObjectPath(path, k, scene.name, result);
-                                logger.LogWarning(pathString);
-                            }
-                            else
-                            {
-                                logger.LogWarning($"skipped: {pathString}");
                             }
                         }
                         triggersList.Clear();
@@ -447,8 +798,7 @@ namespace ISBSSOFExtra
             }
         }
 #endif
-
-	}
+    }
 
     public static class R
     {

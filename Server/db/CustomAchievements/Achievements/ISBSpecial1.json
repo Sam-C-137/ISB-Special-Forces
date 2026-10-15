@@ -1,12 +1,106 @@
 [
-{
-  "id": "6a5d3f64a8b2157267046245",
-  "description": "6a5d3f64a8b2157267046245 description",
-  "name": "6a5d3f64a8b2157267046245 name",
-  "imageUrl": "/files/achievement/KILL1.png",
-  "assetPath": "",
-  "rewards": [],
-  "conditions": {
+  {
+    "id": "6a5d3f64a8b2157267046245",
+    "description": "6a5d3f64a8b2157267046245 description",
+    "name": "6a5d3f64a8b2157267046245 name",
+    "imageUrl": "/files/achievement/KILL1.png",
+    "assetPath": "",
+    "rewards": [
+      {
+        "id": "c22c9b6324058ae99f7f2496",
+        "type": "Item",
+        "index": 0,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 2,
+        "findInRaid": true,
+        "target": "aa81aa4fb6238dc5ec1ed191",
+        "items": [
+          {
+            "_id": "aa81aa4fb6238dc5ec1ed191",
+            "_tpl": "6a0d09c36f85033057ae496a",
+            "upd": {
+              "StackObjectsCount": 2
+            }
+          },
+          {
+            "_id": "ff3e5aea1ea8a15c35f2688a",
+            "_tpl": "692644216a57eab92f4d703b",
+            "parentId": "aa81aa4fb6238dc5ec1ed191",
+            "slotId": "Front_plate"
+          },
+          {
+            "_id": "743e21682610d2ef3e37d35c",
+            "_tpl": "692644216a57eab92f4d703b",
+            "parentId": "aa81aa4fb6238dc5ec1ed191",
+            "slotId": "Back_plate"
+          },
+          {
+            "_id": "40c42e8c46504efc1987b673",
+            "_tpl": "693a0f621394c111098e05c1",
+            "parentId": "aa81aa4fb6238dc5ec1ed191",
+            "slotId": "Soft_armor_front"
+          },
+          {
+            "_id": "d22e03ec3fd627aa4e079921",
+            "_tpl": "693a0faffbf227a34cd7f15a",
+            "parentId": "aa81aa4fb6238dc5ec1ed191",
+            "slotId": "Soft_armor_back"
+          }
+        ]
+      },
+      {
+        "id": "a50c879e4270af922b52930d",
+        "type": "Item",
+        "index": 1,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 2,
+        "findInRaid": true,
+        "target": "425271cc3b5c390fa8633668",
+        "items": [
+          {
+            "_id": "425271cc3b5c390fa8633668",
+            "_tpl": "ec0bbb1bbabc587e94f4a4b1",
+            "upd": {
+              "StackObjectsCount": 2
+            }
+          }
+        ]
+      },
+      {
+        "id": "6eaced3ba45713c380a78a5e",
+        "type": "Item",
+        "index": 2,
+        "unknown": false,
+        "availableInGameEditions": [],
+        "value": 2,
+        "findInRaid": true,
+        "target": "c90de4d0b836e54225a025a0",
+        "items": [
+          {
+            "_id": "c90de4d0b836e54225a025a0",
+            "_tpl": "dfc198ea294757d19d660c89",
+            "upd": {
+              "StackObjectsCount": 2
+            }
+          },
+          {
+            "_id": "fc99669f0ca416bccf46fad2",
+            "_tpl": "6551fec55d0cf82e51014288",
+            "parentId": "c90de4d0b836e54225a025a0",
+            "slotId": "helmet_top"
+          },
+          {
+            "_id": "208d8427944619eff5fe9ff0",
+            "_tpl": "655200ba0ef76cf7be09d528",
+            "parentId": "c90de4d0b836e54225a025a0",
+            "slotId": "helmet_back"
+          }
+        ]
+      }
+    ],
+    "conditions": {
       "availableForFinish": [
         {
           "id": "6a5d52dd48fdfa5f4f519aee",
@@ -32,10 +126,8 @@
                 "value": 1,
                 "compareMethod": ">=",
                 "conditionType": "Kills",
-                "weapon": [
-                ],
-                "bodyPart": [
-                ],
+                "weapon": [],
+                "bodyPart": [],
                 "daytime": {
                   "from": 0,
                   "to": 0
@@ -46,8 +138,10 @@
                 },
                 "resetOnSessionEnd": false,
                 "savageRole": [
+                  "ISBTeamLeader",
                   "ISBSecondLeader",
-                  "ISBTeamLeader"
+                  "ISBScout",
+                  "ISBAssassin"
                 ],
                 "enemyEquipmentExclusive": [],
                 "enemyEquipmentInclusive": [],
@@ -61,17 +155,17 @@
           "conditionType": "CounterCreator"
         }
       ],
-    "fail": []
-  },
-  "instantComplete": false,
-  "showNotificationsInGame": false,
-  "showProgress": true,
-  "prefab": "",
-  "rarity": "Common",
-  "hidden": false,
-  "showConditions": false,
-  "progressBarEnabled": true,
-  "side": "Pmc",
-  "index": 3301
-}
+      "fail": []
+    },
+    "instantComplete": false,
+    "showNotificationsInGame": false,
+    "showProgress": true,
+    "prefab": "",
+    "rarity": "Common",
+    "hidden": false,
+    "showConditions": false,
+    "progressBarEnabled": true,
+    "side": "Pmc",
+    "index": 3301
+  }
 ]

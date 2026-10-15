@@ -9,7 +9,7 @@ namespace ISBSpecialForces.Patches
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(DogtagComponent).GetMethod("method_2", BindingFlags.Public | BindingFlags.Instance);
+            return typeof(DogtagComponent).GetMethod("CG_Ctor2", BindingFlags.Public | BindingFlags.Instance);
         }
 
         [PatchPostfix]
@@ -18,11 +18,9 @@ namespace ISBSpecialForces.Patches
             var item = __instance?.Item;
             if (item == null)
                 return;
-
             if (!ISBDogtagState.ShouldDisplayAsISB(item.TemplateId.ToString()))
                 return;
-
-            __result = "[REDACTED]";
+            __result = ISB.Compatibility.ISBDogtagLevels.Choose(item.TemplateId.ToString(), item.Id.ToString(), __instance.Level).ToString(System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

@@ -5,7 +5,6 @@ namespace ISBInfo.Networking
     internal sealed class NoNetworkBridge : IISBNotifyNetworkBridge
     {
         internal static readonly NoNetworkBridge Instance = new NoNetworkBridge();
-
         private NoNetworkBridge()
         {
         }
