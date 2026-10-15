@@ -1,0 +1,188 @@
+{
+  "ca7b2ef7bca84efe967f9b40": {
+    "QuestName": "[CONTAINMENT BREACH] Live Connection",
+    "_id": "ca7b2ef7bca84efe967f9b40",
+    "acceptPlayerMessage": "ca7b2ef7bca84efe967f9b40 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "ca7b2ef7bca84efe967f9b40 changeQuestMessageText",
+    "completePlayerMessage": "ca7b2ef7bca84efe967f9b40 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "131bff4e1dbcbf7e5a97904a",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "5387285ba1624dab9ac06d72"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "CounterCreator",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "d56f6358b23b21cf63cdad44",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "completeInSeconds": 0,
+          "counter": {
+            "id": "1f3b2174cf74f884941e8d7b",
+            "conditions": [
+              {
+                "conditionType": "VisitPlace",
+                "dynamicLocale": false,
+                "id": "f8494d7ce60ab5f694922777",
+                "target": "isb_cb_operated_power_restored",
+                "value": 1
+              }
+            ]
+          },
+          "doNotResetIfCounterCompleted": false,
+          "isNecessary": false,
+          "isResetOnConditionFailed": false,
+          "oneSessionOnly": true,
+          "type": "Exploration",
+          "value": 1
+        },
+        {
+          "conditionType": "LeaveItemAtLocation",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "5c73763e658c9cc9ef3b2fbc",
+          "index": 1,
+          "parentId": "",
+          "plantTime": 10,
+          "target": [
+            "68e63a53371639e1e4004b6e"
+          ],
+          "value": 1,
+          "visibilityConditions": [],
+          "zoneId": "isb_cb_office_plant_hack",
+          "oneSessionOnly": true
+        },
+        {
+          "conditionType": "CounterCreator",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "7f7d5488f6c79b896a50301e",
+          "index": 2,
+          "parentId": "",
+          "visibilityConditions": [],
+          "completeInSeconds": 0,
+          "counter": {
+            "id": "18fb05beb378fa1eb6011c5a",
+            "conditions": [
+              {
+                "conditionType": "VisitPlace",
+                "dynamicLocale": false,
+                "id": "a47c791ecc2af7c8fac73b7a",
+                "target": "isb_cb_office_hack_extraction",
+                "value": 1
+              }
+            ]
+          },
+          "doNotResetIfCounterCompleted": false,
+          "isNecessary": false,
+          "isResetOnConditionFailed": false,
+          "oneSessionOnly": true,
+          "type": "Exploration",
+          "value": 1
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "ca7b2ef7bca84efe967f9b40 declinePlayerMessage",
+    "description": "ca7b2ef7bca84efe967f9b40 description",
+    "failMessageText": "ca7b2ef7bca84efe967f9b40 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/ca7b2ef7bca84efe967f9b40.png",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "5b0fc42d86f7744a585f9105",
+    "name": "ca7b2ef7bca84efe967f9b40 name",
+    "note": "ca7b2ef7bca84efe967f9b40 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [
+        {
+          "availableInGameEditions": [],
+          "findInRaid": false,
+          "id": "815c5c40de07744bf57930e9",
+          "index": 0,
+          "items": [
+            {
+              "_id": "432b2265fa078b68ddd09bdd",
+              "_tpl": "68e63a53371639e1e4004b6e",
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            }
+          ],
+          "target": "432b2265fa078b68ddd09bdd",
+          "type": "Item",
+          "unknown": false,
+          "value": 1
+        }
+      ],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "8f396a1b2d93a8a636cb9e66",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 25000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "9167222ce8d61c68eac9a0ac",
+          "index": 1,
+          "target": "5a7c2eca46aef81a7ca2145d",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "9bc543753f6827098496066b",
+          "index": 2,
+          "items": [
+            {
+              "_id": "c4a6469bb02a2797b6c42246",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 260000
+              }
+            }
+          ],
+          "target": "c4a6469bb02a2797b6c42246",
+          "type": "Item",
+          "unknown": false,
+          "value": 260000
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "ca7b2ef7bca84efe967f9b40 startedMessageText",
+    "status": 0,
+    "successMessageText": "ca7b2ef7bca84efe967f9b40 successMessageText",
+    "traderId": "5a7c2eca46aef81a7ca2145d",
+    "type": "Completion"
+  }
+}

@@ -1,5 +1,14 @@
 .vs/
-bin/
-obj/
+**/bin/
+**/obj/
+*.pdb
 *.user
 *.suo
+*.deps.json
+*.isb-web.bak
+bundles/
+**/*.bundle
+**/*.wav
+**/*.mp4
+**/*.ogg
+!ISBSOFExtras/Office/keypad.bundle

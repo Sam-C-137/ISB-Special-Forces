@@ -1,0 +1,90 @@
+{
+  "containmentGasFadeOutSeconds": 1,
+  "containmentGasFadeInSeconds": 0.3,
+  "containmentGasVolume": 0.8,
+  "containmentGasAudio": "GasLeak.wav",
+  "activationLookSeconds": 5,
+  "activationBlackoutSeconds": 2,
+  "warningDelaySeconds": 30,
+  "automaticContainmentChancePercent": 25,
+  "automaticContainmentMinSeconds": 360,
+  "automaticContainmentMaxSeconds": 600,
+  "containmentSeconds": 6,
+  "containmentButton": {
+    "x": -134.5208,
+    "y": 1.2125,
+    "z": -358.4231
+  },
+  "containmentButtonRotation": {
+    "x": 90,
+    "y": 270,
+    "z": 0
+  },
+  "chasesBeforeRetarget": 3,
+  "chaseDurationSeconds": 6,
+  "chaseRetrySeconds": 30,
+  "chaseStepHeight": 0.3,
+  "enabled": true,
+  "chancePercent": 5,
+  "maps": [
+    "laboratory"
+  ],
+  "spawnDelaySeconds": 45.0,
+  "initialMinDistance": 18.0,
+  "initialMaxDistance": 32.0,
+  "teleportTriggerDistance": 20.0,
+  "teleportMinDistance": 8.0,
+  "teleportMaxDistance": 15.0,
+  "teleportCooldownSeconds": 8.0,
+  "killDistance": 1.6,
+  "killCooldownSeconds": 0.75,
+  "unobservedGraceSeconds": 0.25,
+  "afterTeleportGraceSeconds": 0.75,
+  "moveSpeed": 7.0,
+  "height": 2.0,
+  "bodyRadius": 0.28,
+  "observationDistance": 100.0,
+  "botViewAngle": 110.0,
+  "botsObserve": true,
+  "killBots": true,
+  "killPlayers": true,
+  "logicHz": 20.0,
+  "observationReportHz": 20.0,
+  "observerTimeoutSeconds": 0.75,
+  "pathRefreshSeconds": 0.5,
+  "spawnAttempts": 24,
+  "moveAudio": "move.wav",
+  "teleportAudio": "teleport.wav",
+  "killAudio": "kill.wav",
+  "audioVolume": 0.75,
+  "audioMaxDistance": 35.0,
+  "moveAudioCooldownSeconds": 2.0,
+  "allowClientDebug": false,
+  "fixedSpawn": true,
+  "fixedSpawnPoints": {
+    "laboratory": {
+      "x": -130.75,
+      "y": 0.1,
+      "z": -358.4
+    }
+  },
+  "audioFadeInSeconds": 0.15,
+  "audioFadeOutSeconds": 0.25,
+  "spawnOnContainmentBreach": true,
+  "activateWhenSeen": true,
+  "periodicTeleport": true,
+  "activationAudio": "activation.wav",
+  "moveAudioVariants": [
+    "move-02.wav",
+    "move-03.wav"
+  ],
+  "teleportAudioVariants": [
+    "teleport-02.wav",
+    "teleport-03.wav",
+    "teleport-04.wav"
+  ],
+  "killAudioVariants": [
+    "kill-02.wav",
+    "kill-03.wav"
+  ]
+}

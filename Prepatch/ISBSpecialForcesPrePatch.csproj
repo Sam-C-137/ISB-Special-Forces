@@ -1,50 +1,59 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
-    <TargetFramework>net471</TargetFramework>
+    <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTIV</SPTRoot>
+    <TargetFramework>net472</TargetFramework>
     <AssemblyName>ISBSpecialForces</AssemblyName>
     <Description>MoreBotsAPI Prepatch needed to add custom bots to the client.</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release</Configurations>
     <RootNamespace>ISBSpecialForces</RootNamespace>
-    <Version>1.0.3</Version>
-    <AssemblyVersion>1.0.3</AssemblyVersion>
-    <FileVersion>1.0.3</FileVersion>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.11.6" />
-  </ItemGroup>
-  
-  <ItemGroup>
-		<Reference Include="Assembly-CSharp">
-		  <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
-		</Reference>
-		<Reference Include="MoreBotsPrepatch">
-		  <HintPath>..\..\patchers\MoreBotsPrepatch.dll</HintPath>
-		</Reference>
-		<Reference Include="spt-common">
-		  <HintPath>..\..\..\BepInEx\plugins\spt\spt-common.dll</HintPath>
-		</Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="MoreBotsPrepatch">
+      <HintPath>$(SPTRoot)/BepInEx/patchers/MoreBotsPrepatch.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="spt-common">
+      <HintPath>$(SPTRoot)\BepInEx\plugins\spt\spt-common.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="0Harmony">
-      <HintPath>..\..\..\BepInEx\core\0Harmony.dll</HintPath>
+      <HintPath>$(SPTRoot)\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="BepInEx">
-      <HintPath>..\..\..\BepInEx\core\BepInEx.dll</HintPath>
+      <HintPath>$(SPTRoot)\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="Mono.Cecil">
-      <HintPath>..\..\..\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <HintPath>$(SPTRoot)\BepInEx\core\Mono.Cecil.dll</HintPath>
+      <Private>false</Private>
     </Reference>
-		<Reference Include="Newtonsoft.Json">
-		  <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
-		</Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
     </Reference>
   </ItemGroup>
-
+  <ItemGroup>
+    <Reference Include="netstandard">
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
 </Project>

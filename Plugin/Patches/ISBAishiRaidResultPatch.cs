@@ -14,7 +14,6 @@ namespace ISBSpecialForces.Patches
         protected override MethodBase GetTargetMethod()
         {
             Type[] types;
-
             try
             {
                 types = typeof(Player).Assembly.GetTypes();
@@ -24,19 +23,11 @@ namespace ISBSpecialForces.Patches
                 types = ex.Types.Where(type => type != null).ToArray();
             }
 
-            var factoryType = types.FirstOrDefault(type =>
-                type.FullName == "EFT.UI.StatInfoFactory");
-
-            var target = factoryType?
-                .GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-                .Where(method => string.Equals(method.Name, TargetMethodName, StringComparison.Ordinal))
-                .OrderBy(method => method.GetParameters().Length)
-                .FirstOrDefault();
-
+            var factoryType = types.FirstOrDefault(type => type.FullName == "EFT.UI.StatInfoFactory");
+            var target = factoryType?.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic).Where(method => string.Equals(method.Name, TargetMethodName, StringComparison.Ordinal)).OrderBy(method => method.GetParameters().Length).FirstOrDefault();
             if (target == null)
             {
-                throw new MissingMethodException(
-                    $"Could not find EFT.UI.StatInfoFactory.{TargetMethodName}.");
+                throw new MissingMethodException($"Could not find EFT.UI.StatInfoFactory.{TargetMethodName}.");
             }
 
             return target;
@@ -46,8 +37,10 @@ namespace ISBSpecialForces.Patches
         {
             if (ISBAishiRaidResultState.NeedsLegacyInjection)
             {
-                Plugin.LogSource.LogInfo(
-                    $"[ISB AISHI LOYALTY] Post-raid standing injector reached {sourceMethod}().");
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                {
+                    Plugin.LogSource.LogInfo($"[ISB AISHI LOYALTY] Post-raid standing injector reached {sourceMethod}().");
+                }
             }
 
             ISBAishiRaidResultInjector.TryInject(instance, arguments, sourceMethod);

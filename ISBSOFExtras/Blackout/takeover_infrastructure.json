@@ -1,0 +1,177 @@
+{
+  "enabled": true,
+  "alarm": {
+    "enabled": true,
+    "audio": "ISB-PreLockdownAlarm.wav",
+    "volume": 35.0,
+    "button": {
+      "x": -120.062,
+      "y": 0.863,
+      "z": -426.752,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 1.0
+    }
+  },
+  "powerRestoration": {
+    "enabled": true,
+    "audio": "black_out_huge.wav",
+    "volume": 4.0,
+    "generatorAudios": [
+      "OneGenerator.wav",
+      "TwoGenerators.wav",
+      "ThreeGenerators.wav",
+      "FourGenerators.wav",
+      "FiveGenerators.wav"
+    ],
+    "countdownAt": 19.7,
+    "countdownSeconds": 60
+  },
+  "gateOverride": {
+    "enabled": true,
+    "alarmMaxDistance": 120,
+    "alarmVolumeMultiplier": 2.5,
+    "gates": [
+      "lab_Parking_Gate",
+      "lab_Hangar_Gate"
+    ],
+    "authorizationA": {
+      "x": -244.646,
+      "y": 4.571,
+      "z": -377.484,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    },
+    "authorizationB": {
+      "x": -166.221,
+      "y": 4.669,
+      "z": -283.768,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    },
+    "authorizationC": {
+      "x": -116.151,
+      "y": 2.404,
+      "z": -288.687,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    },
+    "button": {
+      "x": -128.286,
+      "y": 5.0,
+      "z": -286.734,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    }
+  },
+  "facilityPower": {
+    "enabled": true,
+    "restoreLights": true,
+    "restoreElevators": true,
+    "authorizationA": {
+      "x": -212.815,
+      "y": -3.593,
+      "z": -307.598,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    },
+    "authorizationB": {
+      "x": -231.6824,
+      "y": -2.0485,
+      "z": -394.952,
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "interactionRadius": 10.0
+    },
+    "authorizationC": {
+      "x": -125.2218,
+      "y": -2.0868,
+      "z": -307.413,
+      "rotationX": 0,
+      "rotationY": 90,
+      "rotationZ": 0,
+      "interactionRadius": 10.0
+    },
+    "authorizationD": {
+      "x": -135.107,
+      "y": 2.628,
+      "z": -288.79,
+      "rotationX": 90.0,
+      "rotationY": 90.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 15.0
+    },
+    "master": {
+      "x": -269.095,
+      "y": 5.089,
+      "z": -317.678,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 3.0
+    }
+  },
+  "normalBlackoutPower": {
+    "enabled": true
+  },
+  "manualBlackout": {
+    "enabled": true,
+    "authorizationA": {
+      "x": -212.815,
+      "y": -3.593,
+      "z": -307.598,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 10.0
+    },
+    "authorizationB": {
+      "x": -231.6824,
+      "y": -2.0485,
+      "z": -394.952,
+      "rotationX": 0,
+      "rotationY": 0,
+      "rotationZ": 0,
+      "interactionRadius": 10.0
+    },
+    "authorizationC": {
+      "x": -125.2218,
+      "y": -2.0868,
+      "z": -307.413,
+      "rotationX": 0,
+      "rotationY": 90,
+      "rotationZ": 0,
+      "interactionRadius": 10.0
+    },
+    "authorizationD": {
+      "x": -135.107,
+      "y": 2.628,
+      "z": -288.79,
+      "rotationX": 90.0,
+      "rotationY": 90.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 15.0
+    },
+    "master": {
+      "x": -269.095,
+      "y": 5.089,
+      "z": -317.678,
+      "rotationX": 0.0,
+      "rotationY": 0.0,
+      "rotationZ": 0.0,
+      "interactionRadius": 3.0
+    }
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "boundsCenter": [
+    0,
+    0.6473635,
+    0
+  ],
+  "boundsSize": [
+    0.75587904,
+    1.294727,
+    3.2557202577590942
+  ],
+  "materials": [
+    {
+      "name": "sandbags_new_d",
+      "texture": "albedo-0.png",
+      "cutoff": 0.5,
+      "shader": "p0/Reflective/Bumped Specular",
+      "floats": {
+        "_BumpScale": 1,
+        "_Cutoff": 0.5,
+        "_DXT1_NM": 0,
+        "_DetailNormalMapScale": 1,
+        "_DstBlend": 0,
+        "_Factor": 0,
+        "_Glossiness": 0.5,
+        "_Metallic": 0,
+        "_Mode": 0,
+        "_OcclusionStrength": 1,
+        "_Parallax": 0.02,
+        "_Shininess": 0.396,
+        "_SpecPower": 1,
+        "_SrcBlend": 1,
+        "_StencilType": 0,
+        "_USEDECALS": 0,
+        "_UVSec": 0,
+        "_Units": 0,
+        "_ZWrite": 1
+      },
+      "vectors": {
+        "_Color": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_DefVals": [
+          1,
+          1,
+          0,
+          0
+        ],
+        "_EmissionColor": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "_ReflectColor": [
+          0.09558821,
+          0.09558821,
+          0.09558821,
+          0.5
+        ],
+        "_SpecColor": [
+          0.49264705,
+          0.49264705,
+          0.49264705,
+          1
+        ],
+        "_SpecVals": [
+          1.1,
+          2,
+          0,
+          0
+        ],
+        "_Temperature": [
+          0.03,
+          0.16,
+          0.17,
+          0
+        ]
+      },
+      "maps": [
+        {
+          "property": "_BumpMap",
+          "file": "map-0-BumpMap.png"
+        }
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "SandBags_wall_01_LOD0",
+      "file": "visual-0.obj",
+      "materials": [
+        0
+      ]
+    }
+  ],
+  "colliders": [
+    {
+      "name": "SandBags_wall_01_BALLISTIC_soil",
+      "file": "collision-0.obj",
+      "kind": "ballistic",
+      "material": "Soil"
+    },
+    {
+      "name": "SandBags_wall_01_COLLIDER",
+      "file": "collision-1.obj",
+      "kind": "player",
+      "material": "Soil"
+    }
+  ]
+}

@@ -1,1184 +1,1206 @@
 {
-    "body": {
-      "6a3ecea8574018edd8dd41c7": 1,  //USEC ISB MARPAT Camouflage
-      "6a3e0aaaddf99afb6095c70f": 1,  //USEC ISB Mission (MARPAT)
-      "6a3f1bcc1bf9d28e5f513847": 1   //USEC ISB Legionnaire Desert
+  "body": {
+    "6a3ecea8574018edd8dd41c7": 1,
+    "6a3e0aaaddf99afb6095c70f": 1,
+    "6a3f1bcc1bf9d28e5f513847": 1
+  },
+  "feet": {
+    "6a3f1b09caa69d6b50223949": 1
+  },
+  "hands": {
+    "692a513b0c5c6a331c1ebcef": 1
+  },
+  "head": {
+    "60a6aa8fd559ae040d0d951f": 1,
+    "6a139332caeb0a6c0e0a125f": 2,
+    "6a13933960c6277b195e7c0b": 2,
+    "6287b0d239d8207cb27d66c7": 1,
+    "68fb88b9d4b0e9617502c1c4": 1,
+    "68fb8872fb3842532002cbc1": 1,
+    "6a3e61337462374d270c6696": 1,
+    "6a3e614ef7864d27bd030bfc": 1,
+    "6a3e6177da479effd5076f1c": 1,
+    "6a3e6183d2260323500c178a": 1
+  },
+  "voice": {
+    "684696e8199c6a77dc0f9bc8": 1,
+    "6353fe74a644ca0c510d1dd6": 2,
+    "6a1d7767b27e39cbd4054a37": 1,
+    "6a57a9a7115aad3e1c000e30": 1
+  },
+  "equipment": {
+    "ArmBand": {},
+    "ArmorVest": {
+      "68a97093431252e29a02dc06": 1, // NPP KlASS Korund-VM body armor (Kamysh)
+      "5b44cf1486f77431723e3d05": 1, // IOTV Gen4 body armor (Assault Kit, MultiCam)
+      "5b44d0de86f774503d30cba8": 1, // IOTV Gen4 body armor (High Mobility Kit, MultiCam)
+      "60a283193cb70855c43a381d": 1, // NFM THOR Integrated Carrier body armor
+      "5b44cd8b86f774503d30cba2": 1 // IOTV Gen4 body armor (Full Protection Kit, MultiCam)
     },
-    "feet": {
-      "6a3f1b09caa69d6b50223949": 1,  //USEC ISB Legionnaire (Desert)
-      "6a3f1958cc98824525d8e400": 1   //Black Division Defector - Squad Leader (Desert)
+    "Backpack": {
+      "5c0e774286f77468413cc5b2": 1, // Mystery Ranch Blackjack 50 backpack (MultiCam)
+      "5f5e46b96bdad616ad46d613": 1, // Eberlestock F4 Terminator load bearing backpack (Tiger Stripe)
+      "639346cc1c8f182ad90c8972": 1, // Tasmanian Tiger Trooper 35 backpack (Khaki)
+      "5c0e805e86f774683f3dd637": 1 // 3V Gear Paratus 3-Day Operator's Tactical backpack (Foliage Grey)
     },
-    "hands": {
-      "692a513b0c5c6a331c1ebcef": 1 //BD01 Hands
+    "Earpiece": {
+      "66b5f693acff495a294927e3": 50, // Peltor ComTac V headset (OD Green)
+      "69c163b17c7040819b086502": 50 // Peltor ComTac VI headset (Ranger Green)
     },
-    "head": {
-      "60a6aa8fd559ae040d0d951f": 1,  //USEC 05 HEAD
-      "6a139332caeb0a6c0e0a125f": 2,  //ISB Team Leader 01
-      "6a13933960c6277b195e7c0b": 2,  //ISB Team Leader 02
-      "6287b0d239d8207cb27d66c7": 1,  //GOONS BIRDEYE
-      "68fb88b9d4b0e9617502c1c4": 1,  //BEAR VAS
-      "68fb8872fb3842532002cbc1": 1,  //USEC SEAN
-      "6a3e61337462374d270c6696": 1,  //Knyazev
-      "6a3e614ef7864d27bd030bfc": 1,  //Knyazev 02
-      "6a3e6177da479effd5076f1c": 1,  //"O’Connor"
-      "6a3e6183d2260323500c178a": 1   //"O’Connor" 02
+    "Eyewear": {},
+    "FaceCover": {
+      "689b404db49f27df1c0873f6": 2, // Gentex Ops-Core SOTR respirator
+      "5fd8d28367cb5e077335170f": 2, // Smoke balaclava
+      "5ab8f39486f7745cd93a1cca": 1, // Cold Fear infrared balaclava
+      "5b4325355acfc40019478126": 1 // Shemagh (Tan)
     },
-    "voice": {
-      "684696e8199c6a77dc0f9bc8": 1,  //USEC 07 (Rob)    
-      "6353fe74a644ca0c510d1dd6": 2,  //GOONS KNIGHT
-      "6899fcdea469e729c40cbbde": 1,  //Black Division 01
-      "6a1d7767b27e39cbd4054a37": 1,  //Tony
-      "6a57a9a7115aad3e1c000e30": 1   //Garrett
+    "FirstPrimaryWeapon": {
+      "6499849fc93611967b034949": 1, // Kalashnikov AK-12 5.45x39 assault rifle
+      "57c44b372459772d2b39b8ce": 1, // AS VAL 9x39 special assault rifle
+      "5bb2475ed4351e00853264e3": 1, // HK 416A5 5.56x45 assault rifle
+      "5447a9cd4bdc2dbd208b4567": 1, // Colt M4A1 5.56x45 assault rifle
+      "5fbcc1d9016cce60e8341ab3": 1, // SIG MCX .300 Blackout assault rifle
+      "5c488a752e221602b412af63": 1, // Desert Tech MDR 5.56x45 assault rifle
+      "68c16b9ab6b75a8a480520a6": 1, // Custom Guns NL545 (DI) 5.45x39 assault rifle
+      "6184055050224f204c1da540": 1 // FN SCAR-L 5.56x45 assault rifle
     },
-    "equipment": {
-      "ArmBand": {},
-      "ArmorVest": {
-        "68a97093431252e29a02dc06": 1,  //NPP KlASS Korund-VM body armor (Kamysh)
-        "5b44cf1486f77431723e3d05": 1,  //IOTV Gen4 body armor (Assault Kit, MultiCam)
-        "5b44d0de86f774503d30cba8": 1,  //IOTV Gen4 body armor (High Mobility Kit, MultiCam)
-        "60a283193cb70855c43a381d": 1,  //NFM THOR Integrated Carrier body armor
-        "5b44cd8b86f774503d30cba2": 1   //IOTV Gen4 body armor (Full Protection Kit, MultiCam)
-      },
-      "Backpack": {
-        "5c0e774286f77468413cc5b2": 1,  //Mystery Ranch Blackjack 50 backpack (MultiCam)
-        "5f5e46b96bdad616ad46d613": 1,  //Eberlestock F4 Terminator load bearing backpack (Tiger Stripe)
-        "639346cc1c8f182ad90c8972": 1,  //Tasmanian Tiger Trooper 35 backpack (Khaki)
-        "5c0e805e86f774683f3dd637": 1   //3V Gear Paratus 3-Day Operator's Tactical backpack (Foliage Grey)
-      },
-      "Earpiece": {
-        "66b5f693acff495a294927e3": 50,  //Peltor ComTac V headset (OD Green)
-        "69c163b17c7040819b086502": 50   //Peltor ComTac VI headset (Ranger Green)
-      },
-      "Eyewear": {},
-      "FaceCover": {
-        "689b404db49f27df1c0873f6": 2,  //Gentex Ops-Core SOTR Respirator
-        "5fd8d28367cb5e077335170f": 2,  //Smoke Balaclava
-        "5ab8f39486f7745cd93a1cca": 1,  //Cold Fear Infrared Balaclava
-        "5b4325355acfc40019478126": 1   //Shemagh (Tan)
-      },
-      "FirstPrimaryWeapon": {
-        "6499849fc93611967b034949": 1,  //AK12
-        "57c44b372459772d2b39b8ce": 1,  //ASVAL
-        "5bb2475ed4351e00853264e3": 1,  //HK
-        "5447a9cd4bdc2dbd208b4567": 1,  //M4A1
-        "5fbcc1d9016cce60e8341ab3": 1,  //MCX
-        "5c488a752e221602b412af63": 1,  //MDR 556
-        "68c16b9ab6b75a8a480520a6": 1,  //NL545 DI
-        "6184055050224f204c1da540": 1   //SCAR-L
-      },
-      "Headwear": {
-        "69cbfe44897389c1870b2337": 1, //Crye Precision AirFrame helmet (Tan)
-        "68bee2ccd6da72c13f03db95": 1, //HighCom Striker ULACH IIIA helmet (Sand)
-        "69ce47ca49b447e32200cbe9": 1, //Crye Precision AirFrame M-LOK helmet (Bull)
-        "69ce70df606696c00301a760": 1  //Atlant Armour Titan Aramid helmet (MultiCam)
-      },
-      "Holster": {
-        "56d59856d2720bd8418b456a": 1,  //P226R
-        "59f98b4986f7746f546d2cef": 1,  //SR1MP
-        "571a12c42459771f627b58a0": 1   //TT
-      },
-      "Pockets": {
-        "64cbd95a29b9b4283e216ff5": 1
-      },
-      "Scabbard": {
-        "5c012ffc0db834001d23f03f": 70, //Camper axe
-        "5bc9c1e2d4351e00367fbcf0": 20, //Antique axe
-        "5bffe7930db834001b734a39": 10  //Crash Axe
-      },
-      "SecondPrimaryWeapon": {
-        "6259b864ebedf17603599e88": 1, //SUPER90
-        "5e870397991fd70db46995c8": 1, //M950A1
-        "5a7828548dc32e5a9c28b516": 1  //MODEL 870
-      },
-      "SecuredContainer": {
-        "5c0a794586f77461c458f892": 1
-      },
-      "TacticalVest": {
-        "69cfc2d7a9102bdca0080070": 1, //LBT-1961A Load Bearing Chest Rig (MultiCam)
-        "6a45905dc1d900a2efe4eac8": 1, //ISB FIRST SPEAR Arid
-        "69b11f46f3783ec37c03a116": 1  //Direct Action Thunderbolt compact chest rig (Ranger Green)
-      }
+    "Headwear": {
+      "69cbfe44897389c1870b2337": 1, // Crye Precision AirFrame helmet (Tan)
+      "68bee2ccd6da72c13f03db95": 1, // HighCom Striker ULACH IIIA helmet (Sand)
+      "69ce47ca49b447e32200cbe9": 1, // Crye Precision AirFrame M-LOK helmet (Bull)
+      "69ce70df606696c00301a760": 1 // Atlant Armour Titan Aramid helmet (MultiCam)
     },
-    "ammo": {
-      "Caliber545x39": {
-        "61962b617c6c7b169525f168": 65,  //7N40
-        "56dfef82d2720bbd668b4567": 35   //BP
-      },
-      "Caliber9x39": {
-        "61962d879bb3d20b0946d385": 70,  //PAB-9
-        "57a0e5022459774d1673f889": 30   //SP-6
-      },
-      "Caliber556x45NATO": {
-        "59e6906286f7746c9f75e847": 55,  //M856A1
-        "54527ac44bdc2d36668b4567": 30,  //M855A1
-        "59e690b686f7746c9f75e848": 15   //M995
-      },
-      "Caliber762x35": {
-        "64b8725c4b75259c590fa899": 70,  //.300 CBJ
-        "5fd20ff893a8961fc660a954": 30   //.300 AP
-      },
-      "Caliber12g": {
-        "5d6e68a8a4b9360b6c0d54e2": 1  //AP-20
-      },
-      "Caliber9x19PARA": {
-        "5efb0da7a29a85116f6ea05f": 1  //PBP
-      },
-      "Caliber9x21": {
-        "5a26ac0ec4a28200741e1e18": 60, //9x21mm BT gzh
-        "6576f4708ca9c4381d16cd9d": 40  //9x21mm 7N42 Zubilo
-      },
-      "Caliber762x25TT": {
-        "68c15f77ed3d7df9220debd6": 1 //TT M995
-      }
+    "Holster": {
+      "56d59856d2720bd8418b456a": 1, // SIG P226R 9x19 pistol
+      "59f98b4986f7746f546d2cef": 1, // Serdyukov SR-1MP Gyurza 9x21 pistol
+      "571a12c42459771f627b58a0": 1 // TT-33 7.62x25 TT pistol
     },
-    "mixedAmmo": {
-        "Caliber556x45NATO": {
-            "chance": 50,
-            "mode": "interleaved",
-            "interleaveBlockSize": 2,
-            "maxStacksPerMagazine": 16,
-            "entries": [
-          { "tpl": "54527ac44bdc2d36668b4567", "ratio": 1 }, //M855A1
-          { "tpl": "59e6906286f7746c9f75e847", "ratio": 1 }  //M856A1
-        ]
-      },
-        "Caliber9x39": {
-            "chance": 50,
-            "mode": "interleaved",
-            "interleaveBlockSize": 2,
-            "maxStacksPerMagazine": 16,
-            "entries": [
-          { "tpl": "61962d879bb3d20b0946d385", "ratio": 1 }, //PAB-9
-          { "tpl": "57a0e5022459774d1673f889", "ratio": 1 }  //SP-6
-        ]
-      },
-        "Caliber545x39": {
-            "chance": 50,
-            "mode": "interleaved",
-            "interleaveBlockSize": 2,
-            "maxStacksPerMagazine": 16,
-            "entries": [
-          { "tpl": "61962b617c6c7b169525f168", "ratio": 1 }, //7N40
-          { "tpl": "56dfef82d2720bbd668b4567", "ratio": 1 }  //BP
-        ]
-      },
-        "Caliber762x35": {
-            "chance": 50,
-            "mode": "interleaved",
-            "interleaveBlockSize": 2,
-            "maxStacksPerMagazine": 16,
-            "entries": [
-          { "tpl": "64b8725c4b75259c590fa899", "ratio": 1 }, //.300 CBJ
-          { "tpl": "5fd20ff893a8961fc660a954", "ratio": 1 }  //.300 AP 
-        ]
-      }
+    "Pockets": {
+      "64cbd95a29b9b4283e216ff5": 1
     },
-    "mods": {
-      "6a45905dc1d900a2efe4eac8": {  //FIRST SPEAR ISB ARID
-        "Back_plate": [
-          "655746010177119f4a097ff7"
-        ],
-        "Front_plate": [
-          "655746010177119f4a097ff7"
-        ],
-        "Soft_armor_front": [
-          "68a5eaab48f18317750a0b92"
-        ],
-        "Soft_armor_back": [
-          "68a5ea26200341f12e08de79"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Soft_armor_left": [
-          "68a5eb4c200341f12e08e7d1"
-        ],
-        "soft_armor_right": [
-          "68a5eba93acdf023050b1c15"
-        ],
-        "Collar": [
-          "68a5ea756e534ad0110eca16"
-        ],
-        "Shoulder_l": [
-          "68a5eb16c4e56258880dfe96"
-        ],
-        "Shoulder_r": [
-          "68a5eb856e534ad0110efa05"
-        ],
-        "Groin": [
-          "68a5eadd2c125bac5a097cbf"
-        ]
-      },
-      "571a12c42459771f627b58a0": { //TT
-        "mod_barrel": [
-          "571a279b24597720b4066566"
-        ],
-        "mod_pistol_grip": [
-          "5c079ec50db834001966a706"
-        ],
-        "mod_magazine": [
-          "571a29dc2459771fb2755a6a"
-        ]
-      },
-      "571a279b24597720b4066566": {
-        "mod_muzzle": [
-          "571a28e524597720b4066567"
-        ]
-      },
-      "59f98b4986f7746f546d2cef": { //SR1MP
-        "mod_mount": [
-          "5a27b281c4a28200741e1e52"
-        ],
-        "mod_magazine": [
-          "59f99a7d86f7745b134aa97b"
-        ]
-      },
-      "5a27b281c4a28200741e1e52": {
-        "mod_tactical_000": [
-          "56def37dd2720bec348b456a"
-        ],
-        "mod_mount": [
-          "5a27b3d0c4a282000d721ec1"
-        ]
-      },
-      "5a27b3d0c4a282000d721ec1": {
-        "mod_muzzle": [
-          "5a27b6bec4a282000e496f78"
-        ]
-      },
-      "56d59856d2720bd8418b456a": {  //P226R
-        "mod_barrel": [
-          "587de4282459771bca0ec90b"
-        ],
-        "mod_pistol_grip": [
-          "5c0006470db834001a6697fe"
-        ],
-        "mod_reciever": [
-          "5c0125fc0db834001a669aa3"
-        ],
-        "mod_magazine": [
-          "5c920e902e221644f31c3c99"
-        ],
-        "mod_tactical": [
-          "56def37dd2720bec348b456a"
-        ]
-      },
-      "587de4282459771bca0ec90b": {
-        "mod_muzzle": [
-          "5c7e8fab2e22165df16b889b"
-        ]
-      },
-      "5c0125fc0db834001a669aa3": {
-        "mod_sight_rear": [
-          "5c07b3850db834002330045b"
-        ],
-        "mod_sight_front": [
-          "5c07b36c0db834002a1259e9"
-        ]
-      },
-      "5a7828548dc32e5a9c28b516": {  //MODEL 870
-        "mod_barrel": [
-          "5a787f7ac5856700177af660"
-        ],
-        "mod_handguard": [
-          "5a788031c585673f2b5c1c79"
-        ],
-        "mod_magazine": [
-          "5a78830bc5856700137e4c90"
-        ],
-        "mod_stock": [
-          "5bfe86a20db834001d23e8f7"
-        ],
-        "mod_mount": [
-          "5a78948ec5856700177b1124"
-        ]
-      },
-      "5a787f7ac5856700177af660": {
-        "mod_muzzle": [
-          "5b363dea5acfc4771e1c5e7e"
-        ]
-      },
-      "5a788031c585673f2b5c1c79": {
-        "mod_foregrip": [
-          "5c1bc5af2e221602b412949b"
-        ],
-        "mod_tactical_000": [
-          "56def37dd2720bec348b456a"
-        ]
-      },
-      "5bfe86a20db834001d23e8f7": {
-        "mod_stock": [
-          "5bfe89510db834001808a127"
-        ]
-      },
-      "5bfe89510db834001808a127": {
-        "mod_stock_000": [
-          "68bb25270e48a3afd7071216"
-        ]
-      },
-      "5a78948ec5856700177b1124": {
-        "mod_scope": [
-          "64785e7c19d732620e045e15"
-        ]
-      },
-      "5e870397991fd70db46995c8": { //M950A1
-        "mod_barrel": [
-          "5e87071478f43e51ca2de5e1"
-        ],
-        "mod_handguard": [
-          "5eea21647547d6330471b3c9"
-        ],
-        "mod_magazine": [
-          "5e87080c81c4ed43e83cefda"
-        ],
-        "mod_stock": [
-          "5ef1b9f0c64c5d0dfc0571a1"
-        ],
-        "mod_mount": [
-          "5eeb2ff5ea4f8b73c827350b"
-        ]
-      },
-      "5e87071478f43e51ca2de5e1": {
-        "mod_sight_front": [
-          "5e8708d4ae379e67d22e0102"
-        ]
-      },
-      "5eea21647547d6330471b3c9": {
-        "mod_foregrip": [
-          "651a8bf3a8520e48047bf708"
-        ]
-      },
-      "5ef1b9f0c64c5d0dfc0571a1": {
-        "mod_stock": [
-          "5d120a10d7ad1a4e1026ba85"
-        ],
-        "mod_pistol_grip": [
-          "5bb20e18d4351e00320205d5"
-        ]
-      },
-      "5d120a10d7ad1a4e1026ba85": {
-        "mod_stock": [
-          "5d120a28d7ad1a1c8962e295"
-        ]
-      },
-      "5eeb2ff5ea4f8b73c827350b": {
-        "mod_scope": [
-          "59f9d81586f7744c7506ee62"
-        ],
-        "mod_tactical_000": [
-          "68bedc0365e7dcf94f0cb0fc"
-        ],
-        "mod_tactical_001": [
-          "56def37dd2720bec348b456a"
-        ],
-        "mod_sight_front": [
-          "5bc09a30d4351e00367fb7c8"
-        ],
-        "mod_sight_rear": [
-          "5bc09a18d4351e003562b68e"
-        ]
-      },
-      "6259b864ebedf17603599e88": { //SUPER90
-        "mod_barrel": [
-          "6259c2c1d714855d182bad85"
-        ],
-        "mod_handguard": [
-          "6259c4347d6aab70bc23a190"
-        ],
-        "mod_magazine": [
-          "6259bdcabd28e4721447a2aa"
-        ],
-        "mod_stock": [
-          "6259c3387d6aab70bc23a18d"
-        ],
-        "mod_mount": [
-          "625ed7c64d9b6612df732146"
-        ],
-        "mod_sight_rear": [
-          "625ebcef6f53af4aa66b44dc"
-        ],
-        "mod_charge": [
-          "625ec45bb14d7326ac20f572"
-        ]
-      },
-      "6259c2c1d714855d182bad85": {
-        "mod_muzzle": [
-          "5b363dea5acfc4771e1c5e7e"
-        ],
-        "mod_mount": [
-          "676177b09cfcc4c25b027446"
-        ]
-      },
-      "5b363dea5acfc4771e1c5e7e": {
-        "mod_muzzle": [
-          "5b363dd25acfc4001a598fd2"
-        ]
-      },
-      "676177b09cfcc4c25b027446": {
-        "mod_tactical_000": [
-          "689c8981bce76ccfbf01862f"
-        ]
-      },
-      "6259c3387d6aab70bc23a18d": {
-        "mod_pistol_grip": [
-          "6259c3d8012d6678ec38eeb8"
-        ]
-      },
-      "625ed7c64d9b6612df732146": {
-        "mod_scope": [
-          "68a5ab09c44fa287ba0a97b5"
-        ]
-      },
-      "6184055050224f204c1da540": {  //SCAR-L
-        "mod_pistol_grip": [
-          "5c6d7b3d2e221600114c9b7d"
-        ],
-        "mod_magazine": [
-          "5d1340b3d7ad1a0b52682ed7"
-        ],
-        "mod_reciever": [
-          "618426d96c780c1e710c9b9f"
-        ],
-        "mod_stock": [
-          "61816734d8e3106d9806c1f3"
-        ],
-        "mod_charge": [
-          "6181688c6c780c1e710c9b04"
-        ]
-      },
-      "618426d96c780c1e710c9b9f": {
-        "mod_scope": [
-          "59f9d81586f7744c7506ee62"
-        ],
-        "mod_barrel": [
-          "6183fc15d3a39d50044c13e9"
-        ],
-        "mod_sight_rear": [
-          "5bc09a18d4351e003562b68e"
-        ],
-        "mod_sight_front": [
-          "5bc09a30d4351e00367fb7c8"
-        ],
-        "mod_tactical_000": [
-          "68bedc0365e7dcf94f0cb0fc"
-        ],
-        "mod_mount_000": [
-          "66ffe811f5d758d71101e89a"
-        ]
-      },
-      "6183fc15d3a39d50044c13e9": {
-        "mod_muzzle": [
-          "5c7fb51d2e2216001219ce11"
-        ],
-        "mod_sight_front": [
-          "61816fcad92c473c770215cc"
-        ]
-      },
-      "5c7fb51d2e2216001219ce11": {
-        "mod_muzzle": [
-          "5ea17bbc09aa976f2e7a51cd"
-        ]
-      },
-      "66ffe811f5d758d71101e89a": {
-        "mod_foregrip": [
-          "5b7be46e5acfc400170e2dcf"
-        ],
-        "mod_mount_000": [
-          "5b7be4645acfc400170e2dcc"
-        ]
-      },
-      "5b7be46e5acfc400170e2dcf": {
-        "mod_foregrip": [
-          "588226dd24597767ad33f789"
-        ]
-      },
-      "5b7be4645acfc400170e2dcc": {
-        "mod_tactical": [
-          "689c8981bce76ccfbf01862f"
-        ]
-      },
-      "689c8981bce76ccfbf01862f": {
-        "mod_tactical": [
-          "689c887cd18a3665b8045743"
-        ]
-      },
-      "61816734d8e3106d9806c1f3": {
-        "mod_stock_001": [
-          "66ffc2ecfe9b3825960652f7"
-        ],
-        "mod_stock_002": [
-          "61825d24d3a39d50044c13af"
-        ]
-      },
-      "68c16b9ab6b75a8a480520a6": {  //NL545
-        "mod_pistol_grip": [
-          "6113c3586c780c1e710c90bc"
-        ],
-        "mod_magazine": [
-          "5aaa4194e5b5b055d06310a5"
-        ],
-        "mod_reciever": [
-          "68c16e84fc90c174e50de1a8"
-        ],
-        "mod_stock_001": [
-          "698b337c49b46ae2d0092e7f"
-        ],
-        "mod_charge": [
-          "68c16f15efac701f800dfd36"
-        ]
-      },
-      "68c16e84fc90c174e50de1a8": {
-        "mod_scope": [
-          "58491f3324597764bc48fa02"
-        ],
-        "mod_barrel": [
-          "68c16edf83e2d814b0093f76"
-        ],
-        "mod_handguard": [
-          "68a7000d7708ac5120060527"
-        ],
-        "mod_sight_rear": [
-          "5bc09a18d4351e003562b68e"
-        ]
-      },
-      "68c16edf83e2d814b0093f76": {
-        "mod_muzzle": [
-          "59bffc1f86f77435b128b872"
-        ],
-        "mod_gas_block": [
-          "63d3ce281fe77d0f2801859e"
-        ]
-      },
-      "59bffc1f86f77435b128b872": {
-        "mod_muzzle": [
-          "59bffbb386f77435b379b9c2"
-        ]
-      },
-      "68a6fbfdd31595bb360c73bd": {
-        "mod_mount_001": [
-          "689c8b454b91399db3085f2a"
-        ],
-        "mod_mount_000": [
-          "68a6ff952885e0bbd30bb6fd"
-        ],
-        "mod_foregrip": [
-          "5b7be4895acfc400170e2dd5"
-        ]
-      },
-      "5b7be4895acfc400170e2dd5": {
-        "mod_foregrip": [
-          "5b057b4f5acfc4771e1bd3e9"
-        ]
-      },
-      "5c488a752e221602b412af63": {  //MDR 556
-        "mod_pistol_grip": [
-          "5dcbd6dddbd3d91b3e5468de"
-        ],
-        "mod_magazine": [
-          "5c6d450c2e221600114c997d"
-        ],
-        "mod_handguard": [
-          "5dcbd6b46ec07c0c4347a564"
-        ],
-        "mod_barrel": [
-          "5c48a2852e221602b21d5923"
-        ],
-        "mod_scope": [
-          "618b9643526131765025ab35"
-        ],
-        "mod_sight_rear": [
-          "5bc09a18d4351e003562b68e"
-        ]
-      },
-      "5dcbd6b46ec07c0c4347a564": {
-        "mod_mount_000": [
-          "651a8e529829226ceb67c319"
-        ],
-        "mod_mount_001": [
-          "669a6a4a525be1d2d004b8eb"
-        ],
-        "mod_tactical": [
-          "544909bb4bdc2d6f028b4577"
-        ],
-        "mod_sight_front": [
-          "5c18b90d2e2216152142466b"
-        ]
-      },
-      "669a6a4a525be1d2d004b8eb": {
-        "mod_tactical": [
-          "626becf9582c3e319310b837"
-        ]
-      },
-      "5c48a2852e221602b21d5923": {
-        "mod_muzzle": [
-          "6386120cd6baa055ad1e201c"
-        ]
-      },
-      "6386120cd6baa055ad1e201c": {
-        "mod_muzzle": [
-          "69f0eb8c02bba0856602897e"
-        ]
-      },
-      "618b9643526131765025ab35": {
-        "mod_scope": [
-          "69fa52ff8196fcfde3e548b4"
-        ],
-        "mod_mount": [
-          "618b9671d14d6d5ab879c5ea"
-        ]
-      },
-      "5fbcc1d9016cce60e8341ab3": { //MCX
-        "mod_pistol_grip": [
-          "5a339805c4a2826c6e06d73d"
-        ],
-        "mod_magazine": [
-          "5d1340b3d7ad1a0b52682ed7"
-        ],
-        "mod_reciever": [
-          "5fbcc3e4d6fa9c00c571bb58"
-        ],
-        "mod_stock": [
-          "68d566f3f3d7cd248f0a06db"
-        ],
-        "mod_charge": [
-          "5fbcc640016cce60e8341acc"
-        ]
-      },
-      "5fbcc3e4d6fa9c00c571bb58": {
-        "mod_scope": [
-          "618bab21526131765025ab3f"
-        ],
-        "mod_barrel": [
-          "5fbbfacda56d053a3543f799"
-        ],
-        "mod_handguard": [
-          "6812180dc20f5c52bc04d6cc"
-        ],
-        "mod_sight_rear": [
-          "5c18b9192e2216398b5a8104"
-        ],
-        "mod_tactical": [
-          "5c06595c0db834001a66af6c"
-        ]
-      },
-      "618bab21526131765025ab3f": {
-        "mod_scope": [
-          "69fa5313cc7338d9dec96f77"
-        ],
-        "mod_mount": [
-          "618ba92152ecee1505530bd3"
-        ]
-      },
-      "618ba92152ecee1505530bd3": {
-        "mod_scope": [
-          "688b4bd81cef2a61d0052738"
-        ]
-      },
-      "5fbbfacda56d053a3543f799": {
-        "mod_muzzle": [
-          "5dfa3cd1b33c0951220c079b"
-        ],
-        "mod_gas_block": [
-          "5fbc210bf24b94483f726481"
-        ]
-      },
-      "5dfa3cd1b33c0951220c079b": {
-        "mod_muzzle": [
-          "5dfa3d2b0dee1b22f862eade"
-        ]
-      },
-      "6812180dc20f5c52bc04d6cc": {
-        "mod_mount_000": [
-          "689c8b454b91399db3085f2a"
-        ],
-        "mod_sight_front": [
-          "5c18b90d2e2216152142466b"
-        ],
-        "mod_foregrip": [
-          "651a8e529829226ceb67c319"
-        ]
-      },
-      "68d566f3f3d7cd248f0a06db": {
-        "mod_stock_000": [
-          "68badc0366a72211fe004bc7"
-        ]
-      },
-      "5447a9cd4bdc2dbd208b4567": { //M4A1
-        "mod_pistol_grip": [
-          "57c55efc2459772d2c6271e7"
-        ],
-        "mod_magazine": [
-          "5c6d46132e221601da357d56"
-        ],
-        "mod_reciever": [
-          "55d355e64bdc2d962f8b4569"
-        ],
-        "mod_stock": [
-          "698b337c49b46ae2d0092e7f"
-        ],
-        "mod_charge": [
-          "55d44fd14bdc2d962f8b456e"
-        ],
-        "mod_charge_001": [
-          "675307301f7c19a9780f2668"
-        ]
-      },
-      "55d355e64bdc2d962f8b4569": {
-        "mod_scope": [
-          "64785e7c19d732620e045e15"
-        ],
-        "mod_barrel": [
-          "68a86bd51d1284a8e20e39d5"
-        ],
-        "mod_handguard": [
-          "68a7000d7708ac5120060527"
-        ],
-        "mod_sight_rear": [
-          "5bc09a18d4351e003562b68e"
-        ]
-      },
-      "68a86bd51d1284a8e20e39d5": {
-        "mod_muzzle": [
-          "5cff9e5ed7ad1a09407397d4"
-        ],
-        "mod_gas_block": [
-          "63d3ce281fe77d0f2801859e"
-        ]
-      },
-      "5cff9e5ed7ad1a09407397d4": {
-        "mod_muzzle": [
-          "5cff9e84d7ad1a049e54ed55"
-        ]
-      },
-      "68a7000d7708ac5120060527": {
-        "mod_handguard": [
-          "68a6fbfdd31595bb360c73bd"
-        ]
-      },
-      "68a6f3b27279296357007cd7": {
-        "mod_mount_001": [
-          "689c8b454b91399db3085f2a"
-        ],
-        "mod_mount_000": [
-          "68a6ff952885e0bbd30bb6fd"
-        ],
-        "mod_foregrip": [
-          "57cffce524597763b31685d8"
-        ]
-      },
-      "68a6ff952885e0bbd30bb6fd": {
-        "mod_tactical": [
-          "68bedc0365e7dcf94f0cb0fc"
-        ]
-      },
-      "698b337c49b46ae2d0092e7f": {
-        "mod_stock": [
-          "698b358b49b46ae2d0092e86"
-        ]
-      },
-      "5bb2475ed4351e00853264e3": { //HK
-        "mod_pistol_grip": [
-          "571659bb2459771fb2755a12"
-        ],
-        "mod_magazine": [
-          "5d1340b3d7ad1a0b52682ed7"
-        ],
-        "mod_reciever": [
-          "5bb20d53d4351e4502010a69"
-        ],
-        "mod_stock": [
-          "5947eab886f77475961d96c5"
-        ],
-        "mod_charge": [
-          "5bb20dbcd4351e44f824c04e"
-        ]
-      },
-      "5bb20d53d4351e4502010a69": {
-        "mod_scope": [
-          "558022b54bdc2dac148b458d"
-        ],
-        "mod_barrel": [
-          "5bb20d92d4351e00853263eb"
-        ],
-        "mod_handguard": [
-          "5bb20df1d4351e00347787d5"
-        ],
-        "mod_sight_rear": [
-          "5c18b9192e2216398b5a8104"
-        ]
-      },
-      "5bb20d92d4351e00853263eb": {
-        "mod_muzzle": [
-          "609269c3b0e443224b421cc1"
-        ],
-        "mod_gas_block": [
-          "5bb20dcad4351e3bac1212da"
-        ]
-      },
-      "609269c3b0e443224b421cc1": {
-        "mod_muzzle": [
-          "69f0eb9054288f30f3789ec1"
-        ]
-      },
-      "5bb20df1d4351e00347787d5": {
-        "mod_foregrip": [
-          "588226dd24597767ad33f789"
-        ],
-        "mod_tactical_000": [
-          "544909bb4bdc2d6f028b4577"
-        ],
-        "mod_tactical_001": [
-          "626becf9582c3e319310b837"
-        ],
-        "mod_bipod": [
-          "6644920d49817dc7d505ca71"
-        ]
-      },
-      "57c44b372459772d2b39b8ce": { //ASVAL
-        "mod_muzzle": [
-          "57c44dd02459772d2e0ae249"
-        ],
-        "mod_reciever": [
-          "57c44f4f2459772d2c627113"
-        ],
-        "mod_magazine": [
-          "5a9e81fba2750c00164f6b11"
-        ],
-        "mod_pistol_grip": [
-          "5a69a2ed8dc32e000d46d1f1"
-        ],
-        "mod_mount_000": [
-          "67069c8cee8138ed2f05ad34"
-        ],
-        "mod_handguard": [
-          "6565bb7eb4b12a56eb04b084"
-        ]
-      },
-      "57c44dd02459772d2e0ae249": {
-        "mod_sight_rear": [
-          "57c44e7b2459772d28133248"
-        ],
-        "mod_mount_000": [
-          "59eb7ebe86f7740b373438ce"
-        ]
-      },
-      "59eb7ebe86f7740b373438ce": {
-        "mod_tactical_000": [
-          "68bedc0365e7dcf94f0cb0fc"
-        ],
-        "mod_tactical_001": [
-          "57d17e212459775a1179a0f5"
-        ],
-        "mod_foregrip": [
-          "6984b74a5aab442620032fe6"
-        ]
-      },
-      "57d17e212459775a1179a0f5": {
-        "mod_flashlight": [
-          "59d790f486f77403cb06aec6"
-        ]
-      },
-      "5a69a2ed8dc32e000d46d1f1": {
-        "mod_stock_000": [
-          "5a9eb32da2750c00171b3f9c"
-        ]
-      },
-      "67069c8cee8138ed2f05ad34": {
-        "mod_scope": [
-          "5c07dd120db834001c39092d"
-        ]
-      },
-      "6499849fc93611967b034949": {  //AK12
-        "mod_gas_block": [
-          "649ec107961514b22506b10c"
-        ],
-        "mod_muzzle": [
-          "64c196ad26a15b84aa07132f"
-        ],
-        "mod_pistol_grip": [
-          "6984b7bf0baed1fc0a0594f6"
-        ],
-        "mod_reciever": [
-          "649ec2f3961514b22506b111"
-        ],
-        "mod_stock_001": [
-          "6761779c48fa5c377e06fc3f"
-        ],
-        "mod_magazine": [
-          "5aaa4194e5b5b055d06310a5"
-        ],
-        "mod_charge": [
-          "5648ac824bdc2ded0b8b457d"
-        ],
-        "mod_handguard": [
-          "682315bdf8d8f8681e0744b5"
-        ]
-      },
-      "649ec2f3961514b22506b111": {
-        "mod_scope": [
-          "57ac965c24597706be5f975c"
-        ],
-        "mod_sight_rear": [
-          "649ec2da59cbb3c813042dca"
-        ]
-      },
-      "57ac965c24597706be5f975c": {
-        "mod_mount": [
-          "688b54a11cef2a61d005273b"
-        ]
-      },
-      "688b54a11cef2a61d005273b": {
-        "mod_scope": [
-          "688b44cb28bf8d85cd0ff108"
-        ]
-      },
-      "649ec2da59cbb3c813042dca": {
-        "mod_sight_rear": [
-          "649ec2cec93611967b03495e"
-        ]
-      },
-      "682315bdf8d8f8681e0744b5": {
-        "mod_foregrip": [
-          "651a8bf3a8520e48047bf708"
-        ],
-        "mod_mount_000": [
-          "6269220d70b6c02e665f2635"
-        ],
-        "mod_mount_002": [
-          "689c8b454b91399db3085f2a"
-        ]
-      },
-      "6269220d70b6c02e665f2635": {
-        "mod_tactical": [
-          "68bedc0365e7dcf94f0cb0fc"
-        ]
-      },
-      "689c8b454b91399db3085f2a": {
-        "mod_tactical": [
-          "689c887cd18a3665b8045743"
-        ]
-      },
-      "60a283193cb70855c43a381d": { //NFM THOR Integrated Carrier body armor
-        "Back_plate": [
-          "656fa61e94b480b8a500c0e8"
-        ],
-        "Front_plate": [
-          "656fa61e94b480b8a500c0e8"
-        ],
-        "Soft_armor_front": [
-          "6575d561b15fef3dd4051670"
-        ],
-        "Soft_armor_back": [
-          "6575d56b16c2762fba005818"
-        ],
-        "Right_side_plate": [
-          "64afdb577bb3bfe8fe03fd1d"
-        ],
-        "Left_side_plate": [
-          "64afdb577bb3bfe8fe03fd1d"
-        ],
-        "Soft_armor_left": [
-          "6575d57a16c2762fba00581c"
-        ],
-        "soft_armor_right": [
-          "6575d589b15fef3dd4051674"
-        ],
-        "Collar": [
-          "6575d598b15fef3dd4051678"
-        ],
-        "Shoulder_l": [
-          "6575d5b316c2762fba005824"
-        ],
-        "Shoulder_r": [
-          "6575d5bd16c2762fba005828"
-        ],
-        "Groin": [
-          "6575d5a616c2762fba005820"
-        ]
-      },
-      "5b44cd8b86f774503d30cba2": { //IOTV Gen4 body armor (Assault Kit, MultiCam)
-        "Back_plate": [
-          "65573fa5655447403702a816"
-        ],
-        "Front_plate": [
-          "65573fa5655447403702a816"
-        ],
-        "Soft_armor_front": [
-          "6575c2adefc786cd9101a5d9"
-        ],
-        "Soft_armor_back": [
-          "6575c2be52b7f8c76a05ee25"
-        ],
-        "Right_side_plate": [
-          "64afdb577bb3bfe8fe03fd1d"
-        ],
-        "Left_side_plate": [
-          "64afdb577bb3bfe8fe03fd1d"
-        ],
-        "Soft_armor_left": [
-          "6575c2cd52b7f8c76a05ee29"
-        ],
-        "soft_armor_right": [
-          "6575c2d852b7f8c76a05ee2d"
-        ],
-        "Collar": [
-          "6575c2e4efc786cd9101a5dd"
-        ],
-        "Groin": [
-          "6575c31b52b7f8c76a05ee35"
-        ],
-        "Shoulder_l": [
-          "6575c2f7efc786cd9101a5e1"
-        ],
-        "Shoulder_r": [
-          "6575c30352b7f8c76a05ee31"
-        ],
-        "Groin_back": [
-          "6575c326c6700bd6b40e8a80"
-        ]
-      },
-      "5b44d0de86f774503d30cba8": { //IOTV Gen4 body armor (Assault Kit, MultiCam)
-        "Back_plate": [
-          "656fae5f7c2d57afe200c0d7"
-        ],
-        "Front_plate": [
-          "656fae5f7c2d57afe200c0d7"
-        ],
-        "Soft_armor_front": [
-          "6575c342efc786cd9101a5e5"
-        ],
-        "Soft_armor_back": [
-          "6575c34bc6700bd6b40e8a84"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Soft_armor_left": [
-          "6575c35bc6700bd6b40e8a88"
-        ],
-        "soft_armor_right": [
-          "6575c366c6700bd6b40e8a8c"
-        ],
-        "Collar": [
-          "6575c373dc9932aed601c5ec"
-        ],
-        "Groin": [
-          "6575c385dc9932aed601c5f0"
-        ],
-        "Groin_back": [
-          "6575c390efc786cd9101a5e9"
-        ]
-      },
-      "5b44cf1486f77431723e3d05": { //IOTV Gen4 body armor (Assault Kit, MultiCam)
-        "Back_plate": [
-          "656fae5f7c2d57afe200c0d7"
-        ],
-        "Front_plate": [
-          "65573fa5655447403702a816"
-        ],
-        "Soft_armor_front": [
-          "6575c3b3dc9932aed601c5f4"
-        ],
-        "Soft_armor_back": [
-          "6575c3beefc786cd9101a5ed"
-        ],
-        "Right_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Left_side_plate": [
-          "6557458f83942d705f0c4962"
-        ],
-        "Soft_armor_left": [
-          "6575c3cdc6700bd6b40e8a90"
-        ],
-        "soft_armor_right": [
-          "6575c3dfdc9932aed601c5f8"
-        ],
-        "Collar": [
-          "6575c3ec52b7f8c76a05ee39"
-        ],
-        "Shoulder_l": [
-          "6575c3fd52b7f8c76a05ee3d"
-        ],
-        "Shoulder_r": [
-          "6575c40c52b7f8c76a05ee41"
-        ]
-      },
-      "68a97093431252e29a02dc06": { //NPP KlASS Korund-VM body armor (Kamysh)
-        "Back_plate": [
-          "657b28d25f444d6dff0c6c77"
-        ],
-        "Collar": [
-          "65731b666e709cddd001ec43"
-        ],
-        "Front_plate": [
-          "656f66b5c6baea13cd07e108"
-        ],
-        "Groin": [
-          "65731b716e709cddd001ec47"
-        ],
-        "Groin_back": [
-          "65731b6b6042b0f210020ef6"
-        ],
-        "Left_side_plate": [
-          "654a4f8bc721968a4404ef18"
-        ],
-        "Right_side_plate": [
-          "654a4f8bc721968a4404ef18"
-        ],
-        "Soft_armor_back": [
-          "65731b4fcea9255e2102360e"
-        ],
-        "Soft_armor_front": [
-          "65731b46cea9255e2102360a"
-        ],
-        "Soft_armor_left": [
-          "65731b576e709cddd001ec3f"
-        ],
-        "soft_armor_right": [
-          "65731b60ff6dc44a7d068c4a"
-        ]
-      },
-      "69cbfe44897389c1870b2337": { //Crye Precision AirFrame helmet (Tan)
-        "Helmet_top": [
-          "657f9897f4c82973640b235e"
-        ],
-        "Helmet_back": [
-          "657f98fbada5fadd1f07a585"
-        ]
-      },
-      "69ce70df606696c00301a760": { //Atlant Armour Titan Aramid helmet (MultiCam)
-        "Helmet_top": [
-          "657f9897f4c82973640b235e"
-        ],
-        "Helmet_back": [
-          "657f98fbada5fadd1f07a585"
-        ]
-      },
-      "69ce47ca49b447e32200cbe9": { //HighCom Striker ULACH IIIA helmet (Sand)
-        "Helmet_top": [
-          "657f9897f4c82973640b235e"
-        ],
-        "Helmet_back": [
-          "657f98fbada5fadd1f07a585"
-        ]
-      },
-      "68bee2ccd6da72c13f03db95": { //HighCom Striker ULACH IIIA helmet (Sand)
-        "Helmet_top": [
-          "657112234269e9a568089eac"
-        ],
-        "Helmet_back": [
-          "657112a4818110db4600aa66"
-        ],
-        "Helmet_ears": [
-          "657112ce22996eaf110881fb"
-        ]
-      }
+    "Scabbard": {
+      "5c012ffc0db834001d23f03f": 70, // Camper axe
+      "5bc9c1e2d4351e00367fbcf0": 20, // Antique axe
+      "5bffe7930db834001b734a39": 10 // Crash Axe
+    },
+    "SecondPrimaryWeapon": {
+      "6259b864ebedf17603599e88": 1, // Benelli M3 Super 90 12ga dual-mode shotgun
+      "5e870397991fd70db46995c8": 1, // Mossberg 590A1 12ga pump-action shotgun
+      "5a7828548dc32e5a9c28b516": 1 // Remington Model 870 12ga pump-action shotgun
+    },
+    "SecuredContainer": {
+      "5c0a794586f77461c458f892": 1 // Secure container Boss
+    },
+    "TacticalVest": {
+      "69cfc2d7a9102bdca0080070": 1, // LBT-1961A Load Bearing Chest Rig (MultiCam)
+      "6a45905dc1d900a2efe4eac8": 1, // First Spear Siege-R Optimized M.A.S.S. Plate Carrier (MultiCam Arid)
+      "69b11f46f3783ec37c03a116": 1 // Direct Action Thunderbolt compact chest rig (Ranger Green)
     }
+  },
+  "ammo": {
+    "Caliber545x39": {
+      "61962b617c6c7b169525f168": 65, // 5.45x39mm 7N40
+      "56dfef82d2720bbd668b4567": 35 // 5.45x39mm BP gs
+    },
+    "Caliber9x39": {
+      "61962d879bb3d20b0946d385": 70, // 9x39mm PAB-9 gs
+      "57a0e5022459774d1673f889": 30 // 9x39mm SP-6 gs
+    },
+    "Caliber556x45NATO": {
+      "59e6906286f7746c9f75e847": 55, // 5.56x45mm M856A1
+      "54527ac44bdc2d36668b4567": 30, // 5.56x45mm M855A1
+      "59e690b686f7746c9f75e848": 15 // 5.56x45mm M995
+    },
+    "Caliber762x35": {
+      "64b8725c4b75259c590fa899": 70, // .300 Blackout CBJ
+      "5fd20ff893a8961fc660a954": 30 // .300 Blackout AP
+    },
+    "Caliber12g": {
+      "5d6e68a8a4b9360b6c0d54e2": 1 // 12/70 AP-20 armor-piercing slug
+    },
+    "Caliber9x19PARA": {
+      "5efb0da7a29a85116f6ea05f": 1 // 9x19mm PBP gzh
+    },
+    "Caliber9x21": {
+      "5a26ac0ec4a28200741e1e18": 60, // 9x21mm BT gzh
+      "6576f4708ca9c4381d16cd9d": 40 // 9x21mm 7N42 Zubilo
+    },
+    "Caliber762x25TT": {
+      "68c15f77ed3d7df9220debd6": 1 // 7.62x25mm TT M995
+    }
+  },
+  "mixedAmmo": {
+    "Caliber556x45NATO": {
+      "chance": 50,
+      "mode": "interleaved",
+      "interleaveBlockSize": 2,
+      "maxStacksPerMagazine": 16,
+      "entries": [
+        {
+          "tpl": "54527ac44bdc2d36668b4567", // 5.56x45mm M855A1
+          "ratio": 1
+        },
+        {
+          "tpl": "59e6906286f7746c9f75e847", // 5.56x45mm M856A1
+          "ratio": 1
+        }
+      ]
+    },
+    "Caliber9x39": {
+      "chance": 50,
+      "mode": "interleaved",
+      "interleaveBlockSize": 2,
+      "maxStacksPerMagazine": 16,
+      "entries": [
+        {
+          "tpl": "61962d879bb3d20b0946d385", // 9x39mm PAB-9 gs
+          "ratio": 1
+        },
+        {
+          "tpl": "57a0e5022459774d1673f889", // 9x39mm SP-6 gs
+          "ratio": 1
+        }
+      ]
+    },
+    "Caliber545x39": {
+      "chance": 50,
+      "mode": "interleaved",
+      "interleaveBlockSize": 2,
+      "maxStacksPerMagazine": 16,
+      "entries": [
+        {
+          "tpl": "61962b617c6c7b169525f168", // 5.45x39mm 7N40
+          "ratio": 1
+        },
+        {
+          "tpl": "56dfef82d2720bbd668b4567", // 5.45x39mm BP gs
+          "ratio": 1
+        }
+      ]
+    },
+    "Caliber762x35": {
+      "chance": 50,
+      "mode": "interleaved",
+      "interleaveBlockSize": 2,
+      "maxStacksPerMagazine": 16,
+      "entries": [
+        {
+          "tpl": "64b8725c4b75259c590fa899", // .300 Blackout CBJ
+          "ratio": 1
+        },
+        {
+          "tpl": "5fd20ff893a8961fc660a954", // .300 Blackout AP
+          "ratio": 1
+        }
+      ]
+    }
+  },
+  "mods": {
+    "6a45905dc1d900a2efe4eac8": { // First Spear Siege-R Optimized M.A.S.S. Plate Carrier (MultiCam Arid)
+      "Back_plate": [
+        "655746010177119f4a097ff7" // SAPI level III+ ballistic plate
+      ],
+      "Front_plate": [
+        "655746010177119f4a097ff7" // SAPI level III+ ballistic plate
+      ],
+      "Soft_armor_front": [
+        "68a5eaab48f18317750a0b92" // Aramid insert
+      ],
+      "Soft_armor_back": [
+        "68a5ea26200341f12e08de79" // Aramid insert
+      ],
+      "Right_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Left_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Soft_armor_left": [
+        "68a5eb4c200341f12e08e7d1" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "68a5eba93acdf023050b1c15" // Aramid insert
+      ],
+      "Collar": [
+        "68a5ea756e534ad0110eca16" // Aramid insert
+      ],
+      "Shoulder_l": [
+        "68a5eb16c4e56258880dfe96" // Aramid insert
+      ],
+      "Shoulder_r": [
+        "68a5eb856e534ad0110efa05" // Aramid insert
+      ],
+      "Groin": [
+        "68a5eadd2c125bac5a097cbf" // Aramid insert
+      ]
+    },
+    "571a12c42459771f627b58a0": { // TT-33 7.62x25 TT pistol
+      "mod_barrel": [
+        "571a279b24597720b4066566" // TT 7.62x25 121mm makeshift threaded barrel
+      ],
+      "mod_pistol_grip": [
+        "5c079ec50db834001966a706" // TT Razor Arms rubber grip
+      ],
+      "mod_magazine": [
+        "571a29dc2459771fb2755a6a" // TT 7.62x25 tt-105 8-round magazine
+      ]
+    },
+    "571a279b24597720b4066566": { // TT 7.62x25 121mm makeshift threaded barrel
+      "mod_muzzle": [
+        "571a28e524597720b4066567" // TT 7.62x25 makeshift sound suppressor
+      ]
+    },
+    "59f98b4986f7746f546d2cef": { // Serdyukov SR-1MP Gyurza 9x21 pistol
+      "mod_mount": [
+        "5a27b281c4a28200741e1e52" // SR-1MP single rail mount
+      ],
+      "mod_magazine": [
+        "59f99a7d86f7745b134aa97b" // SR-1MP 9x21 18-round magazine
+      ]
+    },
+    "5a27b281c4a28200741e1e52": { // SR-1MP single rail mount
+      "mod_tactical_000": [
+        "56def37dd2720bec348b456a" // SureFire X400 Ultra tactical flashlight with laser
+      ],
+      "mod_mount": [
+        "5a27b3d0c4a282000d721ec1" // SR-1MP sound suppressor mount
+      ]
+    },
+    "5a27b3d0c4a282000d721ec1": { // SR-1MP sound suppressor mount
+      "mod_muzzle": [
+        "5a27b6bec4a282000e496f78" // SR-1MP 9x21 sound suppressor
+      ]
+    },
+    "56d59856d2720bd8418b456a": { // SIG P226R 9x19 pistol
+      "mod_barrel": [
+        "587de4282459771bca0ec90b" // P226 9x19 112mm threaded barrel
+      ],
+      "mod_pistol_grip": [
+        "5c0006470db834001a6697fe" // P226 Emperor Scorpion pistol grip
+      ],
+      "mod_reciever": [
+        "5c0125fc0db834001a669aa3" // P226 Legion full size pistol slide
+      ],
+      "mod_magazine": [
+        "5c920e902e221644f31c3c99" // P226 9x19 20-round extended magazine
+      ],
+      "mod_tactical": [
+        "56def37dd2720bec348b456a" // SureFire X400 Ultra tactical flashlight with laser
+      ]
+    },
+    "587de4282459771bca0ec90b": { // P226 9x19 112mm threaded barrel
+      "mod_muzzle": [
+        "5c7e8fab2e22165df16b889b" // AAC Illusion 9 9x19 sound suppressor
+      ]
+    },
+    "5c0125fc0db834001a669aa3": { // P226 Legion full size pistol slide
+      "mod_sight_rear": [
+        "5c07b3850db834002330045b" // P226 Meprolight TRU-DOT Night rear sight
+      ],
+      "mod_sight_front": [
+        "5c07b36c0db834002a1259e9" // P226 Meprolight TRU-DOT Night front sight
+      ]
+    },
+    "5a7828548dc32e5a9c28b516": { // Remington Model 870 12ga pump-action shotgun
+      "mod_barrel": [
+        "5a787f7ac5856700177af660" // M870 12ga 508mm barrel
+      ],
+      "mod_handguard": [
+        "5a788031c585673f2b5c1c79" // M870 FAB Defense PR-870 forestock
+      ],
+      "mod_magazine": [
+        "5a78830bc5856700137e4c90" // M870 12ga 7-shell magazine
+      ],
+      "mod_stock": [
+        "5bfe86a20db834001d23e8f7" // M870 FAB Defense AGR-870 pistol grip
+      ],
+      "mod_mount": [
+        "5a78948ec5856700177b1124" // M870 XS SHOTRAIL rail with Ghost Ring rear sight
+      ]
+    },
+    "5a787f7ac5856700177af660": { // M870 12ga 508mm barrel
+      "mod_muzzle": [
+        "5b363dea5acfc4771e1c5e7e" // SilencerCo Salvo 12 choke adapter
+      ]
+    },
+    "5a788031c585673f2b5c1c79": { // M870 FAB Defense PR-870 forestock
+      "mod_foregrip": [
+        "5c1bc5af2e221602b412949b" // Zenit RK-2 tactical foregrip
+      ],
+      "mod_tactical_000": [
+        "56def37dd2720bec348b456a" // SureFire X400 Ultra tactical flashlight with laser
+      ]
+    },
+    "5bfe86a20db834001d23e8f7": { // M870 FAB Defense AGR-870 pistol grip
+      "mod_stock": [
+        "5bfe89510db834001808a127" // FAB Defense buffer tube for AGR-870
+      ]
+    },
+    "5bfe89510db834001808a127": { // FAB Defense buffer tube for AGR-870
+      "mod_stock_000": [
+        "68bb25270e48a3afd7071216" // AR-15 Magpul ACS Carbine stock (Black)
+      ]
+    },
+    "5a78948ec5856700177b1124": { // M870 XS SHOTRAIL rail with Ghost Ring rear sight
+      "mod_scope": [
+        "64785e7c19d732620e045e15" // ELCAN Specter HCO holographic sight
+      ]
+    },
+    "5e870397991fd70db46995c8": { // Mossberg 590A1 12ga pump-action shotgun
+      "mod_barrel": [
+        "5e87071478f43e51ca2de5e1" // Mossberg 590A1 12ga 20 inch barrel
+      ],
+      "mod_handguard": [
+        "5eea21647547d6330471b3c9" // Mossberg 590A1 Magpul MOE forestock
+      ],
+      "mod_magazine": [
+        "5e87080c81c4ed43e83cefda" // Mossberg 590A1 12ga 8-shell magazine cap
+      ],
+      "mod_stock": [
+        "5ef1b9f0c64c5d0dfc0571a1" // Mossberg 590A1 Mesa Tactical LEO gen.1 stock adapter
+      ],
+      "mod_mount": [
+        "5eeb2ff5ea4f8b73c827350b" // Mossberg 590A1 Tactical rail
+      ]
+    },
+    "5e87071478f43e51ca2de5e1": { // Mossberg 590A1 12ga 20 inch barrel
+      "mod_sight_front": [
+        "5e8708d4ae379e67d22e0102" // Mossberg 590 Ghost Ring front sight
+      ]
+    },
+    "5eea21647547d6330471b3c9": { // Mossberg 590A1 Magpul MOE forestock
+      "mod_foregrip": [
+        "651a8bf3a8520e48047bf708" // Daniel Defense Enhanced M-LOK Vertical Foregrip (Black)
+      ]
+    },
+    "5ef1b9f0c64c5d0dfc0571a1": { // Mossberg 590A1 Mesa Tactical LEO gen.1 stock adapter
+      "mod_stock": [
+        "5d120a10d7ad1a4e1026ba85" // AR-15 DoubleStar ACE SOCOM Gen.4 stock
+      ],
+      "mod_pistol_grip": [
+        "5bb20e18d4351e00320205d5" // AR-15 HK Battle Grip pistol grip
+      ]
+    },
+    "5d120a10d7ad1a4e1026ba85": { // AR-15 DoubleStar ACE SOCOM Gen.4 stock
+      "mod_stock": [
+        "5d120a28d7ad1a1c8962e295" // DoubleStar ACE recoil pad
+      ]
+    },
+    "5eeb2ff5ea4f8b73c827350b": { // Mossberg 590A1 Tactical rail
+      "mod_scope": [
+        "59f9d81586f7744c7506ee62" // Vortex Razor AMG UH-1 holographic sight
+      ],
+      "mod_tactical_000": [
+        "68bedc0365e7dcf94f0cb0fc" // L3Harris AN/PEQ-15 tactical device (Black)
+      ],
+      "mod_tactical_001": [
+        "56def37dd2720bec348b456a" // SureFire X400 Ultra tactical flashlight with laser
+      ],
+      "mod_sight_front": [
+        "5bc09a30d4351e00367fb7c8" // Magpul MBUS Gen2 flip-up front sight
+      ],
+      "mod_sight_rear": [
+        "5bc09a18d4351e003562b68e" // Magpul MBUS Gen2 flip-up rear sight
+      ]
+    },
+    "6259b864ebedf17603599e88": { // Benelli M3 Super 90 12ga dual-mode shotgun
+      "mod_barrel": [
+        "6259c2c1d714855d182bad85" // Benelli M3 Super 90 12ga 500mm barrel
+      ],
+      "mod_handguard": [
+        "6259c4347d6aab70bc23a190" // Benelli M3 forend
+      ],
+      "mod_magazine": [
+        "6259bdcabd28e4721447a2aa" // Benelli M3 Super 90 12ga 7-shell magazine
+      ],
+      "mod_stock": [
+        "6259c3387d6aab70bc23a18d" // Benelli M3 telescopic stock
+      ],
+      "mod_mount": [
+        "625ed7c64d9b6612df732146" // Benelli M3 Super 90 upper receiver top rail
+      ],
+      "mod_sight_rear": [
+        "625ebcef6f53af4aa66b44dc" // Benelli M3 Ghost Ring rear sight
+      ],
+      "mod_charge": [
+        "625ec45bb14d7326ac20f572" // Benelli M3 Super 90 charging handle
+      ]
+    },
+    "6259c2c1d714855d182bad85": { // Benelli M3 Super 90 12ga 500mm barrel
+      "mod_muzzle": [
+        "5b363dea5acfc4771e1c5e7e" // SilencerCo Salvo 12 choke adapter
+      ],
+      "mod_mount": [
+        "676177b09cfcc4c25b027446" // Toni System Tactical Barrel Clamp
+      ]
+    },
+    "5b363dea5acfc4771e1c5e7e": { // SilencerCo Salvo 12 choke adapter
+      "mod_muzzle": [
+        "5b363dd25acfc4001a598fd2" // SilencerCo Salvo 12 12ga sound suppressor
+      ]
+    },
+    "676177b09cfcc4c25b027446": { // Toni System Tactical Barrel Clamp
+      "mod_tactical_000": [
+        "689c8981bce76ccfbf01862f" // SureFire M600 Scout Light Thumbscrew Mount
+      ]
+    },
+    "6259c3387d6aab70bc23a18d": { // Benelli M3 telescopic stock
+      "mod_pistol_grip": [
+        "6259c3d8012d6678ec38eeb8" // Benelli M3 telescopic stock pistol grip
+      ]
+    },
+    "625ed7c64d9b6612df732146": { // Benelli M3 Super 90 upper receiver top rail
+      "mod_scope": [
+        "68a5ab09c44fa287ba0a97b5" // FALKE LE reflex sight
+      ]
+    },
+    "6184055050224f204c1da540": { // FN SCAR-L 5.56x45 assault rifle
+      "mod_pistol_grip": [
+        "5c6d7b3d2e221600114c9b7d" // AR-15 HK V2 pistol grip
+      ],
+      "mod_magazine": [
+        "5d1340b3d7ad1a0b52682ed7" // AR-15 5.56x45 Magpul PMAG 30 GEN M3 STANAG 30-round magazine (FDE)
+      ],
+      "mod_reciever": [
+        "618426d96c780c1e710c9b9f" // FN SCAR-L 5.56x45 upper receiver (FDE)
+      ],
+      "mod_stock": [
+        "61816734d8e3106d9806c1f3" // FN SCAR folding polymer stock
+      ],
+      "mod_charge": [
+        "6181688c6c780c1e710c9b04" // FN SCAR charging handle
+      ]
+    },
+    "618426d96c780c1e710c9b9f": { // FN SCAR-L 5.56x45 upper receiver (FDE)
+      "mod_scope": [
+        "59f9d81586f7744c7506ee62" // Vortex Razor AMG UH-1 holographic sight
+      ],
+      "mod_barrel": [
+        "6183fc15d3a39d50044c13e9" // FN SCAR-L 5.56x45 10 inch barrel
+      ],
+      "mod_sight_rear": [
+        "5bc09a18d4351e003562b68e" // Magpul MBUS Gen2 flip-up rear sight
+      ],
+      "mod_sight_front": [
+        "5bc09a30d4351e00367fb7c8" // Magpul MBUS Gen2 flip-up front sight
+      ],
+      "mod_tactical_000": [
+        "68bedc0365e7dcf94f0cb0fc" // L3Harris AN/PEQ-15 tactical device (Black)
+      ],
+      "mod_mount_000": [
+        "66ffe811f5d758d71101e89a" // FN SCAR Vltor CASV-SCAR handguard
+      ]
+    },
+    "6183fc15d3a39d50044c13e9": { // FN SCAR-L 5.56x45 10 inch barrel
+      "mod_muzzle": [
+        "5c7fb51d2e2216001219ce11" // AR-15 SureFire SF3P 5.56x45 Flash hider
+      ],
+      "mod_sight_front": [
+        "61816fcad92c473c770215cc" // FN SCAR flip-up front sight
+      ]
+    },
+    "5c7fb51d2e2216001219ce11": { // AR-15 SureFire SF3P 5.56x45 Flash hider
+      "mod_muzzle": [
+        "5ea17bbc09aa976f2e7a51cd" // SureFire SOCOM556-RC2 5.56x45 sound suppressor
+      ]
+    },
+    "66ffe811f5d758d71101e89a": { // FN SCAR Vltor CASV-SCAR handguard
+      "mod_foregrip": [
+        "5b7be46e5acfc400170e2dcf" // Vltor CASV 5 inch rail
+      ],
+      "mod_mount_000": [
+        "5b7be4645acfc400170e2dcc" // Vltor CASV 4 inch rail
+      ]
+    },
+    "5b7be46e5acfc400170e2dcf": { // Vltor CASV 5 inch rail
+      "mod_foregrip": [
+        "588226dd24597767ad33f789" // Magpul AFG tactical foregrip (FDE)
+      ]
+    },
+    "5b7be4645acfc400170e2dcc": { // Vltor CASV 4 inch rail
+      "mod_tactical": [
+        "689c8981bce76ccfbf01862f" // SureFire M600 Scout Light Thumbscrew Mount
+      ]
+    },
+    "689c8981bce76ccfbf01862f": { // SureFire M600 Scout Light Thumbscrew Mount
+      "mod_tactical": [
+        "689c887cd18a3665b8045743" // SureFire M600 Ultra Scout Light
+      ]
+    },
+    "61816734d8e3106d9806c1f3": { // FN SCAR folding polymer stock
+      "mod_stock_001": [
+        "66ffc2ecfe9b3825960652f7" // FN SCAR Vltor VSS-11 polymer stock (Patriot Brown)
+      ],
+      "mod_stock_002": [
+        "61825d24d3a39d50044c13af" // FN SCAR cheek rest (FDE)
+      ]
+    },
+    "68c16b9ab6b75a8a480520a6": { // Custom Guns NL545 (DI) 5.45x39 assault rifle
+      "mod_pistol_grip": [
+        "6113c3586c780c1e710c90bc" // AR-15 F1 Firearms Skeletonized Style 1 pistol grip
+      ],
+      "mod_magazine": [
+        "5aaa4194e5b5b055d06310a5" // AK-74 5.45x39 Magpul PMAG 30 GEN M3 30-round magazine
+      ],
+      "mod_reciever": [
+        "68c16e84fc90c174e50de1a8" // NL545 (DI) 5.45x39 upper receiver
+      ],
+      "mod_stock_001": [
+        "698b337c49b46ae2d0092e7f" // AR-15 Phase5 Hexone buffer tube
+      ],
+      "mod_charge": [
+        "68c16f15efac701f800dfd36" // NL545 charging handle
+      ]
+    },
+    "68c16e84fc90c174e50de1a8": { // NL545 (DI) 5.45x39 upper receiver
+      "mod_scope": [
+        "58491f3324597764bc48fa02" // EOTech XPS3-0 holographic sight
+      ],
+      "mod_barrel": [
+        "68c16edf83e2d814b0093f76" // NL545 (DI) 5.45x39 16.3 inch barrel
+      ],
+      "mod_handguard": [
+        "68a7000d7708ac5120060527" // AR-15 Strike Industries GRIDLOK base (Red)
+      ],
+      "mod_sight_rear": [
+        "5bc09a18d4351e003562b68e" // Magpul MBUS Gen2 flip-up rear sight
+      ]
+    },
+    "68c16edf83e2d814b0093f76": { // NL545 (DI) 5.45x39 16.3 inch barrel
+      "mod_muzzle": [
+        "59bffc1f86f77435b128b872" // SilencerCo Hybrid 46 Direct Thread Mount adapter
+      ],
+      "mod_gas_block": [
+        "63d3ce281fe77d0f2801859e" // AR-15 Ballistic Advantage Lo-Pro Gas Block
+      ]
+    },
+    "59bffc1f86f77435b128b872": { // SilencerCo Hybrid 46 Direct Thread Mount adapter
+      "mod_muzzle": [
+        "59bffbb386f77435b379b9c2" // SilencerCo Hybrid 46 multi-caliber sound suppressor
+      ]
+    },
+    "68a6fbfdd31595bb360c73bd": { // AR-15 Strike Industries GRIDLOK 17 inch handguard
+      "mod_mount_001": [
+        "689c8b454b91399db3085f2a" // Arisaka Inline Scout Mount M-LOK
+      ],
+      "mod_mount_000": [
+        "68a6ff952885e0bbd30bb6fd" // AR-15 Strike Industries GRIDLOK Extension (Red)
+      ],
+      "mod_foregrip": [
+        "5b7be4895acfc400170e2dd5" // Magpul M-LOK 4.1 inch rail
+      ]
+    },
+    "5b7be4895acfc400170e2dd5": { // Magpul M-LOK 4.1 inch rail
+      "mod_foregrip": [
+        "5b057b4f5acfc4771e1bd3e9" // Stark SE-5 Express Forward foregrip
+      ]
+    },
+    "5c488a752e221602b412af63": { // Desert Tech MDR 5.56x45 assault rifle
+      "mod_pistol_grip": [
+        "5dcbd6dddbd3d91b3e5468de" // MDR pistol grip (Black)
+      ],
+      "mod_magazine": [
+        "5c6d450c2e221600114c997d" // AR-15 5.56x45 HK PM Gen.2 STANAG 30-round magazine
+      ],
+      "mod_handguard": [
+        "5dcbd6b46ec07c0c4347a564" // MDR handguard (Black)
+      ],
+      "mod_barrel": [
+        "5c48a2852e221602b21d5923" // MDR 5.56x45 16 inch barrel
+      ],
+      "mod_scope": [
+        "618b9643526131765025ab35" // Geissele Super Precision 30mm ring scope mount
+      ],
+      "mod_sight_rear": [
+        "5bc09a18d4351e003562b68e" // Magpul MBUS Gen2 flip-up rear sight
+      ]
+    },
+    "5dcbd6b46ec07c0c4347a564": { // MDR handguard (Black)
+      "mod_mount_000": [
+        "651a8e529829226ceb67c319" // Daniel Defense Enhanced M-LOK Vertical Foregrip (Coyote Brown)
+      ],
+      "mod_mount_001": [
+        "669a6a4a525be1d2d004b8eb" // Magpul M-LOK 0.93 inch rail
+      ],
+      "mod_tactical": [
+        "544909bb4bdc2d6f028b4577" // L3Harris AN/PEQ-15 tactical device
+      ],
+      "mod_sight_front": [
+        "5c18b90d2e2216152142466b" // Magpul MBUS Gen2 flip-up front sight (FDE)
+      ]
+    },
+    "669a6a4a525be1d2d004b8eb": { // Magpul M-LOK 0.93 inch rail
+      "mod_tactical": [
+        "626becf9582c3e319310b837" // Insight WMX200 tactical flashlight
+      ]
+    },
+    "5c48a2852e221602b21d5923": { // MDR 5.56x45 16 inch barrel
+      "mod_muzzle": [
+        "6386120cd6baa055ad1e201c" // AR-15 Griffin Armament Gate-LOK Hammer 5.56x45 flash hider
+      ]
+    },
+    "6386120cd6baa055ad1e201c": { // AR-15 Griffin Armament Gate-LOK Hammer 5.56x45 flash hider
+      "mod_muzzle": [
+        "69f0eb8c02bba0856602897e" // AR-15 Griffin Armament M4SD-K 5.56x45 sound suppressor (FDE)
+      ]
+    },
+    "618b9643526131765025ab35": { // Geissele Super Precision 30mm ring scope mount
+      "mod_scope": [
+        "69fa52ff8196fcfde3e548b4" // EOTech Vudu 1-6x24 30mm riflescope (FDE)
+      ],
+      "mod_mount": [
+        "618b9671d14d6d5ab879c5ea" // Geissele Super Precision top ring cap
+      ]
+    },
+    "5fbcc1d9016cce60e8341ab3": { // SIG MCX .300 Blackout assault rifle
+      "mod_pistol_grip": [
+        "5a339805c4a2826c6e06d73d" // AR-15 Magpul MIAD pistol grip (FDE)
+      ],
+      "mod_magazine": [
+        "5d1340b3d7ad1a0b52682ed7" // AR-15 5.56x45 Magpul PMAG 30 GEN M3 STANAG 30-round magazine (FDE)
+      ],
+      "mod_reciever": [
+        "5fbcc3e4d6fa9c00c571bb58" // MCX GEN1 .300 BLK upper receiver
+      ],
+      "mod_stock": [
+        "68d566f3f3d7cd248f0a06db" // Magpul UCS buttstock (FDE)
+      ],
+      "mod_charge": [
+        "5fbcc640016cce60e8341acc" // MCX charging handle
+      ]
+    },
+    "5fbcc3e4d6fa9c00c571bb58": { // MCX GEN1 .300 BLK upper receiver
+      "mod_scope": [
+        "618bab21526131765025ab3f" // Geissele Super Precision 30mm ring scope mount (DDC)
+      ],
+      "mod_barrel": [
+        "5fbbfacda56d053a3543f799" // MCX .300 BLK 9 inch barrel
+      ],
+      "mod_handguard": [
+        "6812180dc20f5c52bc04d6cc" // MCX Lancer Carbon Fiber M-LOK 12 inch handguard
+      ],
+      "mod_sight_rear": [
+        "5c18b9192e2216398b5a8104" // Magpul MBUS Gen2 flip-up rear sight (FDE)
+      ],
+      "mod_tactical": [
+        "5c06595c0db834001a66af6c" // L3Harris LA-5B/PEQ tactical device
+      ]
+    },
+    "618bab21526131765025ab3f": { // Geissele Super Precision 30mm ring scope mount (DDC)
+      "mod_scope": [
+        "69fa5313cc7338d9dec96f77" // SIG Sauer TANGO6T 1-6x24 30mm riflescope (Black)
+      ],
+      "mod_mount": [
+        "618ba92152ecee1505530bd3" // Reptilia ROF-90 RMR mount for Geissele scope mounts (DDC)
+      ]
+    },
+    "618ba92152ecee1505530bd3": { // Reptilia ROF-90 RMR mount for Geissele scope mounts (DDC)
+      "mod_scope": [
+        "688b4bd81cef2a61d0052738" // Trijicon SRO reflex sight (FDE)
+      ]
+    },
+    "5fbbfacda56d053a3543f799": { // MCX .300 BLK 9 inch barrel
+      "mod_muzzle": [
+        "5dfa3cd1b33c0951220c079b" // AR-10 KAC QDC 7.62x51 Flash Suppressor Kit
+      ],
+      "mod_gas_block": [
+        "5fbc210bf24b94483f726481" // MCX gas block
+      ]
+    },
+    "5dfa3cd1b33c0951220c079b": { // AR-10 KAC QDC 7.62x51 Flash Suppressor Kit
+      "mod_muzzle": [
+        "5dfa3d2b0dee1b22f862eade" // KAC PRS/QDC 7.62x51 sound suppressor
+      ]
+    },
+    "6812180dc20f5c52bc04d6cc": { // MCX Lancer Carbon Fiber M-LOK 12 inch handguard
+      "mod_mount_000": [
+        "689c8b454b91399db3085f2a" // Arisaka Inline Scout Mount M-LOK
+      ],
+      "mod_sight_front": [
+        "5c18b90d2e2216152142466b" // Magpul MBUS Gen2 flip-up front sight (FDE)
+      ],
+      "mod_foregrip": [
+        "651a8e529829226ceb67c319" // Daniel Defense Enhanced M-LOK Vertical Foregrip (Coyote Brown)
+      ]
+    },
+    "68d566f3f3d7cd248f0a06db": { // Magpul UCS buttstock (FDE)
+      "mod_stock_000": [
+        "68badc0366a72211fe004bc7" // Magpul UCS Stock Cheek Riser
+      ]
+    },
+    "5447a9cd4bdc2dbd208b4567": { // Colt M4A1 5.56x45 assault rifle
+      "mod_pistol_grip": [
+        "57c55efc2459772d2c6271e7" // Hogue OverMolded Rubber Grip (Black)
+      ],
+      "mod_magazine": [
+        "5c6d46132e221601da357d56" // AR-15 5.56x45 TROY BattleMag STANAG 30-round magazine
+      ],
+      "mod_reciever": [
+        "55d355e64bdc2d962f8b4569" // M4A1 5.56x45 upper receiver
+      ],
+      "mod_stock": [
+        "698b337c49b46ae2d0092e7f" // AR-15 Phase5 Hexone buffer tube
+      ],
+      "mod_charge": [
+        "55d44fd14bdc2d962f8b456e" // AR-15 Colt charging handle
+      ],
+      "mod_charge_001": [
+        "675307301f7c19a9780f2668" // AR-15 Magpul B.A.D. Lever bolt release
+      ]
+    },
+    "55d355e64bdc2d962f8b4569": { // M4A1 5.56x45 upper receiver
+      "mod_scope": [
+        "64785e7c19d732620e045e15" // ELCAN Specter HCO holographic sight
+      ],
+      "mod_barrel": [
+        "68a86bd51d1284a8e20e39d5" // AR-15 5.56x45 11.5 inch barrel
+      ],
+      "mod_handguard": [
+        "68a7000d7708ac5120060527" // AR-15 Strike Industries GRIDLOK base (Red)
+      ],
+      "mod_sight_rear": [
+        "5bc09a18d4351e003562b68e" // Magpul MBUS Gen2 flip-up rear sight
+      ]
+    },
+    "68a86bd51d1284a8e20e39d5": { // AR-15 5.56x45 11.5 inch barrel
+      "mod_muzzle": [
+        "5cff9e5ed7ad1a09407397d4" // AR-15 Daniel Defense WAVE 5.56x45 muzzle brake
+      ],
+      "mod_gas_block": [
+        "63d3ce281fe77d0f2801859e" // AR-15 Ballistic Advantage Lo-Pro Gas Block
+      ]
+    },
+    "5cff9e5ed7ad1a09407397d4": { // AR-15 Daniel Defense WAVE 5.56x45 muzzle brake
+      "mod_muzzle": [
+        "5cff9e84d7ad1a049e54ed55" // Daniel Defense WAVE QD sound suppressor
+      ]
+    },
+    "68a7000d7708ac5120060527": { // AR-15 Strike Industries GRIDLOK base (Red)
+      "mod_handguard": [
+        "68a6fbfdd31595bb360c73bd" // AR-15 Strike Industries GRIDLOK 17 inch handguard
+      ]
+    },
+    "68a6f3b27279296357007cd7": { // AR-15 Strike Industries GRIDLOK 11 inch handguard
+      "mod_mount_001": [
+        "689c8b454b91399db3085f2a" // Arisaka Inline Scout Mount M-LOK
+      ],
+      "mod_mount_000": [
+        "68a6ff952885e0bbd30bb6fd" // AR-15 Strike Industries GRIDLOK Extension (Red)
+      ],
+      "mod_foregrip": [
+        "57cffce524597763b31685d8" // Magpul M-LOK AFG tactical foregrip (Stealth Grey)
+      ]
+    },
+    "68a6ff952885e0bbd30bb6fd": { // AR-15 Strike Industries GRIDLOK Extension (Red)
+      "mod_tactical": [
+        "68bedc0365e7dcf94f0cb0fc" // L3Harris AN/PEQ-15 tactical device (Black)
+      ]
+    },
+    "698b337c49b46ae2d0092e7f": { // AR-15 Phase5 Hexone buffer tube
+      "mod_stock": [
+        "698b358b49b46ae2d0092e86" // AR-15 Phase5 Universal Mini Stock (Red)
+      ]
+    },
+    "5bb2475ed4351e00853264e3": { // HK 416A5 5.56x45 assault rifle
+      "mod_pistol_grip": [
+        "571659bb2459771fb2755a12" // AR-15 Damage Industries ECS pistol grip (FDE)
+      ],
+      "mod_magazine": [
+        "5d1340b3d7ad1a0b52682ed7" // AR-15 5.56x45 Magpul PMAG 30 GEN M3 STANAG 30-round magazine (FDE)
+      ],
+      "mod_reciever": [
+        "5bb20d53d4351e4502010a69" // HK 416A5 5.56x45 upper receiver
+      ],
+      "mod_stock": [
+        "5947eab886f77475961d96c5" // AR-15 Magpul UBR GEN2 stock (FDE)
+      ],
+      "mod_charge": [
+        "5bb20dbcd4351e44f824c04e" // AR-15 HK Extended Latch charging handle
+      ]
+    },
+    "5bb20d53d4351e4502010a69": { // HK 416A5 5.56x45 upper receiver
+      "mod_scope": [
+        "558022b54bdc2dac148b458d" // EOTech EXPS3-0 holographic sight (Tan)
+      ],
+      "mod_barrel": [
+        "5bb20d92d4351e00853263eb" // HK 416 5.56x45 11 inch barrel
+      ],
+      "mod_handguard": [
+        "5bb20df1d4351e00347787d5" // HK 416 Quad Rail handguard with flip-up front sight
+      ],
+      "mod_sight_rear": [
+        "5c18b9192e2216398b5a8104" // Magpul MBUS Gen2 flip-up rear sight (FDE)
+      ]
+    },
+    "5bb20d92d4351e00853263eb": { // HK 416 5.56x45 11 inch barrel
+      "mod_muzzle": [
+        "609269c3b0e443224b421cc1" // AR-15 SilencerCo ASR 5.56x45 flash hider
+      ],
+      "mod_gas_block": [
+        "5bb20dcad4351e3bac1212da" // HK 416A5 low profile gas block
+      ]
+    },
+    "609269c3b0e443224b421cc1": { // AR-15 SilencerCo ASR 5.56x45 flash hider
+      "mod_muzzle": [
+        "69f0eb9054288f30f3789ec1" // SilencerCo Saker ASR 556 5.56x45 sound suppressor (FDE)
+      ]
+    },
+    "5bb20df1d4351e00347787d5": { // HK 416 Quad Rail handguard with flip-up front sight
+      "mod_foregrip": [
+        "588226dd24597767ad33f789" // Magpul AFG tactical foregrip (FDE)
+      ],
+      "mod_tactical_000": [
+        "544909bb4bdc2d6f028b4577" // L3Harris AN/PEQ-15 tactical device
+      ],
+      "mod_tactical_001": [
+        "626becf9582c3e319310b837" // Insight WMX200 tactical flashlight
+      ],
+      "mod_bipod": [
+        "6644920d49817dc7d505ca71" // BT10 V8 Atlas Bipod
+      ]
+    },
+    "57c44b372459772d2b39b8ce": { // AS VAL 9x39 special assault rifle
+      "mod_muzzle": [
+        "57c44dd02459772d2e0ae249" // AS VAL 9x39 integral barrel-suppressor
+      ],
+      "mod_reciever": [
+        "57c44f4f2459772d2c627113" // AS VAL dust cover
+      ],
+      "mod_magazine": [
+        "5a9e81fba2750c00164f6b11" // VSS/VAL 9x39 SR3M.130 30-round magazine
+      ],
+      "mod_pistol_grip": [
+        "5a69a2ed8dc32e000d46d1f1" // AS VAL Rotor 43 pistol grip with buffer tube
+      ],
+      "mod_mount_000": [
+        "67069c8cee8138ed2f05ad34" // SR-3MP dovetail side rail (Black)
+      ],
+      "mod_handguard": [
+        "6565bb7eb4b12a56eb04b084" // VSS/VAL polymer handguard (Black)
+      ]
+    },
+    "57c44dd02459772d2e0ae249": { // AS VAL 9x39 integral barrel-suppressor
+      "mod_sight_rear": [
+        "57c44e7b2459772d28133248" // AS VAL rear sight
+      ],
+      "mod_mount_000": [
+        "59eb7ebe86f7740b373438ce" // VSS/VAL TOZ 6P29M mount
+      ]
+    },
+    "59eb7ebe86f7740b373438ce": { // VSS/VAL TOZ 6P29M mount
+      "mod_tactical_000": [
+        "68bedc0365e7dcf94f0cb0fc" // L3Harris AN/PEQ-15 tactical device (Black)
+      ],
+      "mod_tactical_001": [
+        "57d17e212459775a1179a0f5" // Kiba Arms 25mm accessory ring mount
+      ],
+      "mod_foregrip": [
+        "6984b74a5aab442620032fe6" // IRBIS-GUN 45AL Foregrip
+      ]
+    },
+    "57d17e212459775a1179a0f5": { // Kiba Arms 25mm accessory ring mount
+      "mod_flashlight": [
+        "59d790f486f77403cb06aec6" // Armytek Predator Pro v3 XHP35 HI flashlight
+      ]
+    },
+    "5a69a2ed8dc32e000d46d1f1": { // AS VAL Rotor 43 pistol grip with buffer tube
+      "mod_stock_000": [
+        "5a9eb32da2750c00171b3f9c" // AR-15 FAB Defense GL-SHOCK buttstock
+      ]
+    },
+    "67069c8cee8138ed2f05ad34": { // SR-3MP dovetail side rail (Black)
+      "mod_scope": [
+        "5c07dd120db834001c39092d" // EOTech HHS-1 hybrid sight
+      ]
+    },
+    "6499849fc93611967b034949": { // Kalashnikov AK-12 5.45x39 assault rifle
+      "mod_gas_block": [
+        "649ec107961514b22506b10c" // AK-12 gas tube
+      ],
+      "mod_muzzle": [
+        "64c196ad26a15b84aa07132f" // AK-12 5.45x39 sound suppressor
+      ],
+      "mod_pistol_grip": [
+        "6984b7bf0baed1fc0a0594f6" // AK Gladman Skeleton pistol grip
+      ],
+      "mod_reciever": [
+        "649ec2f3961514b22506b111" // AK-12 railed dust cover
+      ],
+      "mod_stock_001": [
+        "6761779c48fa5c377e06fc3f" // AK AK-EVO stock
+      ],
+      "mod_magazine": [
+        "5aaa4194e5b5b055d06310a5" // AK-74 5.45x39 Magpul PMAG 30 GEN M3 30-round magazine
+      ],
+      "mod_charge": [
+        "5648ac824bdc2ded0b8b457d" // AK Zenit RP-1 charging handle
+      ],
+      "mod_handguard": [
+        "682315bdf8d8f8681e0744b5" // AK-12 Tactical Ideas N-4 handguard
+      ]
+    },
+    "649ec2f3961514b22506b111": { // AK-12 railed dust cover
+      "mod_scope": [
+        "57ac965c24597706be5f975c" // ELCAN SpecterDR 1x/4x scope
+      ],
+      "mod_sight_rear": [
+        "649ec2da59cbb3c813042dca" // AK-12 rear sight mount
+      ]
+    },
+    "57ac965c24597706be5f975c": { // ELCAN SpecterDR 1x/4x scope
+      "mod_mount": [
+        "688b54a11cef2a61d005273b" // Elcan SpecterDR Mounting Plate for Trijicon
+      ]
+    },
+    "688b54a11cef2a61d005273b": { // Elcan SpecterDR Mounting Plate for Trijicon
+      "mod_scope": [
+        "688b44cb28bf8d85cd0ff108" // Trijicon SRO reflex sight
+      ]
+    },
+    "649ec2da59cbb3c813042dca": { // AK-12 rear sight mount
+      "mod_sight_rear": [
+        "649ec2cec93611967b03495e" // AK-12 rear sight
+      ]
+    },
+    "682315bdf8d8f8681e0744b5": { // AK-12 Tactical Ideas N-4 handguard
+      "mod_foregrip": [
+        "651a8bf3a8520e48047bf708" // Daniel Defense Enhanced M-LOK Vertical Foregrip (Black)
+      ],
+      "mod_mount_000": [
+        "6269220d70b6c02e665f2635" // Magpul M-LOK Cantilever Mount
+      ],
+      "mod_mount_002": [
+        "689c8b454b91399db3085f2a" // Arisaka Inline Scout Mount M-LOK
+      ]
+    },
+    "6269220d70b6c02e665f2635": { // Magpul M-LOK Cantilever Mount
+      "mod_tactical": [
+        "68bedc0365e7dcf94f0cb0fc" // L3Harris AN/PEQ-15 tactical device (Black)
+      ]
+    },
+    "689c8b454b91399db3085f2a": { // Arisaka Inline Scout Mount M-LOK
+      "mod_tactical": [
+        "689c887cd18a3665b8045743" // SureFire M600 Ultra Scout Light
+      ]
+    },
+    "60a283193cb70855c43a381d": { // NFM THOR Integrated Carrier body armor
+      "Back_plate": [
+        "656fa61e94b480b8a500c0e8" // NESCO 4400-SA-MC ballistic plate
+      ],
+      "Front_plate": [
+        "656fa61e94b480b8a500c0e8" // NESCO 4400-SA-MC ballistic plate
+      ],
+      "Soft_armor_front": [
+        "6575d561b15fef3dd4051670" // Aramid insert
+      ],
+      "Soft_armor_back": [
+        "6575d56b16c2762fba005818" // Aramid insert
+      ],
+      "Right_side_plate": [
+        "64afdb577bb3bfe8fe03fd1d" // ESBI level IV ballistic plate (Side)
+      ],
+      "Left_side_plate": [
+        "64afdb577bb3bfe8fe03fd1d" // ESBI level IV ballistic plate (Side)
+      ],
+      "Soft_armor_left": [
+        "6575d57a16c2762fba00581c" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "6575d589b15fef3dd4051674" // Aramid insert
+      ],
+      "Collar": [
+        "6575d598b15fef3dd4051678" // Aramid insert
+      ],
+      "Shoulder_l": [
+        "6575d5b316c2762fba005824" // Aramid insert
+      ],
+      "Shoulder_r": [
+        "6575d5bd16c2762fba005828" // Aramid insert
+      ],
+      "Groin": [
+        "6575d5a616c2762fba005820" // Aramid insert
+      ]
+    },
+    "5b44cd8b86f774503d30cba2": { // IOTV Gen4 body armor (Full Protection Kit, MultiCam)
+      "Back_plate": [
+        "65573fa5655447403702a816" // Granit Br4 ballistic plate
+      ],
+      "Front_plate": [
+        "65573fa5655447403702a816" // Granit Br4 ballistic plate
+      ],
+      "Soft_armor_front": [
+        "6575c2adefc786cd9101a5d9" // Aramid insert
+      ],
+      "Soft_armor_back": [
+        "6575c2be52b7f8c76a05ee25" // Aramid insert
+      ],
+      "Right_side_plate": [
+        "64afdb577bb3bfe8fe03fd1d" // ESBI level IV ballistic plate (Side)
+      ],
+      "Left_side_plate": [
+        "64afdb577bb3bfe8fe03fd1d" // ESBI level IV ballistic plate (Side)
+      ],
+      "Soft_armor_left": [
+        "6575c2cd52b7f8c76a05ee29" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "6575c2d852b7f8c76a05ee2d" // Aramid insert
+      ],
+      "Collar": [
+        "6575c2e4efc786cd9101a5dd" // Aramid insert
+      ],
+      "Groin": [
+        "6575c31b52b7f8c76a05ee35" // Aramid insert
+      ],
+      "Shoulder_l": [
+        "6575c2f7efc786cd9101a5e1" // Aramid insert
+      ],
+      "Shoulder_r": [
+        "6575c30352b7f8c76a05ee31" // Aramid insert
+      ],
+      "Groin_back": [
+        "6575c326c6700bd6b40e8a80" // Aramid insert
+      ]
+    },
+    "5b44d0de86f774503d30cba8": { // IOTV Gen4 body armor (High Mobility Kit, MultiCam)
+      "Back_plate": [
+        "656fae5f7c2d57afe200c0d7" // GAC 3s15m ballistic plate
+      ],
+      "Front_plate": [
+        "656fae5f7c2d57afe200c0d7" // GAC 3s15m ballistic plate
+      ],
+      "Soft_armor_front": [
+        "6575c342efc786cd9101a5e5" // Aramid insert
+      ],
+      "Soft_armor_back": [
+        "6575c34bc6700bd6b40e8a84" // Aramid insert
+      ],
+      "Right_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Left_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Soft_armor_left": [
+        "6575c35bc6700bd6b40e8a88" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "6575c366c6700bd6b40e8a8c" // Aramid insert
+      ],
+      "Collar": [
+        "6575c373dc9932aed601c5ec" // Aramid insert
+      ],
+      "Groin": [
+        "6575c385dc9932aed601c5f0" // Aramid insert
+      ],
+      "Groin_back": [
+        "6575c390efc786cd9101a5e9" // Aramid insert
+      ]
+    },
+    "5b44cf1486f77431723e3d05": { // IOTV Gen4 body armor (Assault Kit, MultiCam)
+      "Back_plate": [
+        "656fae5f7c2d57afe200c0d7" // GAC 3s15m ballistic plate
+      ],
+      "Front_plate": [
+        "65573fa5655447403702a816" // Granit Br4 ballistic plate
+      ],
+      "Soft_armor_front": [
+        "6575c3b3dc9932aed601c5f4" // Aramid insert
+      ],
+      "Soft_armor_back": [
+        "6575c3beefc786cd9101a5ed" // Aramid insert
+      ],
+      "Right_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Left_side_plate": [
+        "6557458f83942d705f0c4962" // SSAPI level III+ ballistic plate (Side)
+      ],
+      "Soft_armor_left": [
+        "6575c3cdc6700bd6b40e8a90" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "6575c3dfdc9932aed601c5f8" // Aramid insert
+      ],
+      "Collar": [
+        "6575c3ec52b7f8c76a05ee39" // Aramid insert
+      ],
+      "Shoulder_l": [
+        "6575c3fd52b7f8c76a05ee3d" // Aramid insert
+      ],
+      "Shoulder_r": [
+        "6575c40c52b7f8c76a05ee41" // Aramid insert
+      ]
+    },
+    "68a97093431252e29a02dc06": { // NPP KlASS Korund-VM body armor (Kamysh)
+      "Back_plate": [
+        "657b28d25f444d6dff0c6c77" // Korund-VM-K ballistic plate (Back)
+      ],
+      "Collar": [
+        "65731b666e709cddd001ec43" // Aramid insert
+      ],
+      "Front_plate": [
+        "656f66b5c6baea13cd07e108" // Korund-VM-K ballistic plates (Front)
+      ],
+      "Groin": [
+        "65731b716e709cddd001ec47" // Aramid insert
+      ],
+      "Groin_back": [
+        "65731b6b6042b0f210020ef6" // Aramid insert
+      ],
+      "Left_side_plate": [
+        "654a4f8bc721968a4404ef18" // Korund-VM ballistic plate (Side)
+      ],
+      "Right_side_plate": [
+        "654a4f8bc721968a4404ef18" // Korund-VM ballistic plate (Side)
+      ],
+      "Soft_armor_back": [
+        "65731b4fcea9255e2102360e" // Aramid insert
+      ],
+      "Soft_armor_front": [
+        "65731b46cea9255e2102360a" // Aramid insert
+      ],
+      "Soft_armor_left": [
+        "65731b576e709cddd001ec3f" // Aramid insert
+      ],
+      "soft_armor_right": [
+        "65731b60ff6dc44a7d068c4a" // Aramid insert
+      ]
+    },
+    "69cbfe44897389c1870b2337": { // Crye Precision AirFrame helmet (Tan)
+      "Helmet_top": [
+        "657f9897f4c82973640b235e" // Hybrid composite materials
+      ],
+      "Helmet_back": [
+        "657f98fbada5fadd1f07a585" // Hybrid composite materials
+      ]
+    },
+    "69ce70df606696c00301a760": { // Atlant Armour Titan Aramid helmet (MultiCam)
+      "Helmet_top": [
+        "657f9897f4c82973640b235e" // Hybrid composite materials
+      ],
+      "Helmet_back": [
+        "657f98fbada5fadd1f07a585" // Hybrid composite materials
+      ]
+    },
+    "69ce47ca49b447e32200cbe9": { // Crye Precision AirFrame M-LOK helmet (Bull)
+      "Helmet_top": [
+        "657f9897f4c82973640b235e" // Hybrid composite materials
+      ],
+      "Helmet_back": [
+        "657f98fbada5fadd1f07a585" // Hybrid composite materials
+      ]
+    },
+    "68bee2ccd6da72c13f03db95": { // HighCom Striker ULACH IIIA helmet (Sand)
+      "Helmet_top": [
+        "657112234269e9a568089eac" // Layer of UHMWPE
+      ],
+      "Helmet_back": [
+        "657112a4818110db4600aa66" // Layer of UHMWPE
+      ],
+      "Helmet_ears": [
+        "657112ce22996eaf110881fb" // Layer of UHMWPE
+      ]
+    }
+  }
 }

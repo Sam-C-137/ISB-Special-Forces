@@ -1,0 +1,443 @@
+{
+  "appearance": {
+    "body": {},
+    "feet": {},
+    "hands": {},
+    "head": {},
+    "voice": {}
+  },
+  "chances": {
+    "equipment": {
+      "ArmBand": 5,
+      "ArmorVest": 50,
+      "Backpack": 100,
+      "Earpiece": 100,
+      "Eyewear": 100,
+      "FaceCover": 40,
+      "FirstPrimaryWeapon": 100,
+      "Headwear": 100,
+      "Holster": 100,
+      "Pockets": 100,
+      "Scabbard": 100,
+      "SecondPrimaryWeapon": 100,
+      "SecuredContainer": 100,
+      "TacticalVest": 100
+    },
+    "equipmentMods": {
+      "mod_nvg": 100,
+      "back_plate": 100,
+      "front_plate": 100,
+      "left_side_plate": 100,
+      "right_side_plate": 100,
+      "mod_equipment": 100,
+      "mod_equipment_000": 100,
+      "mod_equipment_001": 100,
+      "mod_equipment_002": 100,
+      "mod_mount": 100,
+      "mod_flashlight": 100,
+      "mod_tactical": 100,
+      "mod_muzzle": 100
+    },
+    "weaponMods": {
+      "mod_charge_001": 100,
+      "mod_pistolgrip": 100,
+      "mod_reciever": 100,
+      "mod_pistol_grip": 100,
+      "mod_bipod": 100,
+      "mod_flashlight": 100,
+      "mod_foregrip": 100,
+      "mod_magazine": 100,
+      "mod_mount": 100,
+      "mod_mount_000": 100,
+      "mod_mount_001": 100,
+      "mod_mount_002": 100,
+      "mod_barrel": 100,
+      "mod_muzzle": 100,
+      "mod_muzzle_000": 100,
+      "mod_muzzle_001": 100,
+      "mod_scope": 100,
+      "mod_sight_front": 100,
+      "mod_sight_rear": 100,
+      "mod_stock": 100,
+      "mod_tactical": 100,
+      "mod_tactical_000": 100,
+      "mod_tactical_001": 100,
+      "mod_tactical_002": 100,
+      "mod_charge": 100,
+      "mod_stock_001": 100,
+      "mod_stock_002": 100,
+      "mod_stock_000": 100,
+      "mod_gas_block": 100,
+      "mod_handguard": 100,
+      "mod_mount_003": 100,
+      "mod_launcher": 100,
+      "mod_tactical002": 100,
+      "mod_pistolgrip_000": 100,
+      "mod_pistolgrip_001": 100,
+      "mod_tactical_003": 100
+    }
+  },
+  "experience": {
+    "aggressorBonus": {
+      "normal": 0
+    },
+    "level": {
+      "max": 1,
+      "min": 0
+    },
+    "reward": {
+      "normal": {
+        "max": 5000,
+        "min": 45000
+      }
+    },
+    "standingForKill": {
+      "easy": 0.02,
+      "normal": 0.04,
+      "hard": 0.06
+    },
+    "useSimpleAnimator": false
+  },
+  "firstName": [],
+  "generation": {
+    "items": {
+      "backpackLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 0,
+          "3": 5,
+          "4": 4,
+          "5": 3,
+          "6": 2,
+          "7": 1
+        },
+        "whitelist": []
+      },
+      "currency": {
+        "weights": {
+          "0": 0,
+          "1": 5,
+          "2": 8
+        },
+        "whitelist": []
+      },
+      "drink": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "drugs": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "food": {
+        "weights": {
+          "0": 10,
+          "1": 5,
+          "2": 2
+        },
+        "whitelist": []
+      },
+      "grenades": {
+        "weights": {
+          "0": 0,
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 0,
+          "5": 0
+        },
+        "whitelist": []
+      },
+      "healing": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 6
+        },
+        "whitelist": []
+      },
+      "magazines": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 2,
+          "3": 3,
+          "4": 2,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      },
+      "pocketLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 3,
+          "3": 6,
+          "4": 4
+        },
+        "whitelist": []
+      },
+      "specialItems": {
+        "weights": {
+          "0": 1,
+          "1": 0
+        },
+        "whitelist": []
+      },
+      "stims": {
+        "weights": {
+          "0": 0,
+          "1": 2,
+          "2": 2,
+          "3": 0
+        },
+        "whitelist": []
+      },
+      "vestLoot": {
+        "weights": {
+          "0": 0,
+          "1": 0,
+          "2": 2,
+          "3": 2,
+          "4": 0,
+          "5": 0,
+          "6": 0
+        },
+        "whitelist": []
+      }
+    }
+  },
+  "health": {
+    "BodyParts": [
+      {
+        "Chest": {
+          "max": 210,
+          "min": 210
+        },
+        "Head": {
+          "max": 60,
+          "min": 60
+        },
+        "LeftArm": {
+          "max": 110,
+          "min": 110
+        },
+        "LeftLeg": {
+          "max": 100,
+          "min": 100
+        },
+        "RightArm": {
+          "max": 110,
+          "min": 110
+        },
+        "RightLeg": {
+          "max": 100,
+          "min": 100
+        },
+        "Stomach": {
+          "max": 190,
+          "min": 190
+        }
+      }
+    ],
+    "Energy": {
+      "max": 100,
+      "min": 100
+    },
+    "Hydration": {
+      "max": 100,
+      "min": 100
+    },
+    "Temperature": {
+      "max": 40,
+      "min": 36
+    }
+  },
+  "inventory": {
+    "Ammo": {},
+    "equipment": {
+      "ArmBand": {},
+      "ArmorVest": {},
+      "Backpack": {},
+      "Earpiece": {},
+      "Eyewear": {},
+      "FaceCover": {},
+      "FirstPrimaryWeapon": {},
+      "Headwear": {},
+      "Holster": {},
+      "Pockets": {},
+      "Scabbard": {},
+      "SecondPrimaryWeapon": {},
+      "SecuredContainer": {},
+      "TacticalVest": {}
+    },
+    "items": {
+      "Backpack": {
+        "6769b8e3c1a1466c850658a8": 1, // 7.62x51mm M80A1 ammo pack (20 pcs)
+        "65702558cfc010a0f5006a25": 1, // 7.62x51mm M80 ammo pack (20 pcs)
+        "65702554bfc87b3a34093247": 1, // 7.62x51mm M62 Tracer ammo pack (20 pcs)
+        "692e39b730695e0930caff1d": 1, // 7.62x51mm M948 SLAP ammo pack (20 pcs)
+        "692e39aea47e15277d847591": 1, // 7.62x51mm M948 SLAP ammo pack (40 pcs)
+        "6570254fcfc010a0f5006a22": 1, // 7.62x51mm M61 ammo pack (20 pcs)
+        "648984e3f09d032aa9399d53": 1, // 7.62x51mm M993 ammo pack (20 pcs)
+        "6931bc184dd0bd3f32f5c97f": 1, // 7.62x39mm 7N26 BS ammo pack (20 pcs)
+        "6931bca8197ad8567a64bf86": 1, // 7.62x39mm 7N26 BS ammo pack (40 pcs)
+        "64acea16c4eda9354b0226b0": 1, // 7.62x39mm BP gzh ammo pack (20 pcs)
+        "6489851fc827d4637f01791b": 1, // 7.62x39mm MAI AP ammo pack (20 pcs)
+        "65702652cfc010a0f5006a53": 1, // 5.56x45mm M855A1 ammo pack (100 pcs)
+        "657024e3c5d7d4cb4d07856a": 1, // 5.56x45mm M855A1 ammo pack (50 pcs)
+        "6570265f1419851aef03e739": 1, // 5.56x45mm M995 ammo pack (100 pcs)
+        "657024f01419851aef03e715": 1, // 5.56x45mm M995 ammo pack (50 pcs)
+        "692dd013f000b7372c0610fe": 1, // 5.56x45mm Nammo AP4 ammo pack (100 pcs)
+        "692dcf1c9a1816076adbb9d5": 1, // 5.56x45mm Nammo AP4 ammo pack (50 pcs)
+        "65702681bfc87b3a3409325f": 1, // 5.56x45mm SSA AP ammo pack (100 pcs)
+        "64898583d5b4df6140000a1d": 1, // 5.56x45mm SSA AP ammo pack (50 pcs)
+        "657023ccbfc87b3a3409320a": 1, // .338 Lapua Magnum FMJ ammo pack (20 pcs)
+        "6489848173c462723909a14b": 1, // .338 Lapua Magnum AP ammo pack (20 pcs)
+        "6489879db5a2df1c815a04ef": 1, // .45 ACP AP ammo pack (50 pcs)
+        "65702414c5d7d4cb4d078555": 1, // .45 ACP RIP ammo pack (50 pcs)
+        "6489870774a806211e4fb685": 1, // 4.6x30mm AP SX ammo pack (40 pcs)
+        "6a30ec66d725140ed59cdd1c": 1, // 4.6x30mm DM11 ammo pack (40 pcs)
+        "6a31d5c14a24835f775bd1e2": 1, // 5.45x39mm 7N24M ammo pack (120 pcs)
+        "6a31d5c8c667d4db08650272": 1, // 5.45x39mm 7N24M ammo pack (30 pcs)
+        "65702591c5d7d4cb4d07857c": 1, // 9x19mm AP 6.3 ammo pack (50 pcs)
+        "5c1127bdd174af44217ab8b9": 1, // 9x19mm RIP ammo pack (20 pcs)
+        "648987d673c462723909a151": 1, // 9x19mm PBP ammo pack (50 pcs)
+        "657025cfbfc87b3a34093253": 1, // 9x39mm PAB-9 gs ammo pack (20 pcs)
+        "657025dabfc87b3a34093256": 1, // 9x39mm SP-6 gs ammo pack (20 pcs)
+        "6489854673c462723909a14e": 1, // 9x39mm BP ammo pack (20 pcs)
+        "67600a516f01341c9106ab4c": 1, // 6.8x51mm SIG Hybrid ammo pack (20 pcs)
+        "699b5493b88594edb24c683a": 1, // 6.8x51mm SIG XM1184 AP ammo pack (20 pcs)
+        "57372b832459776701014e41": 1, // 5.45x39mm BS gs ammo pack (120 pcs)
+        "657025ebc5d7d4cb4d078588": 1, // 5.45x39mm PPBS gs Igolnik ammo pack (120 pcs)
+        "6570900858b315e8b70a8a98": 1, // 5.45x39mm 7N40 ammo pack (120 pcs)
+        "5737292724597765e5728562": 1 // 5.45x39mm BP gs ammo pack (120 pcs)
+      },
+      "Pockets": {
+        "60098ad7c2240c0fe85c570a": 1, // AFAK tactical individual first aid kit
+        "5696686a4bdc2da3298b456a": 1, // Dollars
+        "569668774bdc2da2298b4568": 1, // Euros
+        "5d02797c86f774203f38e30a": 1, // Surv12 field surgical kit
+        "5751a89d24597722aa0e8db0": 1, // Golden Star balm
+        "5e8488fa988a8701445df1e4": 1, // CALOK-B hemostatic applicator
+        "5751a25924597722c463c472": 1, // Army bandage
+        "5c0e534186f7747fa1419867": 1, // eTG-change regenerative stimulant injector
+        "69dedb462e45a1248bf6b96a": 1, // eTG-change Dual-Action upgraded regenerative stimulant injector
+        "5c0e530286f7747fa1419862": 1, // Propital regenerative stimulant injector
+        "637b6251104668754b72f8f9": 1, // Perfotoran (Blue Blood) stimulant injector
+        "5af0454c86f7746bf20992e8": 1, // Aluminum splint
+        "5ed51652f6c34d2cc26336a1": 1 // M.U.L.E. stimulant injector
+      },
+      "SecuredContainer": {
+        "69dedb462e45a1248bf6b96a": 9999, // eTG-change Dual-Action upgraded regenerative stimulant injector
+        "692dc61870449aedfa85120f": 10000, // 5.56x45mm Nammo AP4
+        "54527ac44bdc2d36668b4567": 10000, // 5.56x45mm M855A1
+        "601949593ae8f707c4608daa": 10000, // 5.56x45mm SSA AP
+        "59e690b686f7746c9f75e848": 10000, // 5.56x45mm M995
+        "5efb0c1bd79ff02a1f5e68d9": 10000, // 7.62x51mm M993
+        "692e3991aeebb57de9a2386b": 10000, // 7.62x51mm M948 SLAP
+        "5a6086ea4f39f99cd479502f": 10000, // 7.62x51mm M61
+        "6768c25aa7b238f14a08d3f6": 10000, // 7.62x51mm M80A1
+        "5ba26835d4351e0035628ff5": 10000, // 4.6x30mm AP SX
+        "5ba2678ad4351e44f824b344": 10000, // 4.6x30mm FMJ SX
+        "6529243824cbe3c74a05e5c1": 10000, // 6.8x51mm SIG Hybrid
+        "6529302b8c26af6326029fb7": 10000, // 6.8x51mm SIG FMJ
+        "699b54a97d3c1c9f69f616b6": 10000, // 6.8x51mm SIG XM1184 AP
+        "5efb0cabfb3e451d70735af5": 10000, // .45 ACP AP
+        "699aab526ac4f65528f1fd63": 10000, // .45 ACP RIP AP
+        "5cc80f38e4a949001152b560": 10000, // 5.7x28mm SS190
+        "5cc80f53e4a949000e1ea4f8": 10000, // 5.7x28mm L191
+        "5efb0da7a29a85116f6ea05f": 10000, // 9x19mm PBP gzh
+        "5c925fa22e221601da359b7b": 10000, // 9x19mm AP 6.3
+        "699aae8c9b6a4ab2b769c4a3": 10000, // 9x19mm RIP AP
+        "5fd20ff893a8961fc660a954": 10000, // .300 Blackout AP
+        "64b8725c4b75259c590fa899": 10000, // .300 Blackout CBJ
+        "699b6b88be849a7f65b7e866": 10000, // .300 Blackout Barnes VOR-TX
+        "59e0d99486f7744a32234762": 10000, // 7.62x39mm BP gzh
+        "6931b6a2161edf5b558ee5bc": 10000, // 7.62x39mm 7N26 BS
+        "601aa3d2b2bcb34913271e6d": 10000, // 7.62x39mm MAI AP
+        "5fc275cf85fd526b824a571a": 10000, // .338 Lapua Magnum FMJ
+        "5fc382a9d724d907e2077dab": 10000, // .338 Lapua Magnum AP
+        "5ede474b0c226a66f5402622": 10000, // 40x46mm M381 (HE) grenade
+        "5f0c892565703e5c461894e9": 10000, // 40x46mm M433 (HEDP) grenade
+        "57a0e5022459774d1673f889": 10000, // 9x39mm SP-6 gs
+        "5c0d688c86f77413ae3407b2": 10000, // 9x39mm BP gs
+        "5c0d5e4486f77478390952fe": 10000, // 5.45x39mm PPBS gs Igolnik
+        "56dff026d2720bb8668b4567": 10000, // 5.45x39mm BS gs
+        "56dfef82d2720bbd668b4567": 10000, // 5.45x39mm BP gs
+        "61962b617c6c7b169525f168": 10000, // 5.45x39mm 7N40
+        "5e85a9f4add9fe03027d9bf1": 10000, // 23x75mm Zvezda flashbang round
+        "5c0d591486f7744c505b416f": 10000, // 12/70 RIP
+        "5d6e68a8a4b9360b6c0d54e2": 10000, // 12/70 AP-20 armor-piercing slug
+        "6576f4708ca9c4381d16cd9d": 10000, // 9x21mm 7N42 Zubilo
+        "699b42cc85f85eadd558c083": 10000 // 9x21mm 7N31 AP
+      },
+      "SpecialLoot": {},
+      "TacticalVest": {}
+    },
+    "mods": {}
+  },
+  "lastName": [],
+  "skills": {
+    "Common": {
+      "BotReload": {
+        "max": 3000,
+        "min": 3000
+      },
+      "BotSound": {
+        "max": 1200,
+        "min": 1200
+      },
+      "Endurance": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Health": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Strength": {
+        "max": 5100,
+        "min": 5100
+      },
+      "RecoilControl": {
+        "max": 5100,
+        "min": 5100
+      },
+      "StressResistance": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Vitality": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Assault": {
+        "max": 5100,
+        "min": 5100
+      },
+      "SMG": {
+        "max": 5100,
+        "min": 5100
+      },
+      "Sniper": {
+        "max": 5100,
+        "min": 5100
+      },
+      "DMR": {
+        "max": 5100,
+        "min": 5100
+      }
+    }
+  }
+}

@@ -16,17 +16,14 @@ namespace ISBSSOFExtra.Fika
     {
         private const int MaximumQueuedPayloads = 256;
         private const int MaximumPayloadLength = 65535;
-
         private readonly ManualLogSource _log;
-        private readonly object _queueLock = new object();
+        private readonly object _queueLock = new object ();
         private readonly Queue<string> _receivedPayloads = new Queue<string>();
-
         private IFikaNetworkManager _networkManager;
         private IFikaNetworkManager _registeredNetworkManager;
         private bool _peerConnectedPending;
         private bool _raidStarted;
         private bool _subscribed;
-
         internal FikaNetworkBridge(ManualLogSource log)
         {
             _log = log;
@@ -44,11 +41,8 @@ namespace ISBSSOFExtra.Fika
         }
 
         public bool IsServer => Active && FikaBackendUtils.IsServer;
-
         public bool IsHeadless => Active && FikaBackendUtils.IsHeadless;
-
-        public bool IsSinglePlayer => !Active || FikaBackendUtils.IsSinglePlayer;
-
+        public bool IsSinglePlayer => !Active || Singleton<EFT.AbstractGame>.Instance is EFT.LocalGame || FikaBackendUtils.IsSinglePlayer;
         public bool RaidStarted => _raidStarted;
 
         public double NetworkTime
@@ -70,27 +64,26 @@ namespace ISBSSOFExtra.Fika
         {
             if (Active)
                 return;
-
             Active = true;
             SubscribeEvents();
             RefreshNetworkManager();
-            _log?.LogInfo("ISB SOF Extras Fika integration enabled.");
         }
 
         public void DrainReceivedPayloads(Action<string> handler)
         {
             if (handler == null)
                 return;
-
-            while (TryDequeuePayload(out string payload))
+            int processed = 0;
+            while (processed < 16 && TryDequeuePayload(out string payload))
             {
+                processed++;
                 try
                 {
                     handler(payload);
                 }
                 catch (Exception ex)
                 {
-                    _log?.LogWarning("Fika payload handler failed: " + ex.Message);
+                    _log?.LogError("Fika payload handler failed: " + ex.Message);
                 }
             }
         }
@@ -124,29 +117,24 @@ namespace ISBSSOFExtra.Fika
 
         private bool TrySend(string payload, bool broadcast)
         {
-            if (string.IsNullOrEmpty(payload) ||
-                payload.Length > MaximumPayloadLength ||
-                !Ready ||
-                IsServer != broadcast)
+            if (string.IsNullOrEmpty(payload) || payload.Length > MaximumPayloadLength || !Ready || IsServer != broadcast)
             {
                 return false;
             }
 
             try
             {
-                ISBExtrasPacket packet = new ISBExtrasPacket { Payload = payload };
-                _networkManager.SendData(
-                    ref packet,
-                    DeliveryMethod.ReliableOrdered,
-                    broadcast);
+                ISBExtrasPacket packet = new ISBExtrasPacket
+                {
+                    Payload = payload
+                };
+                _networkManager.SendData(ref packet, DeliveryMethod.ReliableOrdered, broadcast);
                 return true;
             }
             catch (Exception ex)
             {
-                string action = broadcast
-                    ? "broadcast Fika packet"
-                    : "send Fika packet to server";
-                _log?.LogWarning("Failed to " + action + ": " + ex.Message);
+                string action = broadcast ? "broadcast Fika packet" : "send Fika packet to server";
+                _log?.LogError("Failed to " + action + ": " + ex.Message);
                 return false;
             }
         }
@@ -155,7 +143,6 @@ namespace ISBSSOFExtra.Fika
         {
             if (_subscribed)
                 return;
-
             FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerCreatedEvent>(OnNetworkManagerCreated);
             FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerDestroyedEvent>(OnNetworkManagerDestroyed);
             FikaEventDispatcher.SubscribeEvent<FikaRaidStartedEvent>(OnRaidStarted);
@@ -167,7 +154,6 @@ namespace ISBSSOFExtra.Fika
         {
             if (!_subscribed)
                 return;
-
             FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerCreatedEvent>(OnNetworkManagerCreated);
             FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerDestroyedEvent>(OnNetworkManagerDestroyed);
             FikaEventDispatcher.UnsubscribeEvent<FikaRaidStartedEvent>(OnRaidStarted);
@@ -182,8 +168,7 @@ namespace ISBSSOFExtra.Fika
 
         private void OnNetworkManagerDestroyed(FikaNetworkManagerDestroyedEvent fikaEvent)
         {
-            if (_registeredNetworkManager == null ||
-                ReferenceEquals(_registeredNetworkManager, fikaEvent.Manager))
+            if (_registeredNetworkManager == null || ReferenceEquals(_registeredNetworkManager, fikaEvent.Manager))
             {
                 ResetNetworkState();
             }
@@ -198,7 +183,6 @@ namespace ISBSSOFExtra.Fika
         {
             if (!IsServer || fikaEvent.Peer == null)
                 return;
-
             lock (_queueLock)
                 _peerConnectedPending = true;
         }
@@ -207,12 +191,10 @@ namespace ISBSSOFExtra.Fika
         {
             if (!Active)
                 return;
-
             if (!Singleton<IFikaNetworkManager>.Instantiated)
             {
                 if (_networkManager != null)
                     ResetNetworkState();
-
                 return;
             }
 
@@ -225,26 +207,16 @@ namespace ISBSSOFExtra.Fika
         {
             if (!Active || manager == null)
                 return;
-
             _networkManager = manager;
             if (ReferenceEquals(_registeredNetworkManager, manager))
                 return;
-
             manager.RegisterPacket<ISBExtrasPacket>(OnPacketReceived);
             _registeredNetworkManager = manager;
-
-            _log?.LogInfo(
-                "ISB SOF Extras Fika packet registered using " + source +
-                ". server=" + IsServer +
-                ", headless=" + IsHeadless +
-                ", singlePlayer=" + IsSinglePlayer + ".");
         }
 
         private void OnPacketReceived(ISBExtrasPacket packet)
         {
-            if (!Active ||
-                string.IsNullOrEmpty(packet.Payload) ||
-                packet.Payload.Length > MaximumPayloadLength)
+            if (!Active || string.IsNullOrEmpty(packet.Payload) || packet.Payload.Length > MaximumPayloadLength)
             {
                 return;
             }
@@ -253,7 +225,6 @@ namespace ISBSSOFExtra.Fika
             {
                 while (_receivedPayloads.Count >= MaximumQueuedPayloads)
                     _receivedPayloads.Dequeue();
-
                 _receivedPayloads.Enqueue(packet.Payload);
             }
         }
@@ -278,7 +249,6 @@ namespace ISBSSOFExtra.Fika
             _networkManager = null;
             _registeredNetworkManager = null;
             _raidStarted = false;
-
             lock (_queueLock)
             {
                 _receivedPayloads.Clear();

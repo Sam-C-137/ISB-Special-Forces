@@ -20,15 +20,25 @@ namespace ISBSpecialForces.Components
     {
         public void Run(string triggerId, float delaySeconds)
         {
-            Plugin.LogSource.LogInfo("[ISB SECRET] Wave '" + triggerId + "' activation scheduled in " + delaySeconds + "s.");
+            if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+            {
+                Plugin.LogSource.LogInfo("[ISB SECRET] Wave '" + triggerId + "' activation scheduled in " + delaySeconds + "s.");
+            }
+
             StartCoroutine(ActivateAfterDelay(triggerId, delaySeconds));
         }
 
         private IEnumerator ActivateAfterDelay(string triggerId, float delaySeconds)
         {
+            var world = Singleton<GameWorld>.Instance;
             yield return new WaitForSeconds(delaySeconds);
+            if (!ISBFikaAuthority.IsAiAuthority || world == null || !ReferenceEquals(world, Singleton<GameWorld>.Instance))
+            {
+                Destroy(gameObject);
+                yield break;
+            }
 
-            LocalGame localGame = Singleton<AbstractGame>.Instance as LocalGame;
+            BaseLocalGame<EftGamePlayerOwner> localGame = Singleton<AbstractGame>.Instance as BaseLocalGame<EftGamePlayerOwner>;
             if (localGame == null)
             {
                 Plugin.LogSource.LogWarning("[ISB SECRET] LocalGame unavailable, aborting activation of '" + triggerId + "'.");
@@ -53,7 +63,11 @@ namespace ISBSpecialForces.Components
             }
 
             botGame.BotsController.ActivateBotsByWave(wave);
-            Plugin.LogSource.LogInfo("[ISB SECRET] Wave '" + triggerId + "' activated, spawning in zone '" + wave.BossZone + "'.");
+            if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+            {
+                Plugin.LogSource.LogInfo("[ISB SECRET] Wave '" + triggerId + "' activated, spawning in zone '" + wave.BossZone + "'.");
+            }
+
             Destroy(gameObject);
         }
     }

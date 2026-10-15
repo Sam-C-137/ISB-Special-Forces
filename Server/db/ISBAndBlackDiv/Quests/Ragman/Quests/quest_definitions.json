@@ -1,0 +1,659 @@
+{
+  "688a35cea49a4833a17c74b0": {
+    "QuestName": "ContainmentBreach - Tecidos de guerra",
+    "_id": "688a35cea49a4833a17c74b0",
+    "acceptPlayerMessage": "688a35cea49a4833a17c74b0 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "688a35cea49a4833a17c74b0 changeQuestMessageText",
+    "completePlayerMessage": "688a35cea49a4833a17c74b0 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Level",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "1621f8bb443560e4d4f97826",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "compareMethod": ">=",
+          "value": 1
+        },
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "f4b5da174307cc3957706566",
+          "index": 1,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "c9304d1a70414b398f840595"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "345d6b725c87b8ffbab309b6",
+          "index": 0,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "696d81b236067d6c3ef793ca",
+            "6a07e9181d633a50969d3145",
+            "693ada08f776b05c34f460a5",
+            "6a07e920d7a2c6d597db893c",
+            "693ada144cedf3aae4935143",
+            "6a07e91cbe3fc4e84a5e6fb2",
+            "693ad9fede941f880a36e51d",
+            "692485fa6de7f1ffffaf1167",
+            "69e987f14aa57d074d451fc3",
+            "6939bd487e7422a256744950",
+            "6a0d09c36f85033057ae496a",
+            "6a07e925f6c3b7986c02f80b",
+            "696eb88de33ae15a9957f724",
+            "696dc61aea4264c0d6dddd53",
+            "696dc1681e9886c9481337a1",
+            "6a07e928f6c73d88baf0d370",
+            "6a07e92cf0655c4e29c5127e",
+            "69575d3136babdc4ee38913b",
+            "69575d3755b37eacd8f3a92a",
+            "6a30a69a9c38c641cae11c90",
+            "6957e05fbac14a6e9fcfafc2",
+            "6957e050afda56ab90744761",
+            "69e97f550b197e4084c986f6",
+            "6a07e931698298899e8270e4",
+            "694204bc230f3fb07068884f",
+            "69e993970ae63611e1b219d0",
+            "6a4c674d34a3f449ea803c52",
+            "6a4c68b8a90f66f581bf790f",
+            "6a0c8252cdf53775685d923e",
+            "6a07e9346cb94e635eeaffb9",
+            "693873a5b94c659818e18a1c",
+            "69e98f93bfb21d9384a9440c",
+            "6a0c8971059c31bc88b71651",
+            "693ad9f9b7a7a2ad8112bbea",
+            "69420ebfe113c8264c419d3d",
+            "6a07e93836380a0f34f772aa",
+            "6a0c8d060ae9d5ea831d93c9"
+          ],
+          "value": 6,
+          "visibilityConditions": []
+        },
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "0675e5c53f26873b4c4ec76f",
+          "index": 1,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "689479cb47e5acd1e10be986",
+            "68947a4be4bf255d1b0ca746",
+            "689479eb30cc5ba7be00f5ff",
+            "689479a4a733b1602007e2eb",
+            "69e2441a18cb3157560855ec"
+          ],
+          "value": 6,
+          "visibilityConditions": []
+        },
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "de2403187ab3ac40ad576a71",
+          "index": 2,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "693a2a8c8ca17192ef82abae",
+            "693aeb052ca153e9abf1fe56",
+            "6a12643e06424c709d450e7c",
+            "6a111c7164b1373374405287",
+            "693ce97ae3778b9839af5852",
+            "6a12553381219c9c8d5e5e0e",
+            "6a126adc0d1adc1541f74ad4",
+            "6a1267fd0580910d4ffbdec0",
+            "6a12667fec1b599645cd7183",
+            "693aeaff56c3eeda87817550"
+          ],
+          "value": 6,
+          "visibilityConditions": []
+        },
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "6e212801ece8e8ffd36d7e46",
+          "index": 3,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "68947a8ce4bf255d1b0ca759",
+            "68947ab5a733b1602007e2fe",
+            "68947ad3e4bf255d1b0ca75c"
+          ],
+          "value": 6,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "688a35cea49a4833a17c74b0 declinePlayerMessage",
+    "description": "688a35cea49a4833a17c74b0 description",
+    "failMessageText": "688a35cea49a4833a17c74b0 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/MakingaProfit.png",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "5b0fc42d86f7744a585f9105",
+    "name": "688a35cea49a4833a17c74b0 name",
+    "note": "688a35cea49a4833a17c74b0 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "563dc27cbbef5fb4f3e6420d",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 25000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "936ea67ffa71f435f3c6b897",
+          "index": 1,
+          "target": "5ac3b934156ae10c4430e83c",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "fce46003a8327c048e74163c",
+          "index": 2,
+          "items": [
+            {
+              "_id": "eaa7912e8dcf9336c1cf53e9",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 300000
+              }
+            }
+          ],
+          "target": "eaa7912e8dcf9336c1cf53e9",
+          "type": "Item",
+          "unknown": false,
+          "value": 300000
+        },
+        {
+          "id": "fcb28e80d8c28e1b135ba5a0",
+          "index": 3,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "bc0ff4881bb4477f12a680fb",
+          "items": [
+            {
+              "_id": "bc0ff4881bb4477f12a680fb",
+              "_tpl": "693aeaff56c3eeda87817550",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "a5a26c076b35802c0c9884d9",
+          "index": 4,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "a840a63bd7f7bd2c8cb415d7",
+          "items": [
+            {
+              "_id": "a840a63bd7f7bd2c8cb415d7",
+              "_tpl": "6a12643e06424c709d450e7c",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "9f3f482fb11305fdfe5694e4",
+          "index": 5,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "76fae4de9afeb57a04267c56",
+          "items": [
+            {
+              "_id": "76fae4de9afeb57a04267c56",
+              "_tpl": "693aeb052ca153e9abf1fe56",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "dae6576611260af644dbf753",
+          "index": 6,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "f58d3fad850a83147729423b",
+          "items": [
+            {
+              "_id": "f58d3fad850a83147729423b",
+              "_tpl": "6a07e9346cb94e635eeaffb9",
+              "upd": {}
+            },
+            {
+              "_id": "0ca3486fd5fd99c081b3398d",
+              "_tpl": "617131a4568c120fdd29482d",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "4",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "de071eccf912cf8f012ea789",
+              "_tpl": "5a6086ea4f39f99cd479502f",
+              "parentId": "0ca3486fd5fd99c081b3398d",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 20
+              }
+            },
+            {
+              "_id": "9c89a253df7ff9cb6b95c77e",
+              "_tpl": "617131a4568c120fdd29482d",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "6",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Vertical"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "bc425aed7327e9a4dc18ad6f",
+              "_tpl": "5a6086ea4f39f99cd479502f",
+              "parentId": "9c89a253df7ff9cb6b95c77e",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 20
+              }
+            },
+            {
+              "_id": "2dbd21e25b480bfa0d67265b",
+              "_tpl": "5c0e530286f7747fa1419862",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "3",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "7083e298e421b610f8629874",
+              "_tpl": "5c0e534186f7747fa1419867",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "2",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "910fd552419c8bb54295d2a0",
+              "_tpl": "656fa53d94b480b8a500c0e4",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "Front_plate",
+              "upd": {}
+            },
+            {
+              "_id": "e7639c77520156caa458b19c",
+              "_tpl": "656fa53d94b480b8a500c0e4",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "Back_plate",
+              "upd": {}
+            },
+            {
+              "_id": "bf5ac53c676c16cce547cfc1",
+              "_tpl": "637b6251104668754b72f8f9",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "1",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            },
+            {
+              "_id": "ae7c4013e70b38ff7c1f6983",
+              "_tpl": "617131a4568c120fdd29482d",
+              "parentId": "f58d3fad850a83147729423b",
+              "slotId": "5",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            },
+            {
+              "_id": "649ff2005874c3598b40f6d7",
+              "_tpl": "5a6086ea4f39f99cd479502f",
+              "parentId": "ae7c4013e70b38ff7c1f6983",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 20
+              }
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "bc5a563f22c0410f893b486d",
+          "index": 7,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "0a63971022949755c461e10a",
+          "items": [
+            {
+              "_id": "0a63971022949755c461e10a",
+              "_tpl": "6a0c8d060ae9d5ea831d93c9",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "0d4b32817bb4b3ef284410dc",
+          "index": 8,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "7a044afe34ee711db915c450",
+          "items": [
+            {
+              "_id": "7a044afe34ee711db915c450",
+              "_tpl": "69420ebfe113c8264c419d3d",
+              "upd": {}
+            },
+            {
+              "_id": "e35bb0475a696bab06faa28a",
+              "_tpl": "656fa53d94b480b8a500c0e4",
+              "parentId": "7a044afe34ee711db915c450",
+              "slotId": "Front_plate"
+            },
+            {
+              "_id": "3569af102d611cb28a87f90a",
+              "_tpl": "656fa53d94b480b8a500c0e4",
+              "parentId": "7a044afe34ee711db915c450",
+              "slotId": "Back_plate"
+            },
+            {
+              "_id": "70ca22d1a9d7e098a4e4aec5",
+              "_tpl": "6575bc88c6700bd6b40e8a57",
+              "parentId": "7a044afe34ee711db915c450",
+              "slotId": "Soft_armor_front"
+            },
+            {
+              "_id": "aec66a21efe6a36c8c31a8aa",
+              "_tpl": "6575bca0dc9932aed601c5d7",
+              "parentId": "7a044afe34ee711db915c450",
+              "slotId": "Soft_armor_back"
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        },
+        {
+          "id": "17a5f87c5e8793fd70f056c3",
+          "index": 9,
+          "type": "AssortmentUnlock",
+          "traderId": "5ac3b934156ae10c4430e83c",
+          "loyaltyLevel": 4,
+          "target": "8d26afd28274ae9e0da16379",
+          "items": [
+            {
+              "_id": "8d26afd28274ae9e0da16379",
+              "_tpl": "6a0c8252cdf53775685d923e",
+              "upd": {}
+            },
+            {
+              "_id": "e4f10a1dc083c0d5075f2cf3",
+              "_tpl": "6a1579afcbb8d0c82606c541",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (2)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            },
+            {
+              "_id": "dc078703b60aaaf3a78da0f6",
+              "_tpl": "6a1579afcbb8d0c82606c541",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (1)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            },
+            {
+              "_id": "3e5cdcd9eb9014f6901173e8",
+              "_tpl": "6a1579afcbb8d0c82606c541",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (4)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "fef7421caf22d6892ff651d0",
+              "_tpl": "655746010177119f4a097ff7",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "Front_plate",
+              "upd": {}
+            },
+            {
+              "_id": "4cee5e7178c653507545e2d6",
+              "_tpl": "655746010177119f4a097ff7",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "Back_plate",
+              "upd": {}
+            },
+            {
+              "_id": "7e02660ad892f4f07612c588",
+              "_tpl": "5c0e534186f7747fa1419867",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (10)",
+              "location": {
+                "x": 0,
+                "y": 1,
+                "r": "Horizontal"
+              }
+            },
+            {
+              "_id": "067d36d0a43985351c964a68",
+              "_tpl": "5c0e533786f7747fa23f4d47",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (10)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              }
+            },
+            {
+              "_id": "a6a6eabf4c25381edec8f419",
+              "_tpl": "637b620db7afa97bfc3d7009",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (9)",
+              "location": {
+                "x": 0,
+                "y": 1,
+                "r": "Horizontal"
+              }
+            },
+            {
+              "_id": "275b6a2a939f5d6698360986",
+              "_tpl": "5c0e530286f7747fa1419862",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (9)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              }
+            },
+            {
+              "_id": "22c977528bcdb8daeb5a85f5",
+              "_tpl": "590c657e86f77412b013051d",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (5)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {
+                "MedKit": {
+                  "HpResource": 1080
+                }
+              }
+            },
+            {
+              "_id": "1f94fc9a7c42a565dfb81421",
+              "_tpl": "63076701a987397c0816d21b",
+              "parentId": "8d26afd28274ae9e0da16379",
+              "slotId": "GridView (7)",
+              "location": {
+                "x": 0,
+                "y": 0,
+                "r": "Horizontal"
+              },
+              "upd": {}
+            },
+            {
+              "_id": "d7f3f49d9f09316801a3df75",
+              "_tpl": "5efb0da7a29a85116f6ea05f",
+              "parentId": "1f94fc9a7c42a565dfb81421",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 19
+              }
+            },
+            {
+              "_id": "55bf900a786ce4e8c5393fc7",
+              "_tpl": "59e690b686f7746c9f75e848",
+              "parentId": "e4f10a1dc083c0d5075f2cf3",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 30
+              }
+            },
+            {
+              "_id": "f296ffe2355ced3e0124a6ff",
+              "_tpl": "59e690b686f7746c9f75e848",
+              "parentId": "dc078703b60aaaf3a78da0f6",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 30
+              }
+            },
+            {
+              "_id": "4550936a7c80d95147455d56",
+              "_tpl": "59e690b686f7746c9f75e848",
+              "parentId": "3e5cdcd9eb9014f6901173e8",
+              "slotId": "cartridges",
+              "location": 0,
+              "upd": {
+                "StackObjectsCount": 30
+              }
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": true
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "688a35cea49a4833a17c74b0 startedMessageText",
+    "status": 0,
+    "successMessageText": "688a35cea49a4833a17c74b0 successMessageText",
+    "traderId": "5ac3b934156ae10c4430e83c",
+    "type": "PickUp"
+  }
+}

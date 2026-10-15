@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -13,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTIV</SPTRoot>
+    <FikaCorePath>$(SPTRoot)\BepInEx\plugins\Fika\Fika.Core.dll</FikaCorePath>
+    <FikaCorePath Condition="!Exists('$(FikaCorePath)')">..\Reference\Fika.Core.dll</FikaCorePath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,56 +36,43 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\SPT\0Harmony.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\core\0Harmony.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="BepInEx">
       <HintPath>$(SPTRoot)\BepInEx\core\BepInEx.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="Comfort">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Comfort.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="Fika.Core">
-      <HintPath>..\Reference\Fika.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="ReduceFakeInteriorShadow">
-      <HintPath>..\..\plugins\ReduceFakeInteriorShadow.dll</HintPath>
-    </Reference>
+      <HintPath>$(FikaCorePath)</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="spt-reflection, Version=4.0.13.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\SPTV\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="SPTarkov.Common">
-      <HintPath>..\..\..\..\SPTV\SPT_Runtime\SPTarkov.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="SPTarkov.Reflection">
-      <HintPath>..\..\..\SPT\SPTarkov.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="SPTarkov.Server.Core">
-      <HintPath>..\..\..\..\SPTV\SPT_Runtime\SPTarkov.Server.Core.dll</HintPath>
-    </Reference>
+      <HintPath>$(SPTRoot)\BepInEx\plugins\spt\spt-reflection.dll</HintPath>
+    <Private>false</Private></Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+    <Private>false</Private></Reference>
     <Reference Include="WTT-ClientCommonLib, Version=2.0.23.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\plugins\WTT-ClientCommonLib\WTT-ClientCommonLib.dll</HintPath>
-    </Reference>
+      <HintPath>..\Reference\WTT-ClientCommonLib.dll</HintPath>
+    <Private>false</Private></Reference>
+    <Compile Include="FikaAggressorCompatibility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FikaBridgeBootstrap.cs" />
+    <Compile Include="FikaInventoryViewCompatibility.cs" />
+    <Compile Include="FikaStartupUiCompatibility.cs" />
     <Compile Include="FikaNetworkBridge.cs" />
     <Compile Include="ISBExtrasPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -96,4 +85,6 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+<ItemGroup><Reference Include="netstandard"><HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\netstandard.dll</HintPath><Private>false</Private></Reference></ItemGroup>
 </Project>
+

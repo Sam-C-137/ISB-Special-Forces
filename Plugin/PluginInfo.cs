@@ -4,6 +4,6 @@ namespace ISBSpecialForces
     {
         public const string GUID = "com.samc137.isbspecialforces";
         public const string PluginName = "ISB Special Forces";
-        public const string Version = "1.0.4";
+        public const string Version = "1.1.0";
     }
 }

@@ -1,20 +1,19 @@
-using SPTarkov.DI.Annotations;
+using SPTarkov.Server.Core.Services;
 using SPTarkov.Server.Core.Helpers;
+using SPTarkov.Server.Core.Generators;
+using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
-using SPTarkov.Server.Core.Services;
 using System.Collections;
 using System.Reflection;
 using System.Text.Json;
 using IOPath = System.IO.Path;
 using HarmonyLib;
 using SPTarkov.Server.Core.DI;
-using SPTarkov.Server.Core.Generators;
 using SPTarkov.Server.Core.Models.Spt.Bots;
 using SPTarkov.Server.Core.Models.Spt.Mod;
 
 namespace ISBSpecialForcesServer.Controllers;
-
 internal sealed class ISBWepPresetSpawn
 {
     public string Id { get; init; } = string.Empty;
@@ -36,49 +35,186 @@ internal sealed class ISBWepGenState
 }
 
 [Injectable(InjectionType.Singleton)]
-public class ISBWeaponPresetController(
-    DatabaseService databaseService,
-    ModHelper modHelper,
-    ISBLogger logger,
-    IReadOnlyList<SptMod> modList,
-    ConfigController configController)
+public class ISBWeaponPresetController(DatabaseService databaseService, ModHelper modHelper, ISBLogger logger, IReadOnlyList<SptMod> modList, ConfigController configController)
 {
-    private static readonly IReadOnlyDictionary<string, string[]> CollabPresetFolders =
-        new Dictionary<string, string[]>(StringComparer.OrdinalIgnoreCase)
+    private static readonly IReadOnlyDictionary<string, string[][]> CollabPresetFolders = new Dictionary<string, string[][]>(StringComparer.OrdinalIgnoreCase)
+    {
         {
-            { "ArmoryLoadouts",             new[] { "com.wtt.armory" } },
-            { "AllinOneLoadouts",           new[] { "com.epicrangetime.aio" } },
-            { "ECOLoadouts",                new[] { "com.wtt.ecoattachmentemporium" } },
-            { "TrueNorth-Loadouts",         new[] { "com.c11.truenorth4" } },
-            { "MassivesoftWeaponsLoadouts", new[] { "com.massivesoft.massivesoftweapons" } },
-            { "KS-1Loadouts",               new[] { "com.spy.jsoc-swr" } },
-            { "ArtemLoadouts",              new[] { "com.crackbone.artem-wtt" } },
-            { "SalcoIndustriesLoadouts",    new[] { "com.salco.salcosarmory", "com.combatarsenal.core" } },
-            { "TGCLoadouts",                new[] { "com.emilanderss0n.tgc" } },
-            { "ManimalGasLoadouts",         new[] { "com.manimal.csgas" } },
-            { "CAGLoadouts",                new[] { "com.wtt.cag" } }
-        };
-
+            "ArmoryLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.armory"
+                }
+            }
+        },
+        {
+            "AllinOneLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.epicrangetime.aio"
+                }
+            }
+        },
+        {
+            "ECOLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.ecoattachmentemporium"
+                }
+            }
+        },
+        {
+            "TrueNorth-Loadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.c11.truenorth4"
+                }
+            }
+        },
+        {
+            "MassivesoftWeaponsLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.massivesoft.massivesoftweapons"
+                }
+            }
+        },
+        {
+            "KS-1Loadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.spy.jsoc-swr"
+                }
+            }
+        },
+        {
+            "ArtemLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.crackbone.artem-wtt"
+                }
+            }
+        },
+        {
+            "TGCLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.emilanderss0n.tgc"
+                }
+            }
+        },
+        {
+            "ManimalGasLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.manimal.csgas"
+                }
+            }
+        },
+        {
+            "CAGLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.cag"
+                }
+            }
+        },
+        {
+            "WAACSoloLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.waac"
+                }
+            }
+        },
+        {
+            "WAACLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.waac",
+                    "com.20fpsguy.femalevoice"
+                }
+            }
+        },
+        {
+            "WAACWomLoadouts",
+            new[]
+            {
+                new[]
+                {
+                    "com.wtt.waac",
+                    "com.20fpsguy.femalevoice",
+                    "dlc.femaleclothes"
+                }
+            }
+        }
+    };
     private readonly object _generationLock = new();
     private readonly Dictionary<(string Role, string WeaponTpl), List<ISBWepPresetSpawn>> _presets = new();
     private readonly Random _random = new();
     private HashSet<string>? _installedModGuids;
+    private bool IsCollabFolderActive(string folder, string[][] requirementGroups)
+    {
+        if (!requirementGroups.Any(group => group.All(InstalledModGuids.Contains)))
+            return false;
+        if (!folder.StartsWith("WAAC", StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (!InstalledModGuids.Contains("com.wtt.waac"))
+            return false;
+        string selectedFolder;
+        if (InstalledModGuids.Contains("com.20fpsguy.femalevoice") && InstalledModGuids.Contains("dlc.femaleclothes"))
+            selectedFolder = folder.EndsWith("Presets", StringComparison.OrdinalIgnoreCase) ? "WAACWomPresets" : "WAACWomLoadouts";
+        else if (InstalledModGuids.Contains("com.20fpsguy.femalevoice"))
+            selectedFolder = folder.EndsWith("Presets", StringComparison.OrdinalIgnoreCase) ? "WAACPresets" : "WAACLoadouts";
+        else
+            selectedFolder = folder.EndsWith("Presets", StringComparison.OrdinalIgnoreCase) ? "WAACSoloPresets" : "WAACSoloLoadouts";
+        return string.Equals(folder, selectedFolder, StringComparison.OrdinalIgnoreCase);
+    }
 
-    private HashSet<string> InstalledModGuids =>
-        _installedModGuids ??= modList
-            .Select(mod => mod.ModMetadata.ModGuid)
-            .Where(guid => !string.IsNullOrWhiteSpace(guid))
-            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+    private HashSet<string> InstalledModGuids => _installedModGuids ??= modList.Select(mod => mod.ModMetadata.ModGuid).Where(guid => !string.IsNullOrWhiteSpace(guid)).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+    internal void RunSynchronized(Action action)
+    {
+        if (action is null)
+            return;
+        lock (_generationLock)
+        {
+            action();
+        }
+    }
+
     public void ApplyDefinWeapPreset(bool isNight)
     {
         lock (_generationLock)
         {
             _presets.Clear();
-
             try
             {
-                var tables = databaseService.GetTables();
-                if (tables?.Templates?.Items is not IDictionary templates)
+                if (databaseService.GetTemplates().Items is not IDictionary templates)
                 {
                     logger.Warn("[ISB WEAPON PRESETS] Templates Items unavailable.");
                     return;
@@ -87,51 +223,29 @@ public class ISBWeaponPresetController(
                 var modRoot = modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
                 var presetRoot = IOPath.Combine(modRoot, "db", "WeaponPresets");
                 var appearanceRoot = IOPath.Combine(modRoot, "db", "appearance");
-
                 var loaded = new List<ISBWepPresetSpawn>();
                 var collabFolderNames = CollabPresetFolders.Keys.ToHashSet(StringComparer.OrdinalIgnoreCase);
-
                 if (Directory.Exists(presetRoot))
                 {
-                    loaded.AddRange(LoadPresets(
-                        presetRoot,
-                        isNight,
-                        "Default",
-                        collabFolderNames));
+                    loaded.AddRange(LoadPresets(presetRoot, isNight, "Default", collabFolderNames));
                 }
 
                 if (configController.ModConfig?.enableCollabLoadoutsAndAppearances == true)
                 {
-                    foreach (var (folder, guids) in CollabPresetFolders)
+                    foreach (var(folder, requirementGroups)in CollabPresetFolders)
                     {
-                        if (!guids.Any(InstalledModGuids.Contains))
+                        if (!IsCollabFolderActive(folder, requirementGroups))
                             continue;
-
                         if (configController.ModConfig?.IsCollabLoadoutEnabled(folder) != true)
                             continue;
-
                         var collabAppearanceRoot = IOPath.Combine(appearanceRoot, folder);
                         var legacyCollabRoot = IOPath.Combine(presetRoot, folder);
-                        var collabPresetRoot = HasPresetRoleDirectories(collabAppearanceRoot)
-                            ? collabAppearanceRoot
-                            : legacyCollabRoot;
-
+                        var collabPresetRoot = HasPresetRoleDirectories(collabAppearanceRoot) ? collabAppearanceRoot : legacyCollabRoot;
                         if (!Directory.Exists(collabPresetRoot))
                             continue;
-
-                        var collabPresets = LoadPresets(
-                            collabPresetRoot,
-                            isNight,
-                            folder);
-
+                        var collabPresets = LoadPresets(collabPresetRoot, isNight, folder);
                         loaded.AddRange(collabPresets);
-
-                        if (collabPresets.Count > 0)
-                        {
-                            logger.Info(
-                                $"[ISB WEAPON PRESETS] Active collab '{folder}' added " +
-                                $"{collabPresets.Count} preset(s) from '{collabPresetRoot}'.");
-                        }
+                        logger.Info($"[ISB WEAPON PRESETS] Active collab '{folder}' added " + $"{collabPresets.Count} preset(s) from '{collabPresetRoot}'.");
                     }
                 }
 
@@ -161,45 +275,37 @@ public class ISBWeaponPresetController(
         }
     }
 
-    internal bool TryEarlyPresetGen(
-        string role,
-        MongoId weaponTpl,
-        BotTypeInventory botTemplateInventory,
-        out ISBWepGenState? state)
+    internal bool TryEarlyPresetGen(string role, MongoId weaponTpl, BotTypeInventory botTemplateInventory, out ISBWepGenState? state)
     {
         state = null;
         if (string.IsNullOrWhiteSpace(role) || _presets.Count == 0 || botTemplateInventory.Mods is null)
             return false;
-
         var roleLower = role.Trim().ToLowerInvariant();
         var weaponTplLower = weaponTpl.ToString().ToLowerInvariant();
-
         if (!_presets.TryGetValue((roleLower, weaponTplLower), out var choices) || choices.Count == 0)
             return false;
-
         Monitor.Enter(_generationLock);
         try
         {
             var selected = SelectWeighted(choices);
             var original = botTemplateInventory.Mods;
             var closedMods = CloneMods(original);
-
             foreach (var parentTpl in selected.Build.Keys)
                 closedMods.Remove(ToMongoId(parentTpl));
-
             foreach (var parent in selected.Build)
             {
                 if (parent.Value.Count == 0)
                     continue;
-
                 var slotMap = new Dictionary<string, HashSet<MongoId>>(StringComparer.OrdinalIgnoreCase);
                 foreach (var slot in parent.Value)
                 {
                     var child = slot.Value.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x));
                     if (child is null)
                         continue;
-
-                    slotMap[slot.Key] = new HashSet<MongoId> { ToMongoId(child) };
+                    slotMap[slot.Key] = new HashSet<MongoId>
+                    {
+                        ToMongoId(child)
+                    };
                 }
 
                 if (slotMap.Count > 0)
@@ -214,7 +320,6 @@ public class ISBWeaponPresetController(
                 Inventory = botTemplateInventory,
                 PresetId = selected.Id
             };
-
             logger.Info($"[ISB WEAPON PRESETS] Applied '{selected.Id}' to '{roleLower}' ({weaponTplLower}).");
             return true;
         }
@@ -229,9 +334,7 @@ public class ISBWeaponPresetController(
     {
         if (state is null || state.Restored)
             return;
-
         state.Restored = true;
-
         try
         {
             state.Inventory.Mods = state.OriginalMods;
@@ -252,25 +355,19 @@ public class ISBWeaponPresetController(
             if (roll <= 0)
                 return choice;
         }
+
         return choices[^1];
     }
 
-    private static Dictionary<MongoId, Dictionary<string, HashSet<MongoId>>> CloneMods(
-        Dictionary<MongoId, Dictionary<string, HashSet<MongoId>>> source)
+    private static Dictionary<MongoId, Dictionary<string, HashSet<MongoId>>> CloneMods(Dictionary<MongoId, Dictionary<string, HashSet<MongoId>>> source)
     {
-        return source.ToDictionary(
-            parent => parent.Key,
-            parent => parent.Value.ToDictionary(
-                slot => slot.Key,
-                slot => new HashSet<MongoId>(slot.Value),
-                StringComparer.OrdinalIgnoreCase));
+        return source.ToDictionary(parent => parent.Key, parent => parent.Value.ToDictionary(slot => slot.Key, slot => new HashSet<MongoId>(slot.Value), StringComparer.OrdinalIgnoreCase));
     }
 
     private static bool HasPresetRoleDirectories(string root)
     {
         if (!Directory.Exists(root))
             return false;
-
         foreach (var roleDirectory in Directory.GetDirectories(root))
         {
             if (Directory.GetDirectories(roleDirectory).Length > 0)
@@ -280,26 +377,20 @@ public class ISBWeaponPresetController(
         return false;
     }
 
-    private List<ISBWepPresetSpawn> LoadPresets(
-        string presetRoot,
-        bool isNight,
-        string sourceName,
-        ISet<string>? excludedTopLevelFolders = null)
+    private List<ISBWepPresetSpawn> LoadPresets(string presetRoot, bool isNight, string sourceName, ISet<string>? excludedTopLevelFolders = null)
     {
         var result = new List<ISBWepPresetSpawn>();
         var suffix = isNight ? "_night" : "_day";
-        var directories = Directory.GetDirectories(presetRoot)
-            .Select(path => (Path: path, Folder: IOPath.GetFileName(path)))
-            .Where(x => !string.IsNullOrWhiteSpace(x.Folder))
-            .Where(x => excludedTopLevelFolders is null || !excludedTopLevelFolders.Contains(x.Folder))
-            .ToList();
-
+        var directories = Directory.GetDirectories(presetRoot).Select(path => (Path: path, Folder: IOPath.GetFileName(path))).Where(x => !string.IsNullOrWhiteSpace(x.Folder)).Where(x => excludedTopLevelFolders is null || !excludedTopLevelFolders.Contains(x.Folder)).ToList();
         var baseRoles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var entry in directories)
         {
-            if (entry.Folder.EndsWith("_day", StringComparison.OrdinalIgnoreCase)) baseRoles.Add(entry.Folder[..^4]);
-            else if (entry.Folder.EndsWith("_night", StringComparison.OrdinalIgnoreCase)) baseRoles.Add(entry.Folder[..^6]);
-            else baseRoles.Add(entry.Folder);
+            if (entry.Folder.EndsWith("_day", StringComparison.OrdinalIgnoreCase))
+                baseRoles.Add(entry.Folder[..^4]);
+            else if (entry.Folder.EndsWith("_night", StringComparison.OrdinalIgnoreCase))
+                baseRoles.Add(entry.Folder[..^6]);
+            else
+                baseRoles.Add(entry.Folder);
         }
 
         foreach (var role in baseRoles)
@@ -309,10 +400,7 @@ public class ISBWeaponPresetController(
                 selected = directories.FirstOrDefault(x => string.Equals(x.Folder, role, StringComparison.OrdinalIgnoreCase));
             if (string.IsNullOrWhiteSpace(selected.Path))
                 continue;
-
-            logger.Info(
-                $"[ISB WEAPON PRESETS] Using {sourceName} folder " +
-                $"'{selected.Folder}' for '{role}'.");
+            logger.Info($"[ISB WEAPON PRESETS] Using {sourceName} folder " + $"'{selected.Folder}' for '{role}'.");
             foreach (var weaponDir in Directory.GetDirectories(selected.Path))
             {
                 var weaponTpl = IOPath.GetFileName(weaponDir);
@@ -321,7 +409,8 @@ public class ISBWeaponPresetController(
                     try
                     {
                         var preset = ParsePreset(file, role, weaponTpl, sourceName);
-                        if (preset is not null) result.Add(preset);
+                        if (preset is not null)
+                            result.Add(preset);
                     }
                     catch (Exception ex)
                     {
@@ -330,30 +419,21 @@ public class ISBWeaponPresetController(
                 }
             }
         }
+
         return result;
     }
 
-    private static ISBWepPresetSpawn? ParsePreset(
-        string path,
-        string role,
-        string weaponTpl,
-        string sourceName)
+    private static ISBWepPresetSpawn? ParsePreset(string path, string role, string weaponTpl, string sourceName)
     {
-        using var doc = JsonDocument.Parse(File.ReadAllText(path), new JsonDocumentOptions
-        {
-            AllowTrailingCommas = true,
-            CommentHandling = JsonCommentHandling.Skip
-        });
+        using var doc = JsonDocument.Parse(File.ReadAllText(path), new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip });
         var root = doc.RootElement;
-        if (!root.TryGetProperty("build", out var buildElement)) return null;
-
-        var build = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, List<string>>>>(
-            buildElement.GetRawText(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
-        if (build is null) return null;
-
+        if (!root.TryGetProperty("build", out var buildElement))
+            return null;
+        var build = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, List<string>>>>(buildElement.GetRawText(), new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+        if (build is null)
+            return null;
         var weight = root.TryGetProperty("weight", out var w) && w.TryGetDouble(out var value) ? value : 100;
         var enabled = !root.TryGetProperty("enabled", out var e) || e.ValueKind != JsonValueKind.False;
-
         return new ISBWepPresetSpawn
         {
             Id = $"{sourceName}_{role}_{weaponTpl}_{IOPath.GetFileNameWithoutExtension(path)}",
@@ -369,24 +449,38 @@ public class ISBWeaponPresetController(
     private static bool ValidatePreset(ISBWepPresetSpawn preset, IDictionary templates, out string error)
     {
         if (preset.Weight <= 0 || double.IsNaN(preset.Weight) || double.IsInfinity(preset.Weight))
-        { error = "weight must be greater than zero."; return false; }
+        {
+            error = "weight must be greater than zero.";
+            return false;
+        }
+
         if (!preset.Build.ContainsKey(preset.WeaponTpl))
-        { error = $"build does not contain root weapon '{preset.WeaponTpl}'."; return false; }
+        {
+            error = $"build does not contain root weapon '{preset.WeaponTpl}'.";
+            return false;
+        }
 
         var allTpls = new HashSet<string>(preset.Build.Keys, StringComparer.OrdinalIgnoreCase);
         foreach (var parent in preset.Build)
-        foreach (var slot in parent.Value)
-        {
-            var children = slot.Value.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-            if (children.Count != 1)
-            { error = $"'{parent.Key}/{slot.Key}' must contain exactly one child."; return false; }
-            allTpls.Add(children[0]);
-        }
+            foreach (var slot in parent.Value)
+            {
+                var children = slot.Value.Where(x => !string.IsNullOrWhiteSpace(x)).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+                if (children.Count != 1)
+                {
+                    error = $"'{parent.Key}/{slot.Key}' must contain exactly one child.";
+                    return false;
+                }
+
+                allTpls.Add(children[0]);
+            }
 
         foreach (var tpl in allTpls)
         {
             if (!templates.Contains(ToMongoId(tpl)))
-            { error = $"template '{tpl}' was not found."; return false; }
+            {
+                error = $"template '{tpl}' was not found.";
+                return false;
+            }
         }
 
         error = string.Empty;
@@ -396,45 +490,27 @@ public class ISBWeaponPresetController(
     private static MongoId ToMongoId(string value) => new(value);
 }
 
-
-[Injectable(TypePriority = OnLoadOrder.PostDBModLoader + 1)]
+[Injectable(TypePriority = OnLoadOrder.PostSptModLoader + 1)]
 public sealed class WeaponPresetGenerationPatch(ISBWeaponPresetController controller) : IOnLoad
 {
     private static ISBWeaponPresetController _controller = null!;
-
     public Task OnLoad()
     {
         _controller = controller;
-
         var target = AccessTools.Method(typeof(BotWeaponGenerator), "GenerateWeaponByTpl");
         if (target is null)
             return Task.CompletedTask;
-
         var harmony = new Harmony("com.samc137.isbspecialforces.isbweppresetgenv1");
-        harmony.Patch(
-            target,
-            prefix: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Prefix))),
-            postfix: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Postfix))),
-            finalizer: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Finalizer))));
-
+        harmony.Patch(target, prefix: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Prefix))), postfix: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Postfix))), finalizer: new HarmonyMethod(AccessTools.Method(typeof(WeaponPresetGenerationPatch), nameof(Finalizer))));
         return Task.CompletedTask;
     }
 
-    private static void Prefix(
-        MongoId weaponTpl,
-        BotTypeInventory botTemplateInventory,
-        BotGenerationDetails botGenerationDetails,
-        ref ISBWepGenState? __state)
+    private static void Prefix(MongoId weaponTpl, BotTypeInventory botTemplateInventory, BotGenerationDetails botGenerationDetails, ref ISBWepGenState? __state)
     {
         var role = botGenerationDetails.RoleLowercase;
         if (string.IsNullOrWhiteSpace(role))
             return;
-
-        _controller.TryEarlyPresetGen(
-            role,
-            weaponTpl,
-            botTemplateInventory,
-            out __state);
+        _controller.TryEarlyPresetGen(role, weaponTpl, botTemplateInventory, out __state);
     }
 
     private static void Postfix(ISBWepGenState? __state)
@@ -442,13 +518,10 @@ public sealed class WeaponPresetGenerationPatch(ISBWeaponPresetController contro
         _controller.EndGeneration(__state);
     }
 
-    private static Exception? Finalizer(
-        Exception? __exception,
-        ISBWepGenState? __state)
+    private static Exception? Finalizer(Exception? __exception, ISBWepGenState? __state)
     {
         if (__exception is not null)
             _controller.EndGeneration(__state);
-
         return __exception;
     }
 }

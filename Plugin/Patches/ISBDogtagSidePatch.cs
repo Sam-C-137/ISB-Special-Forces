@@ -18,10 +18,8 @@ namespace ISBSpecialForces.Patches
             var item = __instance?.Item;
             if (item == null)
                 return;
-
             if (!ISBDogtagState.ShouldDisplayAsISB(item.TemplateId.ToString()))
                 return;
-
             __result = ISBDogtagState.DisplaySide;
         }
     }

@@ -1,0 +1,209 @@
+{
+  "a5933b154fe34593947956c8": {
+    "QuestName": "ContainmentBreach - Cadeia de comando",
+    "_id": "a5933b154fe34593947956c8",
+    "acceptPlayerMessage": "a5933b154fe34593947956c8 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "a5933b154fe34593947956c8 changeQuestMessageText",
+    "completePlayerMessage": "a5933b154fe34593947956c8 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Level",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "1174726bb42cfb2216c27bab",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "compareMethod": ">=",
+          "value": 1
+        },
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "b7720c30cf6510274892a78d",
+          "index": 1,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "c9304d1a70414b398f840595"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "completeInSeconds": 0,
+          "conditionType": "CounterCreator",
+          "counter": {
+            "id": "a4dc4a56186294031b260331",
+            "conditions": [
+              {
+                "conditionType": "Location",
+                "dynamicLocale": false,
+                "id": "793a966df6d407c4a0408fa4",
+                "target": [
+                  "laboratory"
+                ]
+              },
+              {
+                "bodyPart": [],
+                "compareMethod": ">=",
+                "conditionType": "Kills",
+                "daytime": {
+                  "from": 0,
+                  "to": 0
+                },
+                "distance": {
+                  "compareMethod": ">=",
+                  "value": 0
+                },
+                "dynamicLocale": false,
+                "enemyEquipmentExclusive": [],
+                "enemyEquipmentInclusive": [],
+                "enemyHealthEffects": [],
+                "id": "f2da660c58cf00f7ada52a3c",
+                "resetOnSessionEnd": false,
+                "savageRole": [
+                  "ISBTeamLeader"
+                ],
+                "target": "Any",
+                "value": 1,
+                "weapon": [],
+                "weaponCaliber": [],
+                "weaponModsExclusive": [],
+                "weaponModsInclusive": []
+              }
+            ]
+          },
+          "doNotResetIfCounterCompleted": false,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "43d9f42efe83f7e26df2e486",
+          "index": 0,
+          "isNecessary": false,
+          "isResetOnConditionFailed": false,
+          "oneSessionOnly": false,
+          "parentId": "",
+          "type": "Elimination",
+          "value": 2,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": [
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "78ee0d88fd41dfb6cd14cbe6",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "cd993bfe6ed447dcaab85d04"
+        }
+      ]
+    },
+    "declinePlayerMessage": "a5933b154fe34593947956c8 declinePlayerMessage",
+    "description": "a5933b154fe34593947956c8 description",
+    "failMessageText": "a5933b154fe34593947956c8 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/RubbingSaltintheWound.png",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "5b0fc42d86f7744a585f9105",
+    "name": "a5933b154fe34593947956c8 name",
+    "note": "a5933b154fe34593947956c8 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [
+        {
+          "availableInGameEditions": [],
+          "id": "5971ceea52305a1ba8d357a6",
+          "index": 0,
+          "target": "5935c25fb3acc3127c3d8cd9",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": -0.05
+        }
+      ],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "a6a4e21cb9747db97154d32a",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 25000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "4a4fca2ee6479f2a11abcb3c",
+          "index": 1,
+          "target": "5935c25fb3acc3127c3d8cd9",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "2992c1bceae78abfdd0175df",
+          "index": 2,
+          "items": [
+            {
+              "_id": "ad10f4417970a23b2ee0d703",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 260000
+              }
+            }
+          ],
+          "target": "ad10f4417970a23b2ee0d703",
+          "type": "Item",
+          "unknown": false,
+          "value": 260000
+        },
+        {
+          "id": "7acd5483f6f026328d3e20f3",
+          "index": 3,
+          "type": "Item",
+          "target": "cbe67ab791cf04b67497ef55",
+          "value": "6",
+          "items": [
+            {
+              "_id": "cbe67ab791cf04b67497ef55",
+              "_tpl": "6a7cf0b5c2f90e0e4ece5684",
+              "upd": {
+                "StackObjectsCount": 6
+              }
+            }
+          ],
+          "findInRaid": true,
+          "availableInGameEditions": [],
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "a5933b154fe34593947956c8 startedMessageText",
+    "status": 0,
+    "successMessageText": "a5933b154fe34593947956c8 successMessageText",
+    "traderId": "5935c25fb3acc3127c3d8cd9",
+    "type": "Elimination"
+  }
+}

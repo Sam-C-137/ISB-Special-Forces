@@ -20,14 +20,15 @@ namespace ISBSpecialForces.Components
     public static class ISBSpawnRefreshBridge
     {
         private const string SecretSpawnTriggerPrefix = "isb_secret_";
-
+        private const string LabsEventTriggerPrefix = "isb_labs_";
         public static void RefreshCurrentRaid()
         {
+            if (!ISBFikaAuthority.IsAiAuthority)
+                return;
             try
             {
-                var localGame = Singleton<AbstractGame>.Instance as LocalGame;
+                var localGame = Singleton<AbstractGame>.Instance as BaseLocalGame<EftGamePlayerOwner>;
                 var currentSpawns = localGame?.Location_0?.BossLocationSpawn;
-
                 if (currentSpawns == null)
                 {
                     Plugin.LogSource.LogWarning("[ISB SPAWNS] Current location spawn data is unavailable. Keeping the cached waves.");
@@ -35,51 +36,40 @@ namespace ISBSpecialForces.Components
                 }
 
                 var requestedLocationId = RaidChangesUtil.LocationId;
-
                 if (string.IsNullOrWhiteSpace(requestedLocationId))
                 {
                     Plugin.LogSource.LogWarning("[ISB SPAWNS] Current location id is unavailable. Keeping the cached waves.");
                     return;
                 }
 
-                var request = JsonConvert.SerializeObject(new
-                {
-                    locationId = requestedLocationId
-                });
-
+                var request = JsonConvert.SerializeObject(new { locationId = requestedLocationId });
                 var json = RequestHandler.PostJson("/ISB/spawns/refresh", request);
-                var response = string.IsNullOrWhiteSpace(json)
-                    ? null
-                    : JsonConvert.DeserializeObject<ISBManagedSpawnResponse>(json);
-
+                var response = string.IsNullOrWhiteSpace(json) ? null : JsonConvert.DeserializeObject<ISBManagedSpawnResponse>(json);
                 if (response == null || !response.success || response.spawns == null || response.spawns.Count == 0)
                 {
                     var reason = response?.reason;
-
                     if (string.IsNullOrWhiteSpace(reason))
                         reason = "The server returned no fresh waves.";
-
                     Plugin.LogSource.LogWarning($"[ISB SPAWNS] Refresh for '{requestedLocationId}' was skipped: {reason} Keeping the cached waves.");
                     return;
                 }
 
                 var updatedSpawns = currentSpawns.ToList();
                 var removedCount = 0;
-
                 for (var index = updatedSpawns.Count - 1; index >= 0; index--)
                 {
                     if (!IsManagedISBSpawn(updatedSpawns[index]))
                         continue;
-
                     updatedSpawns.RemoveAt(index);
                     removedCount++;
                 }
 
                 updatedSpawns.AddRange(response.spawns);
                 localGame.Location_0.BossLocationSpawn = updatedSpawns.ToArray();
-
-                Plugin.LogSource.LogInfo(
-                    $"[ISB SPAWNS] Refreshed {response.locationId}: removed {removedCount} cached wave(s), injected {response.spawns.Count} fresh wave(s).");
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                {
+                    Plugin.LogSource.LogInfo($"[ISB SPAWNS] Refreshed {response.locationId}: removed {removedCount} cached wave(s), injected {response.spawns.Count} fresh wave(s).");
+                }
             }
             catch (Exception ex)
             {
@@ -91,12 +81,9 @@ namespace ISBSpecialForces.Components
         {
             if (spawn == null)
                 return false;
-
             if (string.Equals(spawn.BossName, "ISBTeamLeader", StringComparison.Ordinal))
                 return true;
-
-            return !string.IsNullOrEmpty(spawn.TriggerId)
-                && spawn.TriggerId.StartsWith(SecretSpawnTriggerPrefix, StringComparison.Ordinal);
+            return !string.IsNullOrEmpty(spawn.TriggerId) && (spawn.TriggerId.StartsWith(SecretSpawnTriggerPrefix, StringComparison.Ordinal) || spawn.TriggerId.StartsWith(LabsEventTriggerPrefix, StringComparison.Ordinal));
         }
     }
 }

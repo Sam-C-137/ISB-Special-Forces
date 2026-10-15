@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "boundsCenter": [
+    0,
+    0.6142329,
+    0
+  ],
+  "boundsSize": [
+    5.209592,
+    1.2284658,
+    1.9990920424461365
+  ],
+  "materials": [
+    {
+      "name": "koluchka_cutaot",
+      "texture": "albedo-0.png",
+      "mode": "cutout",
+      "cutoff": 0.4,
+      "shader": "p0/Cutout/Bumped Diffuse",
+      "floats": {
+        "_BumpScale": 1,
+        "_Cutoff": 0.4,
+        "_DetailNormalMapScale": 1,
+        "_DstBlend": 0,
+        "_Factor": 0,
+        "_Glossiness": 0.5,
+        "_Metallic": 0,
+        "_Mode": 0,
+        "_OcclusionStrength": 1,
+        "_Parallax": 0.02,
+        "_SSRPow": 0,
+        "_Shininess": 0.078125,
+        "_SpecPower": 1,
+        "_SrcBlend": 1,
+        "_StencilType": 0,
+        "_UVSec": 0,
+        "_Units": 0,
+        "_ZWrite": 1
+      },
+      "vectors": {
+        "_Color": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "_DefVals": [
+          1,
+          0.2,
+          0,
+          0
+        ],
+        "_EmissionColor": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "_ReflectColor": [
+          1,
+          1,
+          1,
+          0.5
+        ],
+        "_SpecColor": [
+          0.5,
+          0.5,
+          0.5,
+          1
+        ],
+        "_SpecVals": [
+          1.1,
+          2,
+          0,
+          0
+        ],
+        "_Temperature": [
+          0.1,
+          0.38,
+          0.3,
+          0
+        ]
+      },
+      "maps": [
+        {
+          "property": "_BumpMap",
+          "file": "map-0-BumpMap.png"
+        }
+      ]
+    }
+  ],
+  "meshes": [
+    {
+      "name": "koluchka",
+      "file": "visual-0.obj",
+      "materials": [
+        0
+      ]
+    }
+  ],
+  "colliders": []
+}

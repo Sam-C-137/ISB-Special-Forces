@@ -1,0 +1,2549 @@
+{
+  "labsVariantsEnabled": true,
+  "containmentBreachLastQuest": "8e4f5535e0bf4135b8a90ec7", // [CONTAINMENT BREACH] Putting Out the Fire
+  "enabled": true,
+  "chance": 15,
+  "isbHealthMultiplier": 0.65,
+  "blackDivisionHealthMultiplier": 1.35,
+  "officeAccess": {
+    "enabled": true,
+    "keypad": {
+      "x": -267.7555,
+      "y": 4.6325,
+      "z": -376.0247,
+      "rotationY": 0
+    },
+    "shutdownButton": {
+      "x": -266.909,
+      "y": 4.946,
+      "z": -375.567
+    },
+    "pendingFlashDrive": {
+      "x": -267.744,
+      "y": 4.118,
+      "z": -374.304
+    },
+    "pendingFlashDriveItem": "",
+    "cassieFlashDrive": {
+      "x": -134.091,
+      "y": 1.368,
+      "z": -323.89
+    },
+    "cassieFlashDriveItem": "4fef2f1523c2754ade168cfa", // Flash drive with C.A.S.S.I.E. system data
+    "deadManSwitch": {
+      "audio": "DeadManSwitchV2.wav",
+      "image": "DeadManSwitchImage.jpg",
+      "countdownAt": 16.64,
+      "countdownSeconds": 90,
+      "endEffectSeconds": 3,
+      "endAudio": "EventEnd.wav",
+      "endAudioSeconds": 23.613542,
+      "fadeSeconds": 1.5
+    }
+  },
+  "questForceConditions": {
+    "enabled": true,
+    "mode": "any",
+    "conditions": [
+      {
+        "id": "ContainmentBreach_mechanic-craft",
+        "enabled": true,
+        "questId": "ca7b2ef7bca84efe967f9b40", // [CONTAINMENT BREACH] Active Connection
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-craft",
+        "enabled": true,
+        "questId": "35dc82a3c84b4c0a8a0646d8", // [CONTAINMENT BREACH] Heavy Firewall
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_office-upload",
+        "enabled": true,
+        "questId": "10413f0d043844c6a69a88db", // [CONTAINMENT BREACH] Emergency Credentials
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_office-reader",
+        "enabled": true,
+        "questId": "637a389d84da48a4a34dfd17", // [CONTAINMENT BREACH] Fully Isolated Circuit
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-office",
+        "enabled": true,
+        "questId": "b8432fd547b146bfa8b77dd6", // [CONTAINMENT BREACH] Data Extraction
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-final-delivery",
+        "enabled": true,
+        "questId": "8e4f5535e0bf4135b8a90ec7", // [CONTAINMENT BREACH] Putting Out the Fire
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-skier",
+        "enabled": true,
+        "questId": "52588eccea984354a13b53f4", // [CONTAINMENT BREACH] I Don't Care About the Conflict of Interest (Pick Side)
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-fence",
+        "enabled": true,
+        "questId": "1184c00a9ec847be987be767", // [CONTAINMENT BREACH] You Shouldn't Interfere (Pick Side)
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aishi-peacekeeper",
+        "enabled": true,
+        "questId": "cd993bfe6ed447dcaab85d04", // [CONTAINMENT BREACH] Fine Espionage (Pick Side)
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_lotus",
+        "enabled": true,
+        "questId": "a3b3fae920584af7b941a2fc", // [CONTAINMENT BREACH] Antidotes Are Never Unnecessary
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_lotus_anomalies",
+        "enabled": true,
+        "questId": "6e49a30eafa8409bbf623897", // [CONTAINMENT BREACH] Known Threat Entity
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_m1",
+        "enabled": true,
+        "questId": "dd715e78ab984c14909da407", // [CONTAINMENT BREACH] Playing with Fire
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_m2",
+        "enabled": true,
+        "questId": "a38b841cae6d46dab703e8eb", // [CONTAINMENT BREACH] Power Source
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_m3",
+        "enabled": true,
+        "questId": "f1a90496778649e8b955e60d", // [CONTAINMENT BREACH] Path to the Exit
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_m4",
+        "enabled": true,
+        "questId": "c9304d1a70414b398f840595", // [CONTAINMENT BREACH] Powering Up
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_m5",
+        "enabled": true,
+        "questId": "9dfc181b7e2944bd9d40308b", // [CONTAINMENT BREACH] Helping a Friend
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_a1",
+        "enabled": true,
+        "questId": "0ca9dfa7d14d42f2bd5acdb0", // [CONTAINMENT BREACH] Breaking the Siege
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_a2",
+        "enabled": true,
+        "questId": "db3b1511110c41cdbab6d4f6", // [CONTAINMENT BREACH] Identification
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_a4",
+        "enabled": true,
+        "questId": "5387285ba1624dab9ac06d72", // [CONTAINMENT BREACH] Targeting Leadership
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_a5",
+        "enabled": true,
+        "questId": "a3f407eb22cd41769e6f4c5f", // [CONTAINMENT BREACH] No Way Out
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_a3",
+        "enabled": true,
+        "questId": "8b708ff6d7e641e38f6f2be0", // [CONTAINMENT BREACH] Chain of Custody
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aRepair",
+        "enabled": true,
+        "questId": "0b69f84d68d74db7b5dea117", // [CONTAINMENT BREACH] Darkness, No Power, Fire, can it get worse?
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_s1",
+        "enabled": true,
+        "questId": "85baf5fc8723406a88b049a5", // [CONTAINMENT BREACH] Conflict of Interest (Pick Side)
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_s2",
+        "enabled": true,
+        "questId": "1f6a892b5dda4241868ffd09", // [CONTAINMENT BREACH] Holding Your Breath
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_t1",
+        "enabled": true,
+        "questId": "e4e78f48c1e44d898e8ad5e3", // [CONTAINMENT BREACH] Studies Come First
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_t2",
+        "enabled": true,
+        "questId": "64e6df2f30554b3ea6e4e1c9", // [CONTAINMENT BREACH] Health at Risk
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_r1",
+        "enabled": true,
+        "questId": "688a35cea49a4833a17c74b0", // [CONTAINMENT BREACH] Making a Profit
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_p1",
+        "enabled": true,
+        "questId": "a5933b154fe34593947956c8", // [CONTAINMENT BREACH] Rubbing Salt in the Wound (Pick Side)
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_f1",
+        "enabled": true,
+        "questId": "8e039d03e80f41788f9b9819", // [CONTAINMENT BREACH] The "White Tusks"
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_aChem",
+        "questId": "8367ca4830984afeb8551aaa", // [CONTAINMENT BREACH] Global-Level Biohazard
+        "enabled": true,
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_f2",
+        "questId": "66a3c03136254144b3cf9e93", // [CONTAINMENT BREACH] Burning Files
+        "enabled": true,
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      },
+      {
+        "id": "ContainmentBreach_j1",
+        "questId": "55ccb3bc5af1428fb03001df", // [CONTAINMENT BREACH] Living is Good
+        "enabled": true,
+        "questStatuses": [
+          2,
+          3
+        ],
+        "eventChance": 100
+      }
+    ]
+  },
+  "disableFire": false,
+  "disableSirens": false,
+  "disableDestroyedVehicles": false,
+  "disableNormalISBSpawnsDuringEvent": true,
+  "disableNormalBlackDivisionSpawnsDuringEvent": true,
+  "populationControl": {
+    "enabled": true,
+    "disableNormalPMCs": true,
+    "disableNormalRaiders": true
+  },
+  "isbReinforcements": {
+    "enabled": true,
+    "selectionMode": "both",
+    "isb": {
+      "enabled": true,
+      "patrols": [],
+      "checkpoints": [],
+      "hunts": [
+        {
+          "id": "ContainmentBreachISBReinforcements01",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "ISBAssassin",
+          "followers": [
+            {
+              "type": "ISBSpecialForces",
+              "min": 1,
+              "max": 2
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        },
+        {
+          "id": "ContainmentBreachISBReinforcements02",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "ISBScout",
+          "followers": [
+            {
+              "type": "ISBSpecialForces",
+              "min": 1,
+              "max": 2
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        },
+        {
+          "id": "ContainmentBreachISBReinforcements03",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "ISBTeamLeader",
+          "followers": [
+            {
+              "type": "ISBSpecialForces",
+              "min": 1,
+              "max": 2
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        }
+      ]
+    },
+    "blackDivision": {
+      "enabled": true,
+      "patrols": [],
+      "checkpoints": [],
+      "hunts": [
+        {
+          "id": "ContainmentBreachBDReinforcements01",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "blackDivGhostBusterLead",
+          "followers": [
+            {
+              "type": "blackDivGhostBuster01",
+              "min": 1,
+              "max": 1
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        },
+        {
+          "id": "ContainmentBreachBDReinforcements02",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "blackDivAssault",
+          "followers": [
+            {
+              "type": "blackDivAssault",
+              "min": 1,
+              "max": 1
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        },
+        {
+          "id": "ContainmentBreachBDReinforcements03",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "blackDivAssault",
+          "followers": [
+            {
+              "type": "blackDivAssault",
+              "min": 1,
+              "max": 1
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": -1,
+          "raidTimeMax": -1
+        }
+      ]
+    },
+    "pmcs": {
+      "enabled": false,
+      "patrols": [],
+      "checkpoints": [],
+      "hunts": []
+    },
+    "raiders": {
+      "enabled": false,
+      "patrols": [],
+      "checkpoints": [],
+      "hunts": []
+    }
+  },
+  "isb": {
+    "enabled": true,
+    "patrols": [
+      {
+        "id": "ContainmentBreachISBPatrol01",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSpecialForces",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1
+      },
+      {
+        "id": "ContainmentBreachISBPatrol02",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSpecialForces",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 285,
+        "raidTimeMax": 315
+      },
+      {
+        "id": "ContainmentBreachISBPatrol03",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSpecialForces",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 585,
+        "raidTimeMax": 615
+      },
+      {
+        "id": "ContainmentBreachISBPatrol04",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSpecialForces",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1185,
+        "raidTimeMax": 1215
+      },
+      {
+        "id": "ContainmentBreachISBPatrol05",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSpecialForces",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1485,
+        "raidTimeMax": 1515
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "ContainmentBreachISBCheckPointOutsParkGate",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "ISBTeamLeader",
+        "followers": [
+          {
+            "type": "ISBHeavy",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1,
+        "checkpointRadius": 8,
+        "x": -232.728,
+        "y": 0.046,
+        "z": -420.636
+      },
+      {
+        "id": "ContainmentBreachISBCheckPointInsidParkGate",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "ISBTeamLeader",
+        "followers": [
+          {
+            "type": "ISBHeavy",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1635,
+        "raidTimeMax": 1665,
+        "checkpointRadius": 8,
+        "x": -230.977,
+        "y": 2.278,
+        "z": -450.041
+      }
+    ],
+    "hunts": [
+      {
+        "id": "ContainmentBreachISBHunt01",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBTeamLeader",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1
+      },
+      {
+        "id": "ContainmentBreachISBHunt02",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBScout",
+        "followers": [
+          {
+            "type": "ISBScout",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 135,
+        "raidTimeMax": 165
+      },
+      {
+        "id": "ContainmentBreachISBHunt03",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBAssassin",
+        "followers": [
+          {
+            "type": "ISBAssassin",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 435,
+        "raidTimeMax": 465
+      },
+      {
+        "id": "ContainmentBreachISBHunt04",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBHeavy",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 735,
+        "raidTimeMax": 765
+      },
+      {
+        "id": "ContainmentBreachWhiteTuskHunt",
+        "enabled": true,
+        "chance": 70,
+        "squadCount": 1,
+        "boss": "ISBBossFirefly",
+        "followers": [
+          {
+            "type": "ISBFollowerVipper",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBFollowerLoghan",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBFollowerSpearthrower",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBFollowerZofia",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBFollowerEvernight",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBFollowerNemesis",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 840,
+        "raidTimeMax": 1020
+      },
+      {
+        "id": "ContainmentBreachISBHunt05",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBSecondLeader",
+        "followers": [
+          {
+            "type": "ISBSpecialForces",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "ISBAssassin",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1035,
+        "raidTimeMax": 1065
+      },
+      {
+        "id": "ContainmentBreachISBHunt06",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 1,
+        "boss": "ISBAssassin",
+        "followers": [
+          {
+            "type": "ISBAssassin",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1335,
+        "raidTimeMax": 1365
+      }
+    ]
+  },
+  "blackDivision": {
+    "enabled": true,
+    "patrols": [
+      {
+        "id": "ContainmentBreachBDPatrol01",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 2,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1
+      },
+      {
+        "id": "ContainmentBreachBDPatrol02",
+        "enabled": true,
+        "chance": 75,
+        "squadCount": 2,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 120,
+        "raidTimeMax": 190
+      },
+      {
+        "id": "ContainmentBreachBDPatrol03",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 285,
+        "raidTimeMax": 315
+      },
+      {
+        "id": "ContainmentBreachBDPatrol04",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 585,
+        "raidTimeMax": 615
+      },
+      {
+        "id": "ContainmentBreachBDPatrol05",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1185,
+        "raidTimeMax": 1215
+      },
+      {
+        "id": "ContainmentBreachBDPatrol06",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1485,
+        "raidTimeMax": 1515
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "ContainmentBreachBDCheckPointOutsHangarGate",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1,
+        "checkpointRadius": 8,
+        "x": -170.805,
+        "y": 0.062,
+        "z": -254.991
+      },
+      {
+        "id": "ContainmentBreachBDCheckPointInsidHangarGate",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1635,
+        "raidTimeMax": 1665,
+        "checkpointRadius": 8,
+        "x": -170.347,
+        "y": 3.147,
+        "z": -217.6
+      }
+    ],
+    "hunts": [
+      {
+        "id": "ContainmentBreachBDHunt01",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 2,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": -1,
+        "raidTimeMax": -1
+      },
+      {
+        "id": "ContainmentBreachBDHunt02",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 2,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 2,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 90,
+        "raidTimeMax": 120
+      },
+      {
+        "id": "ContainmentBreachBDHunt03",
+        "enabled": true,
+        "chance": 70,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 135,
+        "raidTimeMax": 165
+      },
+      {
+        "id": "ContainmentBreachBDHunt04",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "blackDivGhostBusterLead",
+        "followers": [
+          {
+            "type": "blackDivGhostBuster01",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "blackDivGhostBuster02",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "blackDivGhostBuster03",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 435,
+        "raidTimeMax": 465
+      },
+      {
+        "id": "ContainmentBreachBDHunt05",
+        "enabled": true,
+        "chance": 70,
+        "squadCount": 2,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 2
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 735,
+        "raidTimeMax": 765
+      },
+      {
+        "id": "ContainmentBreachWedgeSquadHunt",
+        "enabled": true,
+        "chance": 100,
+        "squadCount": 1,
+        "boss": "bossWedgeGhostBuster",
+        "followers": [
+          {
+            "type": "blackDivGhostBusterLead",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "blackDivGhostBuster01",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "blackDivGhostBuster02",
+            "min": 1,
+            "max": 1
+          },
+          {
+            "type": "blackDivGhostBuster03",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 640,
+        "raidTimeMax": 840
+      },
+      {
+        "id": "ContainmentBreachBDHunt06",
+        "enabled": true,
+        "chance": 70,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1035,
+        "raidTimeMax": 1065
+      },
+      {
+        "id": "ContainmentBreachBDHunt07",
+        "enabled": true,
+        "chance": 70,
+        "squadCount": 1,
+        "boss": "blackDivAssault",
+        "followers": [
+          {
+            "type": "blackDivAssault",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1335,
+        "raidTimeMax": 1365
+      }
+    ]
+  },
+  "pmcs": {
+    "enabled": true,
+    "patrols": [
+      {
+        "id": "ContainmentBreachUSECPatrol1",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcUSEC",
+        "followers": [
+          {
+            "type": "pmcUSEC",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 285,
+        "raidTimeMax": 300
+      },
+      {
+        "id": "ContainmentBreachUSECPatrol2",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcUSEC",
+        "followers": [
+          {
+            "type": "pmcUSEC",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 480,
+        "raidTimeMax": 660
+      },
+      {
+        "id": "ContainmentBreachUSECPatrol3",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcUSEC",
+        "followers": [
+          {
+            "type": "pmcUSEC",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 840,
+        "raidTimeMax": 1140
+      },
+      {
+        "id": "ContainmentBreachUSECPatrol4",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcUSEC",
+        "followers": [
+          {
+            "type": "pmcUSEC",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1800
+      },
+      {
+        "id": "ContainmentBreachBEARPatrol1",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBEAR",
+        "followers": [
+          {
+            "type": "pmcBEAR",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 285,
+        "raidTimeMax": 300
+      },
+      {
+        "id": "ContainmentBreachBEARPatrol2",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBEAR",
+        "followers": [
+          {
+            "type": "pmcBEAR",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 480,
+        "raidTimeMax": 660
+      },
+      {
+        "id": "ContainmentBreachBEARPatrol3",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBEAR",
+        "followers": [
+          {
+            "type": "pmcBEAR",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 840,
+        "raidTimeMax": 1140
+      },
+      {
+        "id": "ContainmentBreachBEARPatrol4",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBEAR",
+        "followers": [
+          {
+            "type": "pmcBEAR",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1800
+      }
+    ],
+    "checkpoints": [],
+    "hunts": []
+  },
+  "raiders": {
+    "enabled": true,
+    "patrols": [
+      {
+        "id": "ContainmentBreachRaiderPatrol1",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBot",
+        "followers": [
+          {
+            "type": "pmcBot",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 285,
+        "raidTimeMax": 300
+      },
+      {
+        "id": "ContainmentBreachRaiderPatrol2",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBot",
+        "followers": [
+          {
+            "type": "pmcBot",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 480,
+        "raidTimeMax": 660
+      },
+      {
+        "id": "ContainmentBreachRaiderPatrol3",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBot",
+        "followers": [
+          {
+            "type": "pmcBot",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 840,
+        "raidTimeMax": 1140
+      },
+      {
+        "id": "ContainmentBreachRaiderPatrol4",
+        "enabled": true,
+        "chance": 50,
+        "squadCount": 1,
+        "boss": "pmcBot",
+        "followers": [
+          {
+            "type": "pmcBot",
+            "min": 1,
+            "max": 1
+          }
+        ],
+        "zones": [
+          "BotZoneFloor1",
+          "BotZoneFloor2",
+          "BotZoneBasement"
+        ],
+        "raidTimeMin": 1320,
+        "raidTimeMax": 1800
+      }
+    ],
+    "checkpoints": [],
+    "hunts": []
+  },
+  "blackDivisionPocketLoot": {
+    "keycardRemainingUses": {
+      "min": 2,
+      "max": 4
+    },
+    "enabled": true,
+    "wildTypes": {
+      "blackDivAssault": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivLead": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivBreacher": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivSupport": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivIb": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "bossWedge": {
+        "pockets": {
+          "independent": {
+            "264f194ae30547c55dfbf0d9": 40, // Modified low-frequency battery
+            "4fef2f1523c2754ade168cfa": 25 // Flash drive with C.A.S.S.I.E. system data
+          }
+        },
+        "backpack": {
+          "maxItems": 0,
+          "pool": {
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "*": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "bossWedgeGhostBuster": {
+        "pockets": {
+          "independent": {
+            "264f194ae30547c55dfbf0d9": 40, // Modified low-frequency battery
+            "4fef2f1523c2754ade168cfa": 25 // Flash drive with C.A.S.S.I.E. system data
+          }
+        },
+        "backpack": {
+          "maxItems": 0,
+          "pool": {
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivGhostBusterLead": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivGhostBuster01": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivGhostBuster02": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivGhostBuster03": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      },
+      "blackDivGhostBuster04": {
+        "pockets": {
+          "maxItems": 2,
+          "pool": {
+            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
+            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
+            "0948e0b1242f17ae65b80669": 5, // Fungal samples
+            "69439100a320344f805ba61f": 5, // Black Division Access Card
+            "29d3521830e5a078ac470990": 5, // Virus antidote
+            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+          },
+          "oneOf": {
+          },
+          "independent": {
+            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
+            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
+            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
+            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+          }
+        },
+        "backpack": {
+          "maxItems": 2,
+          "pool": {
+            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
+            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
+            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+          },
+          "oneOf": {
+          },
+          "independent": {
+          }
+        }
+      }
+    }
+  },
+  "mapLoot": {
+    "enabled": true,
+    "groups": [
+      {
+        "id": "BDEncryptionKeys",
+        "enabled": true,
+        "item": "4fef2f1523c2754ade168cfa", // Flash drive with C.A.S.S.I.E. system data
+        "chance": 100,
+        "positions": [
+          {
+            "x": -217.44,
+            "y": 4.688,
+            "z": -377.351
+          },
+          {
+            "x": -264.666,
+            "y": 4.929,
+            "z": -374.146
+          },
+          {
+            "x": -267.683,
+            "y": 4.786,
+            "z": -375.971
+          },
+          {
+            "x": -242.572,
+            "y": 5.006,
+            "z": -381.511
+          },
+          {
+            "x": -130.621,
+            "y": 5.188,
+            "z": -335.218
+          },
+          {
+            "x": -180.186,
+            "y": 1.116,
+            "z": -362.33
+          },
+          {
+            "x": -180.67,
+            "y": 1.116,
+            "z": -362.112
+          },
+          {
+            "x": -181.767,
+            "y": 4.609,
+            "z": -344.344
+          }
+        ]
+      },
+      {
+        "id": "CassieCraftFlashDrive",
+        "enabled": true,
+        "item": "4a4661aa041c7a92541e1933", // C.A.S.S.I.E. data flash drive
+        "count": 1,
+        "chance": 100,
+        "positions": [
+          {
+            "x": -217.608,
+            "y": 5.075,
+            "z": -382.403
+          },
+          {
+            "x": -253.137,
+            "y": 5.109,
+            "z": -321.257
+          },
+          {
+            "x": -266.972,
+            "y": 4.946,
+            "z": -317.025
+          },
+          {
+            "x": -133.876,
+            "y": 5.07,
+            "z": -349.598
+          },
+          {
+            "x": -133.35,
+            "y": 5.078,
+            "z": -335.024
+          },
+          {
+            "x": -217.44,
+            "y": 4.688,
+            "z": -377.351
+          },
+          {
+            "x": -264.666,
+            "y": 4.929,
+            "z": -374.146
+          },
+          {
+            "x": -267.683,
+            "y": 4.786,
+            "z": -375.971
+          },
+          {
+            "x": -242.572,
+            "y": 5.006,
+            "z": -381.511
+          },
+          {
+            "x": -130.621,
+            "y": 5.188,
+            "z": -335.218
+          },
+          {
+            "x": -180.186,
+            "y": 1.116,
+            "z": -362.33
+          },
+          {
+            "x": -180.67,
+            "y": 1.116,
+            "z": -362.112
+          },
+          {
+            "x": -181.767,
+            "y": 4.609,
+            "z": -344.344
+          }
+        ]
+      },
+      {
+        "id": "ContainmentChemicals",
+        "enabled": true,
+        "items": {
+          "237feeaa44ee343bd4ebe5ab": 1, // Chemical container with a virus sample
+          "108e248f0640ee8a58fbe8b9": 1, // Chemical Container with biological material
+          "0948e0b1242f17ae65b80669": 1, // Fungal samples
+          "29d3521830e5a078ac470990": 1, // Virus antidote
+          "890cc1ff79a9633e1d0b5a40": 1 // Modified virus sample
+        },
+        "count": 4,
+        "chance": 100,
+        "positions": [
+          {
+            "x": -136.758,
+            "y": 0.3,
+            "z": -349.897
+          },
+          {
+            "x": -138.642,
+            "y": 0.047,
+            "z": -349.04
+          },
+          {
+            "x": -234.137,
+            "y": 4.84,
+            "z": -343.236
+          },
+          {
+            "x": -245.145,
+            "y": 4.16,
+            "z": -360.364
+          },
+          {
+            "x": -171.594,
+            "y": 0.076,
+            "z": -372.818
+          },
+          {
+            "x": -172.618,
+            "y": 0.076,
+            "z": -368.401
+          },
+          {
+            "x": -174.684,
+            "y": 0.076,
+            "z": -368.108
+          },
+          {
+            "x": -136.454,
+            "y": 5.051,
+            "z": -343.215
+          },
+          {
+            "x": -123.63,
+            "y": 5.017,
+            "z": -287.225
+          },
+          {
+            "x": -120.813,
+            "y": 1.395,
+            "z": -270.23
+          },
+          {
+            "x": -181.762,
+            "y": 4.599,
+            "z": -344.75
+          },
+          {
+            "x": -244.572,
+            "y": 4.134,
+            "z": -347.888
+          },
+          {
+            "x": -244.507,
+            "y": 4.138,
+            "z": -344.882
+          },
+          {
+            "x": -247.642,
+            "y": 4.138,
+            "z": -345.821
+          },
+          {
+            "x": -244.503,
+            "y": 4.947,
+            "z": -357.55
+          },
+          {
+            "x": -246.16,
+            "y": 4.969,
+            "z": -357.547
+          },
+          {
+            "x": -244.705,
+            "y": 5.852,
+            "z": -358.645
+          },
+          {
+            "x": -133.721,
+            "y": 4.151,
+            "z": -343.8
+          },
+          {
+            "x": -135.205,
+            "y": 4.151,
+            "z": -341.873
+          },
+          {
+            "x": -136.619,
+            "y": 4.162,
+            "z": -344.526
+          },
+          {
+            "x": -136.422,
+            "y": 5.048,
+            "z": -343.18
+          },
+          {
+            "x": -134.969,
+            "y": 5.026,
+            "z": -342.939
+          }
+        ]
+      },
+      {
+        "id": "BlackDivisionIntelligence",
+        "enabled": true,
+        "items": {
+          "6a5f9c49b8281c31a1062aea": 1, // 14-4 KORD SSD
+          "6a5f9c25e8c84d8b0602f22a": 1, // Black Division rugged laptop
+          "693a3989e77a08d438a73bb1": 1 // Black Division intelligence plans
+        },
+        "count": 2,
+        "chance": 100,
+        "positions": [
+          {
+            "x": -185.821,
+            "y": 0.071,
+            "z": -328.323
+          },
+          {
+            "x": -145.381,
+            "y": 5.104,
+            "z": -339.651
+          },
+          {
+            "x": -117.433,
+            "y": 0.79,
+            "z": -443.267
+          },
+          {
+            "x": -186.73,
+            "y": 5.008,
+            "z": -396.145
+          },
+          {
+            "x": -168.296,
+            "y": 5.171,
+            "z": -298.283
+          },
+          {
+            "x": -264.634,
+            "y": 5.002,
+            "z": -328.107
+          },
+          {
+            "x": -163.595,
+            "y": 5.447,
+            "z": -345.046
+          },
+          {
+            "x": -162.02,
+            "y": 4.858,
+            "z": -342.251
+          },
+          {
+            "x": -153.043,
+            "y": 1.301,
+            "z": -344.387
+          },
+          {
+            "x": -226.75,
+            "y": 4.935,
+            "z": -305.466
+          },
+          {
+            "x": -226.652,
+            "y": 4.937,
+            "z": -307.805
+          },
+          {
+            "x": -256.626,
+            "y": 4.911,
+            "z": -364.357
+          },
+          {
+            "x": -267.013,
+            "y": 5.046,
+            "z": -369.101
+          },
+          {
+            "x": -162.157,
+            "y": 1.229,
+            "z": -330.539
+          },
+          {
+            "x": -170.799,
+            "y": 0.086,
+            "z": -318.85
+          },
+          {
+            "x": -185.691,
+            "y": 0.082,
+            "z": -328.415
+          },
+          {
+            "x": -184.434,
+            "y": 0.082,
+            "z": -326.995
+          },
+          {
+            "x": -184.47,
+            "y": 1.321,
+            "z": -317.011
+          }
+        ]
+      }
+    ]
+  },
+  "anomalousItemSpawns": {
+    "enabled": true,
+    "looseLoot": {
+      "enabled": true,
+      "chancePerPoint": 5,
+      "weights": {
+        "b27508815b9307ccd1bffa36": 1, // KTE 952
+        "1800c994e11cfa35b423e8ed": 1, // KTE 070
+        "6183f2a51cb013b5ab62a796": 1, // KTE 076
+        "fac4f1a658ad562cddde72c6": 1, // KTE 722
+        "72eb2bb2416ee48ee80d63d4": 1, // KTE 598
+        "a38cbf3abbfdcbedaa1b9a0e": 1, // KTE 949
+        "b543125009b989d7287b58ab": 1, // KTE 540
+        "9644da05612ad219e7fc4387": 1, // KTE 135
+        "cd19a7a32ec3820a6ea48800": 1, // KTE 636
+        "1254eb68d298789e43b45ed3": 1, // KTE 044
+        "36be503998aadd53701c57e3": 1, // KTE 652
+        "f131c988930a86c7e5610c57": 1, // KTE 665
+        "45e6cfe53aabe0b5e846cad5": 1, // KTE 876
+        "9df4b9812799170d2f7295f7": 1, // KTE 166
+        "57d2c307a64e179e8995e061": 1, // KTE 229
+        "90c688feeba7c89aa1a3c8a7": 1, // KTE 863
+        "4a2e4aaef50cda01112c41b2": 1, // KTE 294
+        "73cc246044b1d66dd70aedb7": 1, // KTE 218
+        "06f0d5bdc44c4ddcd0759d31": 1, // KTE 664
+        "a8d639d499ac25709f630d2c": 1, // KTE 292
+        "922129d70c57a265f61ee8b1": 1, // KTE 663
+        "d180bb453e8bb2027c5fa540": 1, // KTE 199
+        "51574a824fe10af4518191af": 1, // KTE 430
+        "0056a97d873bba252113c74b": 1, // KTE 728
+        "ae711ed0c5878f74a4264e27": 1, // KTE 711
+        "d94f4a94edf1050b40c93cdb": 1, // KTE 642
+        "eee72a686853f282c7cd01da": 1, // KTE 501
+        "25dd7397974f7d7940ad9742": 1, // KTE 787
+        "68c80d9fb3ef768bbe58a072": 1, // KTE 572
+        "d88925f5ddd4cd8795d5c9bd": 1, // KTE 111
+        "a2c16b836b441dc953652bd6": 1, // KTE 887
+        "571e1ce5aa8a32c10b70d206": 1, // KTE 991
+        "3ddc22a4b7e5ba67ee38edf9": 1, // KTE 325
+        "b7e0639e756abd3bbb872c2c": 1, // KTE 094
+        "337052e7f499ba2f52dfa089": 1, // KTE 611
+        "397495f6cda093c895814c0f": 1, // KTE 435
+        "e57cfb4c1b58a40f9032db70": 1, // KTE 101
+        "2b20c487a99515b22b11ff78": 1 // ISB Anomalous Property Detector
+      }
+    },
+    "botLoot": {
+      "enabled": true,
+      "chancePerBot": 2,
+      "wildTypes": [
+        "ISBSpecialForces",
+        "ISBTeamLeader",
+        "ISBSecondLeader",
+        "ISBScout",
+        "ISBHeavy",
+        "ISBAssassin",
+        "ISBMarksman",
+        "blackDivLead",
+        "blackDivAssault",
+        "blackDivBreacher",
+        "blackDivSupport",
+        "blackDivIb"
+      ],
+      "containers": [
+        "Pockets",
+        "TacticalVest",
+        "Backpack"
+      ],
+      "weights": {
+        "b27508815b9307ccd1bffa36": 1, // KTE 952
+        "1800c994e11cfa35b423e8ed": 1, // KTE 070
+        "6183f2a51cb013b5ab62a796": 1, // KTE 076
+        "fac4f1a658ad562cddde72c6": 1, // KTE 722
+        "72eb2bb2416ee48ee80d63d4": 1, // KTE 598
+        "a38cbf3abbfdcbedaa1b9a0e": 1, // KTE 949
+        "b543125009b989d7287b58ab": 1, // KTE 540
+        "9644da05612ad219e7fc4387": 1, // KTE 135
+        "cd19a7a32ec3820a6ea48800": 1, // KTE 636
+        "1254eb68d298789e43b45ed3": 1, // KTE 044
+        "36be503998aadd53701c57e3": 1, // KTE 652
+        "f131c988930a86c7e5610c57": 1, // KTE 665
+        "45e6cfe53aabe0b5e846cad5": 1, // KTE 876
+        "9df4b9812799170d2f7295f7": 1, // KTE 166
+        "57d2c307a64e179e8995e061": 1, // KTE 229
+        "90c688feeba7c89aa1a3c8a7": 1, // KTE 863
+        "4a2e4aaef50cda01112c41b2": 1, // KTE 294
+        "73cc246044b1d66dd70aedb7": 1, // KTE 218
+        "06f0d5bdc44c4ddcd0759d31": 1, // KTE 664
+        "a8d639d499ac25709f630d2c": 1, // KTE 292
+        "922129d70c57a265f61ee8b1": 1, // KTE 663
+        "d180bb453e8bb2027c5fa540": 1, // KTE 199
+        "51574a824fe10af4518191af": 1, // KTE 430
+        "0056a97d873bba252113c74b": 1, // KTE 728
+        "ae711ed0c5878f74a4264e27": 1, // KTE 711
+        "d94f4a94edf1050b40c93cdb": 1, // KTE 642
+        "eee72a686853f282c7cd01da": 1, // KTE 501
+        "25dd7397974f7d7940ad9742": 1, // KTE 787
+        "68c80d9fb3ef768bbe58a072": 1, // KTE 572
+        "d88925f5ddd4cd8795d5c9bd": 1, // KTE 111
+        "a2c16b836b441dc953652bd6": 1, // KTE 887
+        "571e1ce5aa8a32c10b70d206": 1, // KTE 991
+        "3ddc22a4b7e5ba67ee38edf9": 1, // KTE 325
+        "b7e0639e756abd3bbb872c2c": 1, // KTE 094
+        "337052e7f499ba2f52dfa089": 1, // KTE 611
+        "397495f6cda093c895814c0f": 1, // KTE 435
+        "e57cfb4c1b58a40f9032db70": 1 // KTE 101
+      }
+    }
+  },
+  "containmentCaseSpawns": {
+    "enabled": true,
+    "groups": [
+      {
+        "id": "AnomalyContainmentBoxes",
+        "enabled": true,
+        "item": "c5c72a7a3bf1f02421a145bb", // Anomalous Containment Case
+        "count": 1,
+        "chance": 100,
+        "positions": [
+          {
+            "x": -154.55,
+            "y": 5.065,
+            "z": -397.437
+          },
+          {
+            "x": -156.199,
+            "y": 0.03,
+            "z": -375.78
+          },
+          {
+            "x": -151.395,
+            "y": 1.121,
+            "z": -357.814
+          },
+          {
+            "x": -133.438,
+            "y": 0.112,
+            "z": -356.374
+          },
+          {
+            "x": -128.708,
+            "y": 0.112,
+            "z": -358.268
+          },
+          {
+            "x": -131.612,
+            "y": 0.75,
+            "z": -357.459
+          },
+          {
+            "x": -138.702,
+            "y": 0.009,
+            "z": -361.694
+          },
+          {
+            "x": -130.186,
+            "y": 4.168,
+            "z": -336.188
+          },
+          {
+            "x": -134.146,
+            "y": 4.168,
+            "z": -336.293
+          },
+          {
+            "x": -123.114,
+            "y": 4.154,
+            "z": -355.124
+          },
+          {
+            "x": -124.24,
+            "y": 4.154,
+            "z": -368.739
+          },
+          {
+            "x": -108.258,
+            "y": 0.603,
+            "z": -443.028
+          },
+          {
+            "x": -131.601,
+            "y": 0.073,
+            "z": -396.64
+          }
+        ]
+      },
+      {
+        "id": "AnomalyAnalysers",
+        "enabled": true,
+        "item": "2b20c487a99515b22b11ff78", // ISB Anomalous Property Detector
+        "count": 1,
+        "chance": 25,
+        "positions": [
+          {
+            "x": -154.55,
+            "y": 5.065,
+            "z": -397.437
+          },
+          {
+            "x": -156.199,
+            "y": 0.03,
+            "z": -375.78
+          },
+          {
+            "x": -151.395,
+            "y": 1.121,
+            "z": -357.814
+          },
+          {
+            "x": -133.438,
+            "y": 0.112,
+            "z": -356.374
+          },
+          {
+            "x": -128.708,
+            "y": 0.112,
+            "z": -358.268
+          },
+          {
+            "x": -131.612,
+            "y": 0.75,
+            "z": -357.459
+          },
+          {
+            "x": -138.702,
+            "y": 0.009,
+            "z": -361.694
+          },
+          {
+            "x": -130.186,
+            "y": 4.168,
+            "z": -336.188
+          },
+          {
+            "x": -134.146,
+            "y": 4.168,
+            "z": -336.293
+          },
+          {
+            "x": -123.114,
+            "y": 4.154,
+            "z": -355.124
+          },
+          {
+            "x": -124.24,
+            "y": 4.154,
+            "z": -368.739
+          },
+          {
+            "x": -108.258,
+            "y": 0.603,
+            "z": -443.028
+          },
+          {
+            "x": -131.601,
+            "y": 0.073,
+            "z": -396.64
+          }
+        ]
+      }
+    ]
+  },
+  "performanceMode": false,
+  "ghostBusterOnly": false,
+  "whiteTuskOnly": false,
+  "noISBMode": false,
+  "noBlackDivMode": false
+}

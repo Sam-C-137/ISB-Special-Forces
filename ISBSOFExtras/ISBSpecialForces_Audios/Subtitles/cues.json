@@ -7,7 +7,7 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 1.80,
+          "start": 1.8,
           "end": 16.9,
           "key": "announcement.ISBStart.01",
           "fallback": "Mobile Task Force unit Epsilon-11, designated Nine-Tailed Fox, has entered the facility. All remaining survivors are advised to stay in the evacuation shelter or any other safe area until the unit has secured the facility."
@@ -22,7 +22,7 @@
       "cues": [
         {
           "start": 2.99,
-          "end": 14.90,
+          "end": 14.9,
           "key": "announcement.ISBExits.01",
           "fallback": "We'd like to advise all surviving personnel once again: Do not attempt to reach the exits. Either find a safe area or go into one of the many evacuation shelters inside the facility."
         }
@@ -35,14 +35,14 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 3.90,
+          "start": 3.9,
           "end": -1.0,
           "key": "announcement.ISBGateB.01",
           "fallback": "An announcement to all personnel: The lift to Gate B has been locked down to ensure the safety of the upper areas of the facility."
         },
         {
-          "start": 11.90,
-          "end": 17.60,
+          "start": 11.9,
+          "end": 17.6,
           "key": "announcement.ISBGateB.02",
           "fallback": "Please remember to stay inside the evacuation shelters until the facility has been secured."
         }
@@ -95,7 +95,7 @@
           "fallback": "Attention. This Announcement sy-"
         },
         {
-          "start": 3.90,
+          "start": 3.9,
           "end": 9.8,
           "key": "announcement.ISB-Hack.02",
           "fallback": "SYSTEMS NOW UNDER INSURGENCY COMMAND."
@@ -189,7 +189,7 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 0.00,
+          "start": 0.0,
           "end": -1.0,
           "key": "announcer_lights_out_01.01",
           "fallback": "<b>Announcement System:</b> The facility has been switched to emergency power. Please remain where you are and await evacuation."
@@ -203,7 +203,7 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 0.00,
+          "start": 0.0,
           "end": -1.0,
           "key": "announcer_lights_out_02.01",
           "fallback": "<b>Announcement System:</b> A power system failure has been detected. All personnel must remain at their current locations until further instructions."
@@ -217,7 +217,7 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 0.00,
+          "start": 0.0,
           "end": -1.0,
           "key": "announcer_lights_out_03.01",
           "fallback": "<b>Announcement System:</b> Emergency power has been activated. All personnel must suspend work immediately and await the arrival of the evacuation team."
@@ -231,10 +231,1542 @@
       "timingOffset": 0.0,
       "cues": [
         {
-          "start": 0.00,
+          "start": 0.0,
           "end": -1.0,
           "key": "announcer_lights_out_04.01",
           "fallback": "<b>Announcement System:</b> A critical facility failure has been detected, and you will all die! Are we actually using this one?"
+        }
+      ]
+    },
+    {
+      "clip": "ISB-Lockdown01",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.01,
+          "end": -1.0,
+          "key": "ISB-Lockdown01.01",
+          "fallback": "<b>Announcement System:</b> The site is experiencing multiple Keter and Euclid-level containment breaches."
+        },
+        {
+          "start": 4.5,
+          "end": 6.55,
+          "key": "ISB-Lockdown01.02",
+          "fallback": "<b>Announcement System:</b> Full-site lockdown initiated."
+        }
+      ]
+    },
+    {
+      "clip": "ISB-LabsChaos",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.55,
+          "end": -1.0,
+          "key": "ISB-LabsChaos.01",
+          "fallback": "<b>Announcement System:</b> I want all available helicopters and MTF units at Gate B now."
+        },
+        {
+          "start": 6.55,
+          "end": -1.0,
+          "key": "ISB-LabsChaos.02",
+          "fallback": "<b>Announcement System:</b> I repeat: All available helicopters and MTF units to Gate B now."
+        },
+        {
+          "start": 13.34,
+          "end": 23.05,
+          "key": "ISB-LabsChaos.03",
+          "fallback": "<b>Announcement System:</b> \"106\" has broken out of the facility at Gate A. Fire the H.I.D. turret immediately! Do not let it across the bridge!"
+        }
+      ]
+    },
+    {
+      "clip": "ISB-Evacuation",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.5,
+          "end": -1.0,
+          "key": "ISB-Evacuation.01",
+          "fallback": "<b>Announcement System:</b> To everyone still inside the facility: stay in the evacuation shelters."
+        },
+        {
+          "start": 5.81,
+          "end": -1.0,
+          "key": "ISB-Evacuation.02",
+          "fallback": "<b>Announcement System:</b> Do not try to make it to the exits no matter how close they are."
+        },
+        {
+          "start": 9.29,
+          "end": -1.0,
+          "key": "ISB-Evacuation.03",
+          "fallback": "<b>Announcement System:</b> The shelters are your best chance of making it through this."
+        }
+      ]
+    },
+    {
+      "clip": "Termination",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.56,
+          "end": -1.0,
+          "key": "Termination.01",
+          "fallback": "<b>Announcement System:</b> Subject D-9341."
+        },
+        {
+          "start": 4.67,
+          "end": -1.0,
+          "key": "Termination.02",
+          "fallback": "<b>Announcement System:</b> Designated for termination."
+        }
+      ]
+    },
+    {
+      "clip": "ISB-LabsEventCB",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.58,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB.01",
+          "fallback": "<b>Announcement System:</b> To everyone still hearing this: reality-bending events are common during containment breaches of this magnitude."
+        },
+        {
+          "start": 6.95,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB.02",
+          "fallback": "<b>Announcement System:</b> Do not trust your senses. Do not trust anyone or anything."
+        }
+      ]
+    },
+    {
+      "clip": "ISB-LabsEventCB2",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.63,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB2.01",
+          "fallback": "<b>Ann ouncement System:</b> To everyone still hearing this: reality-bending events are common during containment breaches of this magnitude."
+        },
+        {
+          "start": 8.2,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB2.02",
+          "fallback": "<b>Announcement System:</b> During containment breaches of this magnitude..."
+        },
+        {
+          "start": 12.07,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB2.03",
+          "fallback": "<b>Ann ouncement System:</b> dUrInG cOnTaInMeNt BrEaChEs Of ThIs MaGnItUdE..."
+        },
+        {
+          "start": 15.61,
+          "end": -1.0,
+          "key": "ISB-LabsEventCB2.04",
+          "fallback": "<b>Announcement System:</b> <b>DO NOT TRUST YOUR SENSES.</b>"
+        }
+      ]
+    },
+    {
+      "clip": "ISB-E7Entry",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.83,
+          "end": -1.0,
+          "key": "ISB-E7Entry.01",
+          "fallback": "<b>Ann ouncement System:</b> Mobile Task Force unit \"Nine Tailed Fox\" is being prepped for entry."
+        },
+        {
+          "start": 4.89,
+          "end": -1.0,
+          "key": "ISB-E7Entry.02",
+          "fallback": "<b>Announcement System:</b> Hang in there, this will be over soon."
+        }
+      ]
+    },
+    {
+      "clip": "ISB-D9341Obj",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "FACILITY INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.44,
+          "end": -1.0,
+          "key": "ISB-D9341Obj.01",
+          "fallback": "<b>Ann ouncement System:</b> Subject D-9341, report to the nearest Mobile Task Force unit for retrieval of several high-importance objects."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess05",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.99,
+          "end": 2.9,
+          "key": "announcement.DecontaminationProcess05.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.04,
+          "end": 9.8,
+          "key": "announcement.DecontaminationProcess05.02",
+          "fallback": "Light Containment Zone overall decontamination in T-minus 30 seconds."
+        },
+        {
+          "start": 9.94,
+          "end": 13.15,
+          "key": "announcement.DecontaminationProcess05.03",
+          "fallback": "All checkpoint doors have been permanently opened."
+        },
+        {
+          "start": 13.24,
+          "end": 15.25,
+          "key": "announcement.DecontaminationProcess05.04",
+          "fallback": "Please evacuate immediately."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess06",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.48,
+          "end": 2.47,
+          "key": "announcement.DecontaminationProcess06.01",
+          "fallback": "Twenty."
+        },
+        {
+          "start": 2.47,
+          "end": 3.43,
+          "key": "announcement.DecontaminationProcess06.02",
+          "fallback": "Nineteen."
+        },
+        {
+          "start": 3.43,
+          "end": 4.42,
+          "key": "announcement.DecontaminationProcess06.03",
+          "fallback": "Eighteen."
+        },
+        {
+          "start": 4.42,
+          "end": 5.43,
+          "key": "announcement.DecontaminationProcess06.04",
+          "fallback": "Seventeen."
+        },
+        {
+          "start": 5.43,
+          "end": 6.47,
+          "key": "announcement.DecontaminationProcess06.05",
+          "fallback": "Sixteen."
+        },
+        {
+          "start": 6.47,
+          "end": 7.52,
+          "key": "announcement.DecontaminationProcess06.06",
+          "fallback": "Fifteen."
+        },
+        {
+          "start": 7.52,
+          "end": 8.54,
+          "key": "announcement.DecontaminationProcess06.07",
+          "fallback": "Fourteen."
+        },
+        {
+          "start": 8.54,
+          "end": 9.53,
+          "key": "announcement.DecontaminationProcess06.08",
+          "fallback": "Thirteen."
+        },
+        {
+          "start": 9.53,
+          "end": 10.46,
+          "key": "announcement.DecontaminationProcess06.09",
+          "fallback": "Twelve."
+        },
+        {
+          "start": 10.46,
+          "end": 11.34,
+          "key": "announcement.DecontaminationProcess06.10",
+          "fallback": "Eleven."
+        },
+        {
+          "start": 11.34,
+          "end": 12.67,
+          "key": "announcement.DecontaminationProcess06.11",
+          "fallback": "Ten seconds."
+        },
+        {
+          "start": 12.67,
+          "end": 13.6,
+          "key": "announcement.DecontaminationProcess06.12",
+          "fallback": "Nine."
+        },
+        {
+          "start": 13.6,
+          "end": 14.43,
+          "key": "announcement.DecontaminationProcess06.13",
+          "fallback": "Eight."
+        },
+        {
+          "start": 14.43,
+          "end": 15.44,
+          "key": "announcement.DecontaminationProcess06.14",
+          "fallback": "Seven."
+        },
+        {
+          "start": 15.44,
+          "end": 16.43,
+          "key": "announcement.DecontaminationProcess06.15",
+          "fallback": "Six."
+        },
+        {
+          "start": 16.43,
+          "end": 17.43,
+          "key": "announcement.DecontaminationProcess06.16",
+          "fallback": "Five."
+        },
+        {
+          "start": 17.43,
+          "end": 18.37,
+          "key": "announcement.DecontaminationProcess06.17",
+          "fallback": "Four."
+        },
+        {
+          "start": 18.37,
+          "end": 19.37,
+          "key": "announcement.DecontaminationProcess06.18",
+          "fallback": "Three."
+        },
+        {
+          "start": 19.37,
+          "end": 20.39,
+          "key": "announcement.DecontaminationProcess06.19",
+          "fallback": "Two."
+        },
+        {
+          "start": 20.39,
+          "end": 21.2,
+          "key": "announcement.DecontaminationProcess06.20",
+          "fallback": "One."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess01",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.65,
+          "end": 4.57,
+          "key": "announcement.DecontaminationProcess01.01",
+          "fallback": "Attention, all personnel."
+        },
+        {
+          "start": 4.92,
+          "end": 11.5,
+          "key": "announcement.DecontaminationProcess01.02",
+          "fallback": "The Light Containment Zone decontamination process will occur in T-minus 15 minutes."
+        },
+        {
+          "start": 11.74,
+          "end": 16.5,
+          "key": "announcement.DecontaminationProcess01.03",
+          "fallback": "All biological substances must be removed in order to avoid destruction."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess02",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.06,
+          "end": 3.0,
+          "key": "announcement.DecontaminationProcess02.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.11,
+          "end": 9.6,
+          "key": "announcement.DecontaminationProcess02.02",
+          "fallback": "Light Containment Zone overall decontamination in T-minus 10 minutes."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess03",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.03,
+          "end": 2.98,
+          "key": "announcement.DecontaminationProcess03.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.08,
+          "end": 9.6,
+          "key": "announcement.DecontaminationProcess03.02",
+          "fallback": "Light Containment Zone overall decontamination in T-minus 5 minutes."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess04",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.03,
+          "end": 2.98,
+          "key": "announcement.DecontaminationProcess04.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.08,
+          "end": 9.65,
+          "key": "announcement.DecontaminationProcess04.02",
+          "fallback": "Light Containment Zone overall decontamination in T-minus one minute."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess07",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.85,
+          "end": 6.15,
+          "key": "announcement.DecontaminationProcess07.01",
+          "fallback": "Light Containment Zone is locked down and ready for decontamination."
+        },
+        {
+          "start": 6.55,
+          "end": 9.8,
+          "key": "announcement.DecontaminationProcess07.02",
+          "fallback": "The removal of organic substances has now begun."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess01_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.2,
+          "end": 4.3,
+          "key": "announcement.DecontaminationProcess01_RU.01",
+          "fallback": "Attention, all personnel."
+        },
+        {
+          "start": 4.5,
+          "end": 9.3,
+          "key": "announcement.DecontaminationProcess01_RU.02",
+          "fallback": "The Light Containment Zone decontamination process will begin in 15 minutes."
+        },
+        {
+          "start": 9.62,
+          "end": 14.2,
+          "key": "announcement.DecontaminationProcess01_RU.03",
+          "fallback": "All biological substances must be removed to avoid destruction."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess02_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.36,
+          "end": 2.64,
+          "key": "announcement.DecontaminationProcess02_RU.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.1,
+          "end": 8.8,
+          "key": "announcement.DecontaminationProcess02_RU.02",
+          "fallback": "Full decontamination of the Light Containment Zone will begin in 10 minutes."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess03_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.64,
+          "end": 3.0,
+          "key": "announcement.DecontaminationProcess03_RU.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.38,
+          "end": 9.25,
+          "key": "announcement.DecontaminationProcess03_RU.02",
+          "fallback": "Full decontamination of the Light Containment Zone will begin in 5 minutes."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess04_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.88,
+          "end": 3.2,
+          "key": "announcement.DecontaminationProcess04_RU.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.5,
+          "end": 9.6,
+          "key": "announcement.DecontaminationProcess04_RU.02",
+          "fallback": "Full decontamination of the Light Containment Zone will begin in one minute."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess05_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.88,
+          "end": 3.2,
+          "key": "announcement.DecontaminationProcess05_RU.01",
+          "fallback": "Danger."
+        },
+        {
+          "start": 3.2,
+          "end": 8.95,
+          "key": "announcement.DecontaminationProcess05_RU.02",
+          "fallback": "Full decontamination of the Light Containment Zone will begin in 30 seconds."
+        },
+        {
+          "start": 9.5,
+          "end": 12.5,
+          "key": "announcement.DecontaminationProcess05_RU.03",
+          "fallback": "All checkpoints are temporarily open."
+        },
+        {
+          "start": 12.58,
+          "end": 14.3,
+          "key": "announcement.DecontaminationProcess05_RU.04",
+          "fallback": "Evacuation is in effect."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess06_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.84,
+          "end": 1.98,
+          "key": "announcement.DecontaminationProcess06_RU.01",
+          "fallback": "20."
+        },
+        {
+          "start": 2.24,
+          "end": 3.12,
+          "key": "announcement.DecontaminationProcess06_RU.02",
+          "fallback": "19."
+        },
+        {
+          "start": 3.26,
+          "end": 4.08,
+          "key": "announcement.DecontaminationProcess06_RU.03",
+          "fallback": "18."
+        },
+        {
+          "start": 4.22,
+          "end": 4.98,
+          "key": "announcement.DecontaminationProcess06_RU.04",
+          "fallback": "17."
+        },
+        {
+          "start": 5.28,
+          "end": 5.92,
+          "key": "announcement.DecontaminationProcess06_RU.05",
+          "fallback": "16."
+        },
+        {
+          "start": 6.22,
+          "end": 7.02,
+          "key": "announcement.DecontaminationProcess06_RU.06",
+          "fallback": "15."
+        },
+        {
+          "start": 7.18,
+          "end": 7.98,
+          "key": "announcement.DecontaminationProcess06_RU.07",
+          "fallback": "14."
+        },
+        {
+          "start": 8.2,
+          "end": 9.1,
+          "key": "announcement.DecontaminationProcess06_RU.08",
+          "fallback": "13."
+        },
+        {
+          "start": 9.26,
+          "end": 10.04,
+          "key": "announcement.DecontaminationProcess06_RU.09",
+          "fallback": "12."
+        },
+        {
+          "start": 10.2,
+          "end": 11.14,
+          "key": "announcement.DecontaminationProcess06_RU.10",
+          "fallback": "11."
+        },
+        {
+          "start": 11.22,
+          "end": 12.32,
+          "key": "announcement.DecontaminationProcess06_RU.11",
+          "fallback": "10 seconds."
+        },
+        {
+          "start": 12.34,
+          "end": 12.92,
+          "key": "announcement.DecontaminationProcess06_RU.12",
+          "fallback": "9."
+        },
+        {
+          "start": 13.16,
+          "end": 14.0,
+          "key": "announcement.DecontaminationProcess06_RU.13",
+          "fallback": "8."
+        },
+        {
+          "start": 14.32,
+          "end": 15.08,
+          "key": "announcement.DecontaminationProcess06_RU.14",
+          "fallback": "7."
+        },
+        {
+          "start": 15.18,
+          "end": 15.94,
+          "key": "announcement.DecontaminationProcess06_RU.15",
+          "fallback": "6."
+        },
+        {
+          "start": 16.32,
+          "end": 16.86,
+          "key": "announcement.DecontaminationProcess06_RU.16",
+          "fallback": "5."
+        },
+        {
+          "start": 17.2,
+          "end": 18.02,
+          "key": "announcement.DecontaminationProcess06_RU.17",
+          "fallback": "4."
+        },
+        {
+          "start": 18.16,
+          "end": 18.96,
+          "key": "announcement.DecontaminationProcess06_RU.18",
+          "fallback": "3."
+        },
+        {
+          "start": 19.24,
+          "end": 19.82,
+          "key": "announcement.DecontaminationProcess06_RU.19",
+          "fallback": "2."
+        },
+        {
+          "start": 20.34,
+          "end": 20.98,
+          "key": "announcement.DecontaminationProcess06_RU.20",
+          "fallback": "1."
+        }
+      ]
+    },
+    {
+      "clip": "DecontaminationProcess07_RU",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.5,
+          "end": 4.58,
+          "key": "announcement.DecontaminationProcess07_RU.01",
+          "fallback": "The Light Containment Zone has been locked down and is ready for decontamination."
+        },
+        {
+          "start": 4.8,
+          "end": 7.8,
+          "key": "announcement.DecontaminationProcess07_RU.02",
+          "fallback": "Commencing removal of biological substances."
+        }
+      ]
+    },
+    {
+      "clip": "RUAFFallBack",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.54,
+          "end": 5.19,
+          "key": "announcement.RUAFFallBack.01",
+          "fallback": "We've been hit by a Mortar! Two dead! Fuck"
+        },
+        {
+          "start": 5.42,
+          "end": 8.08,
+          "key": "announcement.RUAFFallBack.02",
+          "fallback": "FALL BACK, BALL BACK! Behind the gate! Everyone get behind the gate!"
+        },
+        {
+          "start": 8.15,
+          "end": 11.85,
+          "key": "announcement.RUAFFallBack.03",
+          "fallback": "It's post 11, fall back behind the gate! It's post 11, fall back behind the gate! Do you copy?"
+        }
+      ]
+    },
+    {
+      "clip": "RUAFFallBack2",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.91,
+          "end": 5.92,
+          "key": "announcement.RUAFFallBack2.01",
+          "fallback": "(Scavs Screaming)"
+        },
+        {
+          "start": 7.91,
+          "end": 10.92,
+          "key": "announcement.RUAFFallBack2.02",
+          "fallback": "Fuck! They fucking exploded our wall!"
+        },
+        {
+          "start": 10.93,
+          "end": 14.47,
+          "key": "announcement.RUAFFallBack2.03",
+          "fallback": "What? Speak cleary, for fuck's sake! They're forcing throught!"
+        }
+      ]
+    },
+    {
+      "clip": "RUAFFallBack3",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.22,
+          "end": 3.5,
+          "key": "announcement.RUAFFallBack3.01",
+          "fallback": "The enemy is actively advancing towards the landing zone!"
+        }
+      ]
+    },
+    {
+      "clip": "BDInfiltr",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 1.43,
+          "end": 4.28,
+          "key": "announcement.BDInfiltr.01",
+          "fallback": "Hurry up, hurry up, hurry up! Fire in the hole!"
+        },
+        {
+          "start": 5.29,
+          "end": 6.86,
+          "key": "announcement.BDInfiltr.02",
+          "fallback": "Hurry up, hurry up! Move into Positions! I'm under mortar fire. Do you copy?"
+        },
+        {
+          "start": 6.87,
+          "end": 10.74,
+          "key": "announcement.BDInfiltr.03",
+          "fallback": "(Huge Explosion)"
+        }
+      ]
+    },
+    {
+      "clip": "BDInfiltr2",
+      "speakerKey": "speaker.intercom.labs",
+      "speakerFallback": "ANNOUNCEMENT SYSTEM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.76,
+          "end": 4.14,
+          "key": "announcement.BDInfiltr2.01",
+          "fallback": "Are you fucking blind? They destroyed our fucking wall!"
+        },
+        {
+          "start": 4.3,
+          "end": 6.94,
+          "key": "announcement.BDInfiltr2.02",
+          "fallback": "Where the fuck is everyone? Don't let them spread inside! I've got my PK cycling bad already!"
+        },
+        {
+          "start": 7.04,
+          "end": 8.45,
+          "key": "announcement.BDInfiltr2.03",
+          "fallback": "Go, go, go!"
+        },
+        {
+          "start": 9.86,
+          "end": 12.51,
+          "key": "announcement.BDInfiltr2.04",
+          "fallback": "Central, Central! We need support, we need su- I'm almost out of ammo!"
+        },
+        {
+          "start": 12.53,
+          "end": 15.51,
+          "key": "announcement.BDInfiltr2.05",
+          "fallback": "(Supressed Gunshots)"
+        }
+      ]
+    },
+    {
+      "clip": "DeadManSwitch",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 5.14,
+          "end": 9.5,
+          "key": "announcement.DeadManSwitch.01",
+          "fallback": "Site recovery failure. Dead man's switch activated."
+        },
+        {
+          "start": 10.12,
+          "end": 16.64,
+          "key": "announcement.DeadManSwitch.02",
+          "fallback": "The underground section of this facility will self-destruct in T-minus 90 seconds."
+        }
+      ]
+    },
+    {
+      "clip": "FiveGenerators",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.71,
+          "end": 6.48,
+          "key": "announcement.FiveGenerators.01",
+          "fallback": "Five out of five generators activated."
+        },
+        {
+          "start": 6.96,
+          "end": 13.32,
+          "key": "announcement.FiveGenerators.02",
+          "fallback": "All generators have been successfully engaged, finalizing the containment sequence."
+        },
+        {
+          "start": 13.76,
+          "end": 19.62,
+          "key": "announcement.FiveGenerators.03",
+          "fallback": "Every containment zone will overcharge in T-minus one minute."
+        }
+      ]
+    },
+    {
+      "clip": "OneGenerator",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 3.54,
+          "end": 7.28,
+          "key": "announcement.OneGenerator.01",
+          "fallback": "One out of five generators activated."
+        }
+      ]
+    },
+    {
+      "clip": "TwoGenerators",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.62,
+          "end": 6.08,
+          "key": "announcement.TwoGenerators.01",
+          "fallback": "Two out of five generators activated."
+        }
+      ]
+    },
+    {
+      "clip": "ThreeGenerators",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.68,
+          "end": 6.3,
+          "key": "announcement.ThreeGenerators.01",
+          "fallback": "Three out of five generators activated."
+        }
+      ]
+    },
+    {
+      "clip": "FourGenerators",
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 2.65,
+          "end": 6.22,
+          "key": "announcement.FourGenerators.01",
+          "fallback": "Four out of five generators activated."
+        }
+      ]
+    },
+    {
+      "clip": "RestartingSystems",
+      "cues": [
+        {
+          "start": 2.62,
+          "end": 4.68,
+          "key": "announcement.restarting_systems.01",
+          "fallback": "Restarting systems."
+        }
+      ],
+      "speakerKey": "speaker.intercom2",
+      "speakerFallback": "INTERCOM"
+    },
+    {
+      "clip": "DeadManSwitchV2",
+      "speakerKey": "speaker.intercom",
+      "speakerFallback": "C.A.S.S.I.E.:",
+      "timingOffset": 0,
+      "cues": [
+        {
+          "start": 4.58,
+          "end": 6.96,
+          "key": "announcement.DeadManSwitchV2.01",
+          "fallback": "Site recovery failure."
+        },
+        {
+          "start": 7.32,
+          "end": 9.48,
+          "key": "announcement.DeadManSwitchV2.02",
+          "fallback": "Dead man's switch activated."
+        },
+        {
+          "start": 10.12,
+          "end": 16.64,
+          "key": "announcement.DeadManSwitchV2.03",
+          "fallback": "The underground section of this facility will self-destruct in T-minus 90 seconds."
+        }
+      ]
+    },
+    {
+      "clip": "EventEnd",
+      "speakerKey": "speaker.radio",
+      "speakerFallback": "RADIO:",
+      "timingOffset": 0,
+      "cues": [
+        {
+          "start": 0,
+          "end": 3.84,
+          "key": "announcement.EventEnd.01",
+          "fallback": "This is CH-1 to OH-6. Have you located the target?"
+        },
+        {
+          "start": 6.0,
+          "end": 9.14,
+          "key": "announcement.EventEnd.02",
+          "fallback": "OH-6 to CH-1. No sign of the target."
+        },
+        {
+          "start": 9.52,
+          "end": 10.9,
+          "key": "announcement.EventEnd.03",
+          "fallback": "I think we should send it in to you."
+        },
+        {
+          "start": 15.0,
+          "end": 17.56,
+          "key": "announcement.EventEnd.04",
+          "fallback": "CH-1 to OH-6. Do you copy?"
+        }
+      ]
+    },
+    {
+      "clip": "ISBTarget",
+      "speakerKey": "speaker.isb.target",
+      "speakerFallback": "ISB Operator:",
+      "timingOffset": 0.0,
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 3.25,
+          "key": "announcement.ISBTarget.01",
+          "fallback": "All units, target spotted! Target spotted!"
+        },
+        {
+          "start": 5.26,
+          "end": 7.6,
+          "key": "announcement.ISBTarget.02",
+          "fallback": "Stick to the plan. Shoot on sight!"
+        },
+        {
+          "start": 7.86,
+          "end": 10.1,
+          "key": "announcement.ISBTarget.03",
+          "fallback": "I repeat, shoot on sight!"
+        }
+      ]
+    },
+    {
+      "clip": "SCPWarn",
+      "timingOffset": 0,
+      "cues": [
+        {
+          "start": 4.38,
+          "end": 10.78,
+          "key": "announcement.SCPWarn.01",
+          "fallback": "<b>SCP Foundation Announcement:</b> Warning. Warning. This is not a drill. Repeat. This is not a drill. This is an emergency"
+        },
+        {
+          "start": 10.78,
+          "end": 17.08,
+          "key": "announcement.SCPWarn.02",
+          "fallback": "<b>SCP Foundation Announcement:</b> broadcast. If you are receiving this broadcast, you may be in immediate danger. This is a"
+        },
+        {
+          "start": 17.08,
+          "end": 24.92,
+          "key": "announcement.SCPWarn.03",
+          "fallback": "<b>SCP Foundation Announcement:</b> warning message from the SCP Foundation. SCP 173, also known as the sculpture, has escaped"
+        },
+        {
+          "start": 24.92,
+          "end": 26.74,
+          "key": "announcement.SCPWarn.04",
+          "fallback": "<b>SCP Foundation Announcement:</b> its holding cell and is roaming free."
+        },
+        {
+          "start": 27.42,
+          "end": 28.88,
+          "key": "announcement.SCPWarn.05",
+          "fallback": "<b>SCP Foundation Announcement:</b> Last seen within the facility,"
+        },
+        {
+          "start": 29.42,
+          "end": 30.9,
+          "key": "announcement.SCPWarn.06",
+          "fallback": "<b>SCP Foundation Announcement:</b> there have been unconfirmed sightings"
+        },
+        {
+          "start": 30.9,
+          "end": 32.66,
+          "key": "announcement.SCPWarn.07",
+          "fallback": "<b>SCP Foundation Announcement:</b> of it outside in the local area."
+        },
+        {
+          "start": 33.88,
+          "end": 37.44,
+          "key": "announcement.SCPWarn.08",
+          "fallback": "<b>SCP Foundation Announcement:</b> SCP-173 can be described as a humanoid statue"
+        },
+        {
+          "start": 37.44,
+          "end": 40.66,
+          "key": "announcement.SCPWarn.09",
+          "fallback": "<b>SCP Foundation Announcement:</b> composed of rebar, concrete and Krylon spray paint,"
+        },
+        {
+          "start": 41.06,
+          "end": 45.5,
+          "key": "announcement.SCPWarn.10",
+          "fallback": "<b>SCP Foundation Announcement:</b> measuring 2.0 meters tall and weighing approximately 468 kilograms."
+        },
+        {
+          "start": 46.7,
+          "end": 49.5,
+          "key": "announcement.SCPWarn.12",
+          "fallback": "<b>SCP Foundation Announcement:</b> Resembles a nightmare has short arms and legs."
+        },
+        {
+          "start": 50.18,
+          "end": 52.38,
+          "key": "announcement.SCPWarn.13",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is believed that they kill for enjoyment only."
+        },
+        {
+          "start": 52.38,
+          "end": 55.56,
+          "key": "announcement.SCPWarn.14",
+          "fallback": "<b>SCP Foundation Announcement:</b> they do not seem to need to eat or consume in any way."
+        },
+        {
+          "start": 56.36,
+          "end": 58.48,
+          "key": "announcement.SCPWarn.15",
+          "fallback": "<b>SCP Foundation Announcement:</b> They do not eat to live but kill for pleasure."
+        },
+        {
+          "start": 59.06,
+          "end": 63.76,
+          "key": "announcement.SCPWarn.16",
+          "fallback": "<b>SCP Foundation Announcement:</b> Repeat, they do not eat to live but kill for pleasure. Exact origins are unknown."
+        },
+        {
+          "start": 64.32,
+          "end": 69.3,
+          "key": "announcement.SCPWarn.18",
+          "fallback": "<b>SCP Foundation Announcement:</b> Though it is theorized that SCP-173 came from another universe to our world,"
+        },
+        {
+          "start": 69.76,
+          "end": 72.0,
+          "key": "announcement.SCPWarn.19",
+          "fallback": "<b>SCP Foundation Announcement:</b> after its own was destroyed by another SCP."
+        },
+        {
+          "start": 72.94,
+          "end": 77.84,
+          "key": "announcement.SCPWarn.20",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is theorized that it was created by an artist of some kind, perhaps another anomaly."
+        },
+        {
+          "start": 78.68,
+          "end": 80.8,
+          "key": "announcement.SCPWarn.22",
+          "fallback": "<b>SCP Foundation Announcement:</b> Though at this point, this is all speculation,"
+        },
+        {
+          "start": 80.8,
+          "end": 85.72,
+          "key": "announcement.SCPWarn.23",
+          "fallback": "<b>SCP Foundation Announcement:</b> as the original files reporting on SCP-173 were lost."
+        },
+        {
+          "start": 86.54,
+          "end": 90.12,
+          "key": "announcement.SCPWarn.24",
+          "fallback": "<b>SCP Foundation Announcement:</b> This SCP is incredibly hostile, and will kill without hesitation."
+        },
+        {
+          "start": 91.2,
+          "end": 95.92,
+          "key": "announcement.SCPWarn.25",
+          "fallback": "<b>SCP Foundation Announcement:</b> If you see SCP-173, you must maintain direct eye contact."
+        },
+        {
+          "start": 96.78,
+          "end": 98.18,
+          "key": "announcement.SCPWarn.26",
+          "fallback": "<b>SCP Foundation Announcement:</b> This is its only weakness."
+        },
+        {
+          "start": 98.86,
+          "end": 101.48,
+          "key": "announcement.SCPWarn.27",
+          "fallback": "<b>SCP Foundation Announcement:</b> It cannot move if it is within a person's line of sight."
+        },
+        {
+          "start": 102.34,
+          "end": 108.08,
+          "key": "announcement.SCPWarn.28",
+          "fallback": "<b>SCP Foundation Announcement:</b> However, SCP-173 is able to kill its victims if the person so much as blinks."
+        },
+        {
+          "start": 108.08,
+          "end": 111.9,
+          "key": "announcement.SCPWarn.29",
+          "fallback": "<b>SCP Foundation Announcement:</b> No matter how difficult it might be, you must never blink."
+        },
+        {
+          "start": 112.52,
+          "end": 118.52,
+          "key": "announcement.SCPWarn.30",
+          "fallback": "<b>SCP Foundation Announcement:</b> You must never blink while in the presence of SCP-173 as it can kill you within a single second."
+        },
+        {
+          "start": 119.1,
+          "end": 125.94,
+          "key": "announcement.SCPWarn.32",
+          "fallback": "<b>SCP Foundation Announcement:</b> Repeat, you must never blink while in the presence of SCP-173 as it can kill you within a single second."
+        },
+        {
+          "start": 126.74,
+          "end": 132.54,
+          "key": "announcement.SCPWarn.34",
+          "fallback": "<b>SCP Foundation Announcement:</b> If you notice SCP-173 in your presence, you are in immediate and life-threatening danger."
+        },
+        {
+          "start": 132.54,
+          "end": 136.92,
+          "key": "announcement.SCPWarn.35",
+          "fallback": "<b>SCP Foundation Announcement:</b> To protect yourself in this scenario, we advise you to back away slowly."
+        },
+        {
+          "start": 137.86,
+          "end": 142.1,
+          "key": "announcement.SCPWarn.36",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is theorized that while SCP-173 can move at great speeds,"
+        },
+        {
+          "start": 142.76,
+          "end": 148.04,
+          "key": "announcement.SCPWarn.37",
+          "fallback": "<b>SCP Foundation Announcement:</b> it can only move certain distances, so try to get as much distance as you can between yourself and it."
+        },
+        {
+          "start": 148.68,
+          "end": 153.32,
+          "key": "announcement.SCPWarn.38",
+          "fallback": "<b>SCP Foundation Announcement:</b> The best way to escape this SCP is to back away, maintain eye contact,"
+        },
+        {
+          "start": 153.86,
+          "end": 158.64,
+          "key": "announcement.SCPWarn.39",
+          "fallback": "<b>SCP Foundation Announcement:</b> do not blink, and gain as much distance as you can before backing around a corner or an object."
+        },
+        {
+          "start": 159.24,
+          "end": 163.04,
+          "key": "announcement.SCPWarn.40",
+          "fallback": "<b>SCP Foundation Announcement:</b> Do not blink, maintain eye contact as you hide behind cover."
+        },
+        {
+          "start": 163.84,
+          "end": 166.74,
+          "key": "announcement.SCPWarn.41",
+          "fallback": "<b>SCP Foundation Announcement:</b> Once you are free from its line of sight, you can escape."
+        },
+        {
+          "start": 167.56,
+          "end": 168.82,
+          "key": "announcement.SCPWarn.42",
+          "fallback": "<b>SCP Foundation Announcement:</b> Run and call for help."
+        },
+        {
+          "start": 169.3,
+          "end": 172.24,
+          "key": "announcement.SCPWarn.43",
+          "fallback": "<b>SCP Foundation Announcement:</b> Alert the relevant authorities and evacuate the area."
+        },
+        {
+          "start": 172.8,
+          "end": 175.68,
+          "key": "announcement.SCPWarn.44",
+          "fallback": "<b>SCP Foundation Announcement:</b> Inform everyone you can of the situation and flee with them."
+        },
+        {
+          "start": 176.2,
+          "end": 178.5,
+          "key": "announcement.SCPWarn.45",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is advised to stay in groups wherever possible."
+        },
+        {
+          "start": 179.08,
+          "end": 180.68,
+          "key": "announcement.SCPWarn.46",
+          "fallback": "<b>SCP Foundation Announcement:</b> The larger the better, that way."
+        },
+        {
+          "start": 181.1,
+          "end": 185.46,
+          "key": "announcement.SCPWarn.47",
+          "fallback": "<b>SCP Foundation Announcement:</b> If SCP-173 does appear again, it is safer and easier"
+        },
+        {
+          "start": 185.46,
+          "end": 188.46,
+          "key": "announcement.SCPWarn.48",
+          "fallback": "<b>SCP Foundation Announcement:</b> to maintain eye contact for prolonged periods of time."
+        },
+        {
+          "start": 189.32,
+          "end": 195.88,
+          "key": "announcement.SCPWarn.49",
+          "fallback": "<b>SCP Foundation Announcement:</b> In this scenario, SCP-173 can be contained to a specific area and captured more easily by the Foundation."
+        },
+        {
+          "start": 197.2,
+          "end": 200.94,
+          "key": "announcement.SCPWarn.51",
+          "fallback": "<b>SCP Foundation Announcement:</b> SCP-173 has been reported to only attack humans."
+        },
+        {
+          "start": 201.76,
+          "end": 207.14,
+          "key": "announcement.SCPWarn.52",
+          "fallback": "<b>SCP Foundation Announcement:</b> Studies have been conducted with chimps and other primates, but no animal casualties have been reported."
+        },
+        {
+          "start": 207.98,
+          "end": 210.9,
+          "key": "announcement.SCPWarn.54",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is unpredictable and considered to be somewhat intelligent."
+        },
+        {
+          "start": 210.9,
+          "end": 218.14,
+          "key": "announcement.SCPWarn.55",
+          "fallback": "<b>SCP Foundation Announcement:</b> It seems unable to communicate outside a few words of broken English, though seems to resent and even hate its captors."
+        },
+        {
+          "start": 218.94,
+          "end": 224.04,
+          "key": "announcement.SCPWarn.56",
+          "fallback": "<b>SCP Foundation Announcement:</b> It is never seen moving its body, but seems to teleport to different locations in order to kill."
+        },
+        {
+          "start": 225.06,
+          "end": 228.9,
+          "key": "announcement.SCPWarn.57",
+          "fallback": "<b>SCP Foundation Announcement:</b> Extremely hostile, it can snap a human neck so hard it's like being decapitated,"
+        },
+        {
+          "start": 230.1,
+          "end": 232.92,
+          "key": "announcement.SCPWarn.58",
+          "fallback": "<b>SCP Foundation Announcement:</b> with the end result being the head facing the opposite direction."
+        },
+        {
+          "start": 234.0,
+          "end": 239.06,
+          "key": "announcement.SCPWarn.59",
+          "fallback": "<b>SCP Foundation Announcement:</b> It kills by snapping the neck of victim at the base of the skull, or occasionally by strangulation."
+        },
+        {
+          "start": 239.06,
+          "end": 250.22,
+          "key": "announcement.SCPWarn.60",
+          "fallback": "<b>SCP Foundation Announcement:</b> Behavior cannot be accurately predicted either because SCP-173 behaves outside of current scientific knowledge, and its nature is simply too poorly understood at present."
+        },
+        {
+          "start": 251.54,
+          "end": 254.58,
+          "key": "announcement.SCPWarn.61",
+          "fallback": "<b>SCP Foundation Announcement:</b> SCP-173 is on the loose and must be contained."
+        },
+        {
+          "start": 255.8,
+          "end": 257.54,
+          "key": "announcement.SCPWarn.62",
+          "fallback": "<b>SCP Foundation Announcement:</b> Remember the advice given in this broadcast."
+        },
+        {
+          "start": 258.44,
+          "end": 262.7,
+          "key": "announcement.SCPWarn.63",
+          "fallback": "<b>SCP Foundation Announcement:</b> This broadcast will now repeat one more time before ending. Thank you for listening."
+        },
+        {
+          "start": 263.24,
+          "end": 264.54,
+          "key": "announcement.SCPWarn.65",
+          "fallback": "<b>SCP Foundation Announcement:</b> Stay tuned for further updates."
+        }
+      ]
+    },
+    {
+      "clip": "SCPTerminatePlayer",
+      "timingOffset": 0,
+      "cues": [
+        {
+          "start": 2.76,
+          "end": 9.18,
+          "key": "announcement.SCPTerminatePlayer.01",
+          "fallback": "<b>C.A.S.S.I.E:</b> SCP-173 terminated by automatic security system."
+        }
+      ]
+    },
+    {
+      "clip": "SCPContainedBots",
+      "timingOffset": 0,
+      "cues": [
+        {
+          "start": 0.0,
+          "end": 5.42,
+          "key": "announcement.SCPContainedBots.01",
+          "fallback": "<b>ISB Controller:</b> SCP-173 contained successfully by Foxtrot Unit 1."
+        }
+      ]
+    },
+    {
+      "clip": "ISBStart_RU",
+      "cues": [
+        {
+          "start": 0.2,
+          "end": 5.45,
+          "key": "announcement.ISBStart_RU.01",
+          "fallback": "<b>ISB Controller:</b> Mobile Task Force Epsilon-11, designated \"Nine-Tailed Fox\", has entered the facility."
+        },
+        {
+          "start": 5.45,
+          "end": 16.55,
+          "key": "announcement.ISBStart_RU.02",
+          "fallback": "<b>ISB Controller:</b> All remaining survivors are advised to stay in the evacuation shelter or other safe areas until the unit has secured the facility."
+        },
+        {
+          "start": 16.55,
+          "end": 22.6,
+          "key": "announcement.ISBStart_RU.03",
+          "fallback": "<b>ISB Controller:</b> Evacuation will begin once the escaped SCP objects have been recontained."
+        }
+      ]
+    },
+    {
+      "clip": "CameraStart_RU",
+      "cues": [
+        {
+          "start": 0.15,
+          "end": 5.3,
+          "key": "announcement.CameraStart_RU.01",
+          "fallback": "<b>ISB Controller:</b> Control to Nine-Tailed Fox. We are checking the surveillance cameras for potential threats."
+        },
+        {
+          "start": 5.9,
+          "end": 12.8,
+          "key": "announcement.CameraStart_RU.02",
+          "fallback": "<b>ISB Controller:</b> Unauthorized persons or escapees should appear on your navigation terminals."
+        }
+      ]
+    },
+    {
+      "clip": "CameraEnemies_RU",
+      "cues": [
+        {
+          "start": 0.5,
+          "end": 8.0,
+          "key": "announcement.CameraEnemies_RU.01",
+          "fallback": "<b>ISB Controller:</b> Control to Nine-Tailed Fox. Camera scan complete. Locate the stragglers."
+        },
+        {
+          "start": 8.0,
+          "end": 11.0,
+          "key": "announcement.CameraEnemies_RU.02",
+          "fallback": "<b>ISB Controller:</b> Coordinates are being sent to your terminals."
+        }
+      ]
+    },
+    {
+      "clip": "ISB-D9341GateA_RU",
+      "cues": [
+        {
+          "start": 1.3,
+          "end": 8.8,
+          "key": "announcement.ISB-D9341GateA_RU.01",
+          "fallback": "<b>ISB Controller:</b> Subject 9341, do not make us look for you. Report to Gate A immediately."
+        },
+        {
+          "start": 8.8,
+          "end": 12.6,
+          "key": "announcement.ISB-D9341GateA_RU.02",
+          "fallback": "<b>ISB Controller:</b> The consequences of disobedience will be on your conscience."
+        }
+      ]
+    },
+    {
+      "clip": "Alpha1ArrivalRussian",
+      "cues": [
+        {
+          "start": 0.05,
+          "end": 2.15,
+          "key": "announcement.Alpha1ArrivalRussian.001",
+          "fallback": "<b>Council Member:</b> Alpha-1, this is the O-5 Council."
+        },
+        {
+          "start": 2.15,
+          "end": 4.35,
+          "key": "announcement.Alpha1ArrivalRussian.002",
+          "fallback": "<b>Council Member:</b> Our position is under danger. We are ready for immediate evacuation."
+        },
+        {
+          "start": 4.35,
+          "end": 10.9,
+          "key": "announcement.Alpha1ArrivalRussian.003",
+          "fallback": "<b>Council Member:</b> I repeat, ready for evacuation. Immediate extraction is required."
+        },
+        {
+          "start": 11.5,
+          "end": 14.55,
+          "key": "announcement.Alpha1ArrivalRussian.004",
+          "fallback": "<b>ISB HQ:</b> Evacuation confirmed. Alpha-1 is moving out."
+        },
+        {
+          "start": 14.55,
+          "end": 19.35,
+          "key": "announcement.Alpha1ArrivalRussian.005",
+          "fallback": "<b>ISB HQ:</b> End of the transmission. See you in the evacuation zone."
+        },
+        {
+          "start": 20.0,
+          "end": 25.15,
+          "key": "announcement.Alpha1ArrivalRussian.006",
+          "fallback": "<b>ISB HQ:</b> Attention, personnel. Mobile Task Force Alpha-1, designated \"Red Right Hand\","
+        },
+        {
+          "start": 25.15,
+          "end": 31.15,
+          "key": "announcement.Alpha1ArrivalRussian.007",
+          "fallback": "has landed at the helipad \"A\" to evacuate the O5 Council."
         }
       ]
     }

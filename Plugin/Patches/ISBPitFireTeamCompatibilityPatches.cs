@@ -9,37 +9,16 @@ namespace ISBSpecialForces.Patches
     internal static class ISBPitFireTeamDynamicPatcher
     {
         private static bool _enabled;
-
         public static void Enable(Assembly pitFireAssembly)
         {
             if (_enabled || pitFireAssembly == null)
                 return;
-
             _enabled = true;
             var harmony = new Harmony("com.samc137.isb.pitfireteamcompatibility");
-
-            PatchMatchingMethods(
-                harmony,
-                pitFireAssembly.GetType("pitTeam.Utils.Enemy", false),
-                "MakeEnemy",
-                nameof(BlockOwnerTargetPrefix));
-
-            PatchMatchingMethods(
-                harmony,
-                pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false),
-                "RegisterContactEnemyForFollower",
-                nameof(BlockOwnerTargetPrefix));
-
-            PatchMatchingMethods(
-                harmony,
-                pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false),
-                "PrioritizeEnemy",
-                nameof(BlockOwnerBotPrefix));
-
-            var sainEnemyController =
-                AccessTools.TypeByName("SAIN.SAINComponent.Classes.EnemyClasses.SAINEnemyController") ??
-                AccessTools.TypeByName("SAIN.Components.Enemy.SAINEnemyController");
-
+            PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Utils.Enemy", false), "MakeEnemy", nameof(BlockOwnerTargetPrefix));
+            PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false), "RegisterContactEnemyForFollower", nameof(BlockOwnerTargetPrefix));
+            PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false), "PrioritizeEnemy", nameof(BlockOwnerBotPrefix));
+            var sainEnemyController = AccessTools.TypeByName("SAIN.SAINComponent.Classes.EnemyClasses.SAINEnemyController") ?? AccessTools.TypeByName("SAIN.Components.Enemy.SAINEnemyController");
             PatchMatchingMethods(harmony, sainEnemyController, "CheckAddEnemy", nameof(BlockSainAcquirePrefix));
         }
 
@@ -47,19 +26,13 @@ namespace ISBSpecialForces.Patches
         {
             if (type == null)
                 return;
-
-            var prefix = typeof(ISBPitFireTeamDynamicPatcher).GetMethod(
-                prefixName,
-                BindingFlags.NonPublic | BindingFlags.Static);
-
+            var prefix = typeof(ISBPitFireTeamDynamicPatcher).GetMethod(prefixName, BindingFlags.NonPublic | BindingFlags.Static);
             if (prefix == null)
                 return;
-
             foreach (var method in type.GetMethods(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static))
             {
                 if (!string.Equals(method.Name, methodName, StringComparison.Ordinal))
                     continue;
-
                 try
                 {
                     harmony.Patch(method, prefix: new HarmonyMethod(prefix) { priority = Priority.First });
@@ -74,7 +47,6 @@ namespace ISBSpecialForces.Patches
         {
             BotOwner owner = null;
             IPlayer target = null;
-
             if (__args != null)
             {
                 foreach (var argument in __args)
@@ -97,14 +69,12 @@ namespace ISBSpecialForces.Patches
         {
             BotOwner owner = null;
             BotOwner targetBot = null;
-
             if (__args != null)
             {
                 foreach (var argument in __args)
                 {
                     if (!(argument is BotOwner botOwner))
                         continue;
-
                     if (owner == null)
                         owner = botOwner;
                     else if (targetBot == null)
@@ -119,7 +89,6 @@ namespace ISBSpecialForces.Patches
         {
             if (__instance == null)
                 return true;
-
             IPlayer target = null;
             if (__args != null)
             {
@@ -133,10 +102,7 @@ namespace ISBSpecialForces.Patches
                 }
             }
 
-            var owner =
-                AccessTools.Property(__instance.GetType(), "BotOwner")?.GetValue(__instance) as BotOwner ??
-                AccessTools.Field(__instance.GetType(), "BotOwner")?.GetValue(__instance) as BotOwner;
-
+            var owner = AccessTools.Property(__instance.GetType(), "BotOwner")?.GetValue(__instance) as BotOwner ?? AccessTools.Field(__instance.GetType(), "BotOwner")?.GetValue(__instance) as BotOwner;
             return !ISBPitFireTeamCompatibility.ShouldBlockOwnerEnemy(owner, target);
         }
     }

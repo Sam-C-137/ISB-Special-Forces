@@ -5,8 +5,11 @@ namespace ISBInfo.Networking
     public interface IISBNotifyNetworkBridge : IDisposable
     {
         bool Active { get; }
+
         bool Ready { get; }
+
         bool IsServer { get; }
+
         bool IsHeadless { get; }
 
         bool Broadcast(string payload);

@@ -12,20 +12,12 @@ namespace ISBSpecialForces.Components
         private const string BlackDivGuid = "com.blackdiv.tacticaltoaster";
         private const string ClashTriggerId = "isb_secret_bd_clash_hunt";
         private const string CounterattackTriggerId = "isb_secret_bd_counterattack";
-
         private const float CounterattackDelaySeconds = 40f;
         private const float CounterattackGiveUpSeconds = 180f;
         private const float CombatProximityFallback = 95f;
-
-        private readonly Dictionary<string, BotOwner> blackDivisionBots =
-            new Dictionary<string, BotOwner>(StringComparer.Ordinal);
-
-        private readonly Dictionary<string, BotOwner> isbBots =
-            new Dictionary<string, BotOwner>(StringComparer.Ordinal);
-
-        private readonly HashSet<string> originalBlackDivisionIds =
-            new HashSet<string>(StringComparer.Ordinal);
-
+        private readonly Dictionary<string, BotOwner> blackDivisionBots = new Dictionary<string, BotOwner>(StringComparer.Ordinal);
+        private readonly Dictionary<string, BotOwner> isbBots = new Dictionary<string, BotOwner>(StringComparer.Ordinal);
+        private readonly HashSet<string> originalBlackDivisionIds = new HashSet<string>(StringComparer.Ordinal);
         private bool modPresent;
         private bool clashFired;
         private bool counterattackFired;
@@ -33,7 +25,9 @@ namespace ISBSpecialForces.Components
         private float nextCheck;
         private float counterattackAvailableAt;
         private float counterattackGiveUpAt;
-
+        private float nextRegistryBackfill;
+        private float nextPruneTime;
+        private readonly List<string> staleBotIds = new List<string>();
         public void ResetRaid()
         {
             clashFired = false;
@@ -45,25 +39,23 @@ namespace ISBSpecialForces.Components
             blackDivisionBots.Clear();
             isbBots.Clear();
             originalBlackDivisionIds.Clear();
+            staleBotIds.Clear();
+            nextRegistryBackfill = 0f;
+            nextPruneTime = 0f;
             ISBBlackDivCounterattackTeleport.Reset();
         }
 
         public void RegisterBot(BotOwner bot)
         {
-            if (bot?.Profile?.Info?.Settings == null)
+            if (!ISBFikaAuthority.IsAiAuthority || bot?.Profile?.Info?.Settings == null)
                 return;
-
             var botId = ISBBlackDivisionUtility.GetBotId(bot);
-
             if (string.IsNullOrEmpty(botId))
                 return;
-
             var role = bot.Profile.Info.Settings.Role;
-
             if (ISBBlackDivisionUtility.IsBlackDivisionRole(role))
             {
                 blackDivisionBots[botId] = bot;
-
                 ISBBlackDivCounterattackTeleport.TryQueue(bot);
                 return;
             }
@@ -75,23 +67,30 @@ namespace ISBSpecialForces.Components
         private void Start()
         {
             modPresent = Chainloader.PluginInfos.ContainsKey(BlackDivGuid);
-
             if (!modPresent)
-                Plugin.LogSource.LogInfo("[ISB SECRET] Black Division not installed. Disabling Module.");
+            {
+                enabled = false;
+            }
         }
 
         private void Update()
         {
-            if (!modPresent || Time.time < nextCheck)
+            if (!ISBFikaAuthority.IsAiAuthority || !modPresent || Time.time < nextCheck)
                 return;
-
             nextCheck = Time.time + 1f;
-
             if (!clashFired && !ISBSecretsManager.IsEnabledForRaid(ClashTriggerId))
                 return;
+            if (Time.time >= nextRegistryBackfill)
+            {
+                nextRegistryBackfill = Time.time + 10f;
+                RefreshBotRegistriesFromWorld();
+            }
 
-            RefreshBotRegistriesFromWorld();
-            PruneDeadBots();
+            if (Time.time >= nextPruneTime)
+            {
+                nextPruneTime = Time.time + 2f;
+                PruneDeadBots();
+            }
 
             if (!clashFired)
             {
@@ -105,47 +104,20 @@ namespace ISBSpecialForces.Components
 
         private void TryStartClash()
         {
-            var gameWorld = Singleton<GameWorld>.Instance;
-
-            if (gameWorld == null || gameWorld.AllAlivePlayersList == null)
-                return;
-
-            foreach (var player in gameWorld.AllAlivePlayersList)
+            foreach (var bot in blackDivisionBots.Values)
             {
-                if (player == null || !player.IsAI)
+                if (!ISBBlackDivisionUtility.IsAlive(bot) || bot.Profile?.Info?.Settings == null)
                     continue;
-
-                if (player.HealthController == null || !player.HealthController.IsAlive)
-                    continue;
-
-                if (player.Profile?.Info?.Settings == null)
-                    continue;
-
-                if (!ISBBlackDivisionUtility.IsBlackDivisionRole(player.Profile.Info.Settings.Role))
-                    continue;
-
                 SnapshotOriginalBlackDivisionBots();
+                if (!string.IsNullOrEmpty(bot.Profile.Id))
+                    originalBlackDivisionIds.Add(bot.Profile.Id);
+                Vector3 clashPoint = bot.Position;
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                {
+                    Plugin.LogSource.LogInfo($"[ISB SECRET] Black Division detected at {clashPoint}. Dispatching 1 ISB Commander and 6 Second Leaders to engage.");
+                }
 
-                if (player.Profile.Id != null)
-                    originalBlackDivisionIds.Add(player.Profile.Id);
-
-                var clashPoint = player.Position;
-
-                Plugin.LogSource.LogInfo(
-                    $"[ISB SECRET] Black Division detected at {clashPoint}. Dispatching 1 ISB Commander and 6 Second Leaders to engage.");
-
-                if (!ISBSecretTeleport.Arm(
-                        clashPoint,
-                        expectedBots: 7,
-                        minimumGather: 1.25f,
-                        maximumGather: 10f,
-                        hardWindowSeconds: 75f,
-                        expectedRoles: new Dictionary<WildSpawnType, int>
-                        {
-                            [(WildSpawnType)13707] = 1,
-                            [(WildSpawnType)13710] = 6,
-                        },
-                        requireFullAssembly: true))
+                if (!ISBSecretTeleport.Arm(clashPoint, expectedBots: 7, minimumGather: 1.25f, maximumGather: 10f, hardWindowSeconds: 75f, expectedRoles: new Dictionary<WildSpawnType, int> { [(WildSpawnType)13707] = 1, [(WildSpawnType)13710] = 6, }, requireFullAssembly: true))
                 {
                     return;
                 }
@@ -159,9 +131,11 @@ namespace ISBSpecialForces.Components
                 clashFired = true;
                 counterattackAvailableAt = Time.time + CounterattackDelaySeconds;
                 counterattackGiveUpAt = Time.time + CounterattackGiveUpSeconds;
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                {
+                    Plugin.LogSource.LogInfo($"[ISB SECRET] Black Division Counterattack will become eligible in {CounterattackDelaySeconds:F0}s if an original Black Division fighter remains engaged with the ISB.");
+                }
 
-                Plugin.LogSource.LogInfo(
-                    $"[ISB SECRET] Black Division Counterattack will become eligible in {CounterattackDelaySeconds:F0}s if an original Black Division fighter remains engaged with the ISB.");
                 return;
             }
         }
@@ -170,36 +144,33 @@ namespace ISBSpecialForces.Components
         {
             if (Time.time < counterattackAvailableAt)
                 return;
-
             if (Time.time > counterattackGiveUpAt)
             {
                 counterattackCancelled = true;
-                Plugin.LogSource.LogInfo(
-                    "[ISB SECRET] Black Division Counterattack expired because no original Black Division fighter remained engaged with the ISB.");
-                return;
-            }
-
-            var anchor = SelectCounterattackAnchor();
-
-            if (anchor == null)
-            {
-                if (!HasAnyOriginalBlackDivisionAlive())
+                if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
                 {
-                    counterattackCancelled = true;
-                    Plugin.LogSource.LogInfo(
-                        "[ISB SECRET] Black Division Counterattack cancelled because every original Black Division bot is dead.");
+                    Plugin.LogSource.LogInfo("[ISB SECRET] Black Division Counterattack expired because no original Black Division fighter remained engaged with the ISB.");
                 }
 
                 return;
             }
 
-            if (!ISBBlackDivCounterattackTeleport.Arm(
-                    originalBlackDivisionIds,
-                    SelectCounterattackAnchor,
-                    expectedBots: 6,
-                    minimumGather: 1.25f,
-                    maximumGather: 8f,
-                    hardWindowSeconds: 45f))
+            var anchor = SelectCounterattackAnchor();
+            if (anchor == null)
+            {
+                if (!HasAnyOriginalBlackDivisionAlive())
+                {
+                    counterattackCancelled = true;
+                    if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+                    {
+                        Plugin.LogSource.LogInfo("[ISB SECRET] Black Division Counterattack cancelled because every original Black Division bot is dead.");
+                    }
+                }
+
+                return;
+            }
+
+            if (!ISBBlackDivCounterattackTeleport.Arm(originalBlackDivisionIds, SelectCounterattackAnchor, expectedBots: 6, minimumGather: 1.25f, maximumGather: 8f, hardWindowSeconds: 45f))
             {
                 return;
             }
@@ -211,16 +182,15 @@ namespace ISBSpecialForces.Components
             }
 
             counterattackFired = true;
-
-            Plugin.LogSource.LogInfo(
-                $"[ISB SECRET] Black Division Counterattack requested around original fighter '{anchor.Profile?.Nickname}'. " +
-                "Only newly spawned blackDivAssault bots may enter the reinforcement teleport.");
+            if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+            {
+                Plugin.LogSource.LogInfo($"[ISB SECRET] Black Division Counterattack requested around original fighter '{anchor.Profile?.Nickname}'. " + "Only newly spawned blackDivAssault bots may enter the reinforcement teleport.");
+            }
         }
 
         private void SnapshotOriginalBlackDivisionBots()
         {
             originalBlackDivisionIds.Clear();
-
             foreach (var pair in blackDivisionBots)
             {
                 if (ISBBlackDivisionUtility.IsAlive(pair.Value))
@@ -228,18 +198,11 @@ namespace ISBSpecialForces.Components
             }
 
             var gameWorld = Singleton<GameWorld>.Instance;
-
             if (gameWorld?.AllAlivePlayersList == null)
                 return;
-
             foreach (var player in gameWorld.AllAlivePlayersList)
             {
-                if (player?.Profile?.Info?.Settings == null
-                    || player.HealthController == null
-                    || !player.HealthController.IsAlive
-                    || !player.IsAI
-                    || !ISBBlackDivisionUtility.IsBlackDivisionRole(player.Profile.Info.Settings.Role)
-                    || string.IsNullOrEmpty(player.Profile.Id))
+                if (player?.Profile?.Info?.Settings == null || player.HealthController == null || !player.HealthController.IsAlive || !player.IsAI || !ISBBlackDivisionUtility.IsBlackDivisionRole(player.Profile.Info.Settings.Role) || string.IsNullOrEmpty(player.Profile.Id))
                 {
                     continue;
                 }
@@ -247,8 +210,10 @@ namespace ISBSpecialForces.Components
                 originalBlackDivisionIds.Add(player.Profile.Id);
             }
 
-            Plugin.LogSource.LogInfo(
-                $"[ISB SECRET] Captured {originalBlackDivisionIds.Count} pre-counterattack Black Division bot ID(s) as valid anchor candidates.");
+            if (global::ISBSpecialForces.Plugin.DiagnosticsEnabled)
+            {
+                Plugin.LogSource.LogInfo($"[ISB SECRET] Captured {originalBlackDivisionIds.Count} pre-counterattack Black Division bot ID(s) as valid anchor candidates.");
+            }
         }
 
         private BotOwner SelectCounterattackAnchor()
@@ -257,29 +222,25 @@ namespace ISBSpecialForces.Components
             BotOwner bestNearbyAnchor = null;
             var bestDirectDistance = float.MaxValue;
             var bestNearbyDistance = float.MaxValue;
-
+            float proximitySqr = CombatProximityFallback * CombatProximityFallback;
             foreach (var originalId in originalBlackDivisionIds)
             {
-                if (!blackDivisionBots.TryGetValue(originalId, out var candidate)
-                    || !ISBBlackDivisionUtility.IsAlive(candidate))
+                if (!blackDivisionBots.TryGetValue(originalId, out var candidate) || !ISBBlackDivisionUtility.IsAlive(candidate))
                 {
                     continue;
                 }
 
-                var nearestISBDistance = GetNearestAliveISBDistance(candidate);
-                var directCombat = ISBBlackDivisionUtility.HasISBGoalEnemy(candidate)
-                    || IsTargetedByAliveISB(originalId);
-
-                if (directCombat && nearestISBDistance < bestDirectDistance)
+                var nearestISBSqrDistance = GetNearestAliveISBSqrDistance(candidate);
+                var directCombat = ISBBlackDivisionUtility.HasISBGoalEnemy(candidate) || IsTargetedByAliveISB(originalId);
+                if (directCombat && nearestISBSqrDistance < bestDirectDistance)
                 {
-                    bestDirectDistance = nearestISBDistance;
+                    bestDirectDistance = nearestISBSqrDistance;
                     bestDirectCombatAnchor = candidate;
                 }
 
-                if (nearestISBDistance <= CombatProximityFallback
-                    && nearestISBDistance < bestNearbyDistance)
+                if (nearestISBSqrDistance <= proximitySqr && nearestISBSqrDistance < bestNearbyDistance)
                 {
-                    bestNearbyDistance = nearestISBDistance;
+                    bestNearbyDistance = nearestISBSqrDistance;
                     bestNearbyAnchor = candidate;
                 }
             }
@@ -291,14 +252,11 @@ namespace ISBSpecialForces.Components
         {
             if (string.IsNullOrEmpty(blackDivisionProfileId))
                 return false;
-
             foreach (var isb in isbBots.Values)
             {
                 if (!ISBBlackDivisionUtility.IsAlive(isb))
                     continue;
-
                 var targetId = ISBBlackDivisionUtility.GetGoalEnemyProfileId(isb);
-
                 if (string.Equals(targetId, blackDivisionProfileId, StringComparison.Ordinal))
                     return true;
             }
@@ -306,19 +264,16 @@ namespace ISBSpecialForces.Components
             return false;
         }
 
-        private float GetNearestAliveISBDistance(BotOwner blackDivisionBot)
+        private float GetNearestAliveISBSqrDistance(BotOwner blackDivisionBot)
         {
             var nearest = float.MaxValue;
-
             foreach (var isb in isbBots.Values)
             {
                 if (!ISBBlackDivisionUtility.IsAlive(isb))
                     continue;
-
-                var distance = Vector3.Distance(blackDivisionBot.Position, isb.Position);
-
-                if (distance < nearest)
-                    nearest = distance;
+                float sqrDistance = (blackDivisionBot.Position - isb.Position).sqrMagnitude;
+                if (sqrDistance < nearest)
+                    nearest = sqrDistance;
             }
 
             return nearest;
@@ -328,8 +283,7 @@ namespace ISBSpecialForces.Components
         {
             foreach (var originalId in originalBlackDivisionIds)
             {
-                if (blackDivisionBots.TryGetValue(originalId, out var bot)
-                    && ISBBlackDivisionUtility.IsAlive(bot))
+                if (blackDivisionBots.TryGetValue(originalId, out var bot) && ISBBlackDivisionUtility.IsAlive(bot))
                 {
                     return true;
                 }
@@ -338,26 +292,19 @@ namespace ISBSpecialForces.Components
             return false;
         }
 
-
         private void RefreshBotRegistriesFromWorld()
         {
             var gameWorld = Singleton<GameWorld>.Instance;
-
             if (gameWorld?.AllAlivePlayersList == null)
                 return;
-
             foreach (var player in gameWorld.AllAlivePlayersList)
             {
-                if (player == null
-                    || !player.IsAI
-                    || player.HealthController == null
-                    || !player.HealthController.IsAlive)
+                if (player == null || !player.IsAI || player.HealthController == null || !player.HealthController.IsAlive)
                 {
                     continue;
                 }
 
                 var botOwner = ISBBlackDivisionUtility.TryResolveBotOwner(player);
-
                 if (botOwner != null)
                     RegisterBot(botOwner);
             }
@@ -369,21 +316,19 @@ namespace ISBSpecialForces.Components
             PruneDictionary(isbBots);
         }
 
-        private static void PruneDictionary(Dictionary<string, BotOwner> bots)
+        private void PruneDictionary(Dictionary<string, BotOwner> bots)
         {
             if (bots.Count == 0)
                 return;
-
-            var staleIds = new List<string>();
-
+            staleBotIds.Clear();
             foreach (var pair in bots)
             {
                 if (!ISBBlackDivisionUtility.IsAlive(pair.Value))
-                    staleIds.Add(pair.Key);
+                    staleBotIds.Add(pair.Key);
             }
 
-            for (var i = 0; i < staleIds.Count; i++)
-                bots.Remove(staleIds[i]);
+            for (int i = 0; i < staleBotIds.Count; i++)
+                bots.Remove(staleBotIds[i]);
         }
     }
 }

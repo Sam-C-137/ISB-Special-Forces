@@ -15,16 +15,13 @@ namespace ISBInfo.Fika
     {
         private const int MaximumQueuedPayloads = 128;
         private const int MaximumPayloadLength = 4096;
-
         private readonly ManualLogSource _log;
-        private readonly object _queueLock = new object();
+        private readonly object _queueLock = new object ();
         private readonly Queue<string> _receivedPayloads = new Queue<string>();
-
         private IFikaNetworkManager _networkManager;
         private IFikaNetworkManager _registeredNetworkManager;
         private bool _initialized;
         private bool _isServer;
-
         internal FikaISBNotifyNetworkBridge(ManualLogSource log)
         {
             _log = log;
@@ -69,46 +66,35 @@ namespace ISBInfo.Fika
         {
             if (_initialized)
                 return;
-
             _initialized = true;
             Active = true;
-
-            FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerCreatedEvent>(
-                OnNetworkManagerCreated);
-            FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerDestroyedEvent>(
-                OnNetworkManagerDestroyed);
-            FikaEventDispatcher.SubscribeEvent<FikaRaidStartedEvent>(
-                OnRaidStarted);
-            FikaEventDispatcher.SubscribeEvent<FikaGameEndedEvent>(
-                OnGameEnded);
-
+            FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerCreatedEvent>(OnNetworkManagerCreated);
+            FikaEventDispatcher.SubscribeEvent<FikaNetworkManagerDestroyedEvent>(OnNetworkManagerDestroyed);
+            FikaEventDispatcher.SubscribeEvent<FikaRaidStartedEvent>(OnRaidStarted);
+            FikaEventDispatcher.SubscribeEvent<FikaGameEndedEvent>(OnGameEnded);
             EnsureNetworkManager();
-            _log.LogInfo(
-                "ISB SOF Notifier Fika: direct network bridge initialized without reflection or runtime IL generation.");
+            if (global::ISBInfo.ISBInfoPlugin.DiagnosticsEnabled)
+            {
+                _log.LogInfo("ISB SOF Notifier Fika: direct network bridge initialized without reflection or runtime IL generation.");
+            }
         }
 
         public bool Broadcast(string payload)
         {
             if (!IsValidPayload(payload) || !Ready || !IsServer)
                 return false;
-
             try
             {
                 ISBNotifyPacket packet = new ISBNotifyPacket
                 {
                     Payload = payload
                 };
-
-                _networkManager.SendData(
-                    ref packet,
-                    DeliveryMethod.ReliableOrdered,
-                    true);
+                _networkManager.SendData(ref packet, DeliveryMethod.ReliableOrdered, true);
                 return true;
             }
             catch (Exception ex)
             {
-                _log.LogWarning(
-                    "ISB SOF Notifier Fika: failed to broadcast packet: " + ex.Message);
+                _log.LogError("ISB SOF Notifier Fika: failed to broadcast packet: " + ex.Message);
                 return false;
             }
         }
@@ -117,24 +103,18 @@ namespace ISBInfo.Fika
         {
             if (!IsValidPayload(payload) || !Ready || IsServer)
                 return false;
-
             try
             {
                 ISBNotifyPacket packet = new ISBNotifyPacket
                 {
                     Payload = payload
                 };
-
-                _networkManager.SendData(
-                    ref packet,
-                    DeliveryMethod.ReliableOrdered,
-                    false);
+                _networkManager.SendData(ref packet, DeliveryMethod.ReliableOrdered, false);
                 return true;
             }
             catch (Exception ex)
             {
-                _log.LogWarning(
-                    "ISB SOF Notifier Fika: failed to send packet to authority: " + ex.Message);
+                _log.LogError("ISB SOF Notifier Fika: failed to send packet to authority: " + ex.Message);
                 return false;
             }
         }
@@ -143,17 +123,17 @@ namespace ISBInfo.Fika
         {
             if (handler == null)
                 return;
-
-            while (TryDequeuePayload(out string payload))
+            int processed = 0;
+            while (processed < 16 && TryDequeuePayload(out string payload))
             {
+                processed++;
                 try
                 {
                     handler(payload);
                 }
                 catch (Exception ex)
                 {
-                    _log.LogWarning(
-                        "ISB SOF Notifier Fika: payload handler failed: " + ex.Message);
+                    _log.LogError("ISB SOF Notifier Fika: payload handler failed: " + ex.Message);
                 }
             }
         }
@@ -162,21 +142,16 @@ namespace ISBInfo.Fika
         {
             if (_initialized)
             {
-                FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerCreatedEvent>(
-                    OnNetworkManagerCreated);
-                FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerDestroyedEvent>(
-                    OnNetworkManagerDestroyed);
-                FikaEventDispatcher.UnsubscribeEvent<FikaRaidStartedEvent>(
-                    OnRaidStarted);
-                FikaEventDispatcher.UnsubscribeEvent<FikaGameEndedEvent>(
-                    OnGameEnded);
+                FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerCreatedEvent>(OnNetworkManagerCreated);
+                FikaEventDispatcher.UnsubscribeEvent<FikaNetworkManagerDestroyedEvent>(OnNetworkManagerDestroyed);
+                FikaEventDispatcher.UnsubscribeEvent<FikaRaidStartedEvent>(OnRaidStarted);
+                FikaEventDispatcher.UnsubscribeEvent<FikaGameEndedEvent>(OnGameEnded);
             }
 
             _initialized = false;
             Active = false;
             _networkManager = null;
             _registeredNetworkManager = null;
-
             lock (_queueLock)
                 _receivedPayloads.Clear();
         }
@@ -185,19 +160,14 @@ namespace ISBInfo.Fika
         {
             if (!Active || fikaEvent == null)
                 return;
-
-            AttachNetworkManager(
-                fikaEvent.Manager,
-                "FikaNetworkManagerCreatedEvent");
+            AttachNetworkManager(fikaEvent.Manager, "FikaNetworkManagerCreatedEvent");
         }
 
         private void OnNetworkManagerDestroyed(FikaNetworkManagerDestroyedEvent fikaEvent)
         {
             if (!Active || fikaEvent == null)
                 return;
-
-            if (_networkManager == null ||
-                ReferenceEquals(_networkManager, fikaEvent.Manager))
+            if (_networkManager == null || ReferenceEquals(_networkManager, fikaEvent.Manager))
             {
                 _networkManager = null;
                 _registeredNetworkManager = null;
@@ -211,7 +181,6 @@ namespace ISBInfo.Fika
         {
             if (!Active || fikaEvent == null)
                 return;
-
             _isServer = fikaEvent.IsServer;
             EnsureNetworkManager();
         }
@@ -220,9 +189,7 @@ namespace ISBInfo.Fika
         {
             if (!Active || fikaEvent == null)
                 return;
-
             ISBInfoPlugin.MarkLocalRaidPresentationEnded();
-
             lock (_queueLock)
                 _receivedPayloads.Clear();
         }
@@ -231,30 +198,21 @@ namespace ISBInfo.Fika
         {
             if (!Active || _networkManager != null)
                 return;
-
             try
             {
                 if (!Singleton<IFikaNetworkManager>.Instantiated)
                     return;
-
-                AttachNetworkManager(
-                    Singleton<IFikaNetworkManager>.Instance,
-                    "Singleton<IFikaNetworkManager> fallback");
+                AttachNetworkManager(Singleton<IFikaNetworkManager>.Instance, "Singleton<IFikaNetworkManager> fallback");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                _log.LogDebug(
-                    "ISB SOF Notifier Fika: network manager is not ready yet: " + ex.Message);
             }
         }
 
-        private void AttachNetworkManager(
-            IFikaNetworkManager networkManager,
-            string source)
+        private void AttachNetworkManager(IFikaNetworkManager networkManager, string source)
         {
             if (!Active || networkManager == null)
                 return;
-
             if (ReferenceEquals(_registeredNetworkManager, networkManager))
             {
                 _networkManager = networkManager;
@@ -267,19 +225,16 @@ namespace ISBInfo.Fika
                 _networkManager = networkManager;
                 _registeredNetworkManager = networkManager;
                 RefreshRole();
-
-                _log.LogInfo(
-                    "ISB SOF Notifier Fika: packet registered using " + source +
-                    ". manager=" + networkManager.GetType().FullName +
-                    ", server=" + _isServer +
-                    ", headless=" + IsHeadless + ".");
+                if (global::ISBInfo.ISBInfoPlugin.DiagnosticsEnabled)
+                {
+                    _log.LogInfo("ISB SOF Notifier Fika: packet registered using " + source + ". manager=" + networkManager.GetType().FullName + ", server=" + _isServer + ", headless=" + IsHeadless + ".");
+                }
             }
             catch (Exception ex)
             {
                 _networkManager = null;
                 _registeredNetworkManager = null;
-                _log.LogError(
-                    "ISB SOF Notifier Fika: packet registration failed: " + ex);
+                _log.LogError("ISB SOF Notifier Fika: packet registration failed: " + ex);
             }
         }
 
@@ -287,12 +242,10 @@ namespace ISBInfo.Fika
         {
             if (!Active || !IsValidPayload(packet.Payload))
                 return;
-
             lock (_queueLock)
             {
                 while (_receivedPayloads.Count >= MaximumQueuedPayloads)
                     _receivedPayloads.Dequeue();
-
                 _receivedPayloads.Enqueue(packet.Payload);
             }
         }
@@ -324,7 +277,6 @@ namespace ISBInfo.Fika
 
             if (_networkManager == null)
                 return;
-
             string managerName = _networkManager.GetType().Name;
             if (managerName.IndexOf("Server", StringComparison.OrdinalIgnoreCase) >= 0)
                 _isServer = true;
@@ -334,8 +286,7 @@ namespace ISBInfo.Fika
 
         private static bool IsValidPayload(string payload)
         {
-            return !string.IsNullOrEmpty(payload) &&
-                   payload.Length <= MaximumPayloadLength;
+            return !string.IsNullOrEmpty(payload) && payload.Length <= MaximumPayloadLength;
         }
     }
 }

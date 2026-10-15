@@ -1,10 +1,10 @@
 using DrakiaXYZ.BigBrain.Brains;
 using EFT;
+using ISBSpecialForces.Behavior.BlackDivision;
 using System;
 using ISBSpecialForces.Behavior.Actions;
 using ISBSpecialForces.Components;
 using ISBSpecialForces.Controllers;
-using ISBSpecialForces.Behavior.Orders.Components;
 
 namespace ISBSpecialForces.Behavior.Layers
 {
@@ -12,13 +12,15 @@ namespace ISBSpecialForces.Behavior.Layers
     {
         protected BotISBManager isbManager { get; private set; }
 
+        private ISBTacticalAgent _agent;
         public Type lastAction;
         public Type nextAction;
         public string nextActionReason;
-
         public GoToCheckpointLayer(BotOwner botOwner, int priority) : base(botOwner, priority)
         {
             isbManager = botOwner.GetOrAddISBManager();
+            if (WildSpawnTypeExtensions.IsISB(botOwner.Profile.Info.Settings.Role))
+                _agent = ISBTacticalAgent.GetOrAdd(botOwner);
         }
 
         public override void Start()
@@ -30,6 +32,11 @@ namespace ISBSpecialForces.Behavior.Layers
         public override void Stop()
         {
             BotOwner.PatrollingData?.Unpause();
+            if (isbManager == null)
+            {
+                base.Stop();
+                return;
+            }
 
             isbManager.guardPointDirty = true;
             isbManager.AtCheckpoint = false;
@@ -50,23 +57,22 @@ namespace ISBSpecialForces.Behavior.Layers
 
         public override bool IsActive()
         {
-            var tacticalAgent = BotOwner.GetOrderAgent();
-
-            if (tacticalAgent != null && tacticalAgent.HasCombatDirective)
+            if (!ISBFikaAuthority.IsAiAuthority || isbManager == null || ISBRevengeHuntController.AppliesTo(BotOwner) || !isbManager.CanDoCheckpointActions())
                 return false;
-
-            if (!isbManager.CanDoCheckpointActions())
+            if (_agent == null)
+                _agent = ISBTacticalAgent.GetOrAdd(BotOwner, false);
+            if (_agent?.CanRunMission() != true)
                 return false;
-
+            isbManager.UpdateGuardPoint();
+            if (isbManager.guardPoint == null)
+                return false;
             GetNextActionInternal();
-
             return true;
         }
 
         public void GetNextActionInternal()
         {
             lastAction = nextAction;
-
             if (isbManager.AtCheckpoint)
             {
                 if (isbManager.ShouldSwitchCover)
@@ -87,9 +93,7 @@ namespace ISBSpecialForces.Behavior.Layers
 
         public override bool IsCurrentActionEnding()
         {
-            return nextAction != lastAction
-                || CurrentAction == null
-                || (CurrentAction.Type != nextAction && CurrentAction.Type != lastAction);
+            return nextAction != lastAction || CurrentAction == null || (CurrentAction.Type != nextAction && CurrentAction.Type != lastAction);
         }
     }
 }

@@ -1,0 +1,332 @@
+{
+  "e4e78f48c1e44d898e8ad5e3": {
+    "QuestName": "ContainmentBreach - Protocolo de emergência",
+    "_id": "e4e78f48c1e44d898e8ad5e3",
+    "acceptPlayerMessage": "e4e78f48c1e44d898e8ad5e3 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "e4e78f48c1e44d898e8ad5e3 changeQuestMessageText",
+    "completePlayerMessage": "e4e78f48c1e44d898e8ad5e3 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Level",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "3de1f5bf93ed5a1723d2d01a",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "compareMethod": ">=",
+          "value": 1
+        },
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "7e3a4b27919216fa66490592",
+          "index": 1,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "c9304d1a70414b398f840595"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "a5bdf41f2f5f7ca541eb4796",
+          "index": 0,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "692bbee2e2bf5108b9310186"
+          ],
+          "value": 5,
+          "visibilityConditions": []
+        },
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "1c3aef37f0a6ca049e55251e",
+          "index": 1,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "69dedb462e45a1248bf6b96a"
+          ],
+          "value": 5,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "e4e78f48c1e44d898e8ad5e3 declinePlayerMessage",
+    "description": "e4e78f48c1e44d898e8ad5e3 description",
+    "failMessageText": "e4e78f48c1e44d898e8ad5e3 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/StudiesComeFirst.png",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "5b0fc42d86f7744a585f9105",
+    "name": "e4e78f48c1e44d898e8ad5e3 name",
+    "note": "e4e78f48c1e44d898e8ad5e3 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "availableInGameEditions": [],
+          "id": "e324edf9d5d8b43d84247fe3",
+          "index": 0,
+          "type": "Experience",
+          "unknown": false,
+          "value": 20000
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "0d993b3ba7739a7b61f2d6f4",
+          "index": 1,
+          "target": "54cb57776803fa99248b456e",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.03
+        },
+        {
+          "availableInGameEditions": [],
+          "findInRaid": true,
+          "id": "54247735f859607c77765f43",
+          "index": 2,
+          "items": [
+            {
+              "_id": "526486a4ce277145d915b03f",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 210000
+              }
+            }
+          ],
+          "target": "526486a4ce277145d915b03f",
+          "type": "Item",
+          "unknown": false,
+          "value": 210000
+        },
+        {
+          "id": "87d9d4707790b82b293d39d6",
+          "index": 3,
+          "type": "AssortmentUnlock",
+          "traderId": "54cb57776803fa99248b456e",
+          "loyaltyLevel": 4,
+          "target": "922f361cdb505b28cc1e221d",
+          "items": [
+            {
+              "_id": "922f361cdb505b28cc1e221d",
+              "_tpl": "69dedb462e45a1248bf6b96a",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        },
+        {
+          "id": "2febd5ddea558eead9a420b7",
+          "index": 4,
+          "type": "AssortmentUnlock",
+          "traderId": "54cb57776803fa99248b456e",
+          "loyaltyLevel": 4,
+          "target": "cde067f5da0ad395d1d33930",
+          "items": [
+            {
+              "_id": "cde067f5da0ad395d1d33930",
+              "_tpl": "692bbee2e2bf5108b9310186",
+              "upd": {}
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "e4e78f48c1e44d898e8ad5e3 startedMessageText",
+    "status": 0,
+    "successMessageText": "e4e78f48c1e44d898e8ad5e3 successMessageText",
+    "traderId": "54cb57776803fa99248b456e",
+    "type": "PickUp"
+  },
+  "64e6df2f30554b3ea6e4e1c9": {
+    "QuestName": "ContainmentBreach - Mutação dirigida",
+    "_id": "64e6df2f30554b3ea6e4e1c9",
+    "acceptPlayerMessage": "64e6df2f30554b3ea6e4e1c9 acceptPlayerMessage",
+    "acceptanceAndFinishingSource": "eft",
+    "arenaLocations": [],
+    "canShowNotificationsInGame": true,
+    "changeQuestMessageText": "64e6df2f30554b3ea6e4e1c9 changeQuestMessageText",
+    "completePlayerMessage": "64e6df2f30554b3ea6e4e1c9 completePlayerMessage",
+    "conditions": {
+      "AvailableForStart": [
+        {
+          "conditionType": "Level",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "f99c0c2f6b98d5d5d496dc4f",
+          "index": 0,
+          "parentId": "",
+          "visibilityConditions": [],
+          "compareMethod": ">=",
+          "value": 1
+        },
+        {
+          "conditionType": "Quest",
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "1fe00f9764a019fed185b1a4",
+          "index": 1,
+          "parentId": "",
+          "visibilityConditions": [],
+          "availableAfter": 0,
+          "dispersion": 0,
+          "status": [
+            4
+          ],
+          "target": "e4e78f48c1e44d898e8ad5e3"
+        }
+      ],
+      "AvailableForFinish": [
+        {
+          "conditionType": "HandoverItem",
+          "dogtagLevel": 0,
+          "dynamicLocale": false,
+          "globalQuestCounterId": "",
+          "id": "2d21370410817b89d7388471",
+          "index": 0,
+          "isEncoded": false,
+          "maxDurability": 100,
+          "minDurability": 0,
+          "onlyFoundInRaid": true,
+          "parentId": "",
+          "target": [
+            "890cc1ff79a9633e1d0b5a40"
+          ],
+          "value": 2,
+          "visibilityConditions": []
+        }
+      ],
+      "Fail": []
+    },
+    "declinePlayerMessage": "64e6df2f30554b3ea6e4e1c9 declinePlayerMessage",
+    "description": "64e6df2f30554b3ea6e4e1c9 description",
+    "failMessageText": "64e6df2f30554b3ea6e4e1c9 failMessageText",
+    "gameModes": [],
+    "image": "/files/quest/icon/HealthatRisk.png",
+    "instantComplete": false,
+    "isKey": false,
+    "location": "5b0fc42d86f7744a585f9105",
+    "name": "64e6df2f30554b3ea6e4e1c9 name",
+    "note": "64e6df2f30554b3ea6e4e1c9 note",
+    "progressSource": "eft",
+    "rankingModes": [],
+    "restartable": false,
+    "rewards": {
+      "Fail": [],
+      "Started": [],
+      "Success": [
+        {
+          "id": "965d7e42bc5c42f83f927a71",
+          "type": "Experience",
+          "value": 40000,
+          "index": 0
+        },
+        {
+          "availableInGameEditions": [],
+          "id": "2923713705b173b2f880ac9b",
+          "index": 1,
+          "target": "54cb57776803fa99248b456e",
+          "type": "TraderStanding",
+          "unknown": false,
+          "value": 0.04
+        },
+        {
+          "id": "0ca29d433282c8cfcfab371c",
+          "index": 2,
+          "type": "Item",
+          "target": "843d5e62e20af001bcee32b0",
+          "value": "500000",
+          "items": [
+            {
+              "_id": "843d5e62e20af001bcee32b0",
+              "_tpl": "5449016a4bdc2d6f028b456f",
+              "upd": {
+                "StackObjectsCount": 500000
+              }
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        },
+        {
+          "id": "83d1cbd80ddd48f077a7d206",
+          "index": 3,
+          "type": "Item",
+          "target": "65e64809ab9fe43fbf6fc742",
+          "value": "1",
+          "items": [
+            {
+              "_id": "65e64809ab9fe43fbf6fc742",
+              "_tpl": "5b7c710788a4506dec015957",
+              "upd": {
+                "StackObjectsCount": 1
+              }
+            }
+          ],
+          "findInRaid": true,
+          "availableInGameEditions": [],
+          "unknown": false
+        },
+        {
+          "id": "c04827bd15f176fc0707022c",
+          "index": 4,
+          "type": "AssortmentUnlock",
+          "traderId": "54cb57776803fa99248b456e",
+          "loyaltyLevel": 1,
+          "target": "b57f53d667358c874b739e85",
+          "items": [
+            {
+              "_id": "b57f53d667358c874b739e85",
+              "_tpl": "5b7c710788a4506dec015957"
+            }
+          ],
+          "availableInGameEditions": [],
+          "unknown": false
+        }
+      ]
+    },
+    "secretQuest": false,
+    "side": "Pmc",
+    "startedMessageText": "64e6df2f30554b3ea6e4e1c9 startedMessageText",
+    "status": 0,
+    "successMessageText": "64e6df2f30554b3ea6e4e1c9 successMessageText",
+    "traderId": "54cb57776803fa99248b456e",
+    "type": "PickUp"
+  }
+}

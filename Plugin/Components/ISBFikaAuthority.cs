@@ -1,7 +1,10 @@
 using BepInEx.Bootstrap;
+using Comfort.Common;
+using EFT;
 using System;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
+using UnityEngine;
 
 namespace ISBSpecialForces.Components
 {
@@ -9,28 +12,21 @@ namespace ISBSpecialForces.Components
     {
         private const string FikaPluginGuid = "com.fika.core";
         private const string BackendUtilsTypeName = "Fika.Core.Main.Utils.FikaBackendUtils";
-
-        private static PropertyInfo _isServerProperty;
-        private static FieldInfo _isServerField;
-        private static bool _resolved;
+        private static Func<bool> _isServer;
+        private static Func<bool> _isHeadless;
+        private static float _resolveAt;
         private static bool _warningLogged;
-
         internal static bool IsAiAuthority
         {
             get
             {
-                if (!Chainloader.PluginInfos.ContainsKey(FikaPluginGuid))
+                if (!Chainloader.PluginInfos.ContainsKey(FikaPluginGuid) || Singleton<AbstractGame>.Instance is LocalGame)
                     return true;
-
                 Resolve();
-
                 try
                 {
-                    if (_isServerProperty != null)
-                        return Convert.ToBoolean(_isServerProperty.GetValue(null, null));
-
-                    if (_isServerField != null)
-                        return Convert.ToBoolean(_isServerField.GetValue(null));
+                    if (_isServer != null)
+                        return _isServer();
                 }
                 catch (Exception ex)
                 {
@@ -42,31 +38,43 @@ namespace ISBSpecialForces.Components
             }
         }
 
+        internal static bool CanPresentLocally
+        {
+            get
+            {
+                if (!Chainloader.PluginInfos.ContainsKey(FikaPluginGuid) || Singleton<AbstractGame>.Instance is LocalGame)
+                    return true;
+                Resolve();
+                try
+                {
+                    return _isHeadless != null && !_isHeadless();
+                }
+                catch (Exception ex)
+                {
+                    LogResolutionWarning(ex.Message);
+                    return false;
+                }
+            }
+        }
+
         private static void Resolve()
         {
-            if (_resolved && (_isServerProperty != null || _isServerField != null))
+            if ((_isServer != null && _isHeadless != null) || Time.realtimeSinceStartup < _resolveAt)
                 return;
-
-            _resolved = true;
-
+            _resolveAt = Time.realtimeSinceStartup + 1f;
             try
             {
-                var fikaAssembly = AppDomain.CurrentDomain.GetAssemblies()
-                    .FirstOrDefault(assembly =>
-                        string.Equals(
-                            assembly.GetName().Name,
-                            "Fika.Core",
-                            StringComparison.OrdinalIgnoreCase));
-
-                var backendUtilsType = fikaAssembly?.GetType(BackendUtilsTypeName, false);
-                if (backendUtilsType == null)
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    if (!string.Equals(assembly.GetName().Name, "Fika.Core", StringComparison.OrdinalIgnoreCase))
+                        continue;
+                    var type = assembly.GetType(BackendUtilsTypeName, false);
+                    if (type == null)
+                        return;
+                    _isServer = Bind(type, "IsServer");
+                    _isHeadless = Bind(type, "IsHeadless");
                     return;
-
-                const BindingFlags flags =
-                    BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
-
-                _isServerProperty = backendUtilsType.GetProperty("IsServer", flags);
-                _isServerField = backendUtilsType.GetField("IsServer", flags);
+                }
             }
             catch (Exception ex)
             {
@@ -74,15 +82,23 @@ namespace ISBSpecialForces.Components
             }
         }
 
+        private static Func<bool> Bind(Type type, string name)
+        {
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
+            var property = type.GetProperty(name, flags);
+            var getter = property?.GetGetMethod(true);
+            if (getter != null && property.PropertyType == typeof(bool))
+                return (Func<bool>)Delegate.CreateDelegate(typeof(Func<bool>), getter);
+            var field = type.GetField(name, flags);
+            return field?.FieldType == typeof(bool) ? Expression.Lambda<Func<bool>>(Expression.Field(null, field)).Compile() : null;
+        }
+
         private static void LogResolutionWarning(string reason)
         {
             if (_warningLogged)
                 return;
-
             _warningLogged = true;
-            Plugin.LogSource?.LogWarning(
-                "[ISB AISHI LOYALTY] Fika AI authority could not be resolved. " +
-                "Client-side BotsGroup mutations skipped. " + reason);
+            Plugin.LogSource?.LogError("[ISB AISHI LOYALTY] Fika AI authority could not be resolved. Client-side BotsGroup mutations skipped. " + reason);
         }
     }
 }

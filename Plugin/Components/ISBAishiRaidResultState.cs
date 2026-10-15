@@ -10,12 +10,8 @@ namespace ISBSpecialForces.Components
         public static double StandingDelta { get; private set; }
         public static bool NativeStandingEventRecorded { get; private set; }
         public static bool PendingServerConfirmation { get; private set; }
-
-        public static bool HasStandingLoss =>
-            ShowInRaidResults && StandingDelta < -0.000001d;
-
-        public static bool NeedsLegacyInjection =>
-            HasStandingLoss && !NativeStandingEventRecorded;
+        public static bool HasStandingLoss => ShowInRaidResults && StandingDelta < -0.000001d;
+        public static bool NeedsLegacyInjection => HasStandingLoss && !NativeStandingEventRecorded;
 
         public static void Reset()
         {
@@ -27,14 +23,10 @@ namespace ISBSpecialForces.Components
             PendingServerConfirmation = false;
         }
 
-        public static void ArmExpectedPenalty(
-            bool showInRaidResults,
-            double standingBefore,
-            double configuredLoss)
+        public static void ArmExpectedPenalty(bool showInRaidResults, double standingBefore, double configuredLoss)
         {
             var loss = Math.Max(0d, configuredLoss);
             var standingAfter = Math.Max(0d, standingBefore - loss);
-
             ShowInRaidResults = showInRaidResults;
             StandingBefore = standingBefore;
             StandingAfter = standingAfter;
@@ -43,17 +35,12 @@ namespace ISBSpecialForces.Components
             PendingServerConfirmation = true;
         }
 
-        public static void Set(
-            bool showInRaidResults,
-            double standingBefore,
-            double standingAfter,
-            double standingDelta)
+        public static void Set(bool showInRaidResults, double standingBefore, double standingAfter, double standingDelta)
         {
             ShowInRaidResults = showInRaidResults;
             StandingBefore = standingBefore;
             StandingAfter = standingAfter;
             StandingDelta = standingDelta;
-            NativeStandingEventRecorded = false;
             PendingServerConfirmation = false;
         }
 

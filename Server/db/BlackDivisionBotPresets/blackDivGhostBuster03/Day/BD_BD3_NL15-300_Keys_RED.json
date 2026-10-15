@@ -1,0 +1,3537 @@
+{
+  "name": "PMC BotPreset 2026-10-05_195000_RED",
+  "enabled": true,
+  "weight": 1,
+  "allowMixedMags": false,
+  "appearance": {
+    "head": "65749be133fdc9c0cf06d3c8",
+    "body": "b96d9dc9e9dc514a8594d204",
+    "feet": "2d6b580d61ed5e1a99e519df",
+    "hands": "a9aa3586c25c5f979c9c7543",
+    "voice": "6899fff4c17f776ecb07fafd"
+  },
+  "equipmentBuild": {
+    "Id": "736e894afe2757087b6f71cc",
+    "Name": "PMC BotPreset 2026-10-05_195000_RED",
+    "Items": [
+      {
+        "_id": "409a6e2d6dd4ed15f3078ee1",
+        "_tpl": "55d7217a4bdc2d86028b456d",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "a680a788fc6d2814f3bafadd",
+        "_tpl": "6662e9f37fa79a6d83730fa0",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Dogtag",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "Resource": {
+            "Value": 0
+          },
+          "Dogtag": {
+            "AccountId": "",
+            "ProfileId": "6ac2f3062137eface04001bb",
+            "Nickname": "",
+            "Side": 0,
+            "Level": 0,
+            "Time": "0001-01-01T00:00:00",
+            "Status": "",
+            "KillerAccountId": "",
+            "KillerProfileId": "",
+            "KillerName": "",
+            "WeaponName": "",
+            "CarriedByGroupMember": false
+          }
+        }
+      },
+      {
+        "_id": "3d91b980519c85794f34142d",
+        "_tpl": "64cbd95a29b9b4283e216ff5",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Pockets",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "d9d6fe29bd5166adc9ed94ac",
+        "_tpl": "6a5f9cfcc409750b6e065592",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket2",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "046cae4c6d8d4dd9d9a293dc",
+        "_tpl": "6a5f9cfcc409750b6e065592",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket2",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "cc04aa3aed63d4a3fcb79983",
+        "_tpl": "5d02797c86f774203f38e30a",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "SpecialSlot1",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 9
+          }
+        }
+      },
+      {
+        "_id": "5d7a28b2d7976c50ebd2da5f",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket1",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "256b0246bd302217e677e0eb",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket1",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "34a988d5ba613ef0ce2d8df1",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket1",
+        "location": {
+          "x": 0,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "70d4816c98c384dea326ed96",
+        "_tpl": "6937eccbfd921faceb0dfecd",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket3",
+        "location": {
+          "x": 0,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "982159e715bf09d71e3893ca",
+        "_tpl": "69439100a320344f805ba61f",
+        "parentId": "70d4816c98c384dea326ed96",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "Key": {
+            "NumberOfUsages": 0
+          }
+        }
+      },
+      {
+        "_id": "dd884e47a5e304a5767db302",
+        "_tpl": "569668774bdc2da2298b4568",
+        "parentId": "70d4816c98c384dea326ed96",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1500,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "b73d6c0d0f99f5006949d766",
+        "_tpl": "5696686a4bdc2da3298b456a",
+        "parentId": "70d4816c98c384dea326ed96",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 2000,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "7a31d61e53dd2134616b5a44",
+        "_tpl": "5d235b4d86f7742e017bc88a",
+        "parentId": "70d4816c98c384dea326ed96",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 10,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6bcf7c0ac06b6030a5486a2b",
+        "_tpl": "59faff1d86f7746c51718c9c",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket4",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "4f2c4c8419275d8981568333",
+        "_tpl": "699b6b973e813e0eaa275b56",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket3",
+        "location": {
+          "x": 1,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6a0178443bd0674ab3abf321",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "4f2c4c8419275d8981568333",
+        "slotId": "cartridges",
+        "upd": {
+          "StackObjectsCount": 50,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "288ec233aaae1292026e7c21",
+        "_tpl": "699b6b973e813e0eaa275b56",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket3",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f7f592c3d155d14095d5f941",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "288ec233aaae1292026e7c21",
+        "slotId": "cartridges",
+        "upd": {
+          "StackObjectsCount": 50,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "1e3f90145ac8da292825dfa4",
+        "_tpl": "699b6b973e813e0eaa275b56",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket3",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "2d47f9d2444bd86fb240c513",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "1e3f90145ac8da292825dfa4",
+        "slotId": "cartridges",
+        "upd": {
+          "StackObjectsCount": 50,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "804fcf337586f6ac379c2f75",
+        "_tpl": "699b6b973e813e0eaa275b56",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket3",
+        "location": {
+          "x": 1,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "dfe0531b4df60416119552e3",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "804fcf337586f6ac379c2f75",
+        "slotId": "cartridges",
+        "upd": {
+          "StackObjectsCount": 50,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6e76ee6bb27f27421bbdcb49",
+        "_tpl": "5c12613b86f7743bbe2c3f76",
+        "parentId": "3d91b980519c85794f34142d",
+        "slotId": "pocket2",
+        "location": {
+          "x": 0,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "53f0570d3b2b604c12340099",
+        "_tpl": "5c0a794586f77461c458f892",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "SecuredContainer",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "d8df7b62cbecc4f39fbbf096",
+        "_tpl": "699aab526ac4f65528f1fd63",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 10000,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "d59287fd3212e93667b74a5b",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 11,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "48e06c056c58da65472bd44f",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 11,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "49bcf5cbc6ebb4eef6226e0c",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 12,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "0baf1db3f91c7d87b3e70341",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 12,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "cd4f234d46ded140206d5209",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 12,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "c10f101b1f1e3f40b29f7c50",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "7bd19a5cf3dd9529f4754424",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "8aee93ec09189d8baf480c86",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "7b330f6a12148569eb1f5a1d",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "fd9b39b22cffdf30d18bc4f4",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "20e393411f5e84971e48f980",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "6652f6cae46da320fc0a10a1",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "2f28db26a8fc7b341b72031d",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "b0c773d941e859c402af4e55",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "1cd883b3fcc3ec8071c6ecf9",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 2,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "7aaee7cd7e08e5531a4fd890",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 3,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "552c501c31cbecda0b6dfd88",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 3,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "c9ae2b6ee2a6523eda461aea",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 3,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "03a4fb6c5a0f4940837b7b79",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 3,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "3a7942c0d654bfa46d59239a",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 4,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "2ffa1c4ea5872c679c2cf618",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 4,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "d446f05feb615511fdbda57a",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 4,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "ec6bb191e8dfb754dfe96cd1",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 4,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "bf32f4cb554daa0e796623ee",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 5,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "e2621d0abaf5bd5dd3fff0dc",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 5,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "e91c4003a9b013f5e97aa383",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 5,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "c7c7d60f8d0bed4bea07334c",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 5,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "961db6764b8bffc112b6e6bb",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 6,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "39f3a7cd987a25563b8ee783",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 6,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "89298bf0976dac5da5604ddc",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 6,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "f549f85532224b14579eec04",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 6,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "bbcd2a6384479c678ee04e23",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 7,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "5852a4e03952835952fc4bf5",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 7,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "2fecd2177ff376d599c4e149",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 7,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "e9412bc8122e7a75bce9f84d",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 7,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "1b0a609acc64506ce23470ef",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 8,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "81b291dd13e6743d4b24159e",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 8,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "952c81e6b1c1e7486e7a8ca3",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 8,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "2591a018737b3d916e9cd9b4",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 8,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "3f2a57f08bd107648a4d8315",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 9,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "532d74b91d15a4663dd00868",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 9,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "79e7d6294c5b565accd8b198",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 9,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "2e791be7a7d62c74e9921127",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 9,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "46e351c174a88a81c19e96a2",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 10,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "195463a4cf015a4d44ee636b",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 10,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "73635e2911033ffb1593bb38",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 10,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "38ffe075b803d05c8bf49d53",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 10,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "4bf16baa6bd66909860df7ff",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 11,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "7cc5d1e49585274826bcc264",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 11,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "d56772bb74e38d8fb3fd5877",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 23,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "b05ec524531f88d9a1c3d020",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 23,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "7122d4f0fe2615826fc1b141",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 24,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "cd84231ac4d7623cd9718891",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 24,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "cc3e1e2a79c3f1fb3b76d2a3",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 24,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "ebc9b21b3552f8ae402e0377",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 24,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "66556a15e2d59469d2b498fc",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 12,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "a231820a5121102265da3a84",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 13,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "05ce9b234b73be511227d266",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 13,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "8a27f4caceacf39ff1fb3680",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 13,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "bc1bed6769c263b0e7006a60",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 13,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "0961a9e69c2627fc7171cd2b",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 14,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "f969fed3a9109b8b3b4478dd",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 14,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "88cdbe679a4dba972a17c0bc",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 14,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "01a370209b180a1fd0f5719a",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 14,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "79e014f9388462ca92908e94",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 15,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "2106ac7bbea306cc735be0db",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 15,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "bf256f43b6aa827ab51ea667",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 15,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "e497bdbb1ee119eb6f7fba54",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 15,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "806663823618ddf35f60614c",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 16,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "b006c834be39c03c00cbe525",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 16,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "154517ed6a9a20cfe9c951f0",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 16,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "c15cc211193a3666709ce741",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 16,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "9a23ec946f43bb67921c59ab",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 17,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "f21ac97737d965fa153e1845",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 17,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "fed7aff9da20ed07dc85b1aa",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 17,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "c4a5762f66a2bebbaa36a466",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 17,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "514d8bfd20a8618c41721e44",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 18,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "22795518bd51aee9e89176f6",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 18,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "de78c97af3b900c2f3982a45",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 18,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "c200894afffc1051a4a1cbe6",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 18,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "c0a8921fc12d7052346ba24f",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 19,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "4fa6caa2cc2f22c7c47264ed",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 19,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "acdb69122c0ec99b80c6eb4c",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 19,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "db9d2defd3c1c4e5fecff5b9",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 19,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "66369e0f969b48386e581e29",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 20,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "6b57dd152d3a12ef5a20f470",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 20,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "8438a01212c7c9f1e88f651d",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 20,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "52c40d250281c6982ffe6dda",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 20,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "c8f6d19d08ccc72ce34904db",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 21,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "1fcfa6492d9bea479d2bcd9c",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 21,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "719e9815700458b8eb39e198",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 21,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "404e16c681f141211222d5f6",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 21,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "de1ab12950b5ccde2d41b1db",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 22,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "447038258857e711ae835814",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 22,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "a04c7537c0f509e6225c8431",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 22,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "a73d929badd366a3c479bfed",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 22,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "e9aac3187eb1e6e8c76dd590",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 23,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "be4ff0afa21419ff234e4b0b",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 23,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "9bb9262becfcf375e08623fa",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 31,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "9de036da285aaedc83e684b1",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 31,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ffa611af665ecb51c5627e85",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 33,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f2aee1a63d0943c62039bfe4",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 33,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "e9da8b3eca1a09019ebe9426",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 32,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6dbdce8f34338cf1f69a00eb",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 32,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6d80fcb2fa02fae9facf3f7c",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 32,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "092ac2803aae21116bcac790",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 32,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f8ac7659e98310ee5e19d8b5",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 25,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "88b867f163545a07d4b2d798",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 25,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "c83842402c901035fe72154c",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 25,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "706a42d2244089da2bb47b09",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 25,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "877716a9113cdb0ad26e8da9",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 26,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "aeed8f118ff61c3be2438411",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 26,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "816b9c80fd807e890242af63",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 26,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "4a440f272cc114cbe2e37278",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 26,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f33250ccd4bbf7866eccc7fe",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 27,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "e0a07fed1937c8b218d73849",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 27,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "9a32ab56ecd3808cb471dea0",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 27,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "099a6d35523d4dcd06f1268a",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 27,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "c21706ae656c4fb7d0360814",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 28,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "4168591a2994481395840706",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 28,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "625a229e4334537752c627d2",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 28,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "0650c31882643df225e63bd7",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 28,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "34377234384fe76a47b249f6",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 29,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "dd67b4545851670eaff187bf",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 29,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "177fd62854565d5f3e95ec90",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 29,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ec35dab6ea02e1b800980ae0",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 29,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "9555c6dfe14506963d1eb76a",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 30,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "9bd5e266ea702c0b193559cf",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 30,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "b36fd0c645dee4cce4d58961",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 2,
+          "y": 30,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "7e90f2dbc7f6e8e317eb5274",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 3,
+          "y": 30,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "0d8daf05ca9eb4a5d8b85203",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 31,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "eeaeac672882b2ee0dc0478e",
+        "_tpl": "617aa4dd8166f034d57de9c5",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 1,
+          "y": 31,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "37c7c95b551bd3e5d15d091c",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "53f0570d3b2b604c12340099",
+        "slotId": "main",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 10000,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "bb3190a5197524a1a7065ba7",
+        "_tpl": "5e81c3cbac2bb513793cdc75",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Holster",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "FireMode": {
+            "FireMode": "single"
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "d53dbe4da567fe30e9c3cbf9",
+        "_tpl": "5e81c539cb2b95385c177553",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_catch",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "861d34ab6e36247ecfa6ce4d",
+        "_tpl": "5e81c550763d9f754677befd",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_hammer",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "dc7d159e53384a1f92f1d7a2",
+        "_tpl": "5e81c6a2ac2bb513793cdc7f",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_trigger",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "61db4848a17b13c5d6c67164",
+        "_tpl": "5ef369b08cef260c0642acaf",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_mount_001",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "8f4d4af7a9c47cb3689452c1",
+        "_tpl": "5b07dd285acfc4001754240d",
+        "parentId": "61db4848a17b13c5d6c67164",
+        "slotId": "mod_tactical",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "a61104bc2ed1c441cd24b3b1",
+        "_tpl": "5ef366938cef260c0642acad",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_pistol_grip",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "0143cf7e10de0fbf16a6ece0",
+        "_tpl": "5f3e77f59103d430b93f94c1",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_barrel",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ac06aca770b2d3859695e94d",
+        "_tpl": "5fc4b97bab884124df0cd5e3",
+        "parentId": "0143cf7e10de0fbf16a6ece0",
+        "slotId": "mod_muzzle",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f25caa332f313eb4eb7ae06d",
+        "_tpl": "5fc4b9b17283c4046c5814d7",
+        "parentId": "ac06aca770b2d3859695e94d",
+        "slotId": "mod_muzzle",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "7cfaeeffd454693e7a3b3771",
+        "_tpl": "5f3e7823ddc4f03b010e2045",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_reciever",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ad31088eb17a3527b9f58191",
+        "_tpl": "5f3e78a7fbf956000b716b8e",
+        "parentId": "7cfaeeffd454693e7a3b3771",
+        "slotId": "mod_sight_front",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "5ef8533a7b7ca7bf75bea933",
+        "_tpl": "5f3e7897ddc4f03b010e204a",
+        "parentId": "7cfaeeffd454693e7a3b3771",
+        "slotId": "mod_sight_rear",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "df39a97031b0a02833254b34",
+        "_tpl": "5e81c4ca763d9f754677befa",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "mod_magazine",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "812698ded3c31912e4471da3",
+        "_tpl": "699aab526ac4f65528f1fd63",
+        "parentId": "df39a97031b0a02833254b34",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 7,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "8d61930ed41eabdc609b7243",
+        "_tpl": "699aab526ac4f65528f1fd63",
+        "parentId": "bb3190a5197524a1a7065ba7",
+        "slotId": "patron_in_weapon",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "1de0ffa93d9489b9ee0af0d7",
+        "_tpl": "54491bb74bdc2d09088b4567",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Scabbard",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 70,
+            "MaxDurability": 70
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "e62bb0dd0c9ef5fb215bbca8",
+        "_tpl": "be5f08f5165055df89511f06",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "TacticalVest",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "5a76d1f19ef442ae869a9d1c",
+        "_tpl": "64afdb577bb3bfe8fe03fd1d",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Right_side_plate",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 18,
+            "MaxDurability": 18
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "42cc9602474817eff95a85a4",
+        "_tpl": "64afdb577bb3bfe8fe03fd1d",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Left_side_plate",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 18,
+            "MaxDurability": 18
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "30569ffc20c05d439762c65b",
+        "_tpl": "656fa61e94b480b8a500c0e8",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Front_plate",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 60,
+            "MaxDurability": 60
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "81108697b235053c1b40b4ea",
+        "_tpl": "656fa61e94b480b8a500c0e8",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Back_plate",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 60,
+            "MaxDurability": 60
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "40483169ce462f537ea2694f",
+        "_tpl": "69dedb462e45a1248bf6b96a",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "6",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 2
+          }
+        }
+      },
+      {
+        "_id": "202cbb5c08a371af62e1be5c",
+        "_tpl": "5c0e533786f7747fa23f4d47",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "6",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 0
+          }
+        }
+      },
+      {
+        "_id": "6795e72d525a4975c352432e",
+        "_tpl": "5e8488fa988a8701445df1e4",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "7",
+        "location": {
+          "x": 0,
+          "y": 1,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 3
+          }
+        }
+      },
+      {
+        "_id": "c8a0bfeb89271154b06370fe",
+        "_tpl": "17f315f790a153b6993cd1c6",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "soft_armor_right",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 8,
+            "MaxDurability": 8
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "59753578f70ecbcae39dcefe",
+        "_tpl": "be3a9b7ec34055b084825791",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Soft_armor_left",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 8,
+            "MaxDurability": 8
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "0e50801726f298cef6592dfa",
+        "_tpl": "cfdd47406da054399441de9d",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Soft_armor_back",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 26,
+            "MaxDurability": 26
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "0ee913bb665714df91fb6cf3",
+        "_tpl": "2379779702065d808af863f7",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "Soft_armor_front",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 26,
+            "MaxDurability": 26
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "e9dd94c6cd357ab9362195ce",
+        "_tpl": "fe24d01db70557e8898cdf00",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "1",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "Tag": {
+            "Color": 103,
+            "Name": ""
+          },
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "c3d6c4c7766cfcf56d3792c3",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "e9dd94c6cd357ab9362195ce",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 30,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "7fd866afba276aa25d7a760b",
+        "_tpl": "fe24d01db70557e8898cdf00",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "3",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "Tag": {
+            "Color": 103,
+            "Name": ""
+          },
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "fe36630c8bb1573224d69171",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "7fd866afba276aa25d7a760b",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 30,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "70929675ece9dcc4f11511fe",
+        "_tpl": "fe24d01db70557e8898cdf00",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "2",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "Tag": {
+            "Color": 103,
+            "Name": ""
+          },
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "b53f5a431d1680b07a5bf852",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "70929675ece9dcc4f11511fe",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 30,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "aa0f704053580b5277e29dd7",
+        "_tpl": "fe24d01db70557e8898cdf00",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "4",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "76ded6ce2a330b3a70b8e7f3",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "aa0f704053580b5277e29dd7",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 30,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "a8d26a55116d9964fea93b2a",
+        "_tpl": "590c657e86f77412b013051d",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "9",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 1080
+          }
+        }
+      },
+      {
+        "_id": "62a5a1feb01d60cc9caf6a16",
+        "_tpl": "5751a89d24597722aa0e8db0",
+        "parentId": "e62bb0dd0c9ef5fb215bbca8",
+        "slotId": "7",
+        "location": {
+          "x": 0,
+          "y": 0,
+          "r": "Horizontal"
+        },
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "MedKit": {
+            "HpResource": 5
+          }
+        }
+      },
+      {
+        "_id": "586f94dd2fdc35ebe182f0dc",
+        "_tpl": "69f586053cad5a4bb4cd61ee",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "FirstPrimaryWeapon",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "FireMode": {
+            "FireMode": "single"
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "61d018bba3997fd6e8dbcdf4",
+        "_tpl": "68c16f15efac701f800dfd36",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "mod_charge",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "8de7b7909c304cebb23d4952",
+        "_tpl": "5c793fb92e221644f31bfb64",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "mod_stock_001",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "3bc4100f36867d4c77005089",
+        "_tpl": "6a15bf94e5267ba21c07f9b1",
+        "parentId": "8de7b7909c304cebb23d4952",
+        "slotId": "mod_stock_000",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "a516e41b2b08c4e96ddf528e",
+        "_tpl": "69f64ffa8aee7c5fc321dc70",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "mod_reciever",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ce7cd83974f473ba99882689",
+        "_tpl": "68c294800f5ebd68290d6c20",
+        "parentId": "a516e41b2b08c4e96ddf528e",
+        "slotId": "mod_barrel",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "6ec8655cd6fb8fc6fb7c8956",
+        "_tpl": "68c2a99647eb77c6310b170f",
+        "parentId": "ce7cd83974f473ba99882689",
+        "slotId": "mod_gas_block",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "255dd913749739418a049d8f",
+        "_tpl": "5ea172e498dacb342978818e",
+        "parentId": "ce7cd83974f473ba99882689",
+        "slotId": "mod_muzzle",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "8a06e3f6af4e6fddfd96bffb",
+        "_tpl": "55d614004bdc2d86028b4568",
+        "parentId": "255dd913749739418a049d8f",
+        "slotId": "mod_muzzle",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "7da3b80b192e2bdb603aa37f",
+        "_tpl": "5bc09a18d4351e003562b68e",
+        "parentId": "a516e41b2b08c4e96ddf528e",
+        "slotId": "mod_sight_rear",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "632c436efc3ea58fa7b50a94",
+        "_tpl": "6a156a75cbb8d0c82606c525",
+        "parentId": "a516e41b2b08c4e96ddf528e",
+        "slotId": "mod_handguard",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "8be6344ca35906fc70795142",
+        "_tpl": "5bc09a30d4351e00367fb7c8",
+        "parentId": "632c436efc3ea58fa7b50a94",
+        "slotId": "mod_sight_front",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "b53ca428ba5e6642ba4ef19b",
+        "_tpl": "689c8b454b91399db3085f2a",
+        "parentId": "632c436efc3ea58fa7b50a94",
+        "slotId": "mod_mount_000",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "3a367f55c9cf502462d177b3",
+        "_tpl": "689c887cd18a3665b8045743",
+        "parentId": "b53ca428ba5e6642ba4ef19b",
+        "slotId": "mod_tactical",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true,
+          "Light": {
+            "IsActive": true,
+            "SelectedMode": 0
+          }
+        }
+      },
+      {
+        "_id": "2bfcabd709fdb373d54422ae",
+        "_tpl": "6a156ac407619a15b1023bf0",
+        "parentId": "632c436efc3ea58fa7b50a94",
+        "slotId": "mod_handguard",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "627bcf5b3182314daeaae2f4",
+        "_tpl": "5b7be4895acfc400170e2dd5",
+        "parentId": "2bfcabd709fdb373d54422ae",
+        "slotId": "mod_foregrip",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "833d2d1373f85d06a27f98fe",
+        "_tpl": "588226d124597767ad33f787",
+        "parentId": "627bcf5b3182314daeaae2f4",
+        "slotId": "mod_foregrip",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "e5ba3159c9f6873a9838a781",
+        "_tpl": "644a3df63b0b6f03e101e065",
+        "parentId": "632c436efc3ea58fa7b50a94",
+        "slotId": "mod_tactical",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "f6a646c2cf8b34dbd5d67df9",
+        "_tpl": "57ac965c24597706be5f975c",
+        "parentId": "a516e41b2b08c4e96ddf528e",
+        "slotId": "mod_scope",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ea6748cd47b318f4bd79f15d",
+        "_tpl": "688b54a11cef2a61d005273b",
+        "parentId": "f6a646c2cf8b34dbd5d67df9",
+        "slotId": "mod_mount",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "ef73d2001d7298d8e788f66e",
+        "_tpl": "5a32aa8bc4a2826c6e06d737",
+        "parentId": "ea6748cd47b318f4bd79f15d",
+        "slotId": "mod_scope",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "c1deaa77f77c59c34cc8558b",
+        "_tpl": "5d025cc1d7ad1a53845279ef",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "mod_pistol_grip",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "3c0f03f804b78f8b4d5af84c",
+        "_tpl": "fe24d01db70557e8898cdf00",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "mod_magazine",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "60a464e157d7cfdd2cccba3c",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "3c0f03f804b78f8b4d5af84c",
+        "slotId": "cartridges",
+        "location": 0,
+        "upd": {
+          "StackObjectsCount": 30,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "198d12432d97e8d9d5c6d4ec",
+        "_tpl": "699b6b88be849a7f65b7e866",
+        "parentId": "586f94dd2fdc35ebe182f0dc",
+        "slotId": "patron_in_weapon",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "3535d7f84e2d86fb9e7b3fb9",
+        "_tpl": "3401a3220a7355a3ad4b0f54",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "FaceCover",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 100,
+            "MaxDurability": 100
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "d47e8bcb6b38ca08a0fb2aec",
+        "_tpl": "9d049eb3c2c05305be0a0891",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Earpiece",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "94210f792c16113885bc2883",
+        "_tpl": "5db7d0ed2655505f85d68b08",
+        "parentId": "409a6e2d6dd4ed15f3078ee1",
+        "slotId": "Headwear",
+        "upd": {
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "22bde5f479e43477b473eb7d",
+        "_tpl": "657f9ef6c6679fefb3051e1f",
+        "parentId": "94210f792c16113885bc2883",
+        "slotId": "Helmet_back",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 36,
+            "MaxDurability": 36
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "445ea4ab98af222d0f7f01bd",
+        "_tpl": "657f9eb7e9433140ad0baf86",
+        "parentId": "94210f792c16113885bc2883",
+        "slotId": "Helmet_top",
+        "upd": {
+          "StackObjectsCount": 1,
+          "Repairable": {
+            "Durability": 36,
+            "MaxDurability": 36
+          },
+          "SpawnedInSession": true
+        }
+      },
+      {
+        "_id": "5cb7cc23b41d7676aaf85bbb",
+        "_tpl": "5c0558060db834001b735271",
+        "parentId": "94210f792c16113885bc2883",
+        "slotId": "mod_nvg",
+        "upd": {
+          "Togglable": {
+            "On": true
+          },
+          "StackObjectsCount": 1,
+          "SpawnedInSession": true
+        }
+      }
+    ],
+    "Root": "409a6e2d6dd4ed15f3078ee1",
+    "BuildType": "Custom",
+    "type": "equipment"
+  },
+  "botName": "Terminus"
+}

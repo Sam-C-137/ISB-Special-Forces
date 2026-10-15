@@ -17,7 +17,6 @@ namespace ISBSpecialForces.Components
         private static readonly HashSet<string> DogtagTemplates = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         private static DateTime _nextLoadAttemptUtc = DateTime.MinValue;
         private static bool _loaded;
-
         public static bool Enabled { get; private set; }
         public static string DisplaySide { get; private set; } = "ISB";
 
@@ -25,23 +24,18 @@ namespace ISBSpecialForces.Components
         {
             if (_loaded || DateTime.UtcNow < _nextLoadAttemptUtc)
                 return;
-
             _nextLoadAttemptUtc = DateTime.UtcNow.AddSeconds(5);
-
             try
             {
                 var json = RequestHandler.GetJson("/ISB/dogtags");
                 if (string.IsNullOrWhiteSpace(json))
                     return;
-
                 var response = JsonConvert.DeserializeObject<ISBDogtagConfigResponse>(json);
                 if (response == null)
                     return;
-
                 DogtagTemplates.Clear();
                 Enabled = response.enabled;
                 DisplaySide = string.IsNullOrWhiteSpace(response.displaySide) ? "ISB" : response.displaySide.Trim();
-
                 if (response.dogtagTplByWildType != null)
                 {
                     foreach (var templateId in response.dogtagTplByWildType.Values)
@@ -53,9 +47,8 @@ namespace ISBSpecialForces.Components
 
                 _loaded = true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Plugin.LogSource.LogWarning($"[ISB DOGTAG] Could not load dogtag display config: {ex.Message}");
             }
         }
 
@@ -63,10 +56,7 @@ namespace ISBSpecialForces.Components
         {
             if (!_loaded)
                 Initialize();
-
-            return Enabled
-                && !string.IsNullOrWhiteSpace(templateId)
-                && DogtagTemplates.Contains(templateId);
+            return Enabled && !string.IsNullOrWhiteSpace(templateId) && DogtagTemplates.Contains(templateId);
         }
     }
 }

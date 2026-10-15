@@ -19,11 +19,8 @@ namespace ISBSSOFExtra
         double NetworkTime { get; }
 
         void DrainReceivedPayloads(Action<string> handler);
-
         bool ConsumePeerConnected();
-
         bool Broadcast(string payload);
-
         bool SendToServer(string payload);
     }
 
@@ -31,7 +28,6 @@ namespace ISBSSOFExtra
     {
         private static readonly IExtrasNetworkBridge EmptyBridge = new NoNetworkBridge();
         private static IExtrasNetworkBridge _current = EmptyBridge;
-
         public static IExtrasNetworkBridge Current => _current ?? EmptyBridge;
 
         public static void Register(IExtrasNetworkBridge bridge)
@@ -48,17 +44,11 @@ namespace ISBSSOFExtra
         private sealed class NoNetworkBridge : IExtrasNetworkBridge
         {
             public bool Active => false;
-
             public bool Ready => false;
-
             public bool IsServer => false;
-
             public bool IsHeadless => false;
-
             public bool IsSinglePlayer => true;
-
             public bool RaidStarted => false;
-
             public double NetworkTime => 0d;
 
             public void DrainReceivedPayloads(Action<string> handler)
