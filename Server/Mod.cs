@@ -27,8 +27,8 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
     public List<string>? Contributors { get; init; } = new()
     {
     };
-    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 0);
-    public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.5");
+    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 1);
+    public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.6");
     public List<string>? Incompatibilities { get; init; }
     public Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
     {
@@ -58,7 +58,7 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
 #else
     public string? HomePage { get; init; } = "/isb";
 #endif
-    public string? HomePageDescription { get; init; } = "ISB SOF — spawns, opções essenciais e eventos";
+    public string? HomePageDescription { get; init; } = "Configuration for Spawns, Formations, Blackout and Containement Breach Events, Dogtags and others";
 }
 
 [Injectable(TypePriority = OnLoadOrder.Preload)]

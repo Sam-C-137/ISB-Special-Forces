@@ -520,14 +520,7 @@ public class ISBQuestTruceController
             foreach (var profile in loaded.profiles.Values)
             {
                 profile.rules = profile.rules == null ? new Dictionary<string, ISBQuestTruceRuleState>(StringComparer.OrdinalIgnoreCase) : new Dictionary<string, ISBQuestTruceRuleState>(profile.rules, StringComparer.OrdinalIgnoreCase);
-                foreach (var pair in profile.rules.ToArray())
-                {
-                    var key = ISBSpecialForces.Services.EventQuestProfileIds.Current(pair.Key);
-                    if (key == pair.Key) continue;
-                    if (!profile.rules.TryGetValue(key, out var current) || pair.Value.lastUpdatedUtc > current.lastUpdatedUtc)
-                        profile.rules[key] = pair.Value;
-                    profile.rules.Remove(pair.Key);
-                }
+
             }
 
             return loaded;

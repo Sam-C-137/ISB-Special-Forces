@@ -18,17 +18,11 @@ namespace ISBSpecialForces.Components
         public static bool Enabled;
         public static bool Logs;
         private static readonly HashSet<WildSpawnType> Friendly = new HashSet<WildSpawnType>();
-        private static readonly HashSet<BotsGroup> ScannedGroups = new HashSet<BotsGroup>();
-        private static readonly HashSet<BotsGroup> OtherGroups = new HashSet<BotsGroup>();
-        private static int _scanFrame = -1;
         public static void InitRaid()
         {
             Enabled = false;
             Logs = false;
             Friendly.Clear();
-            ScannedGroups.Clear();
-            OtherGroups.Clear();
-            _scanFrame = -1;
             try
             {
                 var json = RequestHandler.GetJson("/ISB/forcedHostility");
@@ -86,66 +80,6 @@ namespace ISBSpecialForces.Components
             return WildSpawnTypeExtensions.IsISB(role) || Friendly.Contains(role);
         }
 
-        public static void OnBotActivated(BotOwner botOwner)
-        {
-            if (!Enabled)
-                return;
-            if (botOwner?.Profile?.Info?.Settings == null)
-                return;
-            var group = botOwner.BotsGroup;
-            if (group == null)
-                return;
-            var gameWorld = Singleton<GameWorld>.Instance;
-            if (gameWorld == null || gameWorld.AllAlivePlayersList == null)
-                return;
-            var role = botOwner.Profile.Info.Settings.Role;
-            var botIsISB = WildSpawnTypeExtensions.IsISB(role);
-            if (!botIsISB && IsFriendlyToISB(role))
-                return;
-            int frame = UnityEngine.Time.frameCount;
-            if (_scanFrame != frame)
-            {
-                _scanFrame = frame;
-                ScannedGroups.Clear();
-            }
-
-            if (botIsISB && !ScannedGroups.Add(group))
-                return;
-            OtherGroups.Clear();
-            var added = 0;
-            foreach (var person in gameWorld.AllAlivePlayersList)
-            {
-                if (person == null || !person.IsAI)
-                    continue;
-                if (person.HealthController == null || !person.HealthController.IsAlive)
-                    continue;
-                if (person.Profile?.Info?.Settings == null)
-                    continue;
-                if (person.ProfileId == botOwner.ProfileId)
-                    continue;
-                var otherRole = person.Profile.Info.Settings.Role;
-                if (botIsISB)
-                {
-                    if (IsFriendlyToISB(otherRole))
-                        continue;
-                    if (group.AddEnemy(person, EBotEnemyCause.initial))
-                        added++;
-                    continue;
-                }
-
-                if (!WildSpawnTypeExtensions.IsISB(otherRole))
-                    continue;
-                var otherGroup = person.AIData?.BotOwner?.BotsGroup;
-                if (otherGroup == null || otherGroup == group || !OtherGroups.Add(otherGroup))
-                    continue;
-                if (otherGroup.AddEnemy(botOwner.GetPlayer, EBotEnemyCause.initial))
-                    added++;
-            }
-
-            if (Logs && added > 0)
-            {
-                Plugin.LogSource.LogInfo($"[ISB FORCED HOSTILITY] '{botOwner.Profile.Nickname}' ({(int)role}) activated. {added} enemy link(s) set.");
-            }
-        }
+        public static void OnBotActivated(BotOwner botOwner) => ISBEventHostility.OnBotActivated(botOwner);
     }
 }

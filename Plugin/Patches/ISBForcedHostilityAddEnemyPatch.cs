@@ -15,19 +15,13 @@ namespace ISBSpecialForces.Patches
         [PatchPrefix]
         protected static bool PatchPrefix(BotsGroup __instance, IPlayer person, ref bool __result)
         {
-            if (!ISBForcedHostilityState.Enabled)
-                return true;
-            if (person == null || !person.IsAI)
-                return true;
-            var initialBot = __instance._initialBot;
-            if (initialBot == null)
-                return true;
-            if (!WildSpawnTypeExtensions.IsISB(initialBot.Profile.Info.Settings.Role))
-                return true;
-            var role = person.Profile?.Info?.Settings?.Role;
-            if (role == null)
-                return true;
-            if (!ISBForcedHostilityState.IsFriendlyToISB(role.Value))
+            if (ISBEventHostility.TryGetBotRelation(__instance, person, out var enemy))
+            {
+                if (enemy) return true;
+                __result = false;
+                return false;
+            }
+            if (!ISBEventHostility.IsBlackDivisionGroup(__instance) || ISBEventHostility.IsBlackDivisionEnemy(__instance, person))
                 return true;
             __result = false;
             return false;

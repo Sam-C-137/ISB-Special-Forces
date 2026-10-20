@@ -85,7 +85,7 @@ namespace ISBSSOFExtra
 
                 if (!CanContinueAnnouncement(generation))
                     yield break;
-                LabsAnnouncementPlan plan = LabsAnnouncementConfig.Select(_labsAnnouncements, _preBlackoutSequences, _blackoutSelectedForRaid, _labsPreBlackoutEventActive, _enablePreBlackoutEvent?.Value == true, () => UnityEngine.Random.value);
+                LabsAnnouncementPlan plan = LabsAnnouncementConfig.Select(_labsAnnouncements, _preBlackoutSequences, _blackoutSelectedForRaid, _labsPreBlackoutEventActive, true, () => UnityEngine.Random.value);
                 if (global::ISBSSOFExtra.ISBSpecialForcesAudio.DiagnosticsEnabled)
                 {
                     Log.LogInfo("ISB SOF announcements: blackout=" + _blackoutSelectedForRaid + ", containment=" + _labsPreBlackoutEventActive + ", preBlackout=" + plan.PreBlackout + ", entries=" + plan.Audios.Length + ", initialDelay=" + plan.InitialDelay + ".");
@@ -132,7 +132,7 @@ namespace ISBSSOFExtra
                     ActivateManualShutdownControls();
                 }
 
-                if (!CanContinueAnnouncement(generation) || _enableAnnouncements?.Value != true)
+                if (!CanContinueAnnouncement(generation))
                     yield break;
                 if (plan.InitialDelay > 0f)
                     yield return new WaitForSeconds(plan.InitialDelay);
@@ -154,7 +154,7 @@ namespace ISBSSOFExtra
         {
             for (int i = 0; i < entries.Length; i++)
             {
-                if (!CanContinueAnnouncement(generation) || _enableAnnouncements?.Value != true)
+                if (!CanContinueAnnouncement(generation))
                     yield break;
                 while (CanContinueAnnouncement(generation) && DecontaminationPaused && IsDecontaminationClip(entries[i].audio))
                     yield return null;
@@ -163,19 +163,9 @@ namespace ISBSSOFExtra
                 if ((_decontamination?.VideoTimelineEnabled ?? true) && DecontaminationVideoTimeline.Index(entries[i].audio) == 0)
                     StartDecontaminationVideo(DecontaminationClock);
                 double scheduledStart = DecontaminationAnnouncementTime(entries[i].audio);
-                if (entries[i].afterDecontaminationSeconds.HasValue)
-                {
-                    if (_decontamination == null || !_decontamination.Configured || _officeAccess?.aborted == true)
-                        yield break;
-                    while (CanContinueAnnouncement(generation) && _enableAnnouncements.Value && _decontamination.StartedAt < 0d && _officeAccess?.aborted != true)
-                        yield return null;
-                    if (_officeAccess?.aborted == true || !CanContinueAnnouncement(generation))
-                        yield break;
-                    scheduledStart = _decontamination.StartedAt + entries[i].afterDecontaminationSeconds.Value;
-                }
-                while (CanContinueAnnouncement(generation) && _enableAnnouncements.Value && ((!ShouldSkipDecontaminationAudio(entries[i].audio) && DecontaminationClock < scheduledStart) || (DecontaminationPaused && IsDecontaminationClip(entries[i].audio))))
+                while (CanContinueAnnouncement(generation) && ((!ShouldSkipDecontaminationAudio(entries[i].audio) && DecontaminationClock < scheduledStart) || (DecontaminationPaused && IsDecontaminationClip(entries[i].audio))))
                     yield return null;
-                if (!CanContinueAnnouncement(generation) || !_enableAnnouncements.Value)
+                if (!CanContinueAnnouncement(generation))
                     yield break;
                 while (CanContinueAnnouncement(generation) && DecontaminationPaused && IsDecontaminationClip(entries[i].audio))
                     yield return null;
@@ -275,6 +265,11 @@ namespace ISBSSOFExtra
             if (!IsLaboratoryPresentationAllowed() || string.IsNullOrWhiteSpace(fileName))
                 yield break;
             string path = Path.Combine(_dataFolder, fileName);
+            if (_enablePreBlackoutEvent?.Value != true)
+            {
+                yield return WaitAnnouncement(Path.GetFileNameWithoutExtension(path), GetWavDurationSeconds(path));
+                yield break;
+            }
             if (IsHeadless)
             {
                 if (!File.Exists(path))
@@ -335,11 +330,13 @@ namespace ISBSSOFExtra
             if (!_raidisActive || DeadManActive) yield break;
             if (SynchronizedTime - queuedAt > .01d && scheduledStart >= 0d) scheduledStart = SynchronizedTime;
             string path = Path.Combine(_dataFolder, fileName);
-            if (IsHeadless)
+            if (IsHeadless || !_enableAnnouncements.Value)
             {
                 if (!File.Exists(path))
                 {
-                    Log.LogWarning("ISB SOF Extras: Headless announcement file not found: " + path);
+                    Log.LogError("ISB: Required event announcement is missing: " + fileName);
+                    _currentNetworkAnnouncementStart = SynchronizedTime;
+                    NotifyAnnouncementStarted(Path.GetFileNameWithoutExtension(fileName));
                     yield break;
                 }
 
@@ -375,7 +372,9 @@ namespace ISBSSOFExtra
 
             if (!IsAudioClipReady(clip))
             {
-                Log.LogWarning($"ISB SOF Audio Plugin: Lead announcement clip is invalid: {fileName}");
+                Log.LogError($"ISB: Required event announcement could not be decoded: {fileName}");
+                _currentNetworkAnnouncementStart = SynchronizedTime;
+                NotifyAnnouncementStarted(Path.GetFileNameWithoutExtension(fileName));
                 yield break;
             }
 
@@ -398,6 +397,14 @@ namespace ISBSSOFExtra
             }
 
             yield return PlayISBSoldiersRadio(clip, null, new Vector3(-170, 20, -342), AnnouncementMinDistance, AnnouncementMaxDistance, AnnouncementBaseVolume, _announcementsVolume, true, playbackOffset, true, false, AnnouncementSpatialBlend, AnnouncementRolloffMode);
+        }
+
+        internal static bool IsRussianSpecialAnnouncement(string name)
+        {
+            if (string.IsNullOrEmpty(name)) return false;
+            name = Path.GetFileNameWithoutExtension(name);
+            return (name.EndsWith("_RU", StringComparison.OrdinalIgnoreCase) || name.EndsWith("Russian", StringComparison.OrdinalIgnoreCase)) &&
+                !IsDecontaminationClip(name) && !ShouldRouteThroughLaboratoryPa(name);
         }
 
         private void NotifyAnnouncementStarted(string clipName)

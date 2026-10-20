@@ -1,5 +1,5 @@
 using EFT;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using ISBSpecialForces.Components;
 using MoreBotsAPI.Behavior.Layers;
 
@@ -13,7 +13,7 @@ namespace ISBSpecialForces.Behavior.Layers
             _agent = ISBTacticalAgent.GetOrAdd(bot);
         }
 
-        public override string GetName() => ISBCameraHuntController.AppliesTo(BotOwner) ? "ISB Camera Hunt" : "ISB Hunt";
+        public override string GetName() => BotOwner.Brain?.BaseBrain is ISB.BlackDivBrain ? "blackDiv Hunt" : ISBCameraHuntController.AppliesTo(BotOwner) ? "ISB Camera Hunt" : "ISB Hunt";
         public override bool IsActive()
         {
             if (_agent == null || ISBRevengeHuntController.AppliesTo(BotOwner) || _agent.HasCheckpoint || !_agent.CanRunMission())

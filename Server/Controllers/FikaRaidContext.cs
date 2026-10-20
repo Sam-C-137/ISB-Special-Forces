@@ -71,6 +71,30 @@ public sealed class FikaRaidContext(IServiceProvider services, ILogger<FikaRaidC
         return eventSession;
     }
 
+    public object? RaidInstance(string? eventSession)
+    {
+        if (string.IsNullOrWhiteSpace(eventSession))
+            return null;
+        try
+        {
+            var matches = Service("FikaServer.Services.MatchService");
+            var entries = matches?.GetType().GetProperty("Matches")?.GetValue(matches) as IEnumerable;
+            if (entries == null)
+                return null;
+            foreach (var entry in entries)
+            {
+                var type = entry.GetType();
+                if (type.GetProperty("Key")?.GetValue(entry)?.ToString() == eventSession)
+                    return type.GetProperty("Value")?.GetValue(entry);
+            }
+        }
+        catch (Exception ex)
+        {
+            Report(ex);
+        }
+        return null;
+    }
+
     private object? HeadlessClient(string session)
     {
         var headless = Service("FikaServer.Services.Headless.HeadlessService");

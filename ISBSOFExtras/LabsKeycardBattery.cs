@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,8 +32,8 @@ namespace ISBSSOFExtra
 
         private sealed class Reservation
         {
-            internal string Token;
-            internal float Expires;
+            internal string Token, Player;
+            internal float Expires, Started;
             internal bool ArcStarted;
         }
 
@@ -125,10 +125,29 @@ namespace ISBSSOFExtra
                 return;
             }
 
+            string profile = ExtrasNetworkBridgeRegistry.Current.ReceivedPlayerId;
+            Player actor = string.IsNullOrEmpty(profile) ? Singleton<GameWorld>.Instance?.MainPlayer : Singleton<GameWorld>.Instance?.AllAlivePlayersList.FirstOrDefault(player => player.ProfileId == profile);
             Reservations.TryGetValue(id, out var reservation);
+            string owner = string.IsNullOrEmpty(profile) ? actor?.ProfileId : profile;
+            if (command == "CANCEL")
+            {
+                if (reservation?.Token == token && reservation.Player == owner)
+                {
+                    Reservations.Remove(id);
+                    PublishBattery("CANCELLED", id, token);
+                }
+                return;
+            }
+            if (actor == null || actor.IsAI || actor.HealthController?.IsAlive != true || (actor.Position - door.transform.position).sqrMagnitude > 16f) return;
+            if (command != "RESERVE" && (reservation == null || reservation.Player != actor.ProfileId)) return;
             if (command == "RESERVE")
             {
-                if (!IsBlocked(door) || (reservation != null && reservation.Expires > Time.realtimeSinceStartup && reservation.Token != token))
+                if (reservation?.Token == token && reservation.Player == actor.ProfileId && reservation.Expires > Time.realtimeSinceStartup)
+                {
+                    PublishBattery("GRANTED", id, token);
+                    return;
+                }
+                if ((!CanUseBattery(actor, FindBattery(actor, false, IsOfficeReader(door)), door) && !CanUseBattery(actor, FindBattery(actor, true, IsOfficeReader(door)), door)) || !IsBlocked(door) || (reservation != null && reservation.Expires > Time.realtimeSinceStartup && reservation.Token != token))
                 {
                     PublishBattery("DENIED", id, token);
                     return;
@@ -137,6 +156,8 @@ namespace ISBSSOFExtra
                 Reservations[id] = new Reservation
                 {
                     Token = token,
+                    Player = actor.ProfileId,
+                    Started = Time.realtimeSinceStartup,
                     Expires = Time.realtimeSinceStartup + 90f
                 };
                 PublishBattery("GRANTED", id, token);
@@ -146,7 +167,7 @@ namespace ISBSSOFExtra
                 reservation.ArcStarted = true;
                 PublishBattery(command, id, token);
             }
-            else if ((command == "COMMIT" || command == "COMMIT_MODIFIED") && (!IsOfficeReader(door) || command == "COMMIT_MODIFIED") && reservation?.Token == token && reservation.Expires > Time.realtimeSinceStartup && !PoweredReaders.Contains(id))
+            else if ((command == "COMMIT" || command == "COMMIT_MODIFIED") && (!IsOfficeReader(door) || command == "COMMIT_MODIFIED") && reservation?.Token == token && reservation.Expires > Time.realtimeSinceStartup && !PoweredReaders.Contains(id) && Time.realtimeSinceStartup - reservation.Started >= InstallSeconds - .5f)
             {
                 Reservations.Remove(id);
                 ApplyBatteryCharge(parts);

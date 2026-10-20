@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using DrakiaXYZ.BigBrain.Brains;
 using EFT;
 using UnityEngine;
@@ -21,7 +21,7 @@ namespace ISBSpecialForces.Behavior
         }
     }
 
-    internal sealed class DeadManSwitchPanic : CustomLayer
+    internal class DeadManSwitchPanic : CustomLayer
     {
         private readonly PanicMoveState _state;
         public DeadManSwitchPanic(BotOwner bot, int priority) : base(bot, priority)

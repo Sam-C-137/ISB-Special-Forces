@@ -41,11 +41,10 @@ namespace ISBSpecialForces.Behavior.Actions
         public override void Update(CustomLayer.ActionData data)
         {
             isbManager.UpdateGuardPoint();
-            if (isbManager.guardPoint == null)
-                return;
-            holdPosition.UpdateNodeByMain(data);
+            if (isbManager.guardPoint == null) BotOwner.StopMove();
+            else holdPosition.UpdateNodeByMain(data);
             baseSteeringLogic.Update(BotOwner);
-            if (Time.time > sitStart + sitDuration)
+            if (isbManager.guardPoint != null && Time.time > sitStart + sitDuration)
             {
                 isbManager.ShouldSwitchCover = true;
                 isbManager.guardPointDirty = true;

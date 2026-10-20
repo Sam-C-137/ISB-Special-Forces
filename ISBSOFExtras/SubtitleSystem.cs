@@ -1198,6 +1198,10 @@ namespace ISBSSOFExtra
                 return "pt";
             if (normalized == "portuguese" || normalized == "português")
                 return "pt";
+            if (normalized == "russian" || normalized == "русский" || normalized.StartsWith("ru-", StringComparison.Ordinal))
+                return "ru";
+            if (normalized == "zh" || normalized == "chinese" || normalized == "chinesesimplified" || normalized == "chinesetraditional" || normalized == "简体中文" || normalized == "繁體中文" || normalized.StartsWith("zh-", StringComparison.Ordinal) || normalized.StartsWith("ch-", StringComparison.Ordinal))
+                return "ch";
             return normalized;
         }
 
@@ -1206,7 +1210,13 @@ namespace ISBSSOFExtra
             switch (language)
             {
                 case SystemLanguage.Portuguese:
-                    return "po";
+                    return "pt";
+                case SystemLanguage.Russian:
+                    return "ru";
+                case SystemLanguage.Chinese:
+                case SystemLanguage.ChineseSimplified:
+                case SystemLanguage.ChineseTraditional:
+                    return "ch";
                 default:
                     return "en";
             }

@@ -17,6 +17,16 @@ namespace ISBSpecialForces.Patches
         [HarmonyPriority(Priority.Last)]
         protected static void PatchPostfix(BotsGroup __instance, IPlayer player, ref bool __result)
         {
+            if (ISBEventHostility.TryGetBotRelation(__instance, player, out var enemy))
+            {
+                __result = enemy;
+                return;
+            }
+            if (ISBEventHostility.IsBlackDivisionGroup(__instance))
+            {
+                __result = ISBEventHostility.IsBlackDivisionEnemy(__instance, player);
+                return;
+            }
             if (ISBAishiLoyaltyConditionState.ShouldForceHostility(__instance, player))
             {
                 __result = true;

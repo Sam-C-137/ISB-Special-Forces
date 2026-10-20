@@ -71,6 +71,7 @@ namespace ISBSSOFExtra
             public NightmareFacilityState facility;
             public double sentAt;
             public float x, y, z, yaw;
+            public int pose;
             public Scp173Config config;
             public string victim, sound;
         }
@@ -123,8 +124,10 @@ namespace ISBSSOFExtra
         private IExtrasNetworkBridge _network;
         private GameObject _body;
         private Mesh _mesh;
+        private readonly Mesh[] _poseMeshes = new Mesh[7];
+        private int _poseIndex;
         private Material _material;
-        private Texture2D _texture, _normal, _specular;
+        private Texture2D _texture, _normal, _metallic;
         private AudioSource _audio, _movementAudio;
         private AudioSource _audioOther, _fadingAudio;
         private float _audioFadeStarted, _audioFadeVolume;
@@ -187,6 +190,7 @@ namespace ISBSSOFExtra
 
             if (action != "teleport" || !DebugPoint(point, out var destination))
                 return false;
+            ChooseTeleportPose();
             SetPosition(destination);
             _corners = Array.Empty<Vector3>();
             _nextPath = 0f;
@@ -274,6 +278,7 @@ namespace ISBSSOFExtra
             facility = Facility,
             teleportDueIn = _awakened ? Math.Max(0f, _nextTeleport - Time.realtimeSinceStartup) : -1f,
             teleports = _teleports,
+            pose = _poseIndex + 1,
             position = new[]
             {
                 _position.x,
@@ -309,7 +314,9 @@ namespace ISBSSOFExtra
         {
             TickAudioFade();
             _network = network;
-            _authority = !network.Active || network.IsSinglePlayer || network.IsServer;
+            bool fikaExpected = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.fika.core") && !(Singleton<AbstractGame>.Instance is LocalGame);
+            if (fikaExpected && !network.Active) return;
+            _authority = !fikaExpected || network.IsServer;
             _headless = network.Active && network.IsHeadless;
             var game = Singleton<AbstractGame>.Instance;
             var world = Singleton<GameWorld>.Instance;
@@ -524,6 +531,7 @@ namespace ISBSSOFExtra
 
             _attempted = true;
             _spawnPosition = point;
+            _poseIndex = _random.Next(7);
             CreateBody(point);
             _active = true;
             ISBSpecialForcesAudio.ReportScp173Spawn();
@@ -929,7 +937,7 @@ namespace ISBSSOFExtra
                 {
                     if (!_authority || Time.realtimeSinceStartup < _nextDebugRequest) return true;
                     var request = JsonConvert.DeserializeObject<DebugRequest>(payload.Substring(8));
-                    if (request == null || request.entity != _entity || string.IsNullOrEmpty(request.player) || request.player.Length > 64) return true;
+                    if (request == null || request.entity != _entity || request.player != _network.ReceivedPlayerId || string.IsNullOrEmpty(request.player) || request.player.Length > 64) return true;
                     foreach (var player in _world.AllAlivePlayersList)
                         if (player.ProfileId == request.player) { _nextDebugRequest = Time.realtimeSinceStartup + .2f; TryContain(player); break; }
                     return true;
@@ -939,7 +947,7 @@ namespace ISBSSOFExtra
                     if (!_authority || _config?.allowClientDebug != true || !DebugActive || Time.realtimeSinceStartup < _nextDebugRequest)
                         return true;
                     var request = JsonConvert.DeserializeObject<DebugRequest>(payload.Substring(8));
-                    if (request == null || request.entity != _entity || string.IsNullOrEmpty(request.player) || request.player.Length > 64 || request.action != "kill" && request.action != "teleport")
+                    if (request == null || request.entity != _entity || request.player != _network.ReceivedPlayerId || string.IsNullOrEmpty(request.player) || request.player.Length > 64 || request.action != "kill" && request.action != "teleport")
                         return true;
                     var point = new Vector3(request.x, request.y, request.z);
                     if (!Finite(point))
@@ -958,7 +966,7 @@ namespace ISBSSOFExtra
                 if (payload.StartsWith("SC173|O|", StringComparison.Ordinal) && _authority)
                 {
                     var report = JsonConvert.DeserializeObject<Observation>(payload.Substring(8));
-                    if (report == null || report.entity != _entity || string.IsNullOrEmpty(report.player) || report.player.Length > 64)
+                    if (report == null || report.entity != _entity || report.player != _network.ReceivedPlayerId || string.IsNullOrEmpty(report.player) || report.player.Length > 64)
                         return true;
                     double age = Time.realtimeSinceStartup - report.sentAt;
                     if (double.IsNaN(age) || double.IsInfinity(age) || age > _config.observerTimeoutSeconds || age < -1d)
@@ -1000,7 +1008,7 @@ namespace ISBSSOFExtra
                 else if (payload.StartsWith("SC173|S|", StringComparison.Ordinal) && !_authority)
                 {
                     var state = JsonConvert.DeserializeObject<State>(payload.Substring(8));
-                    if (state == null || string.IsNullOrEmpty(state.entity) || state.entity.Length > 64 || state.sequence <= _receivedSequence || _receivedSequence == 0 && state.config == null)
+                    if (state == null || state.pose < 0 || state.pose >= 7 || string.IsNullOrEmpty(state.entity) || state.entity.Length > 64 || state.sequence <= _receivedSequence || _receivedSequence == 0 && state.config == null)
                         return true;
                     if (float.IsNaN(state.x) || float.IsNaN(state.y) || float.IsNaN(state.z) || float.IsNaN(state.yaw) || float.IsInfinity(state.x) || float.IsInfinity(state.y) || float.IsInfinity(state.z) || float.IsInfinity(state.yaw) || double.IsNaN(state.sentAt) || double.IsInfinity(state.sentAt))
                         return true;
@@ -1021,6 +1029,7 @@ namespace ISBSSOFExtra
                     _observed = state.observed;
                     _awakened = state.awakened;
                     _containmentRaid = state.containment;
+                    _poseIndex = state.pose;
                     if (state.facility != null) Facility = state.facility;
                     SetMoving(state.moving);
                     var position = new Vector3(state.x, state.y, state.z);
@@ -1028,6 +1037,7 @@ namespace ISBSSOFExtra
                         CreateBody(position);
                     if (_body != null)
                     {
+                        ApplyVisualPose();
                         _body.SetActive(_active);
                         _body.transform.position = position;
                         _body.transform.rotation = Quaternion.Euler(0f, state.yaw, 0f);
@@ -1071,6 +1081,7 @@ namespace ISBSSOFExtra
                 awakened = _awakened,
                 containment = _containmentRaid,
                 moving = _moving,
+                pose = _poseIndex,
                 facility = Facility,
                 sentAt = Time.realtimeSinceStartup,
                 x = _position.x,
@@ -1153,43 +1164,25 @@ namespace ISBSSOFExtra
             Scp173Registry.Current = _identity;
             if (_headless)
                 return;
-            var geometry = WavefrontMesh.Read(Path.Combine(_folder, "scp173.obj"), 18000, 18000, 1);
-            _mesh = new Mesh
-            {
-                name = "ISB SCP-173"
-            };
-            _mesh.vertices = Array.ConvertAll(geometry.vertices, a => new Vector3(a[0], a[1], a[2]) * (_config.height / 2f));
-            _mesh.normals = Array.ConvertAll(geometry.normals, a => new Vector3(a[0], a[1], a[2]));
-            _mesh.uv = Array.ConvertAll(geometry.uv, a => new Vector2(a[0], a[1]));
-            _mesh.triangles = geometry.triangles[0];
-            _mesh.RecalculateBounds();
-            _mesh.RecalculateTangents();
-            _body.AddComponent<MeshFilter>().sharedMesh = _mesh;
+            _body.AddComponent<MeshFilter>();
+            ApplyVisualPose();
             var shader = Shader.Find("Standard");
-            if (shader == null || !shader.isSupported)
-                shader = Shader.Find("Legacy Shaders/Diffuse");
             if (shader == null || !shader.isSupported)
                 throw new InvalidOperationException("SCP-173 material shader unavailable.");
             _material = new Material(shader)
             {
-                name = "ISB SCP-173 concrete"
+                name = "ISB SCP-173 Unity concrete"
             };
-            _texture = LoadTexture("173texture.jpg");
-            _normal = LoadTexture("173_Norm.jpg", true);
-            _specular = LoadTexture("173_Spec.jpg");
+            _texture = LoadTexture("scp173_unity_albedo.png");
+            _normal = LoadTexture("scp173_unity_normal.png", true);
+            _metallic = LoadTexture("scp173_unity_metallic.png", false, true);
             _material.mainTexture = _texture;
-            if (_material.HasProperty("_BumpMap"))
-            {
-                _material.SetTexture("_BumpMap", _normal);
-                _material.EnableKeyword("_NORMALMAP");
-            }
-
-            if (_material.HasProperty("_SpecGlossMap"))
-                _material.SetTexture("_SpecGlossMap", _specular);
-            if (_material.HasProperty("_SpecMap"))
-                _material.SetTexture("_SpecMap", _specular);
-            if (_material.HasProperty("_Glossiness"))
-                _material.SetFloat("_Glossiness", .2f);
+            _material.SetTexture("_BumpMap", _normal);
+            _material.EnableKeyword("_NORMALMAP");
+            _material.SetTexture("_MetallicGlossMap", _metallic);
+            _material.EnableKeyword("_METALLICGLOSSMAP");
+            _material.SetFloat("_GlossMapScale", .2f);
+            _material.SetFloat("_Glossiness", .2f);
             var renderer = _body.AddComponent<MeshRenderer>();
             renderer.sharedMaterial = _material;
             _audio = _body.AddComponent<AudioSource>();
@@ -1217,29 +1210,100 @@ namespace ISBSSOFExtra
             EnsureAudioReady(Time.realtimeSinceStartup);
         }
 
-        private Texture2D LoadTexture(string name, bool normal = false)
+        private void ChooseTeleportPose()
         {
-            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, true, normal);
-            if (!texture.LoadImage(File.ReadAllBytes(Path.Combine(_folder, name)), !normal))
+            _poseIndex = (_poseIndex + 1 + _random.Next(6)) % 7;
+            ApplyVisualPose();
+        }
+
+        private void ApplyVisualPose()
+        {
+            if (_headless || _body == null)
+                return;
+            _mesh = _poseMeshes[_poseIndex];
+            if (_mesh == null)
+                _mesh = _poseMeshes[_poseIndex] = LoadVisualMesh(_poseIndex);
+            _body.GetComponent<MeshFilter>().sharedMesh = _mesh;
+        }
+
+        private Mesh LoadVisualMesh(int pose)
+        {
+            string path = Path.Combine(_folder, "scp173_pose" + (pose + 1).ToString(CultureInfo.InvariantCulture) + ".mesh");
+            using (var stream = File.OpenRead(path))
+            using (var reader = new BinaryReader(stream))
+            {
+                if (stream.Length < 16 || System.Text.Encoding.ASCII.GetString(reader.ReadBytes(8)) != "ISB173M1")
+                    throw new InvalidDataException("Invalid SCP-173 visual mesh.");
+                int vertexCount = reader.ReadInt32(), indexCount = reader.ReadInt32();
+                if (vertexCount < 3 || vertexCount > 65535 || indexCount < 3 || indexCount > 300000 || indexCount % 3 != 0 || stream.Length != 16L + vertexCount * 32L + indexCount * 4L)
+                    throw new InvalidDataException("SCP-173 visual mesh budget exceeded.");
+                var vertices = new Vector3[vertexCount];
+                var normals = new Vector3[vertexCount];
+                var uv = new Vector2[vertexCount];
+                for (int i = 0; i < vertexCount; i++)
+                {
+                    var position = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+                    var normal = new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+                    var texture = new Vector2(reader.ReadSingle(), reader.ReadSingle());
+                    if (!Finite(position) || !Finite(normal) || float.IsNaN(texture.x) || float.IsNaN(texture.y) || float.IsInfinity(texture.x) || float.IsInfinity(texture.y))
+                        throw new InvalidDataException("Invalid SCP-173 visual vertex.");
+                    vertices[i] = position * (_config.height / 2f);
+                    normals[i] = normal;
+                    uv[i] = texture;
+                }
+                var indices = new int[indexCount];
+                for (int i = 0; i < indexCount; i++)
+                {
+                    indices[i] = reader.ReadInt32();
+                    if (indices[i] < 0 || indices[i] >= vertexCount)
+                        throw new InvalidDataException("SCP-173 visual index outside vertex range.");
+                }
+                var mesh = new Mesh { name = "ISB SCP-173 Pose " + (pose + 1).ToString(CultureInfo.InvariantCulture) };
+                try
+                {
+                    mesh.vertices = vertices;
+                    mesh.normals = normals;
+                    mesh.uv = uv;
+                    mesh.triangles = indices;
+                    mesh.RecalculateBounds();
+                    mesh.RecalculateTangents();
+                    mesh.UploadMeshData(true);
+                    return mesh;
+                }
+                catch
+                {
+                    Object.Destroy(mesh);
+                    throw;
+                }
+            }
+        }
+
+        private Texture2D LoadTexture(string name, bool normal = false, bool linear = false)
+        {
+            var texture = new Texture2D(2, 2, TextureFormat.RGBA32, true, normal || linear);
+            try
+            {
+                if (!texture.LoadImage(File.ReadAllBytes(Path.Combine(_folder, name)), false))
+                    throw new InvalidDataException("SCP-173 texture unavailable: " + name);
+                if (normal)
+                {
+                    var pixels = texture.GetPixels32();
+                    for (int i = 0; i < pixels.Length; i++)
+                    {
+                        pixels[i].a = pixels[i].r;
+                        pixels[i].r = 255;
+                    }
+                    texture.SetPixels32(pixels);
+                }
+                texture.Compress(true);
+                texture.Apply(true, true);
+                return texture;
+            }
+            catch
             {
                 Object.Destroy(texture);
-                throw new InvalidDataException("SCP-173 texture unavailable: " + name);
+                throw;
             }
-
-            if (normal)
-            {
-                var pixels = texture.GetPixels32();
-                for (int i = 0; i < pixels.Length; i++)
-                {
-                    pixels[i].a = pixels[i].r;
-                    pixels[i].r = 255;
-                }
-
-                texture.SetPixels32(pixels);
-                texture.Apply(true, true);
-            }
-
-            return texture;
         }
 
         private void EnsureAudioReady(float now)
@@ -1441,11 +1505,16 @@ namespace ISBSSOFExtra
             _identity?.Dispose();
             _identity = null;
             Object.Destroy(_body);
-            Object.Destroy(_mesh);
+            for (int i = 0; i < _poseMeshes.Length; i++)
+            {
+                Object.Destroy(_poseMeshes[i]);
+                _poseMeshes[i] = null;
+            }
+            _poseIndex = 0;
             Object.Destroy(_material);
             Object.Destroy(_texture);
             Object.Destroy(_normal);
-            Object.Destroy(_specular);
+            Object.Destroy(_metallic);
             foreach (var clip in _clips.Values)
                 Object.Destroy(clip);
             _clips.Clear();
@@ -1458,7 +1527,7 @@ namespace ISBSSOFExtra
             _material = null;
             _texture = null;
             _normal = null;
-            _specular = null;
+            _metallic = null;
             _audioReady = false;
             _nextAudioLoad = 0f;
             _world = null;

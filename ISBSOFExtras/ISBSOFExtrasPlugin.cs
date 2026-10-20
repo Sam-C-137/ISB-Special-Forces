@@ -41,7 +41,7 @@ namespace ISBSSOFExtra
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "2.0.0";
+        public const string PluginVersion = "2.0.1";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBSOF_Extras.Fika";
@@ -70,7 +70,7 @@ namespace ISBSSOFExtra
         private ISBSubtitleSystem _subtitleSystem;
         private const string targetmap = "laboratory";
         private const float AnnouncementBaseVolume = 1f;
-        private const float AnnouncementMinDistance = 40f;
+        private const float AnnouncementMinDistance = 12f;
         private const float AnnouncementMaxDistance = 350f;
         private const float AnnouncementSpatialBlend = 1f;
         private const AudioRolloffMode AnnouncementRolloffMode = AudioRolloffMode.Linear;
@@ -96,13 +96,7 @@ namespace ISBSSOFExtra
         private static readonly HashSet<string> LaboratoryPaAnnouncementClips = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "SCPWarn",
-            "SCPTerminatePlayer",
-            "SCPContainedBots",
-            "Alpha1ArrivalRussian",
-            "ISBStart_RU",
-            "CameraStart_RU",
-            "CameraEnemies_RU",
-            "ISB-D9341GateA_RU",
+            "SCPWarnRepeat",
             "announcer_lights_out_01",
             "announcer_lights_out_02",
             "announcer_lights_out_03",
@@ -278,21 +272,22 @@ namespace ISBSSOFExtra
         private bool _fikaClientReadyAcknowledged;
         private bool _fikaSceneryStateReceived;
         private float _nextFikaSceneryRequest;
-        private bool _fikaPresentationClientReady;
+        private bool _fikaStartupFailed, _fikaContentRejected;
+        private readonly HashSet<string> _fikaCompatiblePlayers = new HashSet<string>(StringComparer.Ordinal);
+        private readonly HashSet<string> _fikaReadyPlayers = new HashSet<string>(StringComparer.Ordinal);
         private float _nextFikaReadySendTime;
         private string _currentRaidLocation = string.Empty;
         private string _fikaReportedRaidLocation = string.Empty;
         private GameWorld _activeRaidWorld;
         private bool _fikaRemotePeerSeen;
         private float _fikaRaidStartedObservedAt = -1f;
-        private float _fikaRemoteReadyFallbackAt = -1f;
         private const float FIKA_PRESENTATION_GRACE_SECONDS = 6f;
-        private const float FIKA_REMOTE_READY_TIMEOUT_SECONDS = 12f;
         private IExtrasNetworkBridge NetworkBridge => ExtrasNetworkBridgeRegistry.Current;
         private bool FikaActive => ISB.Compatibility.ISBRaidMode.UsesNetworkBridge(NetworkBridge.Active, Singleton<AbstractGame>.Instance?.GetType());
         private bool IsFikaNetworkSession => FikaActive && NetworkBridge.Ready;
         private bool IsFikaServer => FikaActive && NetworkBridge.IsServer;
-        private bool IsEventAuthority => !FikaActive || NetworkBridge.IsServer;
+        private bool FikaRequired => Chainloader.PluginInfos.ContainsKey(FikaPluginGuid) && !(Singleton<AbstractGame>.Instance is LocalGame);
+        private bool IsEventAuthority => !FikaRequired || FikaActive && NetworkBridge.IsServer;
         private bool IsHeadless => FikaActive && NetworkBridge.IsHeadless;
         private bool CanPresentLocally => !IsHeadless;
         private double SynchronizedTime => IsFikaNetworkSession ? NetworkBridge.NetworkTime : Time.realtimeSinceStartup;
@@ -342,9 +337,9 @@ namespace ISBSSOFExtra
             _enableRadioChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable ISB Radio Comms", true, "When enabled, while on a raid where ISB operators are present, you'll be able to hear radio communications between operators, such as Aishi's callouts to them. Great for immersion and for pinpointing their locations.");
             _enableDeathChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable ISB KIA Comms", true, "When enabled, while on a raid where ISB operators are present, you'll be able to hear Aishi's and HQ's communication with the other ISB operators when a team member is eliminated in the raid. This is great for immersion, pinpointing positions, and also identifying when a squad member has been taken down.");
             _enableHeavyDamageChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable ISB Heavy Damage Comms", true, "When enabled, while on a raid where ISB operators are present, you'll be able to hear Aishi and HQ's communications about operators who have taken a lot of damage. Great for immersion and for pinpointing their current positions.");
-            _enableAishiRadioChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable Aishi ISB Radio Comms", true, "When enabled, it adds Aishiâ€™s exclusive voice lines to the audio list for coordinating the team, as well as random taunts. Great for immersion and highlighting the botsâ€™ positions.");
+            _enableAishiRadioChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable Aishi ISB Radio Comms", true, "When enabled, it adds Aishi's exclusive voice lines to the audio list for coordinating the team, as well as random taunts. Great for immersion and highlighting the bots' positions.");
             _enableAishiDeathChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable Aishi ISB KIA Comms", true, "When enabled, it adds Aishi's exclusive voice lines to the audio list to alert the team when one of the allied operators is eliminated. Great for immersion and revealing the bots' positions.");
-            _enableAishiHeavyDamageChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable Aishi ISB Heavy Damage Comms", true, "When enabled, it adds Aishiâ€™s exclusive voice lines to the audio list to alert the team when one of the allied operators takes heavy damage but remains alive. Great for immersion and revealing the botsâ€™ positions.");
+            _enableAishiHeavyDamageChatter = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable Aishi ISB Heavy Damage Comms", true, "When enabled, it adds Aishi's exclusive voice lines to the audio list to alert the team when one of the allied operators takes heavy damage but remains alive. Great for immersion and revealing the bots' positions.");
             _enableWhiteTusksCommon = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable White Tusks Common Comms", true, "When enabled, White Tusks use their dedicated common radio, KIA and heavy-damage audio branches when files are available, falling back to the regular ISB pools when they are not.");
             _enableWhiteTuskAishi = Config.Bind("USEC ISB Special Forces Audio Plugin Config", "Enable White Tusk Aishi Comms", true, "When enabled, White Tusks use their dedicated Aishi radio, KIA and heavy-damage audio branches when files are available, falling back to the regular Aishi pools when they are not.");
             _announcementsVolume = AudioVolumeConfig.Bind(Config, "USEC ISB Special Forces Audio Plugin Config", "Laboratory Announcements Volume", 35f, new ConfigDescription("Volume of the Laboratory intercom announcements, from 0 to 100. Changes apply in real time, even while an announcement is already playing.", new AcceptableValueRange<float>(0f, 100f)));
@@ -352,7 +347,7 @@ namespace ISBSSOFExtra
             _alarmVolume.SettingChanged += OnVolumeSettingChanged;
             _deadManSwitchVolume = Config.Bind("Audio", "Dead Man Switch Alarm Volume", _announcementsVolume.Value, new ConfigDescription("Volume of the Dead Man Switch alarm and warning track, from 0 to 100. The voice and alarm share one recording. Changes apply immediately; other announcements and EventEnd keep their own announcement volume.", new AcceptableValueRange<float>(0f, 100f)));
             _deadManSwitchVolume.SettingChanged += OnVolumeSettingChanged;
-            _radioVolume = AudioVolumeConfig.Bind(Config, "USEC ISB Special Forces Audio Plugin Config", "ISB Radio Volume", 60f, new ConfigDescription("Volume of all ISB radio communications, from 0 to 100. Changes apply in real time. even while an radios is already playing.", new AcceptableValueRange<float>(0f, 100f)));
+            _radioVolume = AudioVolumeConfig.Bind(Config, "USEC ISB Special Forces Audio Plugin Config", "ISB Radio Volume", 60f, new ConfigDescription("Volume of all ISB radio communications, from 0 to 100. Changes apply in real time, even while a radio communication is already playing.", new AcceptableValueRange<float>(0f, 100f)));
             _laboratoryBlackoutChance = Config.Bind("USEC ISB Special Forces Blackout Config", "Laboratory Blackout Event Chance", 50, new ConfigDescription("Chance, from 0 to 100, for a normal Laboratory Blackout when the server ContainmentBreach event was not selected. In Fika, the host or headless decides for every player.", new AcceptableValueRange<int>(0, 100), new ConfigUiOrder { Order = 100 }));
             ConfigureContainmentChance();
             _restrictExfilsDuringBlackout = Config.Bind("USEC ISB Special Forces Blackout Config", "Restrict Laboratory Exits", true, "Keeps only the Hangar Gate and Parking Gate exfils available when the blackout starts.");
@@ -360,7 +355,7 @@ namespace ISBSSOFExtra
             _enablePreBlackoutEvent = Config.Bind("USEC ISB Special Forces Blackout Config", "Enable ContainmentBreach Event", true, "Plays the configured lockdown trigger audio when the server ContainmentBreach event is active for the current Laboratory raid.");
             _preBlackoutVolume = AudioVolumeConfig.Bind(Config, "USEC ISB Special Forces Blackout Config", "ContainmentBreach Volume", 100f, new ConfigDescription("Volume of the ContainmentBreach trigger audio, from 0 to 100.", new AcceptableValueRange<float>(0f, 100f)));
             _enableMapAnnouncementSubtitles = Config.Bind("USEC ISB Special Forces Subtitle Config", "Enable Map Announcement Subtitles", true, "Enables subtitles for the Labs Announcements.");
-            _subtitleLanguage = Config.Bind("USEC ISB Special Forces Subtitle Config", "Subtitle Language", "Auto", "Subtitle locale code. Use Auto to follow the current EFT locale. Supported: en and pt.");
+            _subtitleLanguage = Config.Bind("USEC ISB Special Forces Subtitle Config", "Subtitle Language", "Auto", "Subtitle locale code. Use Auto to follow the current EFT locale. Supported: en, pt, ru and ch (Simplified Chinese; zh-CN is also accepted).");
             _announcementsVolume.SettingChanged += OnVolumeSettingChanged;
             _radioVolume.SettingChanged += OnVolumeSettingChanged;
             _blackoutVolume.SettingChanged += OnVolumeSettingChanged;
@@ -590,7 +585,7 @@ namespace ISBSSOFExtra
             }
             catch (Exception ex)
             {
-                Log.LogError("ISB SOF Blackout: Could not read server ContainmentBreach status: " + ex.Message);
+                Log.LogError("ISB SOF Blackout: Could not read server ContainmentBreach status: " + ex.GetType().Name);
                 return false;
             }
         }

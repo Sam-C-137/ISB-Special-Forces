@@ -3,9 +3,18 @@ using System.Collections.Generic;
 namespace ISBSpecialForces.Models;
 public class MainConfig
 {
+    public BrainDebugConfig debug { get; set; } = new BrainDebugConfig();
     public Dictionary<string, MapConfig> locations { get; set; }
     public LabsPreBlackoutEventConfig labsContainmentBreachEvent { get; set; }
     public LabsBlackoutEventConfig labsBlackoutEvent { get; set; }
+}
+
+public class BrainDebugConfig
+{
+    public bool enableISBCustomBehavior { get; set; } = true;
+    public bool enableBlackDivCustomBehavior { get; set; } = true;
+    public bool changeBlackDivBehaviorAllMaps { get; set; }
+    public double useSainLayersChance { get; set; } = 35;
 }
 
 public class LabsPreBlackoutEventConfig

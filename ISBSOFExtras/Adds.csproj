@@ -297,6 +297,9 @@
     <Content Include="ISBSpecialForces_Audios\*.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="ISBSpecialForces_Audios\ISBSpecialForces_Radios\*.wav;ISBSpecialForces_Audios\ISBSpecialForces_DeathRadios\*.wav;ISBSpecialForces_Audios\ISBSpecialForces_HeavyDamageRadios\*.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ISBSpecialForces_Audios\Subtitles\cues.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -337,4 +340,4 @@
       <LogicalName>ISB.Nightmare.SightSurfaces</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-<ItemGroup><Compile Include="NightmareBehaviour.cs" /><Compile Include="NightmareContainmentRoom.cs" /><Compile Include="NightmareFacility.cs" /></ItemGroup><ItemGroup><Compile Include="LabsRenderTextureCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="LocalPlayerModCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="WttResourceCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="AishiGasMaskCompatibility.cs" /></ItemGroup></Project>
+<ItemGroup><Compile Include="NightmareBehaviour.cs" /><Compile Include="NightmareContainmentRoom.cs" /><Compile Include="NightmareFacility.cs" /></ItemGroup><ItemGroup><Compile Include="LabsRenderTextureCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="LocalPlayerModCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="WttResourceCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="AishiGasMaskCompatibility.cs" /></ItemGroup><ItemGroup><Content Include="Nightmare\scp173_pose*.mesh;Nightmare\scp173_unity_albedo.png;Nightmare\scp173_unity_normal.png;Nightmare\scp173_unity_metallic.png"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup></Project>

@@ -67,6 +67,10 @@ const labels = {
     labsContainmentBreachEvent: "Containment Breach · legacy",
     aishiLoyaltyCondition: "Aishi loyalty",
     debug: "Debug",
+    useSainLayersChance: "Use SAIN Layers Chance",
+    enableISBCustomBehavior: "Enable Custom ISB Behavior",
+    enableBlackDivCustomBehavior: "Enable Custom Black Division Behavior",
+    changeBlackDivBehaviorAllMaps: "Enable Custom Black Division Behavior in All Maps",
     collabLoadouts: "Collaboration loadouts",
     collabPresets: "Collaboration Presets",
     enableCollabLoadoutsAndAppearances: "Collaboration Loadouts & Appearances",
@@ -83,7 +87,9 @@ const labels = {
     damagePerSecond: "Damage per second",
     protectiveMasks: "Protective masks",
     sain: "SAIN",
-    logs: "Logs",
+    logs: "Enable Logs",
+    spawnAlways: "ISB Bots Always Spawning",
+    spawnInstantlyAlways: "ISB Bots Spawning Instantly",
     spawnChance: "Spawn Chance (%)",
     PatrolDrawLimit: "Patrol Draw Limit",
     HuntDrawLimit: "Hunt Draw Limit",
@@ -175,6 +181,8 @@ function visible(path) {
                     ["secrets", "secret", "zones", "mapZones", "followers"].includes(k),
                 ) && spawnField.test(last)
             );
+        if (keys[0] === "debug")
+            return keys.length === 2 && ["enableISBCustomBehavior", "enableBlackDivCustomBehavior", "changeBlackDivBehaviorAllMaps", "useSainLayersChance", "logs", "spawnAlways", "spawnInstantlyAlways"].includes(last);
         if (keys[0] === "dayNight")
             return [
                 "ForceDayAppearance",
@@ -389,6 +397,7 @@ function dirty() {
     $("#dirty").title = formationError(state.data);
     $("#save").disabled = state.busy || !n || invalid;
     $("#undo").disabled = state.busy || (!n && !invalid);
+    $("#reset-defaults").disabled = state.busy || !state.current;
 }
 async function confirmDiscard() {
     if (!changes().length) return true;
@@ -413,7 +422,7 @@ async function confirmDiscard() {
 const mainTabs = [
     ["locations", "Maps & Formations"],
     ["labsBlackoutEvent", "Blackout formations"],
-    ["__general", "Essentials"],
+    ["__general", "Essentials & Debug"],
     ["dayNight", "Day & night"],
     ["aishiLoyaltyCondition", "Aishi loyalty"],
     ["dogtags", "Dogtags"],
@@ -432,9 +441,9 @@ function tabs(d) {
     if (d.relativePath === "config.jsonc") return mainTabs;
     if (d.format === "cfg")
         return [
-            ["Audio", "Audio & communications"],
-            ["__blackout", "Blackout settings"],
-            ["__event", "Containment audio"],
+            ["Audio", "Audio & Communications"],
+            ["__blackout", "The Blackout"],
+            ["__event", "The Containement Breach"],
         ];
     return eventTabs;
 }
@@ -579,6 +588,8 @@ function selected() {
 function hint(path, key) {
     return (
         {
+            useSainLayersChance: "Chance from 0 to 100, rolled once per squad using an enabled custom brain. Selected squads use SAIN combat and retain their patrol, hunt and checkpoint tasks. Requires SAIN. Restart clients and headless after changing this setting.",
+            enableBlackDivCustomBehavior: "Only Applies to the Containement Breach Event.",
             chancePerBot:
                 "One roll per eligible bot during the Labs event. A success selects one item using the weights. Existing loot is preserved.",
             chancePerPoint:
@@ -1325,6 +1336,15 @@ function renderContent() {
         const card = section(value, path, label($("#section").value), 0);
         if (card) host.append(card);
     } else host.append(object(value, path));
+    if (state.current.document.relativePath === "config.jsonc" && $("#section").value === "__general") {
+        const settings = state.data.debug || {};
+        const fields = el("div", "fields");
+        for (const key of ["enableISBCustomBehavior", "enableBlackDivCustomBehavior", "changeBlackDivBehaviorAllMaps", "useSainLayersChance", "logs", "spawnAlways", "spawnInstantlyAlways"]) {
+            const control = field(key, settings[key] ?? (key === "useSainLayersChance" ? 35 : ["enableISBCustomBehavior", "enableBlackDivCustomBehavior"].includes(key)), "/debug/" + key);
+            if (control) fields.append(control);
+        }
+        host.append(fields);
+    }
     if (!host.textContent.trim()) host.append(el("p", "empty", "No matching settings found."));
 }
 $("#search").oninput = drawDocs;
@@ -1346,6 +1366,30 @@ $("#filter").oninput = () => {
     clearTimeout(filterTimer);
     filterTimer = setTimeout(render, 120);
 };
+function resetDefaults() {
+    if (state.busy || state.saving || !state.current) return;
+    const view = state.view;
+    if (state.current.document.format === "cfg") {
+        const defaults = new Map((state.current.defaultFields || []).map(field => [field.path, field.value]));
+        for (const field of state.fields)
+            if (cfgGroup(field) === view && defaults.has(field.path)) field.value = defaults.get(field.path);
+    } else {
+        const defaults = state.current.defaults;
+        if (!defaults) return;
+        if (view === "__general") {
+            for (const [key, value] of Object.entries(defaults))
+                if ((value === null || typeof value !== "object") && visible("/" + esc(key))) state.data[key] = clone(value);
+            if (state.current.document.relativePath === "config.jsonc")
+                for (const key of ["enableISBCustomBehavior", "enableBlackDivCustomBehavior", "changeBlackDivBehaviorAllMaps", "useSainLayersChance", "logs", "spawnAlways", "spawnInstantlyAlways"])
+                    if (Object.hasOwn(defaults.debug || {}, key)) set("/debug/" + key, clone(defaults.debug[key]));
+        } else if (Object.hasOwn(defaults, view)) state.data[view] = clone(defaults[view]);
+    }
+    maps();
+    render();
+    dirty();
+    message("Defaults restored for this tab. Save changes to apply.");
+}
+$("#reset-defaults").onclick = resetDefaults;
 $("#undo").onclick = async () => {
     if (await confirmDiscard()) await openDoc(state.current.document.id, true, state.view);
 };

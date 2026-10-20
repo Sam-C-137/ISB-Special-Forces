@@ -12,8 +12,16 @@ internal static class ContainmentAchievements
     internal const string Victoria = "1d9f3fb317d15e2a77957327";
     internal const string Veteran = "9df3731674b1b81ebec38ce4";
     internal const string Secure = "c447fc786e04524e87d4ea8a";
-    private static readonly Lazy<Dictionary<string, string>> Assorts = new(() =>
-        JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, "db", "AchievementAssorts.json")), new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true }) ?? new());
+    private static readonly Lazy<Dictionary<string, string>> Assorts = new(LoadAssorts);
+    private static Dictionary<string, string> LoadAssorts()
+    {
+        var assembly = Assembly.GetExecutingAssembly();
+        var path = Path.Combine(Path.GetDirectoryName(assembly.Location)!, "db", "AchievementAssorts.json");
+        using var stream = File.Exists(path) ? File.OpenRead(path) : assembly.GetManifestResourceStream("ISBSpecialForces.AchievementAssorts.json")
+            ?? throw new InvalidDataException("ISB achievement assort definitions are missing.");
+        return JsonSerializer.Deserialize<Dictionary<string, string>>(stream, new JsonSerializerOptions { ReadCommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true })
+            ?? throw new InvalidDataException("ISB achievement assort definitions are empty.");
+    }
     internal static bool IsManaged(MongoId id) => id.ToString() is Victoria or Veteran or Secure
         or "6941763c6b2e0c64d04ef254" or "69417646c9c13c9353996c4e" or "6941764b021c3b1630cf28d5"
         or "6a5d3f64a8b2157267046245" or "6a5d3f7ffc741ffbbf091b8e" or "6a5d3f83cfd86f66e72d47a5"

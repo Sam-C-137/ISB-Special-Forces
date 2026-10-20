@@ -53,6 +53,7 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
         var d = Resolve(id);
         var bytes = File.ReadAllBytes(d.FilePath);
         var text = Decode(bytes);
+        var defaults = DefaultText(d);
         if (bytes.Length > 4 * 1024 * 1024)
             throw new ArgumentException("Configuration file is too large.");
         if (d.Format == "cfg")
@@ -61,6 +62,7 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
                 document = Public(d),
                 revision = Revision(bytes),
                 fields = ParseCfg(text),
+                defaultFields = ParseCfg(defaults),
                 data = (JsonNode? )null
             };
         var data = JsonNode.Parse(text, documentOptions: JsonOptions) ?? throw new ArgumentException("Configuration is empty.");
@@ -69,8 +71,18 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
             document = Public(d),
             revision = Revision(bytes),
             data,
-            fields = JsonHints(text)
+            fields = JsonHints(text),
+            defaults = JsonNode.Parse(defaults, documentOptions: JsonOptions)
         };
+    }
+
+    private static string DefaultText(IsbDocument document)
+    {
+        var name = document.Format == "cfg" ? "audio.cfg" : document.RelativePath.StartsWith("containment_breach_config", StringComparison.Ordinal) ? "containment_breach_config.jsonc" : document.RelativePath;
+        using var stream = typeof(IsbConfigFiles).Assembly.GetManifestResourceStream("ISBSpecialForces.Web.Defaults." + name)
+            ?? throw new IOException("Original configuration defaults are unavailable.");
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        return reader.ReadToEnd();
     }
 
     public static object Public(IsbDocument d) => new

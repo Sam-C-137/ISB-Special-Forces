@@ -9,9 +9,9 @@
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release</Configurations>
     <RootNamespace>ISBSpecialForces</RootNamespace>
-    <Version>2.0.0</Version>
-    <AssemblyVersion>2.0.0</AssemblyVersion>
-    <FileVersion>2.0.0</FileVersion>
+    <Version>2.0.1</Version>
+    <AssemblyVersion>2.0.1</AssemblyVersion>
+    <FileVersion>2.0.1</FileVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\Shared\ISBEffectNotifications.cs" Link="ISBEffectNotifications.cs" />
@@ -164,4 +164,6 @@
   <ItemGroup>
     <Compile Include="..\Shared\GhostBotVariant.cs" Link="GhostBotVariant.cs" />
   </ItemGroup>
+  <ItemGroup><Compile Include="../Shared/VipperPoisonIdentity.cs" Link="VipperPoisonIdentity.cs" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Components/PoisonTips.json" LogicalName="ISB.PoisonTips.json" /></ItemGroup>
 </Project>

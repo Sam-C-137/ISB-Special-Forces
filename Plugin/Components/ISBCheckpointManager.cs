@@ -67,7 +67,7 @@ namespace ISBSpecialForces.Components
 
             if (_containmentCheckpointsActive && !IsLabsEventCheckpointBot(botOwner))
                 return;
-            if (!ISBSpecialForces.Behavior.BlackDivision.BlackDivisionTactics.CanAssignCheckpoint(GetSpawnId(botOwner)))
+            if (!ISBSpecialForces.Behavior.Tactics.ISBManeuverPolicy.CanAssignCheckpoint(GetSpawnId(botOwner)))
                 return;
             var botSpawner = Singleton<IBotGame>.Instance.BotsController.BotSpawner;
             var botZone = botOwner.SpawnBotZone != null ? botOwner.SpawnBotZone : botSpawner.GetClosestZone(botOwner.Position, out float dist);

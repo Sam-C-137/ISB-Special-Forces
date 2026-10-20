@@ -1,6 +1,6 @@
 using EFT;
 using System;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using SPT.SinglePlayer.Utils.InRaid;
 using ISBSpecialForces.Models;
 using UnityEngine;

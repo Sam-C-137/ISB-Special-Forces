@@ -16,6 +16,8 @@ namespace ISBSSOFExtra
 
         bool RaidStarted { get; }
 
+        string ReceivedPlayerId { get; }
+
         double NetworkTime { get; }
 
         void DrainReceivedPayloads(Action<string> handler);
@@ -49,6 +51,7 @@ namespace ISBSSOFExtra
             public bool IsHeadless => false;
             public bool IsSinglePlayer => true;
             public bool RaidStarted => false;
+            public string ReceivedPlayerId => string.Empty;
             public double NetworkTime => 0d;
 
             public void DrainReceivedPayloads(Action<string> handler)

@@ -278,7 +278,7 @@ namespace ISBSpecialForces.Components
         public static bool ProtectsTarget(IPlayer player) => ProtectsHuman(player) || IsPlayerAllyBot(player);
         public static bool IsProtectedAllyGroup(BotsGroup group)
         {
-            if (!ExtendToPlayerAllies || group == null)
+            if (!ExtendToPlayerAllies || group == null || ISBEventHostility.IsBlackDivisionGroup(group))
                 return false;
             var players = Singleton<GameWorld>.Instance?.AllAlivePlayersList;
             if (players != null)
@@ -345,6 +345,8 @@ namespace ISBSpecialForces.Components
 
         public static bool ShouldForceHostility(BotsGroup group, IPlayer person)
         {
+            if (ISBEventHostility.IsForcedEnemy(group, person))
+                return true;
             if (!IsBetrayer(person) || group?._initialBot?.Profile?.Info?.Settings == null)
                 return false;
             return WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role);

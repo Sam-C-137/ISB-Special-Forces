@@ -32,7 +32,7 @@ namespace ISBSpecialForces.Prepatch
                 "PmcUsec",
                 "ExURequest"
             };
-            int ISBBrainInt = 9;
+            int ISBBrainInt = 137;
             var ISBSpecialForces = new CustomWildSpawnType(13709, "ISBTeamLeader", "ISBBoss", ISBBrainInt, true, false, false);
             ISBSpecialForces.SetCountAsBossForStatistics(true);
             ISBSpecialForces.SetShouldUseFenceNoBossAttack(false, false);

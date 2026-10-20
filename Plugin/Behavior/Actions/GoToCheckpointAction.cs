@@ -1,5 +1,6 @@
 using DrakiaXYZ.BigBrain.Brains;
 using EFT;
+using UnityEngine;
 using System.Text;
 using ISBSpecialForces.Components;
 using ISBSpecialForces.Controllers;
@@ -9,6 +10,8 @@ namespace ISBSpecialForces.Behavior.Actions
     public class GoToCheckpoint : GoToCustomAction
     {
         protected BotISBManager isbManager { get; private set; }
+        private bool _fallbackStarted;
+        private float _nextFallbackPath;
 
         public GoToCheckpoint(BotOwner botOwner) : base(botOwner)
         {
@@ -17,10 +20,10 @@ namespace ISBSpecialForces.Behavior.Actions
 
         public override void Start()
         {
+            _fallbackStarted = false;
             isbManager.UpdateGuardPoint();
-            if (isbManager.guardPoint == null)
-                return;
-            BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
+            if (isbManager.guardPoint != null) BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
+            BotOwner.AimingManager.CurrentAiming.LoseTarget();
             BotOwner.GetPlayer.MovementContext.SetPatrol(true);
             base.Start();
         }
@@ -35,7 +38,25 @@ namespace ISBSpecialForces.Behavior.Actions
         {
             isbManager.UpdateGuardPoint();
             if (isbManager.guardPoint == null)
+            {
+                var checkpoint = isbManager.GetAssignedCheckpoint();
+                if (checkpoint == null) return;
+                if ((BotOwner.Position - checkpoint.Position).sqrMagnitude <= .49f)
+                {
+                    BotOwner.StopMove();
+                    isbManager.AtCheckpoint = true;
+                    return;
+                }
+                if (!_fallbackStarted || !BotOwner.Mover.HasPathAndNoComplete && Time.time >= _nextFallbackPath)
+                {
+                    _fallbackStarted = true;
+                    _nextFallbackPath = Time.time + 1f;
+                    BotOwner.GoToPoint(checkpoint.Position, mustHaveWay: true);
+                }
+                UpdateBotMovement();
+                UpdateSteering();
                 return;
+            }
             BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
             base.Update(data);
             if (BotOwner.Mover.IsComeTo(.7f, true, isbManager.guardPoint))

@@ -1,6 +1,6 @@
 using DrakiaXYZ.BigBrain.Brains;
 using EFT;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using System;
 using ISBSpecialForces.Behavior.Actions;
 using ISBSpecialForces.Components;
@@ -46,7 +46,7 @@ namespace ISBSpecialForces.Behavior.Layers
 
         public override string GetName()
         {
-            return "ISBSoldierHoldCheckpoint";
+            return BotOwner.Brain?.BaseBrain is ISB.BlackDivBrain ? "blackDiv Hold Checkpoint" : "ISBSoldierHoldCheckpoint";
         }
 
         public override Action GetNextAction()
@@ -64,7 +64,7 @@ namespace ISBSpecialForces.Behavior.Layers
             if (_agent?.CanRunMission() != true)
                 return false;
             isbManager.UpdateGuardPoint();
-            if (isbManager.guardPoint == null)
+            if (isbManager.guardPoint == null && !SainTacticalSensor.IsFinite(isbManager.GetAssignedCheckpoint().Position))
                 return false;
             GetNextActionInternal();
             return true;
@@ -73,6 +73,8 @@ namespace ISBSpecialForces.Behavior.Layers
         public void GetNextActionInternal()
         {
             lastAction = nextAction;
+            var position = isbManager.guardPoint?.Position ?? isbManager.GetAssignedCheckpoint().Position;
+            if ((BotOwner.Position - position).sqrMagnitude > 2.25f) isbManager.AtCheckpoint = false;
             if (isbManager.AtCheckpoint)
             {
                 if (isbManager.ShouldSwitchCover)
