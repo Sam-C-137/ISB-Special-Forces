@@ -5,7 +5,6 @@ using Fika.Core.Modding;
 using Fika.Core.Modding.Events;
 using Fika.Core.Networking;
 using Fika.Core.Networking.LiteNetLib;
-using Fika.Core.Networking.Snapshotting;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -15,12 +14,12 @@ using UnityEngine;
 
 namespace ISBSSOFExtra.Fika
 {
-    internal sealed class FikaNetworkBridge : IExtrasNetworkBridge, IDisposable
+    internal sealed class FikaNetworkBridge : IExtrasNetworkBridge, IExtrasPeerNetworkBridge, IDisposable
     {
-        private const int MaximumQueuedPayloads = 256;
         private const int MaximumPayloadLength = 65535;
         private readonly ManualLogSource _log;
         private readonly FikaBotHandsCompatibility _botHands = new FikaBotHandsCompatibility();
+        private readonly FikaAuthorityClock _clock = new FikaAuthorityClock();
         private readonly object _queueLock = new object ();
         private sealed class ReceivedPacket
         {
@@ -31,7 +30,8 @@ namespace ISBSSOFExtra.Fika
             internal long Window;
             internal int Count;
         }
-        private readonly Queue<ReceivedPacket> _receivedPayloads = new Queue<ReceivedPacket>();
+        private readonly FikaEventQueue<ReceivedPacket> _receivedPayloads = new FikaEventQueue<ReceivedPacket>();
+        private readonly Dictionary<string, NetPeer> _playerPeers = new Dictionary<string, NetPeer>();
         private readonly Dictionary<int, string> _players = new Dictionary<int, string>();
         private readonly Dictionary<int, PeerRate> _rates = new Dictionary<int, PeerRate>();
         private static FikaNetworkBridge _activeBridge;
@@ -47,7 +47,11 @@ namespace ISBSSOFExtra.Fika
             string profile = (type.GetField("ProfileId")?.GetValue(packet) ?? type.GetProperty("ProfileId")?.GetValue(packet))?.ToString();
             if (string.IsNullOrEmpty(profile) || profile.Length > 64) return;
             lock (bridge._queueLock)
-                if (!bridge._players.ContainsKey(peer.Id)) bridge._players.Add(peer.Id, profile);
+            {
+                if (!bridge._players.ContainsKey(peer.Id))
+                    bridge._players.Add(peer.Id, profile);
+                bridge._playerPeers[bridge._players[peer.Id]] = peer;
+            }
         }
         private IFikaNetworkManager _networkManager;
         private IFikaNetworkManager _registeredNetworkManager;
@@ -67,7 +71,7 @@ namespace ISBSSOFExtra.Fika
             get
             {
                 RefreshNetworkManager();
-                return Active && _networkManager != null;
+                return Active && _networkManager != null && (IsServer || _clock.Ready);
             }
         }
 
@@ -76,20 +80,9 @@ namespace ISBSSOFExtra.Fika
         public bool IsSinglePlayer => !Active || Singleton<EFT.AbstractGame>.Instance is EFT.LocalGame || FikaBackendUtils.IsSinglePlayer;
         public bool RaidStarted => _raidStarted;
 
-        public double NetworkTime
-        {
-            get
-            {
-                try
-                {
-                    return NetworkTimeSync.NetworkTime;
-                }
-                catch
-                {
-                    return Time.realtimeSinceStartup;
-                }
-            }
-        }
+        public double NetworkTime => IsServer ? LocalTime : _clock.Time(LocalTime);
+
+        private static double LocalTime => FikaAuthorityClock.LocalTime;
 
         internal void Initialize()
         {
@@ -113,7 +106,8 @@ namespace ISBSSOFExtra.Fika
             RefreshNetworkManager();
             _botHands.Tick(_networkManager, IsServer);
             int processed = 0;
-            while (processed < 16 && TryDequeuePayload(out ReceivedPacket packet))
+            long started = Stopwatch.GetTimestamp();
+            while (processed < 64 && (processed < 4 || Stopwatch.GetTimestamp() - started < Stopwatch.Frequency / 500) && TryDequeuePayload(out ReceivedPacket packet))
             {
                 processed++;
                 try
@@ -147,6 +141,29 @@ namespace ISBSSOFExtra.Fika
             return TrySend(payload, true);
         }
 
+        public bool SendToPlayer(string profileId, string payload)
+        {
+            if (!IsServer || !Ready || string.IsNullOrEmpty(profileId) || string.IsNullOrEmpty(payload) || payload.Length > MaximumPayloadLength)
+                return false;
+            NetPeer peer;
+            lock (_queueLock)
+                if (!_playerPeers.TryGetValue(profileId, out peer))
+                    return false;
+            try
+            {
+                var packet = new ISBExtrasPacket { Payload = FikaAuthorityClock.Stamp(payload, LocalTime) };
+                if (packet.Payload.Length > MaximumPayloadLength || !(_networkManager is FikaServer host))
+                    return false;
+                host.SendDataToPeer(ref packet, DeliveryMethod.ReliableOrdered, peer);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                ReportSendFailure("send Fika state to player", ex);
+                return false;
+            }
+        }
+
         public bool SendToServer(string payload)
         {
             return TrySend(payload, false);
@@ -174,22 +191,27 @@ namespace ISBSSOFExtra.Fika
             {
                 ISBExtrasPacket packet = new ISBExtrasPacket
                 {
-                    Payload = payload
+                    Payload = broadcast ? FikaAuthorityClock.Stamp(payload, LocalTime) : payload
                 };
+                if (packet.Payload.Length > MaximumPayloadLength)
+                    return false;
                 _networkManager.SendData(ref packet, DeliveryMethod.ReliableOrdered, broadcast);
                 return true;
             }
             catch (Exception ex)
             {
-                string action = broadcast ? "broadcast Fika packet" : "send Fika packet to server";
-                long now = Stopwatch.GetTimestamp();
-                if (now >= _nextSendFailureLog)
-                {
-                    _nextSendFailureLog = now + 30L * Stopwatch.Frequency;
-                    _log?.LogError("Failed to " + action + " (" + ex.GetType().Name + "). Check the Fika connection and matching ISB client files.");
-                }
+                ReportSendFailure(broadcast ? "broadcast Fika packet" : "send Fika packet to server", ex);
                 return false;
             }
+        }
+
+        private void ReportSendFailure(string action, Exception error)
+        {
+            long now = Stopwatch.GetTimestamp();
+            if (now < _nextSendFailureLog)
+                return;
+            _nextSendFailureLog = now + 30L * Stopwatch.Frequency;
+            _log?.LogError("Failed to " + action + " (" + error.GetType().Name + "). Check the Fika connection and matching ISB client files.");
         }
 
         private void SubscribeEvents()
@@ -238,6 +260,8 @@ namespace ISBSSOFExtra.Fika
                 return;
             lock (_queueLock)
             {
+                if (_players.TryGetValue(fikaEvent.Peer.Id, out var previousPlayer))
+                    _playerPeers.Remove(previousPlayer);
                 _players.Remove(fikaEvent.Peer.Id);
                 _rates.Remove(fikaEvent.Peer.Id);
                 _peerConnectedPending = true;
@@ -267,6 +291,7 @@ namespace ISBSSOFExtra.Fika
             _networkManager = manager;
             if (ReferenceEquals(_registeredNetworkManager, manager))
                 return;
+            _clock.Reset();
             manager.RegisterPacket<ISBExtrasPacket, NetPeer>(OnPacketReceived);
             manager.RegisterPacket<ISBBotHandsPacket, NetPeer>(OnBotHandsReceived);
             _registeredNetworkManager = manager;
@@ -298,6 +323,12 @@ namespace ISBSSOFExtra.Fika
 
             lock (_queueLock)
             {
+                if (!IsServer)
+                {
+                    if (!_clock.Receive(packet.Payload, LocalTime, out string payload))
+                        return;
+                    packet.Payload = payload;
+                }
                 string profile = null;
                 if (IsServer)
                 {
@@ -307,35 +338,25 @@ namespace ISBSSOFExtra.Fika
                     if (now - rate.Window >= Stopwatch.Frequency) { rate.Window = now; rate.Count = 0; }
                     if (++rate.Count > 80) return;
                     string command = packet.Payload.Split('|')[0];
-                    if (command != "Q" && command != "T" && command != "W" && command != "OQ" && command != "OC" && command != "OT" && command != "OP" && command != "SC173") return;
+                    if (command != "Q" && command != "T" && command != "W" && command != "OQ" && command != "OC" && command != "OT" && command != "OP" && command != "SC173" && command != "AR") return;
                     string[] fields = packet.Payload.Split('|');
                     int playerIndex = command == "OC" || command == "OP" ? 2 : command == "OT" || command == "OQ" ? 1 : -1;
                     if (playerIndex >= 0 && (fields.Length <= playerIndex || fields[playerIndex] != profile)) return;
                 }
-                while (_receivedPayloads.Count >= MaximumQueuedPayloads)
-                    _receivedPayloads.Dequeue();
-                _receivedPayloads.Enqueue(new ReceivedPacket { Payload = packet.Payload, Player = profile });
+                _receivedPayloads.Enqueue(new ReceivedPacket { Payload = packet.Payload, Player = profile }, FikaEventQueue<ReceivedPacket>.StateKey(packet.Payload, profile));
             }
         }
 
         private bool TryDequeuePayload(out ReceivedPacket payload)
         {
             lock (_queueLock)
-            {
-                if (_receivedPayloads.Count == 0)
-                {
-                    payload = null;
-                    return false;
-                }
-
-                payload = _receivedPayloads.Dequeue();
-                return true;
-            }
+                return _receivedPayloads.TryDequeue(out payload);
         }
 
         private void ResetNetworkState()
         {
             _botHands.Reset();
+            _clock.Reset();
             _networkManager = null;
             _registeredNetworkManager = null;
             _raidStarted = false;
@@ -344,6 +365,7 @@ namespace ISBSSOFExtra.Fika
             {
                 _receivedPayloads.Clear();
                 _players.Clear();
+                _playerPeers.Clear();
                 _rates.Clear();
                 ReceivedPlayerId = null;
                 _peerConnectedPending = false;

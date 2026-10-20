@@ -160,7 +160,7 @@
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     <Private>false</Private></Reference>
     <Reference Include="WTT-ClientCommonLib">
-      <HintPath>..\Reference\WTT-ClientCommonLib.dll</HintPath>
+      <HintPath>$(SPTRoot)\BepInEx\plugins\WTT-ClientCommonLib\WTT-ClientCommonLib.dll</HintPath>
     <Private>false</Private></Reference>
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +169,7 @@
     <Compile Include="AudioVolumeConfig.cs" />
     <Compile Include="ContainmentAchievementIcons.cs" />
     <Compile Include="Audio\AudioCache.cs" />
+    <Compile Include="Audio\FikaAudioPreparation.cs" />
     <Compile Include="Audio\TakeoverAlarmAudio.cs" />
     <Compile Include="Audio\RadioChatter.cs" />
     <Compile Include="Audio\PortableRadio.cs" />

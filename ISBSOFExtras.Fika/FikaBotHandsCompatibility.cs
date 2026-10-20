@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Diagnostics;
 using Comfort.Common;
 using EFT;
 using EFT.InventoryLogic;
@@ -68,6 +69,8 @@ namespace ISBSSOFExtra.Fika
         private readonly HashSet<int> _expected = new HashSet<int>();
         private readonly Dictionary<int, Buffered> _buffered = new Dictionary<int, Buffered>();
         private bool _replaying;
+        private int _replayFrame = -1, _replayedThisFrame;
+        private long _replayStarted;
         private readonly Dictionary<int, Pending> _pending = new Dictionary<int, Pending>();
         private readonly List<int> _expired = new List<int>();
         private readonly Harmony _harmony = new Harmony("com.samc137.isbsofextras.fika.bot-hands");
@@ -139,6 +142,12 @@ namespace ISBSSOFExtra.Fika
         private void FlushBuffered()
         {
             if (_replaying) return;
+            if (_replayFrame != Time.frameCount)
+            {
+                _replayFrame = Time.frameCount;
+                _replayedThisFrame = 0;
+                _replayStarted = Stopwatch.GetTimestamp();
+            }
             _replaying = true;
             try
             {
@@ -151,10 +160,18 @@ namespace ISBSSOFExtra.Fika
                     {
                         while (buffered.Packets.Count > 0)
                         {
-                            if (handler.Players[pair.Key] is ObservedPlayer observed && WaitingForHands(observed) && buffered.Packets[0].Key != 0)
+                            if (_replayedThisFrame >= 8 || _replayedThisFrame > 0 && Stopwatch.GetTimestamp() - _replayStarted >= Stopwatch.Frequency / 1000)
                                 break;
-                            var saved = buffered.Packets[0];
-                            buffered.Packets.RemoveAt(0);
+                            int index = 0;
+                            if (handler.Players[pair.Key] is ObservedPlayer observed && WaitingForHands(observed) && buffered.Packets[0].Key != 0)
+                            {
+                                index = buffered.Packets.FindIndex(packet => packet.Key == 0);
+                                if (index < 0)
+                                    break;
+                            }
+                            var saved = buffered.Packets[index];
+                            buffered.Packets.RemoveAt(index);
+                            _replayedThisFrame++;
                             buffered.Bytes -= saved.Value.Length;
                             var reader = new NetDataReader(saved.Value);
                             if (saved.Key == 0)
@@ -211,19 +228,21 @@ namespace ISBSSOFExtra.Fika
                 Reset();
                 _world = world;
             }
-            if (server || manager == null || world == null || Time.unscaledTime < _nextScan)
+            if (server || manager == null || world == null)
+                return;
+            FlushBuffered();
+            if (Time.unscaledTime < _nextScan)
                 return;
             float now = Time.unscaledTime;
             _nextScan = now + 0.5f;
-            FlushBuffered();
             _expired.Clear();
             foreach (var pair in _pending)
-                if (!Empty(pair.Value.Player)) _expired.Add(pair.Key);
+                if (!WaitingForHands(pair.Value.Player)) _expired.Add(pair.Key);
             foreach (int id in _expired) _pending.Remove(id);
             int sent = 0;
             foreach (var actor in world.AllAlivePlayersList)
             {
-                if (!(actor is ObservedPlayer player) || !Empty(player))
+                if (!(actor is ObservedPlayer player) || !WaitingForHands(player))
                     continue;
                 if (!_pending.TryGetValue(player.NetId, out Pending pending))
                 {
@@ -263,7 +282,7 @@ namespace ISBSSOFExtra.Fika
             if (!_pending.TryGetValue(packet.NetId, out Pending pending) || pending.RequestId != packet.RequestId)
                 return;
             pending.RequestId = 0;
-            if (!Empty(pending.Player) || string.IsNullOrEmpty(packet.ItemId) || packet.Stationary)
+            if (!WaitingForHands(pending.Player) || string.IsNullOrEmpty(packet.ItemId) || packet.Stationary)
                 return;
             var item = pending.Player.FindItemById(new MongoID(packet.ItemId), false, false);
             if (!item.Succeeded || !(item.Value is Weapon))
@@ -282,6 +301,8 @@ namespace ISBSSOFExtra.Fika
             _expired.Clear();
             _world = null;
             _nextScan = 0f;
+            _replayFrame = -1;
+            _replayedThisFrame = 0;
         }
 
         public void Dispose()

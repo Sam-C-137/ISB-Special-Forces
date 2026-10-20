@@ -320,6 +320,7 @@ namespace ISBSSOFExtra
 
         private IEnumerator PlayRandomISBRadioFromListCore(string contextLog, bool? whiteTuskContext = null)
         {
+            int generation = _audioGeneration;
             if (!_raidisActive)
                 yield break;
             CacheEligibleBotsIfNeeded();
@@ -373,6 +374,9 @@ namespace ISBSSOFExtra
                 }
 
                 string networkCategory = GetRadioCategoryForContext(contextLog, selectedAishi, selectedWhiteTusk);
+                yield return PrepareFikaAudio(clipName, networkCategory);
+                if (!_raidisActive || generation != _audioGeneration || !IsEligibleISBBot(bot, true))
+                    yield break;
                 BroadcastFikaRadio(clipName, bot, networkCategory);
                 yield return new WaitForSeconds(Mathf.Max(clipLength, 0.05f));
                 yield break;
@@ -417,6 +421,9 @@ namespace ISBSSOFExtra
             }
 
             string selectedCategory = GetRadioCategoryForContext(contextLog, selectedAishi, selectedWhiteTusk);
+            yield return PrepareFikaAudio(selectedClip.name, selectedCategory);
+            if (!_raidisActive || generation != _audioGeneration || !IsEligibleISBBot(bot, true))
+                yield break;
             BroadcastFikaRadio(selectedClip.name, bot, selectedCategory);
             yield return PlayISBSoldiersRadio(selectedClip, bot.PlayerBones.RootJoint, Vector3.up * 1.5f, RADIO_MIN_DISTANCE, RADIO_MAX_DISTANCE, RADIO_BASE_VOLUME, _radioVolume, false, 0f, false, false, RADIO_SPATIAL_BLEND, RADIO_ROLLOFF_MODE);
         }

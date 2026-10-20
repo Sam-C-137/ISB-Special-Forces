@@ -1,4 +1,5 @@
 "use strict";
+const populationModes = ["performanceMode", "ghostBusterOnly", "whiteTuskOnly", "noISBMode", "noBlackDivMode"];
 const questDogtags = new Set(["6963dede566c81e5c5dc9b4a", "6966abf2e6001880baf0ada0"]);
 const $ = (s) => document.querySelector(s),
     clone = (x) => JSON.parse(JSON.stringify(x)),
@@ -113,6 +114,11 @@ Object.assign(labels, {
     rezervBase: "Reserve",
     terminal: "Terminal",
     populationControl: "Population control",
+    performanceMode: "Performance Mode",
+    ghostBusterOnly: "Ghost Busters Only",
+    whiteTuskOnly: "White Tusks Only",
+    noISBMode: "No ISB Mode",
+    noBlackDivMode: "No Black Division Mode",
     isbReinforcements: "ISB reinforcements",
     blackDivisionPocketLoot: "Black Division loot",
     mapLoot: "Map loot",
@@ -215,6 +221,7 @@ function visible(path) {
             ].includes(last)
         );
     }
+    if (keys.length === 1 && populationModes.includes(last)) return state.view === "populationControl";
     if (keys[0] === "containmentCaseSpawns") return keys.length > 1;
     if (["revenge", "officeAccess", "anomalousItemSpawns"].includes(keys[0])) return false;
     if (keys.length === 1)
@@ -1327,6 +1334,14 @@ function renderContent() {
         host.append(fields);
         return;
     }
+    if (state.current.document.relativePath === "containment_breach_config.jsonc" && state.view === "populationControl") {
+        const fields = el("div", "fields");
+        for (const key of populationModes) {
+            const control = field(key, state.data[key] ?? false, "/" + key);
+            if (control) fields.append(control);
+        }
+        if (fields.children.length) host.append(fields);
+    }
     const { value, path } = selected();
     if (value === undefined) {
         host.append(el("p", "empty", "This option is not configured in this version."));
@@ -1382,7 +1397,12 @@ function resetDefaults() {
             if (state.current.document.relativePath === "config.jsonc")
                 for (const key of ["enableISBCustomBehavior", "enableBlackDivCustomBehavior", "changeBlackDivBehaviorAllMaps", "useSainLayersChance", "logs", "spawnAlways", "spawnInstantlyAlways"])
                     if (Object.hasOwn(defaults.debug || {}, key)) set("/debug/" + key, clone(defaults.debug[key]));
-        } else if (Object.hasOwn(defaults, view)) state.data[view] = clone(defaults[view]);
+        } else {
+            if (Object.hasOwn(defaults, view)) state.data[view] = clone(defaults[view]);
+            if (state.current.document.relativePath === "containment_breach_config.jsonc" && view === "populationControl")
+                for (const key of populationModes)
+                    if (Object.hasOwn(defaults, key)) state.data[key] = clone(defaults[key]);
+        }
     }
     maps();
     render();

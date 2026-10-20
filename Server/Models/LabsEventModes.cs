@@ -20,10 +20,16 @@ public static class LabsEventModes
         "848424",
         "848426"
     };
+    public static int PerformanceIsbReserve(LabsPreBlackoutEventConfig? config) => config?.performanceMode == true && !config.noISBMode && !config.noBlackDivMode && !config.whiteTuskOnly && !config.ghostBusterOnly ? 4 : 0;
+
     public static void Validate(LabsPreBlackoutEventConfig config)
     {
         if (config.noISBMode && config.noBlackDivMode)
             throw new InvalidDataException("ISB: noISBMode and noBlackDivMode cannot be enabled together.");
+        if (config.whiteTuskOnly && (config.noISBMode || config.ghostBusterOnly))
+            throw new InvalidDataException("ISB: whiteTuskOnly cannot be combined with noISBMode or ghostBusterOnly.");
+        if (config.ghostBusterOnly && config.noBlackDivMode)
+            throw new InvalidDataException("ISB: ghostBusterOnly cannot be combined with noBlackDivMode.");
     }
 
     public static string Role(string role, LabsPreBlackoutEventConfig config, Func<double> draw)
@@ -45,9 +51,9 @@ public static class LabsEventModes
             isb = false;
             bd = true;
         }
-        if (config.whiteTuskOnly && isb)
+        if (config.whiteTuskOnly)
             return WhiteTusks[Pick(WhiteTusks.Length)];
-        if (config.ghostBusterOnly && bd)
+        if (config.ghostBusterOnly)
             return Ghosts[Pick(Ghosts.Length)];
         return role;
     }

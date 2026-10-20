@@ -159,6 +159,7 @@ namespace ISBSSOFExtra
 
         private void ClearRaidCollections()
         {
+            ResetLaboratoryPaChannels();
             _botAudioPaths.Clear();
             _deathAudioPaths.Clear();
             _heavyDamageAudioPaths.Clear();

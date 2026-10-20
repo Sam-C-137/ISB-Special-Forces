@@ -54,7 +54,7 @@ namespace ISBSSOFExtra
                     string path = Path.Combine(directory, folder);
                     if (!Directory.Exists(path))
                         return "missing:" + folder;
-                    var contents = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Where(p => !(folder == "Nightmare" && p.EndsWith(".jsonc", StringComparison.OrdinalIgnoreCase)) && !p.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase) && !p.EndsWith(".log", StringComparison.OrdinalIgnoreCase) && !p.EndsWith(".bak", StringComparison.OrdinalIgnoreCase)).ToArray();
+                    var contents = Directory.GetFiles(path, "*", SearchOption.AllDirectories).Where(p => !string.Equals(Path.GetFileName(p), ".gitkeep", StringComparison.OrdinalIgnoreCase) && !(folder == "Nightmare" && p.EndsWith(".jsonc", StringComparison.OrdinalIgnoreCase)) && !p.EndsWith(".pdb", StringComparison.OrdinalIgnoreCase) && !p.EndsWith(".log", StringComparison.OrdinalIgnoreCase) && !p.EndsWith(".bak", StringComparison.OrdinalIgnoreCase)).ToArray();
                     if (contents.Length == 0)
                         return "missing:" + folder;
                     files.AddRange(contents);

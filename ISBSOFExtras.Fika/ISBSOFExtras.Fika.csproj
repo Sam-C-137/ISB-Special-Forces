@@ -65,7 +65,7 @@
     <Private>false</Private></Reference>
     <Reference Include="WTT-ClientCommonLib, Version=2.0.23.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Reference\WTT-ClientCommonLib.dll</HintPath>
+      <HintPath>$(SPTRoot)\BepInEx\plugins\WTT-ClientCommonLib\WTT-ClientCommonLib.dll</HintPath>
     <Private>false</Private></Reference>
     <Compile Include="FikaAggressorCompatibility.cs" />
   </ItemGroup>
@@ -74,6 +74,8 @@
     <Compile Include="FikaInventoryViewCompatibility.cs" />
     <Compile Include="FikaStartupUiCompatibility.cs" />
     <Compile Include="FikaNetworkBridge.cs" />
+    <Compile Include="FikaEventQueue.cs" />
+    <Compile Include="FikaAuthorityClock.cs" />
     <Compile Include="FikaBotHandsCompatibility.cs" />
     <Compile Include="ISBExtrasPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

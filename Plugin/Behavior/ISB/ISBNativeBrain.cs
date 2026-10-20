@@ -476,6 +476,8 @@ namespace ISBSpecialForces.Behavior.ISB
                 var side = Vector3.Cross(direction.normalized, Vector3.up);
                 for (int attempt = 0; attempt < 2; attempt++)
                 {
+                    if (!ISBNavigationBudget.TryBeginSearch(Time.frameCount))
+                        return;
                     var candidate = enemy.EnemyLastPositionReal + side * (attempt == 0 ? 35f : -35f);
                     if (NavMesh.SamplePosition(candidate, out var sample, 5f, -1) &&
                         NavMesh.CalculatePath(helper.Leader.Bot.Position, sample.position, -1, helper._path) &&

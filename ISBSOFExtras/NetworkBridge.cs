@@ -26,6 +26,11 @@ namespace ISBSSOFExtra
         bool SendToServer(string payload);
     }
 
+    public interface IExtrasPeerNetworkBridge
+    {
+        bool SendToPlayer(string profileId, string payload);
+    }
+
     public static class ExtrasNetworkBridgeRegistry
     {
         private static readonly IExtrasNetworkBridge EmptyBridge = new NoNetworkBridge();

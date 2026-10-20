@@ -418,6 +418,7 @@ public class LabsBlackoutEventPhaseConfig
 
 public class LabsPreBlackoutEventStatus
 {
+    public int performanceIsbReserve { get; set; }
     public bool whiteTuskOnly { get; set; }
     public bool performanceMode { get; set; }
     public string variant { get; set; } = "legacy";

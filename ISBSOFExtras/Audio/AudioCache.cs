@@ -242,20 +242,20 @@ namespace ISBSSOFExtra
             foreach (PreBlackoutSequenceDefinition sequence in _preBlackoutSequences)
             {
                 announcementFilesToLoad.Add(sequence.preBlackout);
-                foreach (AnnouncementAudioDefinition entry in sequence.afterBlackout)
-                    announcementFilesToLoad.Add(entry.audio);
+                for (int i = 0; i < Math.Min(2, sequence.afterBlackout.Length); i++)
+                    announcementFilesToLoad.Add(sequence.afterBlackout[i].audio);
             }
 
             foreach (AnnouncementSequenceDefinition sequence in _labsAnnouncements.regular)
             {
-                foreach (AnnouncementAudioDefinition entry in sequence.audios)
-                    announcementFilesToLoad.Add(entry.audio);
+                for (int i = 0; i < Math.Min(2, sequence.audios.Length); i++)
+                    announcementFilesToLoad.Add(sequence.audios[i].audio);
             }
 
             foreach (AnnouncementSequenceDefinition sequence in _labsAnnouncements.blackout)
             {
-                foreach (AnnouncementAudioDefinition entry in sequence.audios)
-                    announcementFilesToLoad.Add(entry.audio);
+                for (int i = 0; i < Math.Min(2, sequence.audios.Length); i++)
+                    announcementFilesToLoad.Add(sequence.audios[i].audio);
             }
 
             int preloaded = 0;

@@ -835,6 +835,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             {
                 active = active,
                 performanceMode = active && configController.ModConfig.labsContainmentBreachEvent?.performanceMode == true,
+                performanceIsbReserve = active ? LabsEventModes.PerformanceIsbReserve(configController.ModConfig.labsContainmentBreachEvent) : 0,
                 variant = labsVariants.RaidMode(sessionId),
                 officeAccess = GetOfficeAccess(sessionId, active),
                 blackDivisionInstalled = InstalledModGuids.Contains(BlackDivisionModGuid),

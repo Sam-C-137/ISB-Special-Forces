@@ -123,6 +123,7 @@ namespace ISBSSOFExtra
 
         private IEnumerator PlayPortableRadio(Player player, PortableRadioState state, string path, string category)
         {
+            int generation = _audioGeneration;
             bool ownsChannel = false;
             try
             {
@@ -134,6 +135,9 @@ namespace ISBSSOFExtra
                 ownsChannel = true;
                 if (IsHeadless)
                 {
+                    yield return PrepareFikaAudio(Path.GetFileNameWithoutExtension(path), category);
+                    if (!_raidisActive || generation != _audioGeneration || !HasEquippedPortableRadio(player))
+                        yield break;
                     BroadcastFikaRadio(Path.GetFileNameWithoutExtension(path), player, category);
                     yield return new WaitForSeconds(Mathf.Max(GetWavDurationSeconds(path), .05f));
                     yield break;
@@ -150,6 +154,9 @@ namespace ISBSSOFExtra
                     yield break;
                 Transform parent = player.PlayerBones?.RootJoint;
                 if (parent == null)
+                    yield break;
+                yield return PrepareFikaAudio(clip.name, category);
+                if (!_raidisActive || generation != _audioGeneration || !HasEquippedPortableRadio(player))
                     yield break;
                 BroadcastFikaRadio(clip.name, player, category);
                 yield return PlayISBSoldiersRadio(clip, parent, Vector3.up * 1.2f, PortableRadioMinDistance, PortableRadioMaxDistance, PortableRadioVolume, _radioVolume, false, 0f, false, false, RADIO_SPATIAL_BLEND, RADIO_ROLLOFF_MODE, () => _raidisActive && HasEquippedPortableRadio(player) && IsRadioCategoryEnabled(category));

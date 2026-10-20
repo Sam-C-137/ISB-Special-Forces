@@ -108,6 +108,9 @@ namespace ISBSSOFExtra
                     Coroutine preBlackoutPlayback = null;
                     if (!string.IsNullOrEmpty(plan.PreBlackout))
                     {
+                        yield return PreparePreBlackoutAudio(plan.PreBlackout);
+                        if (!CanContinueAnnouncement(generation))
+                            yield break;
                         preBlackoutPlayback = StartCoroutine(PlayPreBlackoutAudio(plan.PreBlackout));
                         yield return null;
                         if (!CanContinueAnnouncement(generation))
@@ -160,6 +163,9 @@ namespace ISBSSOFExtra
                     yield return null;
                 if (ShouldSkipDecontaminationAudio(entries[i].audio))
                     continue;
+                WarmAnnouncement(entries[i].audio);
+                if (i + 1 < entries.Length)
+                    WarmAnnouncement(entries[i + 1].audio);
                 if ((_decontamination?.VideoTimelineEnabled ?? true) && DecontaminationVideoTimeline.Index(entries[i].audio) == 0)
                     StartDecontaminationVideo(DecontaminationClock);
                 double scheduledStart = DecontaminationAnnouncementTime(entries[i].audio);
@@ -325,6 +331,7 @@ namespace ISBSSOFExtra
         {
             if (DeadManActive || !IsLaboratoryPresentationAllowed())
                 yield break;
+            int generation = _audioGeneration;
             double queuedAt = SynchronizedTime;
             while (_raidisActive && !DeadManActive && NightmarePriorityPending && !IsNightmareAnnouncement(fileName)) yield return null;
             if (!_raidisActive || DeadManActive) yield break;
@@ -342,6 +349,10 @@ namespace ISBSSOFExtra
 
                 string clipName = Path.GetFileNameWithoutExtension(path);
                 float clipLength = GetWavDurationSeconds(path);
+                if (scheduledStart < 0d)
+                    yield return PrepareFikaAudio(clipName);
+                if (!_raidisActive || generation != _audioGeneration)
+                    yield break;
                 BroadcastFikaAnnouncement(clipName, clipLength, scheduledStart);
                 NotifyAnnouncementStarted(clipName);
                 if (IsEventAuthority && _restrictExfilsDuringBlackout.Value && _blackoutApplied && !_gateBClosed && !_takeoverGatesOpened && string.Equals(clipName, "ISBGateB", StringComparison.OrdinalIgnoreCase))
@@ -379,6 +390,10 @@ namespace ISBSSOFExtra
             }
 
             if (ShouldSkipDecontaminationAudio(fileName))
+                yield break;
+            if (scheduledStart < 0d)
+                yield return PrepareFikaAudio(clip.name);
+            if (!_raidisActive || generation != _audioGeneration)
                 yield break;
             BroadcastFikaAnnouncement(clip.name, clip.length, scheduledStart);
             NotifyAnnouncementStarted(clip.name);

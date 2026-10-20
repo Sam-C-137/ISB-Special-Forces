@@ -16,6 +16,7 @@ using System.Text;
 using System.Reflection;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
 using SPT.Common.Http;
@@ -111,8 +112,30 @@ namespace ISBSSOFExtra
                 RestoreLaboratoryPaSources();
         }
 
-        private static List<AudioSource> CollectLaboratoryPaChannels()
+        private List<AudioSource> _laboratoryPaChannels;
+        private int _laboratoryPaSceneKey;
+
+        private void ResetLaboratoryPaChannels()
         {
+            _laboratoryPaChannels = null;
+            _laboratoryPaSceneKey = 0;
+        }
+
+        private List<AudioSource> CollectLaboratoryPaChannels()
+        {
+            int sceneKey = 17;
+            for (int i = 0; i < SceneManager.sceneCount; i++)
+                sceneKey = unchecked(sceneKey * 31 + SceneManager.GetSceneAt(i).handle);
+            bool valid = _laboratoryPaChannels != null && _laboratoryPaChannels.Count > 0 && _laboratoryPaSceneKey == sceneKey;
+            if (valid)
+                foreach (var channel in _laboratoryPaChannels)
+                    if (channel == null || !channel.enabled || !channel.gameObject.activeInHierarchy)
+                    {
+                        valid = false;
+                        break;
+                    }
+            if (valid)
+                return _laboratoryPaChannels;
             AudioSource[] sceneSources = UnityEngine.Object.FindObjectsOfType<AudioSource>();
             List<AudioSource> result = new List<AudioSource>();
             HashSet<int> seenSources = new HashSet<int>();
@@ -135,6 +158,8 @@ namespace ISBSSOFExtra
                 float rightVolume = right != null ? right.volume : 0f;
                 return rightVolume.CompareTo(leftVolume);
             });
+            _laboratoryPaChannels = result;
+            _laboratoryPaSceneKey = sceneKey;
             return result;
         }
 

@@ -160,6 +160,16 @@ namespace ISBSSOFExtra
             string[] parts = payload.Split('|');
             if (parts.Length == 0)
                 return;
+            if (parts[0] == "AP" || parts[0] == "AR")
+            {
+                HandleAudioPreparation(parts);
+                return;
+            }
+            if (parts[0] == "AL")
+            {
+                HandleAudioWarmup(parts);
+                return;
+            }
             if (parts[0] == "OP" || parts[0] == "OPR" || parts[0] == "OQ" || parts[0] == "OC" || parts[0] == "OT" || parts[0] == "OU" || parts[0] == "OR" || parts[0] == "OA" || parts[0] == "ON")
             {
                 if (payload.Length <= 40000)
@@ -496,7 +506,7 @@ namespace ISBSSOFExtra
                         PrepareLabsFacilityControlDecisionAuthority();
                 }
 
-                NetworkBridge.Broadcast(BuildFikaSnapshot());
+                SendFikaStateToPlayer(playerId, BuildFikaSnapshot());
                 return;
             }
 
@@ -506,8 +516,16 @@ namespace ISBSSOFExtra
             }
 
             _fikaReadyPlayers.Add(playerId);
-            NetworkBridge.Broadcast("K|READY|" + playerId);
-            NetworkBridge.Broadcast(BuildFikaSnapshot());
+            SendFikaStateToPlayer(playerId, "K|READY|" + playerId);
+            SendFikaStateToPlayer(playerId, BuildFikaSnapshot());
+        }
+
+        private void SendFikaStateToPlayer(string playerId, string payload)
+        {
+            if (NetworkBridge is IExtrasPeerNetworkBridge peers)
+                peers.SendToPlayer(playerId, payload);
+            else
+                NetworkBridge.Broadcast(payload);
         }
 
         private bool RemotePresentationPlayersReady(bool requireReady)
@@ -659,47 +677,58 @@ namespace ISBSSOFExtra
             if (string.Equals(eventKey, _lastReceivedAnnouncementKey, StringComparison.Ordinal))
                 return;
             _lastReceivedAnnouncementKey = eventKey;
-            StartCoroutine(PlayNetworkAnnouncement(clipName, (float)elapsed, nightmare ? startTime : -1d));
+            StartCoroutine(PlayNetworkAnnouncement(clipName, (float)elapsed, nightmare ? startTime : -1d, eventKey));
         }
 
-        private IEnumerator PlayNetworkAnnouncement(string clipName, float startOffset, double nightmareStart = -1d)
+        private IEnumerator PlayNetworkAnnouncement(string clipName, float startOffset, double nightmareStart, string eventKey)
         {
-            if (DeadManActive)
-                yield break;
-            if (nightmareStart >= 0d)
+            int generation = _audioGeneration;
+            bool started = false;
+            try
             {
-                float deadline = Time.realtimeSinceStartup + 15f;
-                while (_raidisActive && !DeadManActive && _scp173?.ClockReady != true && Time.realtimeSinceStartup < deadline) yield return null;
-                if (!_raidisActive || DeadManActive) yield break;
-                if (_scp173?.ClockReady != true)
+                if (DeadManActive)
+                    yield break;
+                if (nightmareStart >= 0d)
                 {
-                    Log.LogError("ISB Nightmare announcement unavailable: authoritative clock was not received.");
+                    float deadline = Time.realtimeSinceStartup + 15f;
+                    while (_raidisActive && !DeadManActive && _scp173?.ClockReady != true && Time.realtimeSinceStartup < deadline) yield return null;
+                    if (!_raidisActive || DeadManActive) yield break;
+                    if (_scp173?.ClockReady != true)
+                    {
+                        Log.LogError("ISB Nightmare announcement unavailable: authoritative clock was not received.");
+                        yield break;
+                    }
+                }
+                double resolveStarted = AnnouncementClock(clipName);
+                AudioClip clip = null;
+                yield return StartCoroutine(ResolveNetworkClip(clipName, null, value => clip = value));
+                if (DeadManActive)
+                    yield break;
+                while (_raidisActive && !DeadManActive && IsDecontaminationClip(clipName) && DecontaminationPaused)
+                    yield return null;
+                if (!_raidisActive || DeadManActive)
+                    yield break;
+                startOffset = nightmareStart >= 0d ? (float)Math.Max(0d, NightmareClock - nightmareStart) : startOffset + (float)Math.Max(0d, AnnouncementClock(clipName) - resolveStarted);
+                if (!IsAudioClipReady(clip) || startOffset >= clip.length)
+                {
+                    Log.LogWarning("ISB SOF Fika: Could not resolve synchronized announcement clip '" + clipName + "'.");
                     yield break;
                 }
-            }
-            double resolveStarted = AnnouncementClock(clipName);
-            AudioClip clip = null;
-            yield return StartCoroutine(ResolveNetworkClip(clipName, null, value => clip = value));
-            if (DeadManActive)
-                yield break;
-            while (_raidisActive && !DeadManActive && IsDecontaminationClip(clipName) && DecontaminationPaused)
-                yield return null;
-            if (!_raidisActive || DeadManActive)
-                yield break;
-            startOffset = nightmareStart >= 0d ? (float)Math.Max(0d, NightmareClock - nightmareStart) : startOffset + (float)Math.Max(0d, AnnouncementClock(clipName) - resolveStarted);
-            if (!IsAudioClipReady(clip) || startOffset >= clip.length)
-            {
-                Log.LogWarning("ISB SOF Fika: Could not resolve synchronized announcement clip '" + clipName + "'.");
-                yield break;
-            }
 
-            if (ShouldRouteThroughLaboratoryPa(clip.name))
-            {
-                yield return RouteBlackoutClipIntoLaboratoryPa(clip, startOffset);
-                yield break;
-            }
+                started = true;
+                if (ShouldRouteThroughLaboratoryPa(clip.name))
+                {
+                    yield return RouteBlackoutClipIntoLaboratoryPa(clip, startOffset);
+                    yield break;
+                }
 
-            yield return PlayISBSoldiersRadio(clip, null, new Vector3(-170f, 20f, -342f), AnnouncementMinDistance, AnnouncementMaxDistance, AnnouncementBaseVolume, _announcementsVolume, true, startOffset, false, false, AnnouncementSpatialBlend, AnnouncementRolloffMode);
+                yield return PlayISBSoldiersRadio(clip, null, new Vector3(-170f, 20f, -342f), AnnouncementMinDistance, AnnouncementMaxDistance, AnnouncementBaseVolume, _announcementsVolume, true, startOffset, false, false, AnnouncementSpatialBlend, AnnouncementRolloffMode);
+            }
+            finally
+            {
+                if (!started && generation == _audioGeneration && _lastReceivedAnnouncementKey == eventKey)
+                    _lastReceivedAnnouncementKey = string.Empty;
+            }
         }
 
         private IEnumerator PlayNetworkRadio(string category, string clipName, string profileId, Vector3 fallbackPosition, double startTime)
@@ -856,6 +885,7 @@ namespace ISBSSOFExtra
 
         private void ClearNetworkPresentationState()
         {
+            ResetFikaAudioPreparation();
             _authorizationQuestActions.Clear();
             _authorizationQuestErrorReported = false;
             _networkRestrictExfils = false;

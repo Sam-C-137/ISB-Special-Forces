@@ -24,8 +24,8 @@ namespace ISBSSOFExtra
             internal GamePlayerOwner Owner;
             internal WorldInteractiveObject Door;
             internal Item Battery;
-            internal string Token;
-            internal float RequestedAt, PlantingStartedAt;
+            internal string Token, CommitPayload;
+            internal float RequestedAt, PlantingStartedAt, RetryAt;
             internal int Generation;
             internal bool Planting, Consuming, Modified, ArcRequested;
         }
@@ -39,6 +39,12 @@ namespace ISBSSOFExtra
 
         private static readonly Dictionary<string, KeycardDoor> Readers = new Dictionary<string, KeycardDoor>(StringComparer.Ordinal);
         private static readonly Dictionary<string, Reservation> Reservations = new Dictionary<string, Reservation>(StringComparer.Ordinal);
+        private sealed class BatteryReceipt
+        {
+            internal string Token, Player, Payload;
+        }
+
+        private static readonly Dictionary<string, BatteryReceipt> BatteryReceipts = new Dictionary<string, BatteryReceipt>(StringComparer.Ordinal);
         private static readonly HashSet<string> PoweredReaders = new HashSet<string>(StringComparer.Ordinal);
         private static Func<bool> _authority;
         private static Action<string> _sendBattery, _broadcastBattery;
@@ -129,6 +135,12 @@ namespace ISBSSOFExtra
             Player actor = string.IsNullOrEmpty(profile) ? Singleton<GameWorld>.Instance?.MainPlayer : Singleton<GameWorld>.Instance?.AllAlivePlayersList.FirstOrDefault(player => player.ProfileId == profile);
             Reservations.TryGetValue(id, out var reservation);
             string owner = string.IsNullOrEmpty(profile) ? actor?.ProfileId : profile;
+            bool committing = command == "COMMIT" || command == "COMMIT_MODIFIED";
+            if (committing && BatteryReceipts.TryGetValue(id, out var receipt) && receipt.Token == token && receipt.Player == owner)
+            {
+                _broadcastBattery?.Invoke(receipt.Payload);
+                return;
+            }
             if (command == "CANCEL")
             {
                 if (reservation?.Token == token && reservation.Player == owner)
@@ -173,8 +185,10 @@ namespace ISBSSOFExtra
                 ApplyBatteryCharge(parts);
                 parts[1] = command == "COMMIT_MODIFIED" || parts.Length == 7 ? "POWERED_MODIFIED" : "POWERED";
                 ApplyBatteryReply(parts[1], id, token);
+                string completedPayload = string.Join("|", parts);
+                BatteryReceipts[id] = new BatteryReceipt { Token = token, Player = owner, Payload = completedPayload };
                 _readerRepaired?.Invoke();
-                _broadcastBattery?.Invoke(string.Join("|", parts));
+                _broadcastBattery?.Invoke(completedPayload);
             }
             else if (command == "CANCEL" && reservation?.Token == token)
             {
@@ -281,7 +295,7 @@ namespace ISBSSOFExtra
                 if (consumed && (retained || stackConsumed))
                     CommitBatteryState(pending, charge?.NumberOfUsages ?? 0);
                 else if (consumed)
-                    SendBattery(pending.Modified ? "COMMIT_MODIFIED" : "COMMIT", pending.Door.Id, pending.Token);
+                    SendBatteryCommit(pending, "W|" + (pending.Modified ? "COMMIT_MODIFIED" : "COMMIT") + "|" + pending.Door.Id + "|" + pending.Token);
                 else
                     pending.Owner.DisplayPreloaderUiNotification(Text("isb_reader_battery_failed", "Battery installation failed."));
             }
@@ -336,10 +350,24 @@ namespace ISBSSOFExtra
         private static void CommitBatteryState(BatteryInstallation pending, int used)
         {
             string payload = "W|" + (pending.Modified ? "COMMIT_MODIFIED" : "COMMIT") + "|" + pending.Door.Id + "|" + pending.Token + "|" + pending.Owner.Player.ProfileId + "|" + pending.Battery.Id + "|" + used + "|" + pending.Battery.StackObjectsCount;
+            SendBatteryCommit(pending, payload);
+        }
+
+        private static void SendBatteryCommit(BatteryInstallation pending, string payload)
+        {
+            pending.CommitPayload = payload;
+            pending.RetryAt = Time.realtimeSinceStartup + 2f;
             if (_authority?.Invoke() == true)
                 ReceiveBattery(payload.Split('|'));
             else
                 _sendBattery?.Invoke(payload);
+        }
+
+        private static void ReconcileBatteryInstallation()
+        {
+            var pending = _installation;
+            if (pending?.Consuming == true && pending.CommitPayload != null && pending.Door != null && PoweredReaders.Contains(pending.Door.Id))
+                ApplyBatteryReply(pending.Modified ? "POWERED_MODIFIED" : "POWERED", pending.Door.Id, pending.Token);
         }
 
         private static int BatteryChargeLimit(Item item) => item?.TemplateId.ToString() == OfficeBatteryTemplate ? 2 : item?.TemplateId.ToString() == ModifiedBatteryTemplate ? BatteryCharges : item?.TemplateId.ToString() == BatteryTemplate ? 1 : 0;
@@ -396,7 +424,13 @@ namespace ISBSSOFExtra
         internal static void TickBattery()
         {
             ReaderBatteryEffects.Tick();
+            ReconcileBatteryInstallation();
             var pending = _installation;
+            if (pending?.Consuming == true && pending.CommitPayload != null && Time.realtimeSinceStartup >= pending.RetryAt)
+            {
+                SendBatteryCommit(pending, pending.CommitPayload);
+                return;
+            }
             if (pending?.Planting == true && !pending.ArcRequested && pending.Generation == _batteryGeneration && Time.realtimeSinceStartup - pending.PlantingStartedAt >= InstallSeconds - 2f && pending.Owner?.Player?.HealthController?.IsAlive == true && IsBlocked(pending.Door))
             {
                 pending.ArcRequested = true;
@@ -420,6 +454,7 @@ namespace ISBSSOFExtra
                 foreach (string id in JsonConvert.DeserializeObject<string[]>(json) ?? Array.Empty<string>())
                     if (id != null && Readers.ContainsKey(id))
                         PoweredReaders.Add(id);
+                ReconcileBatteryInstallation();
                 Singleton<GameWorld>.Instance?.MainPlayer?.ForceInteractionsChanged();
             }
             catch (JsonException)
@@ -441,6 +476,7 @@ namespace ISBSSOFExtra
 
             Readers.Clear();
             Reservations.Clear();
+            BatteryReceipts.Clear();
             PoweredReaders.Clear();
         }
     }

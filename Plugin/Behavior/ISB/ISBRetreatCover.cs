@@ -11,6 +11,9 @@ namespace ISBSpecialForces.Behavior.ISB
         private sealed class CoverPath
         {
             internal readonly NavMeshPath Path = new NavMeshPath();
+            internal CustomNavigationPoint SafeCover;
+            internal Vector3 Threat;
+            internal float CheckedAt;
         }
         private static readonly ConditionalWeakTable<BotOwner, CoverPath> Paths = new ConditionalWeakTable<BotOwner, CoverPath>();
         private static readonly ConditionalWeakTable<BotOwner, CoverPath>.CreateValueCallback CreatePath = bot => new CoverPath();
@@ -40,10 +43,19 @@ namespace ISBSpecialForces.Behavior.ISB
             if (bot.Memory.IsInCover || bot.Memory.CurCustomCoverPoint == null) return;
             var threat = Threat(bot, null);
             if (!threat.HasValue) return;
-            var path = Paths.GetValue(bot, CreatePath).Path;
+            if (!ISBNavigationBudget.TryBeginSearch(Time.frameCount))
+                return;
+            var cached = Paths.GetValue(bot, CreatePath);
+            var path = cached.Path;
             if (NavMesh.CalculatePath(bot.Position, bot.Memory.CurCustomCoverPoint.Position, NavMesh.AllAreas, path) &&
                 path.status == NavMeshPathStatus.PathComplete && SafePath(bot.Position, threat.Value, path.corners))
+            {
+                cached.SafeCover = bot.Memory.CurCustomCoverPoint;
+                cached.Threat = threat.Value;
+                cached.CheckedAt = Time.time;
                 return;
+            }
+            cached.SafeCover = null;
             bot.Memory.SetCoverPoints(null);
             bot.StopMove();
         }
@@ -60,17 +72,25 @@ namespace ISBSpecialForces.Behavior.ISB
             var side = Vector3.Cross(Vector3.up, away);
             var center = data.CenterPos;
             float maxDistance = data.MaxDistSqr;
-            var path = Paths.GetValue(bot, CreatePath).Path;
+            var cached = Paths.GetValue(bot, CreatePath);
+            var path = cached.Path;
             try
             {
                 data.MaxDistSqr = Mathf.Min(maxDistance, 100f);
                 for (int i = 0; i < 3; i++)
                 {
+                    if (!ISBNavigationBudget.TryBeginSearch(Time.frameCount))
+                        return cached.SafeCover != null && Time.time - cached.CheckedAt < 1f && (threat.Value - cached.Threat).sqrMagnitude < 1f ? cached.SafeCover : null;
                     data.CenterPos = bot.Position + away * 4f + side * (i == 0 ? 0f : i == 1 ? 5f : -5f);
                     var cover = find(data, checkCurrent && i == 0);
                     if (cover != null && NavMesh.CalculatePath(bot.Position, cover.Position, NavMesh.AllAreas, path) &&
                         path.status == NavMeshPathStatus.PathComplete && SafePath(bot.Position, threat.Value, path.corners))
+                    {
+                        cached.SafeCover = cover;
+                        cached.Threat = threat.Value;
+                        cached.CheckedAt = Time.time;
                         return cover;
+                    }
                 }
                 return null;
             }
