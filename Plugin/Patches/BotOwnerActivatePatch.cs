@@ -3,7 +3,7 @@ using EFT;
 using HarmonyLib;
 using ISBSpecialForces.Components;
 using ISBSpecialForces.Controllers;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using SPT.Reflection.Patching;
 using System.Reflection;
 

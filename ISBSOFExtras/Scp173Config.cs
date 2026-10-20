@@ -29,7 +29,7 @@ namespace ISBSSOFExtra
         public float containmentGasFadeOutSeconds = 1f;
         public Scp173SpawnPoint containmentButton = new Scp173SpawnPoint { x=-134.5208f, y=1.2125f, z=-358.4231f };
         public Scp173SpawnPoint containmentButtonRotation = new Scp173SpawnPoint { x=90f, y=270f, z=0f };
-        public int chasesBeforeRetarget = 3;
+        public int chasesBeforeRetarget = 7;
         public float chaseDurationSeconds = 6f;
         public float chaseRetrySeconds = 30f;
         public float chaseStepHeight = .3f;

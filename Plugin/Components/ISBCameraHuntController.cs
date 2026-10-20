@@ -1,7 +1,7 @@
 using Comfort.Common;
 using EFT;
 using ISBSpecialForces.Behavior;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using ISBSpecialForces.Controllers;
 using MoreBotsAPI.Components;
 using SPT.SinglePlayer.Utils.InRaid;
@@ -226,6 +226,7 @@ namespace ISBSpecialForces.Components
             bool protectedTarget = ISBAishiLoyaltyConditionState.ProtectsTarget(target);
             protectedTarget |= target.IsAI && ISBForcedHostilityState.Enabled && ISBForcedHostilityState.IsFriendlyToISB(role);
             protectedTarget |= hunter.BotsGroup.IsAlly(target);
+            protectedTarget |= !hunter.BotsGroup.IsPlayerEnemy(target);
             var hunterRole = hunter.Profile.Info.Settings.Role;
             bool nativeTarget = _huntManager.validHuntRoles.TryGetValue(hunterRole, out var roles) && roles.Contains(role);
             nativeTarget |= _huntManager.validPMCHunts.TryGetValue(hunterRole, out var sides) && sides.Contains(target.Side);
@@ -267,7 +268,7 @@ namespace ISBSpecialForces.Components
             else
             {
                 _huntManager.huntGroups[group] = selected;
-                if (!group.IsPlayerEnemy(selected))
+                if (!group.Enemies.ContainsKey(selected))
                     group.AddEnemy(selected, EBotEnemyCause.addPlayer);
             }
 

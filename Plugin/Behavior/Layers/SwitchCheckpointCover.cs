@@ -17,7 +17,7 @@ namespace ISBSpecialForces.Behavior.Actions
 
         public override void Start()
         {
-            BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
+            if (isbManager.guardPoint != null) BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
             BotOwner.GetPlayer.MovementContext.SetPatrol(true);
             base.Start();
         }
@@ -32,7 +32,11 @@ namespace ISBSpecialForces.Behavior.Actions
         {
             isbManager.UpdateGuardPoint();
             if (isbManager.guardPoint == null)
+            {
+                isbManager.ShouldSwitchCover = false;
+                isbManager.AtCheckpoint = false;
                 return;
+            }
             BotOwner.Memory.SetCoverPoints(isbManager.guardPoint, "");
             base.Update(data);
             if (BotOwner.Mover.IsComeTo(.5f, true, isbManager.guardPoint))

@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Bootstrap;
 using BepInEx.Logging;
@@ -28,6 +28,8 @@ namespace ISBSSOFExtra
         {
             if (gameWorld == null)
                 return string.Empty;
+            if (IsHeadless && ReferenceEquals(gameWorld, _activeRaidWorld) && !string.IsNullOrWhiteSpace(_fikaReportedRaidLocation))
+                return _fikaReportedRaidLocation;
             try
             {
                 if (gameWorld.MainPlayer != null && !string.IsNullOrWhiteSpace(gameWorld.MainPlayer.Location))
@@ -94,7 +96,16 @@ namespace ISBSSOFExtra
         {
             if (string.IsNullOrWhiteSpace(location))
                 return false;
-            return string.Equals(location.Trim(), targetmap, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(location.Trim(), targetmap, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(location.Trim(), "5b0fc42d86f7744a585f9105", StringComparison.OrdinalIgnoreCase);
+        }
+
+        private string ResolveHeadlessRaidLocation(GameWorld gameWorld, string initial)
+        {
+            if (!string.IsNullOrWhiteSpace(_fikaReportedRaidLocation)) return _fikaReportedRaidLocation;
+            string live = ResolveRaidLocation(gameWorld);
+            if (!string.IsNullOrWhiteSpace(live)) return live;
+            return !string.IsNullOrWhiteSpace(_fikaReportedRaidLocation) ? _fikaReportedRaidLocation : initial;
         }
 
         private bool IsLaboratoryWorld(GameWorld gameWorld, string resolvedLocation)
@@ -220,6 +231,16 @@ namespace ISBSSOFExtra
                     if (Singleton<GameWorld>.Instantiated && Singleton<GameWorld>.Instance != null)
                     {
                         gameWorld = Singleton<GameWorld>.Instance;
+                        if (FikaRequired && !NetworkBridge.Active)
+                        {
+                            if (Time.realtimeSinceStartup >= nextWaitingLog)
+                            {
+                                nextWaitingLog = float.PositiveInfinity;
+                                Log.LogError("ISB: Fika event synchronization is unavailable. Install the complete matching ISB client package; local event authority is disabled.");
+                            }
+                            yield return new WaitForSecondsRealtime(1f);
+                            continue;
+                        }
                         resolvedLocation = ResolveRaidLocation(gameWorld);
                         bool headlessAuthorityWaitingForClient = IsFikaServer && IsHeadless;
                         if (!string.IsNullOrWhiteSpace(resolvedLocation) || headlessAuthorityWaitingForClient)
@@ -277,9 +298,16 @@ namespace ISBSSOFExtra
                 if (IsFikaNetworkSession && IsFikaServer)
                 {
                     yield return StartCoroutine(WaitForFikaPresentationReadiness());
+                    if (_fikaStartupFailed)
+                    {
+                        ShutdownRaid();
+                        while (Singleton<GameWorld>.Instantiated && ReferenceEquals(Singleton<GameWorld>.Instance, gameWorld))
+                            yield return null;
+                        continue;
+                    }
                     if (IsHeadless)
                     {
-                        string clientReportedLocation = _fikaReportedRaidLocation;
+                        string clientReportedLocation = ResolveHeadlessRaidLocation(gameWorld, resolvedLocation);
                         if (!string.IsNullOrWhiteSpace(clientReportedLocation))
                             resolvedLocation = clientReportedLocation;
                         isLabs = IsLaboratoryWorld(gameWorld, resolvedLocation);
@@ -289,6 +317,10 @@ namespace ISBSSOFExtra
                         {
                             LoadLabsAnnouncements();
                             LoadPreBlackoutSequences();
+                            _labsPreBlackoutEventActive = LoadLabsPreBlackoutEventStatus();
+                            TakeoverFlameTrigger.EventActive = _labsPreBlackoutEventActive;
+                            if (_labsPreBlackoutEventActive)
+                                PrepareTakeoverScenery(gameWorld);
                             LabsKeycardLockdown.Prepare();
                             LabsKeycardLockdown.ConfigureBatteryNetwork(() => IsEventAuthority, payload => NetworkBridge.SendToServer(payload), payload =>
                             {

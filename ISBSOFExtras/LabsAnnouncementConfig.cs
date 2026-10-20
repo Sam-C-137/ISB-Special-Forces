@@ -46,7 +46,7 @@ namespace ISBSSOFExtra
         public bool enabled { get; set; } = true;
         public string audio { get; set; } = string.Empty;
         public float nextDelay { get; set; }
-        public float? afterDecontaminationSeconds { get; set; }
+
     }
 
     internal sealed class AnnouncementSequenceDefinition
@@ -177,7 +177,7 @@ namespace ISBSSOFExtra
             {
                 if (definition == null || !definition.enabled || NormalizeWeight(definition.weight) == 0f)
                     continue;
-                var audios = NormalizeAudios(definition.audios, audioExists);
+                var audios = NormalizeAudios(definition.audios, audioExists, false);
                 if (audios.Length == 0)
                     continue;
                 result.Add(new AnnouncementSequenceDefinition { weight = definition.weight, initialDelay = NormalizeDelay(definition.initialDelay), audios = audios });
@@ -186,7 +186,7 @@ namespace ISBSSOFExtra
             return result.ToArray();
         }
 
-        private static AnnouncementAudioDefinition[] NormalizeAudios(AnnouncementAudioDefinition[] definitions, Func<string, bool> audioExists)
+        private static AnnouncementAudioDefinition[] NormalizeAudios(AnnouncementAudioDefinition[] definitions, Func<string, bool> audioExists, bool containmentBreach = true)
         {
             var result = new List<AnnouncementAudioDefinition>();
             if (definitions == null)
@@ -196,9 +196,9 @@ namespace ISBSSOFExtra
                 if (definition == null || !definition.enabled)
                     continue;
                 string audio = NormalizeAudioName(definition.audio, audioExists);
-                if (audio == null)
+                if (audio == null || (!containmentBreach && string.Equals(Path.GetFileNameWithoutExtension(audio), "ISBStart_RU", StringComparison.OrdinalIgnoreCase)))
                     continue;
-                result.Add(new AnnouncementAudioDefinition { audio = audio, nextDelay = NormalizeDelay(definition.nextDelay), afterDecontaminationSeconds = definition.afterDecontaminationSeconds.HasValue ? (float?)NormalizeDelay(definition.afterDecontaminationSeconds.Value) : null });
+                result.Add(new AnnouncementAudioDefinition { audio = audio, nextDelay = NormalizeDelay(definition.nextDelay) });
             }
 
             return result.ToArray();
@@ -209,7 +209,7 @@ namespace ISBSSOFExtra
             if (string.IsNullOrWhiteSpace(value))
                 return null;
             string name = value.Trim();
-            if (!name.EndsWith(".wav", StringComparison.OrdinalIgnoreCase) || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || name.IndexOf('/') >= 0 || name.IndexOf('\\') >= 0 || name.IndexOf('|') >= 0 || !audioExists(name))
+            if (!name.EndsWith(".wav", StringComparison.OrdinalIgnoreCase) || name.IndexOfAny(Path.GetInvalidFileNameChars()) >= 0 || name.IndexOf('/') >= 0 || name.IndexOf('\\') >= 0 || name.IndexOf('|') >= 0)
                 return null;
             return name;
         }

@@ -23,7 +23,7 @@ namespace ISBInfo
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "1.1.0";
+        public const string PluginVersion = "1.1.1";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBNotify.Fika";

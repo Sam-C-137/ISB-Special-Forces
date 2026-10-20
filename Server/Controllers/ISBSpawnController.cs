@@ -213,6 +213,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         }
     };
     private readonly object _labsPreBlackoutSync = new();
+    private readonly object _eventRaidContextSync = new();
+    private readonly Dictionary<string, (string Map, object? Instance)> _eventRaidContexts = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _officeCodes = new(StringComparer.Ordinal);
     private readonly ISB.Compatibility.OfficeKteBriefing _officeBriefings = new();
     private readonly object _spawnAdjustmentSync = new();
@@ -778,6 +780,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         }
 
         var requestedMap = NormalizeMapId(info.Location);
+        EnsureEventRaidContext(sessionId, requestedMap);
         progress.Prepare(sessionId, requestedMap, string.Equals(info.Side?.ToString(), "Savage", StringComparison.OrdinalIgnoreCase));
         var configuredMap = configController.ModConfig.locations.Keys.FirstOrDefault(map => NormalizeMapId(map) == requestedMap);
         if (configuredMap is null)
@@ -868,6 +871,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         if (NormalizeMapId(map) != NormalizeMapId("laboratory"))
             return;
         sessionId = fikaRaidContext.EventSession(sessionId) ?? sessionId;
+        EnsureEventRaidContext(sessionId, NormalizeMapId(map));
         lock (_labsPreBlackoutSync)
             if (_labsPreBlackoutEventBySession.ContainsKey(sessionId))
                 return;
@@ -908,6 +912,27 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         lock (_spawnAdjustmentSync)
             if (!string.IsNullOrWhiteSpace(sessionId))
                 _lockdownRaidPlans.Remove(sessionId);
+        lock (_eventRaidContextSync)
+            if (!string.IsNullOrWhiteSpace(sessionId))
+                _eventRaidContexts.Remove(sessionId);
+    }
+
+    private void EnsureEventRaidContext(string? sessionId, string map)
+    {
+        if (string.IsNullOrWhiteSpace(sessionId))
+            return;
+        var instance = fikaRaidContext.RaidInstance(sessionId);
+        lock (_eventRaidContextSync)
+        {
+            bool changed = _eventRaidContexts.TryGetValue(sessionId, out var previous)
+                && (previous.Map != map || previous.Instance != null && instance != null && !ReferenceEquals(previous.Instance, instance));
+            if (changed)
+            {
+                progress.Finish(sessionId);
+                EndRaid(sessionId);
+            }
+            _eventRaidContexts[sessionId] = (map, instance ?? (changed ? null : previous.Instance));
+        }
     }
 
     private bool RollLabsPreBlackoutEvent(string? sessionId)

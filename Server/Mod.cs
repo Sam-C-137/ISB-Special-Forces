@@ -26,7 +26,7 @@ public record ModMetadata : AbstractModMetadata, SPTarkov.Server.Web.IModWebMeta
     public override List<string>? Contributors { get; init; } = new()
     {
     };
-    public override SemanticVersioning.Version Version { get; init; } = new(1, 1, 0);
+    public override SemanticVersioning.Version Version { get; init; } = new(1, 1, 1);
     public override SemanticVersioning.Range SptVersion { get; init; } = new("~4.0.13");
     public override List<string>? Incompatibilities { get; init; }
     public override Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
@@ -57,7 +57,7 @@ public record ModMetadata : AbstractModMetadata, SPTarkov.Server.Web.IModWebMeta
 #else
     public string? HomePage { get; init; } = "/isb";
 #endif
-    public string? HomePageDescription { get; init; } = "ISB SOF — spawns, opções essenciais e eventos";
+    public string? HomePageDescription { get; init; } = "Configuration for Spawns, Formations, Blackout and Containement Breach Events, Dogtags and others";
 }
 
 [Injectable(TypePriority = (OnLoadOrder.PreSptModLoader + 80085))]

@@ -3,7 +3,7 @@ using DrakiaXYZ.BigBrain.Brains;
 using EFT;
 using EFT.InputSystem;
 using ISBSpecialForces.Behavior.Layers;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using MoreBotsAPI.Behavior.Layers;
 using SPT.Reflection.Patching;
 using System;
@@ -59,7 +59,8 @@ namespace ISBSpecialForces.Patches
         [PatchPostfix]
         protected static void PatchPostfix()
         {
-            ApplySainLayers();
+            if (!Behavior.ISB.ISBBrainBootstrap.ConfigureSain() || Behavior.ISB.ISBSainSquads.Available)
+                ApplySainLayers();
             BrainManager.AddCustomLayer(typeof(ISBSpecialForces.Behavior.DeadManSwitchPanic), new List<string> { "ArenaFighter", "Assault", "BigPipe", "BirdEye", "BoarSniper", "BossBoar", "BossBully", "BossGluhar", "BossKojaniy", "BossKolontay", "BossPartisan", "BossSanitar", "BossTest", "BossZryachiy", "CursAssault", "ExUsec", "FlKlnAslt", "Fl_Zraychiy", "FollowerBully", "FollowerGluharAssault", "FollowerGluharProtect", "FollowerGluharScout", "FollowerKojaniy", "FollowerSanitar", "Gifter", "HelperAgro", "InfectedAssault", "InfectedFast", "InfectedShooting", "InfectedSlow", "Killa", "KillaAgro", "Knight", "KolonSec", "Marksman", "Obdolbs", "Oni", "PMC", "PeaceZryachiy", "PmcBear", "PmcUsec", "PrizrakSt", "Prst event", "RavangeZryachiy", "SctPredvst", "SectantPriest", "SectantWarrior", "Tagilla", "TagillaAgro", "TagillaFollower", "Zombie[?]", "PmcUSEC", "PmcBEAR" }, 75);
             var brainList = new List<string>()
             {
@@ -69,9 +70,12 @@ namespace ISBSpecialForces.Patches
                 "PmcUsec",
                 "PmcBear",
                 "PmcUSEC",
-                "PmcBEAR"
+                "PmcBEAR",
+                "ISB",
+                "blackDiv"
             };
             var typesList = GetISBRoles();
+            BrainManager.AddCustomLayer(typeof(Behavior.ISB.ISBEvacuationLayer), new List<string> { "ISB" }, 115, typesList);
             var soloPriority = 20;
             var squadPriority = 22;
             if (Chainloader.PluginInfos.TryGetValue("me.sol.sain", out var sain) && sain?.Instance != null)
@@ -82,17 +86,25 @@ namespace ISBSpecialForces.Patches
             }
 
             var tacticalPriority = GetTacticalPriority(soloPriority, squadPriority);
-            BrainManager.AddCustomLayer(typeof(ISBTacticalLayer), brainList, tacticalPriority + 2, typesList);
-            BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brainList, tacticalPriority + 1, typesList);
+            BrainManager.AddCustomLayer(typeof(ISBTacticalLayer), brainList.FindAll(name => name != "ISB" && name != "blackDiv"), tacticalPriority + 2, typesList);
+            RegisterCheckpointLayers(brainList, typesList, tacticalPriority + 1);
             if (Components.BlackDivisionEventCheckpoints.Installed)
             {
                 var blackDivisionRoles = new List<int>(ISB.Compatibility.BlackDivisionCheckpointPolicy.Roles).ConvertAll(role => (WildSpawnType)role);
-                BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brainList, tacticalPriority + 1, blackDivisionRoles);
+                RegisterCheckpointLayers(brainList, blackDivisionRoles, tacticalPriority + 1);
+                BrainManager.AddCustomLayer(typeof(ISBHuntLayer), new List<string> { "blackDiv", "PMC" }, tacticalPriority, blackDivisionRoles);
             }
 
             BrainManager.AddCustomLayer(typeof(ISBHuntLayer), brainList, tacticalPriority, typesList);
             BrainManager.AddCustomLayer(typeof(RevengeHunt), brainList, 74, typesList);
             BrainManager.RemoveLayers(["AdvAssaultTarget"], brainList, typesList);
+        }
+
+        internal const int NativeCheckpointPriority = 109;
+        private static void RegisterCheckpointLayers(List<string> brains, List<WildSpawnType> roles, int priority)
+        {
+            BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brains.FindAll(name => name != "ISB" && name != "blackDiv"), priority, roles);
+            BrainManager.AddCustomLayer(typeof(GoToCheckpointLayer), brains.FindAll(name => name == "ISB" || name == "blackDiv"), NativeCheckpointPriority, roles);
         }
 
         internal static int GetTacticalPriority(int solo, int squad) => Math.Min(77, Math.Max(solo, squad) + 1);
@@ -104,6 +116,9 @@ namespace ISBSpecialForces.Patches
             {
                 var sainAssembly = sainInfo.Instance.GetType().Assembly;
                 var roles = GetISBRoles();
+                if (Behavior.ISB.ISBSainSquads.Available && Components.BlackDivisionEventCheckpoints.Installed)
+                    foreach (int role in ISB.Compatibility.BlackDivisionCheckpointPolicy.Roles)
+                        if (!roles.Contains((WildSpawnType)role)) roles.Add((WildSpawnType)role);
                 try
                 {
                     TryRegisterThroughSain(sainAssembly, roles);
@@ -124,10 +139,12 @@ namespace ISBSpecialForces.Patches
                     return;
                 }
 
+                Behavior.ISB.ISBSainSquads.Disable();
                 Plugin.LogSource.LogError("[ISB SOF] SAIN was detected, but its PMC combat layer types could not be registered for ISB roles.");
             }
             catch (Exception ex)
             {
+                Behavior.ISB.ISBSainSquads.Disable();
                 Plugin.LogSource.LogError($"[ISB SOF] SAIN PMC compatibility registration failed: {ex.GetBaseException().Message}");
             }
         }

@@ -40,6 +40,12 @@ namespace ISBSSOFExtra
         private bool _active, _failed;
         internal int Mask { get; private set; }
 
+        internal static bool PlayerNear(string action, Vector3 player)
+        {
+            int index = ActionIndex(action);
+            return index >= 0 && (player - Positions[index]).sqrMagnitude <= 16f;
+        }
+
         internal static int ActionIndex(string action)
         {
             for (int i = 0; i < Names.Length; i++)

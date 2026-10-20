@@ -123,6 +123,7 @@ namespace ISBSSOFExtra
         {
             if (target == null || !FindSafePoint(target.Position, _config.teleportMinDistance, _config.teleportMaxDistance, out var point)) return false;
             SetMoving(false);
+            ChooseTeleportPose();
             SetPosition(point);
             _nextTeleport = now + _config.teleportCooldownSeconds;
             _teleports++;

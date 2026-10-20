@@ -1,6 +1,6 @@
 using EFT;
 using ISBSpecialForces.Components;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using SPT.Reflection.Patching;
 using System.Reflection;
 
@@ -16,6 +16,7 @@ namespace ISBSpecialForces.Patches
         [PatchPostfix]
         protected static void PatchPostfix(BotsController __instance)
         {
+            Behavior.ISB.ISBNativeSquad.Reset();
             TarkovInitPatch.UpdateBlackDivisionEventSain(false);
             MonoBehaviourSingleton<ISBCameraHuntController>.Instance?.ResetRaid();
             var tacticalBrainManager = MonoBehaviourSingleton<ISBTacticalController>.Instance;

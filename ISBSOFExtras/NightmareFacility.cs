@@ -22,14 +22,14 @@ namespace ISBSSOFExtra
         private double NightmareClock => _scp173?.Clock ?? 0d;
         private NightmareFacilityState NightmareState => _scp173?.Facility;
         private bool NightmareAnnouncementActive => NightmareState != null && NightmareState.announcementStart >= 0d && NightmareClock < NightmareState.announcementEnd;
-        private bool NightmareWarningActive => NightmareAnnouncementActive && NightmareState.announcement == "SCPWarn";
+        private bool NightmareWarningActive => NightmareAnnouncementActive && (NightmareState.announcement == "SCPWarn" || NightmareState.announcement == "SCPWarnRepeat");
         private bool NightmareWarningLights => NightmareState != null && (NightmareWarningActive || NightmareState.warningPreludeUntil > NightmareClock);
         private bool NightmareBlackout => NightmareState != null && NightmareState.awakeAt >= 0d && NightmareClock < NightmareState.awakeAt + (_scp173.Settings?.activationBlackoutSeconds ?? 2f);
         private bool NightmareMuteAlarm => NightmareBlackout || NightmareWarningActive;
         private bool NightmareEmergencyMode => NightmareState != null && NightmareState.awakeAt >= 0d && !_takeoverFacilityRestored;
         private bool NightmarePriorityPending => NightmareState != null && (!NightmareState.warningCompleted && NightmareState.warningDue >= 0d && NightmareClock >= NightmareState.warningDue || !NightmareState.removalAnnounced && !string.IsNullOrEmpty(NightmareState.removal) || NightmareAnnouncementActive || _nightmareAnnouncement != null);
         private double NightmareDecontaminationDelay => NightmareState == null ? 0d : NightmareState.decontaminationDelay + (!_scp173.Authority && _officeAccess?.aborted != true && (NightmareState.warningSequenceActive || NightmareState.announcementStart >= 0d) && NightmareState.delayUpdatedAt >= 0d ? Math.Max(0d, (NightmareState.warningSequenceActive ? NightmareClock : Math.Min(NightmareClock, NightmareState.announcementEnd)) - NightmareState.delayUpdatedAt) : 0d);
-        private static bool IsNightmareAnnouncement(string file) => Path.GetFileNameWithoutExtension(file) == "SCPWarn" || Path.GetFileNameWithoutExtension(file) == "SCPTerminatePlayer" || Path.GetFileNameWithoutExtension(file) == "SCPContainedBots";
+        private static bool IsNightmareAnnouncement(string file) => Path.GetFileNameWithoutExtension(file) == "SCPWarn" || Path.GetFileNameWithoutExtension(file) == "SCPWarnRepeat" || Path.GetFileNameWithoutExtension(file) == "SCPTerminatePlayer" || Path.GetFileNameWithoutExtension(file) == "SCPContainedBots";
 
         private void TickNightmareFacility()
         {
@@ -203,7 +203,7 @@ namespace ISBSSOFExtra
                         while (_raidisActive && !DeadManActive && NightmareClock < state.warningPreludeUntil) yield return null;
                         state.warningPreludeUntil = -1d;
                         if (!_raidisActive || DeadManActive) break;
-                        yield return PlayISBLeadAnnouncement(name + ".wav");
+                        yield return PlayISBLeadAnnouncement((pass == 0 ? "SCPWarn" : "SCPWarnRepeat") + ".wav");
                         AccumulateNightmareDecontaminationPause();
                         state.announcementStart = state.announcementEnd = -1d;
                         state.announcement = "";
@@ -287,7 +287,7 @@ namespace ISBSSOFExtra
                     StopRoutine(ref _powerMonitorScan);
                     _powerMonitor?.Dispose(); _powerMonitor = null;
                     _emergencyLighting.SetScreensSuppressed(true);
-                    string path = Path.Combine(Path.GetDirectoryName(Info.Location), "ISBSpecialForces_Videos", "SCPWarn.mp4");
+                    string path = Path.Combine(Path.GetDirectoryName(Info.Location), "ISBSpecialForces_Videos", NightmareState.announcement == "SCPWarnRepeat" ? "SCPWarnRepeat.mp4" : "SCPWarn.mp4");
                     if (!File.Exists(path)) throw new FileNotFoundException("Nightmare warning video is missing.", path);
                     _nightmareScreens = new DecontaminationScreens(path, Log, r => !OfficeScreenCanvas.IsTerminalScreen(r));
                     _nightmareScreenScan = StartCoroutine(_nightmareScreens.FindScreens());

@@ -153,6 +153,8 @@ namespace ISBSSOFExtra
         {
             if (string.IsNullOrEmpty(payload))
                 return;
+            if (_fikaContentRejected && !payload.StartsWith("CV|", StringComparison.Ordinal) && !payload.StartsWith("H|", StringComparison.Ordinal))
+                return;
             if (_scp173?.Receive(payload) == true)
                 return;
             string[] parts = payload.Split('|');
@@ -174,7 +176,22 @@ namespace ISBSSOFExtra
             if (parts[0] == "CV")
             {
                 if (_raidisActive && !IsEventAuthority && parts.Length == 3 && parts[1] == LocalEventContent)
+                {
+                    _fikaContentRejected = !EventContentCheck.Compatible(LocalEventContent, parts[2]);
                     CheckEventContent(parts[2]);
+                }
+                return;
+            }
+
+            if (parts[0] == "H")
+            {
+                if (!IsEventAuthority && parts.Length == 2 && parts[1] == "READY")
+                {
+                    _fikaClientReadyAcknowledged = false;
+                    _nextFikaReadySendTime = 0f;
+                    if (!_raidisActive && LocalEventContent != "pending")
+                        NetworkBridge.SendToServer("Q|FILES||" + LocalEventContent);
+                }
                 return;
             }
 
@@ -187,7 +204,7 @@ namespace ISBSSOFExtra
 
             if (parts[0] == "K")
             {
-                if (!IsEventAuthority)
+                if (!IsEventAuthority && parts.Length == 3 && parts[1] == "READY" && parts[2] == _activeRaidWorld?.MainPlayer?.ProfileId)
                     _fikaClientReadyAcknowledged = true;
                 return;
             }
@@ -208,7 +225,7 @@ namespace ISBSSOFExtra
 
             if (parts[0] == "T")
             {
-                if (IsFikaNetworkSession && IsFikaServer && parts.Length >= 2)
+                if (IsFikaNetworkSession && IsFikaServer && parts.Length == 2 && RemotePlayerNearAction(NetworkBridge.ReceivedPlayerId, parts[1]))
                     ApplyTakeoverActionAuthority(parts[1]);
                 return;
             }
@@ -419,7 +436,7 @@ namespace ISBSSOFExtra
         {
             if (!IsFikaNetworkSession)
                 return true;
-            if (!NetworkBridge.RaidStarted && Singleton<IBotGame>.Instance?.Status != GameStatus.Started)
+            if (!NetworkBridge.RaidStarted && Singleton<IBotGame>.Instance?.Status != GameStatus.Started && Singleton<IBotGame>.Instance?.Status != GameStatus.Running)
                 return false;
             if (_fikaRaidStartedObservedAt < 0f)
                 _fikaRaidStartedObservedAt = Time.realtimeSinceStartup;
@@ -442,11 +459,22 @@ namespace ISBSSOFExtra
         {
             if (!_raidisActive || parts.Length < 2)
                 return;
+            bool filesOnly = string.Equals(parts[1], "FILES", StringComparison.Ordinal);
             bool sceneryOnly = string.Equals(parts[1], "SCENERY", StringComparison.Ordinal);
-            if (!sceneryOnly && !string.Equals(parts[1], "READY", StringComparison.Ordinal))
+            if (!filesOnly && !sceneryOnly && !string.Equals(parts[1], "READY", StringComparison.Ordinal))
                 return;
             string peerContent = parts.Length >= 4 ? parts[3] : "legacy-client";
             CheckEventContent(peerContent);
+            bool compatible = EventContentCheck.Compatible(LocalEventContent, peerContent);
+            string playerId = NetworkBridge.ReceivedPlayerId;
+            if (!compatible || string.IsNullOrEmpty(playerId))
+            {
+                if (LocalEventContent != "pending" && peerContent != "pending")
+                    NetworkBridge.Broadcast("CV|" + peerContent + "|" + LocalEventContent);
+                return;
+            }
+            _fikaCompatiblePlayers.Add(playerId);
+            if (filesOnly) return;
             if (LocalEventContent != "pending" && peerContent != "pending")
                 NetworkBridge.Broadcast("CV|" + peerContent + "|" + LocalEventContent);
             string reportedLocation = parts.Length >= 3 ? DecodeNetworkString(parts[2]) : string.Empty;
@@ -477,45 +505,56 @@ namespace ISBSSOFExtra
                 Log.LogInfo("ISB SOF Fika: Client READY received; sending current event state. location=" + reportedLocation);
             }
 
-            _fikaPresentationClientReady = true;
-            NetworkBridge.Broadcast("K|READY");
+            _fikaReadyPlayers.Add(playerId);
+            NetworkBridge.Broadcast("K|READY|" + playerId);
             NetworkBridge.Broadcast(BuildFikaSnapshot());
+        }
+
+        private bool RemotePresentationPlayersReady(bool requireReady)
+        {
+            var players = _activeRaidWorld?.AllAlivePlayersList;
+            if (players == null) return false;
+            bool found = false;
+            foreach (var player in players)
+            {
+                if (player == null || player.IsAI || player.IsYourPlayer || player.HealthController?.IsAlive != true) continue;
+                found = true;
+                if (!(requireReady ? _fikaReadyPlayers : _fikaCompatiblePlayers).Contains(player.ProfileId)) return false;
+            }
+            return found;
         }
 
         private IEnumerator WaitForFikaPresentationReadiness()
         {
-            if (!IsFikaNetworkSession || !IsFikaServer)
-                yield break;
+            if (!IsFikaNetworkSession || !IsFikaServer) yield break;
+            float waitingSince = -1f, requestAt = 0f;
             while (_raidisActive)
             {
                 bool localReady = IsLocalPresentationReadyForAuthority();
-                bool remotePlayerExpected = _fikaRemotePeerSeen || !NetworkBridge.IsSinglePlayer;
-                if (localReady && !IsHeadless && remotePlayerExpected && !_fikaPresentationClientReady && _fikaRemoteReadyFallbackAt < 0f)
+                bool remoteExpected = _fikaRemotePeerSeen || !NetworkBridge.IsSinglePlayer;
+                bool raidStarted = NetworkBridge.RaidStarted || Singleton<IBotGame>.Instance?.Status == GameStatus.Started || Singleton<IBotGame>.Instance?.Status == GameStatus.Running;
+                if (raidStarted && waitingSince < 0f) waitingSince = Time.realtimeSinceStartup;
+                if (raidStarted && Time.realtimeSinceStartup >= requestAt)
                 {
-                    _fikaRemoteReadyFallbackAt = Time.realtimeSinceStartup + FIKA_REMOTE_READY_TIMEOUT_SECONDS;
+                    requestAt = Time.realtimeSinceStartup + 5f;
+                    NetworkBridge.Broadcast("H|READY");
                 }
-
-                bool remoteTimeoutOpen = !IsHeadless && _fikaRemoteReadyFallbackAt >= 0f && Time.realtimeSinceStartup >= _fikaRemoteReadyFallbackAt;
-                bool remoteReady = IsHeadless ? _fikaPresentationClientReady : (!remotePlayerExpected || _fikaPresentationClientReady || remoteTimeoutOpen);
-                if (remoteTimeoutOpen && !_fikaPresentationClientReady)
+                bool allReady = RemotePresentationPlayersReady(true);
+                bool compatible = RemotePresentationPlayersReady(false);
+                float elapsed = waitingSince < 0f ? 0f : Time.realtimeSinceStartup - waitingSince;
+                if (localReady && raidStarted && (allReady || !IsHeadless && !remoteExpected)) yield break;
+                if (localReady && raidStarted && elapsed >= 45f && compatible)
                 {
-                    Log.LogWarning("ISB SOF Extras: Remote presentation READY timed out; " + "the player-host will continue locally and late clients will receive a snapshot. Check that every client installed the complete ISB client package, including DLLs and event assets.");
-                    _fikaRemotePeerSeen = false;
-                    _fikaRemoteReadyFallbackAt = -1f;
-                    remoteReady = true;
-                }
-
-                if (localReady && remoteReady)
-                {
-                    if (global::ISBSSOFExtra.ISBSpecialForcesAudio.DiagnosticsEnabled)
-                    {
-                        Log.LogInfo("ISB SOF Fika: Presentation start gate opened. localReady=" + localReady + ", remoteReady=" + remoteReady + ".");
-                    }
-
+                    Log.LogWarning("ISB: Presentation READY was delayed; continuing with verified players already in the raid. State recovery remains active.");
                     yield break;
                 }
-
-                yield return new WaitForSeconds(0.25f);
+                if (raidStarted && elapsed >= 180f && !compatible)
+                {
+                    _fikaStartupFailed = true;
+                    Log.LogError("ISB: Event startup cancelled because no complete compatible group confirmed its client files. Check the ISB package on the host/headless and every player.");
+                    yield break;
+                }
+                yield return new WaitForSecondsRealtime(.25f);
             }
         }
 
@@ -807,12 +846,12 @@ namespace ISBSSOFExtra
 
         private static bool TryParseFloat(string value, out float result)
         {
-            return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
+            return float.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out result) && !float.IsNaN(result) && !float.IsInfinity(result);
         }
 
         private static bool TryParseDouble(string value, out double result)
         {
-            return double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out result);
+            return double.TryParse(value, NumberStyles.Float, CultureInfo.InvariantCulture, out result) && !double.IsNaN(result) && !double.IsInfinity(result);
         }
 
         private void ClearNetworkPresentationState()
@@ -838,11 +877,12 @@ namespace ISBSSOFExtra
             _contentWarningDisplayed = false;
             _nextFikaSceneryRequest = 0f;
             _fikaClientReadyAcknowledged = false;
-            _fikaPresentationClientReady = false;
+            _fikaStartupFailed = _fikaContentRejected = false;
+            _fikaCompatiblePlayers.Clear();
+            _fikaReadyPlayers.Clear();
             _nextFikaReadySendTime = 0f;
             _fikaReportedRaidLocation = string.Empty;
             _fikaRaidStartedObservedAt = -1f;
-            _fikaRemoteReadyFallbackAt = -1f;
             _fikaRemotePeerSeen = expectRemotePeer;
         }
     }

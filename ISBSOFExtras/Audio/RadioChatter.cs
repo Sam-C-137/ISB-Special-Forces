@@ -654,6 +654,12 @@ namespace ISBSSOFExtra
                 obj.transform.position = position;
             }
 
+            if (IsRussianSpecialAnnouncement(clip.name) && ReferenceEquals(volumeEntry, _announcementsVolume))
+            {
+                baseVolume *= .6f;
+                minDistance = Mathf.Min(minDistance, 4f);
+                maxDistance = Mathf.Min(maxDistance, 220f);
+            }
             float effectiveVolume = baseVolume * GetVolumeFactor(volumeEntry);
             AudioSource source = obj.AddComponent<AudioSource>();
             source.clip = clip;
@@ -662,7 +668,7 @@ namespace ISBSSOFExtra
             source.maxDistance = maxDistance;
             source.rolloffMode = force2D ? AudioRolloffMode.Logarithmic : rolloffModeOverride;
             source.dopplerLevel = 0f;
-            source.spread = force2D ? 0f : 55f;
+            source.spread = force2D || playMapAnnouncementSubtitle ? 0f : 55f;
             source.priority = 48;
             source.volume = effectiveVolume;
             source.loop = false;

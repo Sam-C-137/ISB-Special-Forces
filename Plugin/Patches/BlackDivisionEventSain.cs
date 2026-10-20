@@ -61,7 +61,7 @@ namespace ISBSpecialForces.Patches
             _originalStrictList = null;
             SavedStrictExclusions.Clear();
             _sainStrictExclusions = null;
-            if (!active || !Components.BlackDivisionEventCheckpoints.Installed || !Chainloader.PluginInfos.TryGetValue("me.sol.sain", out var sain) || sain?.Instance == null)
+            if (Behavior.ISB.ISBBrainBootstrap.BlackDivEnabled && (active || Behavior.ISB.ISBBrainBootstrap.BlackDivAllMaps) || !active || !Components.BlackDivisionEventCheckpoints.Installed || !Chainloader.PluginInfos.TryGetValue("me.sol.sain", out var sain) || sain?.Instance == null)
                 return;
             try
             {

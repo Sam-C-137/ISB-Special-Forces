@@ -1,0 +1,64 @@
+{
+  "brains": {
+    "137": {
+      "name": "ISB",
+      "scope": "Remaining ISB operators"
+    },
+    "131": {
+      "name": "ISBBoss",
+      "scope": "Team Leader, Scout, Assassin and all seven White Tusks"
+    },
+    "130": {
+      "name": "blackDiv",
+      "scope": "External Black Division roles during an active Containment Breach raid"
+    }
+  },
+  "sain": {
+    "uiChanged": false,
+    "tacticalLayers": "ISB native layers retain movement, cover, group orders, hunts and checkpoints",
+    "attributes": [
+      "Native aim timing",
+      "Accuracy and scattering modifiers",
+      "Recoil and fire rate modules",
+      "Weapon proficiency modifiers",
+      "Vision and hearing modules",
+      "Core grenade and movement permission",
+      "Hit effects"
+    ],
+    "spt40": [
+      "Existing AimForHead and AimForHeadChance",
+      "Existing global and per-bot AimCenterMass; native chest point if unobstructed"
+    ],
+    "spt41": [
+      "Existing weighted aim selector, including renewal without SAIN combat actions"
+    ],
+    "excludedTacticalControls": [
+      "SAIN combat decisions and actions",
+      "SAIN cover and search orders",
+      "SAIN unstuck and movement controller",
+      "SAIN extraction layer"
+    ],
+    "grenadeLimits": "ISBBoss retains a 10 m minimum and 35 m maximum throw range, at least 12 s between attempts and 12 m squad safety. Higher native minimum distance and attempt delays from SAIN remain effective.",
+    "presetRefresh": "Re-read current per-role and difficulty settings; dismiss previous stat modifiers before applying new ones; invalidate cached target selections"
+  },
+  "wedgeAdaptation": {
+    "implemented": [
+      "Path distance combat bands",
+      "Indoor combat mode",
+      "Ambush and cover relocation after taking damage",
+      "Flank route scoring and proximity checks",
+      "Limited group advances",
+      "Native grenade throwing with safety checks",
+      "Inventory stim use with cooldown",
+      "Close combat",
+      "Native danger and weapon malfunction handling",
+      "Existing ISB formation leadership and missions"
+    ],
+    "fidelity": "Adapted to the APIs and navigation of each SPT version; not a binary or verified 1:1 reconstruction of every Live 1.2 routine",
+    "notImplemented": [
+      "Live map mine rearming",
+      "Party-death cheat vision",
+      "Exact Live-only Wedge map volumes and scripted map interactions"
+    ]
+  }
+}

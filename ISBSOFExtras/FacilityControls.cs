@@ -38,6 +38,42 @@ namespace ISBSSOFExtra
                 NetworkBridge.SendToServer("T|" + action);
         }
 
+        private bool RemotePlayerNearAction(string profile, string action)
+        {
+            if (string.IsNullOrEmpty(profile) || _activeRaidWorld == null) return false;
+            Player actor = null;
+            foreach (var player in _activeRaidWorld.AllAlivePlayersList)
+                if (player != null && !player.IsAI && player.ProfileId == profile && player.HealthController?.IsAlive == true) { actor = player; break; }
+            if (actor == null) return false;
+            if (LabsEmergencyElevators.ActionIndex(action) >= 0) return LabsEmergencyElevators.PlayerNear(action, actor.Position);
+            var definition = _takeoverInfrastructure;
+            if (definition == null) return false;
+            TakeoverPanelPointDefinition point = null;
+            switch (action)
+            {
+                case LabsTakeoverInfrastructure.AlarmAction:
+                case LabsTakeoverInfrastructure.EmergencyLightsAction:
+                case LabsTakeoverInfrastructure.MapAnnouncementsAction:
+                case LabsTakeoverInfrastructure.DecontaminationAnnouncementsAction: point = definition.alarm?.button; break;
+                case LabsTakeoverInfrastructure.GatesAction: point = definition.gateOverride?.button; break;
+                case LabsTakeoverInfrastructure.GateAAction: point = definition.gateOverride?.authorizationA; break;
+                case LabsTakeoverInfrastructure.GateBAction: point = definition.gateOverride?.authorizationB; break;
+                case LabsTakeoverInfrastructure.GateCAction: point = definition.gateOverride?.authorizationC; break;
+                case LabsTakeoverInfrastructure.PowerAAction: point = definition.facilityPower?.authorizationA; break;
+                case LabsTakeoverInfrastructure.PowerBAction: point = definition.facilityPower?.authorizationB; break;
+                case LabsTakeoverInfrastructure.PowerCAction: point = definition.facilityPower?.authorizationC; break;
+                case LabsTakeoverInfrastructure.PowerDAction: point = definition.facilityPower?.authorizationD; break;
+                case LabsTakeoverInfrastructure.MasterAction: point = definition.facilityPower?.master; break;
+                case LabsTakeoverInfrastructure.ShutdownAAction: point = definition.manualBlackout?.authorizationA; break;
+                case LabsTakeoverInfrastructure.ShutdownBAction: point = definition.manualBlackout?.authorizationB; break;
+                case LabsTakeoverInfrastructure.ShutdownCAction: point = definition.manualBlackout?.authorizationC; break;
+                case LabsTakeoverInfrastructure.ShutdownDAction: point = definition.manualBlackout?.authorizationD; break;
+                case LabsTakeoverInfrastructure.ShutdownMasterAction: point = definition.manualBlackout?.master; break;
+            }
+            float radius = point == null ? 0f : Mathf.Clamp(point.interactionRadius + 2f, 3f, 6f);
+            return point != null && (actor.Position - point.Position).sqrMagnitude <= radius * radius;
+        }
+
         private bool ApplyTakeoverActionAuthority(string action, bool terminalOperation = false)
         {
             if (!IsEventAuthority || !_raidisActive || !IsLaboratoryPresentationAllowed())

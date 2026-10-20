@@ -3,6 +3,7 @@
     <AssemblySearchPaths>{HintPathFromItem};$(AssemblySearchPaths)</AssemblySearchPaths>
     <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTIV</SPTRoot>
     <TargetFramework>net472</TargetFramework>
+    <DefineConstants>$(DefineConstants);SPT40</DefineConstants>
     <AssemblyName>ISB-SpecialForces</AssemblyName>
     <Description>ISB Special Forces client plugin.</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

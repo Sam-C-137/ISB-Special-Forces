@@ -264,6 +264,10 @@ public class DayNightConfig
 
 public class DebugConfig
 {
+    public bool enableISBCustomBehavior { get; set; } = true;
+    public bool enableBlackDivCustomBehavior { get; set; } = true;
+    public bool changeBlackDivBehaviorAllMaps { get; set; }
+    public double useSainLayersChance { get; set; } = 35;
     public bool logs { get; set; }
     public bool spawnAlways { get; set; }
     public bool spawnInstantlyAlways { get; set; }

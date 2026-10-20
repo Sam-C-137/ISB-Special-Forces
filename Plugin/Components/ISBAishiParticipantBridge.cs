@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Text;
 using BepInEx.Bootstrap;
 using Comfort.Common;
 using EFT;
@@ -121,7 +122,8 @@ namespace ISBSpecialForces.Components
         {
             try
             {
-                var json = await RequestHandler.PostJsonAsync("/ISB/aishi/participants", request).ConfigureAwait(false);
+                var bytes = await RequestHandler.HttpClient.PostAsync("/ISB/aishi/participants", Encoding.UTF8.GetBytes(request)).ConfigureAwait(false);
+                var json = Encoding.UTF8.GetString(bytes);
                 var states = JsonConvert.DeserializeObject<List<ISBAishiParticipantState>>(json);
                 ISBAishiReputationWorker.Enqueue(() =>
                 {
@@ -161,7 +163,7 @@ namespace ISBSpecialForces.Components
                     if (_errorReported)
                         return;
                     _errorReported = true;
-                    Plugin.LogSource?.LogError("ISB could not synchronize participant loyalty: " + ex.Message);
+                    Plugin.LogSource?.LogError("ISB could not synchronize participant loyalty: " + ex.GetType().Name);
                 });
             }
         }

@@ -18,7 +18,7 @@ namespace ISBSpecialForces.Components
             return manager != null && manager.active && manager.huntManager != null && bot != null && bot.GetPlayer != null && !bot.IsDead && bot.isActiveAndEnabled && bot.BotsGroup != null && bot.Profile?.Info?.Settings != null && BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) && bot.GetManager()?.HasAssignedCheckpoint() != true;
         }
 
-        private static bool IsTarget(IPlayer target, BotOwner hunter) => target?.IsAI == true && target.HealthController?.IsAlive == true && target.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(target.Profile.Info.Settings.Role) && target.AIData?.BotOwner?.BotsGroup != hunter.BotsGroup && !hunter.BotsGroup.IsAlly(target);
+        private static bool IsTarget(IPlayer target, BotOwner hunter) => target?.IsAI == true && target.HealthController?.IsAlive == true && target.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(target.Profile.Info.Settings.Role) && target.AIData?.BotOwner?.BotsGroup != hunter.BotsGroup && hunter.BotsGroup.IsPlayerEnemy(target);
         internal static bool TryRetarget(BotHuntManager manager)
         {
             var world = Singleton<GameWorld>.Instance;
@@ -66,6 +66,7 @@ namespace ISBSpecialForces.Components
                 return;
             _nextTick = Time.time + 2f;
             var world = Singleton<GameWorld>.Instance;
+            ISBEventHostility.Refresh(world);
             if (!EventActive(world) || world.AllAlivePlayersList == null)
                 return;
             foreach (var player in world.AllAlivePlayersList)

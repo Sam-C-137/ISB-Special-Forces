@@ -1,5 +1,5 @@
 using EFT;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using ISBSpecialForces.Components;
 using MoreBotsAPI.Behavior.Layers;
 

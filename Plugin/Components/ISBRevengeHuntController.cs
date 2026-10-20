@@ -1,6 +1,6 @@
 using Comfort.Common;
 using EFT;
-using ISBSpecialForces.Behavior.BlackDivision;
+using ISBSpecialForces.Behavior.Tactics;
 using MoreBotsAPI.Components;
 using System;
 using System.Collections.Generic;
