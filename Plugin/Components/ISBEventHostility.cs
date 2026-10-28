@@ -9,6 +9,64 @@ namespace ISBSpecialForces.Components
     {
         private static readonly HashSet<BotsGroup> Groups = new HashSet<BotsGroup>();
         private static readonly List<IPlayer> ManagedTargets = new List<IPlayer>();
+        private static readonly HashSet<string> ChaosProfiles = new HashSet<string>(System.StringComparer.Ordinal);
+        private static System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup> ChaosGroups = new System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+
+        internal static void RememberVariants(IEnumerable<Profile> profiles, string variant)
+        {
+            bool chaos = string.Equals(variant, GhostBotVariant.ChaosName, System.StringComparison.OrdinalIgnoreCase);
+            foreach (var profile in profiles)
+            {
+                if (string.IsNullOrEmpty(profile?.Id)) continue;
+                if (chaos) ChaosProfiles.Add(profile.Id);
+                else ChaosProfiles.Remove(profile.Id);
+            }
+        }
+
+        internal static void ClearVariants()
+        {
+            ChaosProfiles.Clear();
+            ChaosGroups = new System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+        }
+        internal static bool IsChaos(string profileId) => profileId != null && ChaosProfiles.Contains(profileId);
+
+        internal static bool SelectChaosGroup(BotSpawner __instance, BotOwner bot, BotZone zone, ref BotsGroup __result)
+        {
+            if (bot?.Profile == null || !IsChaos(bot.Profile.Id)) return true;
+            var spawn = bot.SpawnProfileData?.SpawnParams;
+            if (spawn != null && ChaosGroups.TryGetValue(spawn, out var existing))
+            {
+                __instance.SetBotAsEnemy(bot);
+                __result = existing;
+                return false;
+            }
+            var enemies = new List<BotOwner>();
+            foreach (var enemy in __instance.GetBotEnemiesList(bot))
+                if (enemy != null && !IsChaos(enemy.Profile?.Id)) enemies.Add(enemy);
+            __instance.SetBotAsEnemy(bot);
+            var group = new BotsGroup(zone, __instance.BotGame, bot, enemies, __instance._deadBodiesController, __instance._allPlayers, true);
+            if (spawn?.ShallBeGroup != null) group.TargetMembersCount = spawn.ShallBeGroup.StartCount;
+            __instance.Groups.AddNoKey(group, zone);
+            if (spawn != null) ChaosGroups.Add(spawn, group);
+            __result = group;
+            return false;
+        }
+
+        internal static void ChaosAlliance(BotsGroup __instance, IPlayer player, ref bool __result)
+        {
+            if (TryGetChaosRelation(__instance, player, out bool enemy)) __result = !enemy;
+        }
+
+        internal static bool TryGetChaosRelation(BotsGroup group, IPlayer target, out bool enemy)
+        {
+            enemy = false;
+            var source = group?._initialBot;
+            if (source?.Profile == null || target == null) return false;
+            bool sourceChaos = IsChaos(source.Profile.Id), targetChaos = IsChaos(target.ProfileId);
+            if (!sourceChaos && !targetChaos) return false;
+            enemy = source.Profile.Id != target.ProfileId && sourceChaos != targetChaos;
+            return true;
+        }
 
         internal static bool IsBlackDivisionGroup(BotsGroup group) =>
             BlackDivisionEventCheckpoints.Installed &&
@@ -22,6 +80,7 @@ namespace ISBSpecialForces.Components
 
         internal static bool TryGetBotRelation(BotsGroup group, IPlayer target, out bool enemy)
         {
+            if (TryGetChaosRelation(group, target, out enemy)) return true;
             enemy = false;
             var source = group?._initialBot;
             if (source?.Profile?.Info?.Settings == null || target?.IsAI != true || target.Profile?.Info?.Settings == null)
@@ -66,7 +125,7 @@ namespace ISBSpecialForces.Components
         }
 
         private static bool Relevant(BotsGroup group) => group?._initialBot?.Profile?.Info?.Settings != null &&
-            (WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role) || IsBlackDivisionGroup(group));
+            (IsChaos(group._initialBot.Profile.Id) || WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role) || IsBlackDivisionGroup(group));
 
         internal static void Refresh(GameWorld world)
         {
@@ -111,6 +170,14 @@ namespace ISBSpecialForces.Components
 
         private static void Register(BotsGroup group, IPlayer target)
         {
+            if (TryGetChaosRelation(group, target, out bool chaosEnemy) && !chaosEnemy)
+            {
+                IPlayer friendly = null;
+                foreach (var existing in group.Enemies.Keys)
+                    if (existing.ProfileId == target.ProfileId) { friendly = existing; break; }
+                if (friendly != null) group.RemoveEnemy(friendly, EBotEnemyCause.initial);
+                return;
+            }
             if (group?._initialBot == null || target?.HealthController?.IsAlive != true || target.ProfileId == group._initialBot.ProfileId ||
                 target.IsAI && target.AIData?.BotOwner?.BotsGroup == group ||
                 !target.IsAI && target.IsYourPlayer && !ISBFikaAuthority.CanPresentLocally ||

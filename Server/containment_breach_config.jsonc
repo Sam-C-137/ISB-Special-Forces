@@ -545,8 +545,8 @@
         "followers": [
           {
             "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 1
+            "min": 2,
+            "max": 2
           }
         ],
         "zones": [
@@ -567,7 +567,7 @@
           {
             "type": "ISBSpecialForces",
             "min": 1,
-            "max": 1
+            "max": 2
           }
         ],
         "zones": [
@@ -587,8 +587,8 @@
         "followers": [
           {
             "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 1
+            "min": 2,
+            "max": 2
           }
         ],
         "zones": [
@@ -704,8 +704,8 @@
         "followers": [
           {
             "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 1
+            "min": 2,
+            "max": 2
           }
         ],
         "zones": [
@@ -899,37 +899,16 @@
         "raidTimeMax": -1
       },
       {
-        "id": "ContainmentBreachBDPatrol02",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 2,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 120,
-        "raidTimeMax": 190
-      },
-      {
         "id": "ContainmentBreachBDPatrol03",
         "enabled": true,
         "chance": 100,
         "squadCount": 1,
-        "boss": "blackDivAssault",
+        "boss": "chaosInsurgency",
         "followers": [
           {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
+            "type": "chaosInsurgency",
+            "min": 3,
+            "max": 3
           }
         ],
         "zones": [
@@ -941,37 +920,16 @@
         "raidTimeMax": 315
       },
       {
-        "id": "ContainmentBreachBDPatrol04",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 585,
-        "raidTimeMax": 615
-      },
-      {
         "id": "ContainmentBreachBDPatrol05",
         "enabled": true,
-        "chance": 100,
+        "chance": 75,
         "squadCount": 1,
         "boss": "blackDivAssault",
         "followers": [
           {
             "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
+            "min": 2,
+            "max": 2
           }
         ],
         "zones": [
@@ -985,7 +943,7 @@
       {
         "id": "ContainmentBreachBDPatrol06",
         "enabled": true,
-        "chance": 100,
+        "chance": 75,
         "squadCount": 1,
         "boss": "blackDivAssault",
         "followers": [
@@ -1014,8 +972,8 @@
         "followers": [
           {
             "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
+            "min": 1,
+            "max": 1
           }
         ],
         "zones": [
@@ -1029,38 +987,13 @@
         "x": -170.805,
         "y": 0.062,
         "z": -254.991
-      },
-      {
-        "id": "ContainmentBreachBDCheckPointInsidHangarGate",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1635,
-        "raidTimeMax": 1665,
-        "checkpointRadius": 8,
-        "x": -170.347,
-        "y": 3.147,
-        "z": -217.6
       }
     ],
     "hunts": [
       {
         "id": "ContainmentBreachBDHunt01",
         "enabled": true,
-        "chance": 100,
+        "chance": 75,
         "squadCount": 2,
         "boss": "blackDivAssault",
         "followers": [
@@ -1079,36 +1012,15 @@
         "raidTimeMax": -1
       },
       {
-        "id": "ContainmentBreachBDHunt02",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 2,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 90,
-        "raidTimeMax": 120
-      },
-      {
         "id": "ContainmentBreachBDHunt03",
         "enabled": true,
-        "chance": 70,
+        "chance": 100,
         "squadCount": 1,
-        "boss": "blackDivAssault",
+        "boss": "chaosInsurgency",
         "followers": [
           {
-            "type": "blackDivAssault",
-            "min": 1,
+            "type": "chaosInsurgency",
+            "min": 2,
             "max": 2
           }
         ],
@@ -1160,7 +1072,7 @@
         "followers": [
           {
             "type": "blackDivAssault",
-            "min": 1,
+            "min": 2,
             "max": 2
           }
         ],
@@ -1211,12 +1123,12 @@
       {
         "id": "ContainmentBreachBDHunt06",
         "enabled": true,
-        "chance": 70,
+        "chance": 100,
         "squadCount": 1,
-        "boss": "blackDivAssault",
+        "boss": "chaosInsurgency",
         "followers": [
           {
-            "type": "blackDivAssault",
+            "type": "chaosInsurgency",
             "min": 1,
             "max": 1
           }
@@ -1232,12 +1144,12 @@
       {
         "id": "ContainmentBreachBDHunt07",
         "enabled": true,
-        "chance": 70,
+        "chance": 100,
         "squadCount": 1,
-        "boss": "blackDivAssault",
+        "boss": "chaosInsurgency",
         "followers": [
           {
-            "type": "blackDivAssault",
+            "type": "chaosInsurgency",
             "min": 1,
             "max": 1
           }

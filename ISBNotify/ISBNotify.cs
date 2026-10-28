@@ -23,7 +23,7 @@ namespace ISBInfo
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "2.0.1";
+        public const string PluginVersion = "2.0.2";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBNotify.Fika";
@@ -217,9 +217,9 @@ namespace ISBInfo
             13703,
             13704,
             13705,
+            13706,
             13715,
             13716,
-            13706,
             13709,
             13710,
             13713,
@@ -234,9 +234,9 @@ namespace ISBInfo
             13703,
             13704,
             13705,
+            13706,
             13715,
             13716,
-            13706,
         };
         private static readonly int[] OperatorOrder =
         {

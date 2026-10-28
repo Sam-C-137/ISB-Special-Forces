@@ -17,6 +17,9 @@ namespace ISBSSOFExtra
         public string[] protectiveMasks { get; set; } = new[]
         {
             "5b432c305acfc40019478128",
+            "2210de8d7b3e5d02b70e851a",
+            "d42ca83bead35a4db91457a7",
+            "eae1b78f028759df97ec2ba8",
             "60363c0c92ec1c31037959f5",
             "c544b1b34703aebab8ee0e5c",
             "689b880fff8b4adc420f5b56",

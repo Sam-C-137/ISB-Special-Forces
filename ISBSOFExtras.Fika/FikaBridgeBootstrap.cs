@@ -16,12 +16,12 @@ namespace ISBSSOFExtra.Fika
                 FikaNetworkBridge bridge = new FikaNetworkBridge(log);
                 try
                 {
-                    FikaInventoryViewCompatibility.Enable();
-                    FikaStartupUiCompatibility.Enable();
-                    FikaAggressorCompatibility.Enable();
                     bridge.Initialize();
                     ExtrasNetworkBridgeRegistry.Register(bridge);
                     _bridge = bridge;
+                    EnableCompatibility(FikaInventoryViewCompatibility.Enable, "inventory views", log);
+                    EnableCompatibility(FikaStartupUiCompatibility.Enable, "startup UI", log);
+                    EnableCompatibility(FikaAggressorCompatibility.Enable, "aggressor lookup", log);
                 }
                 catch
                 {
@@ -32,6 +32,18 @@ namespace ISBSSOFExtra.Fika
                     FikaAggressorCompatibility.Disable();
                     throw;
                 }
+            }
+        }
+
+        private static void EnableCompatibility(Action enable, string feature, ManualLogSource log)
+        {
+            try
+            {
+                enable();
+            }
+            catch (Exception error)
+            {
+                log?.LogWarning("ISB Fika compatibility for " + feature + " is unavailable: " + error.GetType().Name + ". Event synchronization remains active.");
             }
         }
 

@@ -20,6 +20,8 @@ const state = {
     busy: false,
     saving: false,
     requestId: 0,
+    blackDivisionInstalled: true,
+    estimateSettings: {blackoutMinute: 10, powerMinute: 20, reinforcementMinute: 15, includeRestore: false},
 };
 const labels = {
     locations: "Maps & Formations",
@@ -77,6 +79,14 @@ const labels = {
     enableCollabLoadoutsAndAppearances: "Collaboration Loadouts & Appearances",
     enableCollabPresets: "Collaboration Presets",
     maxBotPresetBatch: "Bots per Batch",
+    botHealth: "Bot Health",
+    Head: "Head",
+    Chest: "Thorax",
+    Stomach: "Stomach",
+    LeftArm: "Left arm",
+    RightArm: "Right arm",
+    LeftLeg: "Left leg",
+    RightLeg: "Right leg",
     questForceConditions: "Quest conditions",
     officeAccess: "Office access",
     phases: "Event phases",
@@ -176,6 +186,7 @@ function visible(path) {
     const keys = path.split("/").slice(1).map(unesc),
         last = keys[keys.length - 1];
     if (state.current?.document.relativePath === "config.jsonc") {
+        if (keys[0] === "botHealth") return keys.length === 3;
         if (keys[0] === "labsBlackoutEvent")
             return (
                 !keys.some((k) => ["zones", "followers"].includes(k)) &&
@@ -429,6 +440,7 @@ async function confirmDiscard() {
 const mainTabs = [
     ["locations", "Maps & Formations"],
     ["labsBlackoutEvent", "Blackout formations"],
+    ["botHealth", "Bot Health"],
     ["__general", "Essentials & Debug"],
     ["dayNight", "Day & night"],
     ["aishiLoyaltyCondition", "Aishi loyalty"],
@@ -691,6 +703,7 @@ function field(key, value, path, meta) {
             input.max = "100";
             input.step = "1";
         }
+        if (path.startsWith("/botHealth/")) { input.min = "1"; input.max = "100000"; input.step = "1"; }
     }
     if (key === "requiredItemTpl") {
         input.pattern = "[a-fA-F0-9]{24}|^$";
@@ -1249,6 +1262,49 @@ function sectionGuide() {
     return "";
 }
 
+function overviewGroups() {
+    const groups = [], E = ISBFormationEstimates, kinds = [["patrols", "Patrol"], ["checkpoints", "Checkpoint"], ["hunts", "Hunt"]];
+    const faction = (value, name, offset = 0, enabled = true) => {
+        for (const [key, kind] of kinds) groups.push(E.group({name, kind, formations: value?.[key], limit: -1, offset, enabled: enabled && value?.enabled !== false}));
+    };
+    const phase = (value, name, offset, enabled) => {
+        const mode = String(value?.selectionMode || "preferBlackDivision").toLowerCase();
+        const hasBd = state.blackDivisionInstalled || state.data.noBlackDivMode === true;
+        const bd = hasBd && value?.blackDivision?.enabled !== false;
+        const useIsb = ["isb", "isbonly", "both"].includes(mode) || !["blackdivision", "blackdivisiononly"].includes(mode) && mode !== "both" && !bd;
+        const useBd = ["blackdivision", "blackdivisiononly", "both"].includes(mode) || !["isb", "isbonly"].includes(mode) && mode !== "both";
+        for (const [key, title, allowed] of [["isb", "ISB", useIsb], ["blackDivision", "Black Division", useBd && hasBd], ["pmcs", "PMCs", true], ["raiders", "Raiders", true]])
+            if (value?.[key]) faction(value[key], name + " · " + title, offset, enabled && value.enabled !== false && allowed);
+    };
+    if (state.view === "locations") {
+        const map = state.data.locations?.[$("#map").value] || {};
+        for (const [key, kind, flag, draw] of [["patrol", "Patrol", "EnableISBPatrols", "PatrolDrawLimit"], ["checkpoint", "Checkpoint", "enableISBHoldZones", "CheckpointDrawLimit"], ["hunt", "Hunt", "enableHunt", "HuntDrawLimit"]]) {
+            const config = map[key] || {}, chance = state.data.debug?.spawnAlways ? 1 : E.spawnChance(config.spawnChance, config.formations || [], config.patrolChance || 0);
+            groups.push(E.group({name: label($("#map").value), kind, formations: config.formations, limit: config[draw] ?? -1, chance, enabled: config[flag] !== false, instant: state.data.debug?.spawnInstantlyAlways === true}));
+        }
+    } else if (state.view === "labsBlackoutEvent") {
+        const config = state.data.labsBlackoutEvent || {};
+        phase(config.blackoutActivated, "Blackout begins", state.estimateSettings.blackoutMinute * 60, config.enabled !== false);
+        phase(config.powerRestored, "Power restored", state.estimateSettings.powerMinute * 60, config.enabled !== false && state.estimateSettings.includeRestore);
+    } else if (["isb", "blackDivision", "pmcs", "raiders"].includes(state.view)) {
+        faction(state.data[state.view], label(state.view), 0, state.data.enabled !== false && (state.view !== "blackDivision" || state.blackDivisionInstalled || state.data.noBlackDivMode === true));
+    } else if (state.view === "isbReinforcements") {
+        phase(state.data.isbReinforcements, "Reinforcements triggered", state.estimateSettings.reinforcementMinute * 60, state.data.enabled !== false);
+    }
+    return groups;
+}
+function overviewTiming(host) {
+    if (state.view !== "isbReinforcements") return;
+    const controls = el("div", "estimate-timing overview-wide");
+    controls.append(el("strong", "", "Timeline scenario · elapsed raid time"));
+    for (const [key, title] of [["reinforcementMinute", "Reinforcements trigger (min)"]]) {
+        const control = el("label"), input = el("input"); input.type = "number"; input.min = "0"; input.max = "300"; input.step = "0.1"; input.value = state.estimateSettings[key]; input.setAttribute("aria-label", title);
+        input.onchange = () => { if (input.value !== "" && input.checkValidity()) { state.estimateSettings[key] = Number(input.value); updateOverview(); } };
+        control.append(el("span", "", title), input); controls.append(control);
+    }
+    controls.append(el("p", "hint", "Scenario times only; these controls do not change event triggers. Formation delays are added to the selected trigger time."));
+    host.append(controls);
+}
 function updateOverview() {
     const host = $("#overview");
     if (!host) return;
@@ -1258,52 +1314,41 @@ function updateOverview() {
         host.hidden = true;
         return;
     }
-    const root =
-        state.view === "locations"
-            ? state.data.locations?.[$("#map").value]
-            : state.view === "__general"
-              ? null
-              : state.data[state.view];
-    const rows = [];
-    function visit(v) {
-        if (!v || typeof v !== "object") return;
-        if (Array.isArray(v)) {
-            for (const f of v) {
-                if (f && typeof f.boss === "string") rows.push(f);
-                else visit(f);
-            }
-        } else for (const child of Object.values(v)) visit(child);
+    if (state.view === "botHealth") for (const total of document.querySelectorAll("[data-health-total]"))
+        total.textContent = Object.values(state.data.botHealth?.[total.dataset.healthTotal] || {}).reduce((n, hp) => n + Number(hp || 0), 0) + " base HP";
+    const groups = overviewGroups(); host.hidden = groups.length === 0;
+    if (!groups.length) return;
+    const number = n => Number(n.toFixed(1)).toLocaleString("en-US", {maximumFractionDigits: 1});
+    overviewTiming(host);
+    for (const kind of ["Hunt", "Checkpoint", "Patrol"]) {
+        const entries = groups.filter(g => g.kind === kind), sum = key => entries.reduce((n, g) => n + g[key], 0), card = el("div", "overview-card");
+        const normalMap = state.view === "locations";
+        card.append(el("strong", "", number(sum(normalMap ? "selectedMean" : "mean"))), el("span", "", kind + " · average operators"), el("p", "hint", `${sum("draws")} formations selected / ${sum("eligible")} eligible · ${sum("min")}–${sum("max")} operators${normalMap ? "" : " if spawn rolls succeed"}`)); host.append(card);
     }
-    visit(root);
-    host.hidden = !rows.length;
-    if (!rows.length) return;
-    let low = 0,
-        high = 0;
-    const enabled = rows.filter((f) => f.enabled !== false);
-    for (const f of enabled) {
-        const squads = Math.max(0, Number(f.squadCount ?? 1));
-        low +=
-            squads *
-            (1 + (f.followers || []).reduce((n, x) => n + Math.max(0, Number(x.min) || 0), 0));
-        high +=
-            squads *
-            (1 + (f.followers || []).reduce((n, x) => n + Math.max(0, Number(x.max) || 0), 0));
+    if (state.view === "locations") return;
+    const wrap = el("div", "overview-wide table-scroll"), table = el("table", "spawn-timeline"), head = el("tr");
+    for (const text of ["Raid minute", "Hunt", "Checkpoint", "Patrol", "Total spawned"]) head.append(el("th", "", text));
+    const thead = el("thead"); thead.append(head); table.append(thead); const body = el("tbody");
+    for (const minute of [5, 10, 15, 20, 25, 30]) {
+        const row = el("tr"), counts = ["Hunt", "Checkpoint", "Patrol"].map(kind => groups.filter(g => g.kind === kind).reduce((n, g) => n + ISBFormationEstimates.expected(g, minute * 60), 0));
+        for (const value of [minute + " min", ...counts.map(number), number(counts.reduce((a, b) => a + b, 0))]) row.append(el("td", "", value)); body.append(row);
     }
-    for (const [value, title] of [
-        [enabled.length + " / " + rows.length, "Enabled formations"],
-        [low === high ? String(low) : low + "–" + high, "Operators across enabled formations"],
-    ]) {
-        const card = el("div", "overview-card");
-        card.append(el("strong", "", value), el("span", "", title));
-        host.append(card);
+    table.append(body); wrap.append(table); host.append(wrap);
+}
+
+function renderBotHealth(host) {
+    host.append(el("p", "section-guide", "Base health for newly generated ISB bots. Containment Breach health multipliers continue to apply. Restart the server after saving."));
+    const ranks = new Map(state.botTypes.map((bot, index) => [bot.value.toLowerCase(), index]));
+    const entries = Object.entries(state.data.botHealth || {}).sort(([a], [b]) => (ranks.get(a.toLowerCase()) ?? Number.MAX_SAFE_INTEGER) - (ranks.get(b.toLowerCase()) ?? Number.MAX_SAFE_INTEGER));
+    for (const [role, parts] of entries) {
+        const card = el("details", "health-card"); card.dataset.path = "/botHealth/" + esc(role);
+        const title = el("summary"), total = el("span", "health-total"); total.dataset.healthTotal = role;
+        total.textContent = Object.values(parts).reduce((n, hp) => n + Number(hp || 0), 0) + " base HP";
+        title.append(el("span", "", botName(role)), total); card.append(title, el("p", "hint", role));
+        const grid = el("div", "fields health-fields");
+        for (const limb of ["Head", "Chest", "Stomach", "LeftArm", "RightArm", "LeftLeg", "RightLeg"]) { const control = field(limb, parts[limb], "/botHealth/" + esc(role) + "/" + limb); if (control) grid.append(control); }
+        card.append(grid); host.append(card);
     }
-    host.append(
-        el(
-            "p",
-            "hint",
-            "",
-        ),
-    );
 }
 
 function render() {
@@ -1325,6 +1370,7 @@ function renderContent() {
     if (!state.current) return;
     const guide = sectionGuide();
     if (guide) host.append(el("p", "section-guide", guide));
+    if (state.current.document.relativePath === "config.jsonc" && state.view === "botHealth") { renderBotHealth(host); return; }
     if (state.current.document.format === "cfg") {
         const fields = el("div", "fields");
         for (const f of state.fields.filter((f) => !["enablepreblackoutevent", "preblackoutdelay"].includes(f.name.replace(/[-_\s]/g, "").toLowerCase()) && cfgGroup(f) === $("#section").value)) {
@@ -1500,6 +1546,7 @@ window.addEventListener("beforeunload", (e) => {
         const data = await api("catalog");
         state.catalog = data.documents;
         state.botTypes = data.botTypes || [];
+        state.blackDivisionInstalled = data.blackDivisionInstalled !== false;
         state.dogtags = (data.dogtags || []).filter((x) => !questDogtags.has(x.value));
         state.token = data.token;
         state.tokenHeader = data.tokenHeader;

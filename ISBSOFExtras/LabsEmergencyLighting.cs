@@ -187,6 +187,7 @@ namespace ISBSSOFExtra
 
         private static Transform FindFixture(Transform transform)
         {
+            if (FacilityLightingInterop.IsManaged(transform)) return null;
             for (var node = transform; node != null; node = node.parent)
             {
                 string name = node.name;
@@ -520,6 +521,7 @@ namespace ISBSSOFExtra
             if (active == _active)
                 return;
             _active = active;
+            FacilityLightingInterop.SetEmergency(active, _warningColor, 0f);
             foreach (var surface in _surfaces)
             {
                 if (surface.Renderer == null)
@@ -614,6 +616,7 @@ namespace ISBSSOFExtra
             float pulse = Mathf.Clamp01(_lastPulse);
             float power = PeakEmission * pulse;
             _warningColor = next;
+            FacilityLightingInterop.SetEmergency(_active, next, pulse);
             _lastPulse = -1f;
             _nextRefresh = 0f;
             foreach (var target in _blocks)
@@ -638,6 +641,7 @@ namespace ISBSSOFExtra
             _nextRefresh = Time.realtimeSinceStartup + RefreshSeconds;
             SelectLights(Time.realtimeSinceStartup);
             pulse = Mathf.Clamp01(pulse);
+            FacilityLightingInterop.SetEmergency(true, _warningColor, pulse);
             bool changed = pulse != _lastPulse;
             _lastPulse = pulse;
             float power = PeakEmission * pulse;

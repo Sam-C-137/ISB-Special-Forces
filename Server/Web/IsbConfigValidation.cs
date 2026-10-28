@@ -25,6 +25,7 @@ public static class IsbConfigValidation
             if (value?.locations == null || value.debug == null)
                 throw new ArgumentException("The configuration must retain locations and debug.");
             ValidateItemId(value.aishiLoyaltyCondition?.requiredItemTpl);
+            IsbBotHealth.Validate(value.botHealth);
             if (value.dogtags?.dogtagTplByWildType != null)
                 foreach (var pair in value.dogtags.dogtagTplByWildType)
                 {

@@ -3,6 +3,7 @@ public class MainConfig
 {
     public bool diagnosticLogs { get; set; } = false;
     public int maxBotPresetBatch { get; set; } = 25;
+    public Dictionary<string, Dictionary<string, double>> botHealth { get; set; } = new();
     public DebugConfig debug { get; set; }
     public Dictionary<string, MapConfig> locations { get; set; }
 

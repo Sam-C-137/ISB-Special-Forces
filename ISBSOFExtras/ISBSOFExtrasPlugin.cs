@@ -41,7 +41,7 @@ namespace ISBSSOFExtra
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "2.0.1";
+        public const string PluginVersion = "2.0.2";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBSOF_Extras.Fika";
@@ -309,6 +309,8 @@ namespace ISBSSOFExtra
         private void Awake()
         {
             Log = Logger;
+
+
             WttResourceCompatibility.Enable(Log);
             _diagnosticLogs = Config.Bind("Logging", "Diagnostic Logs", false, "Enable informational and debug diagnostics for this plugin. Warnings and errors remain enabled.");
             OptionalBallisticsCompatibility.Enable(Log);
@@ -687,6 +689,8 @@ namespace ISBSSOFExtra
 
         private void OnDestroy()
         {
+
+
             _scp173?.Dispose();
             Scp173DebugBridge.Dispose();
             ResetOfficeAccess();

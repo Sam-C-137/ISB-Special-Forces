@@ -46,7 +46,8 @@ public sealed class SpawnSyncLoggingPatch(Dispatcher dispatcher) : IOnLoad
             return true;
         return message.Message != "[Client Request] /ISB/spawn/report" &&
             message.Message != "[Client Request] /ISB/spawn/progress" &&
-            message.Message != "[Client Request] /ISB/aishi/participants";
+            message.Message != "[Client Request] /ISB/aishi/participants" &&
+            message.Message != "[Client Request] /ISB/miniLabs/state";
     }
 
     private sealed class SyncConsoleHandler(ILogHandler inner) : ILogHandler

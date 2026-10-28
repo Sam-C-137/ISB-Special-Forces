@@ -22,6 +22,44 @@ using SPT.Common.Http;
 
 namespace ISBSSOFExtra
 {
+    public static class FacilityLightingInterop
+    {
+        private static readonly HashSet<Transform> Managed = new HashSet<Transform>();
+        public static event Action<bool, bool, Color, float> Changed;
+        public static bool PowerOn { get; private set; } = true;
+        public static bool EmergencyActive { get; private set; }
+        public static Color WarningColor { get; private set; } = new Color(1f, .025f, .012f);
+        public static float Pulse { get; private set; }
+        public static void Register(Transform root) { if (root != null) Managed.Add(root); }
+        public static void Unregister(Transform root) { if (root != null) Managed.Remove(root); }
+        internal static bool IsManaged(Component component)
+        {
+            if (component == null) return false;
+            for (var node = component.transform; node != null; node = node.parent)
+                if (Managed.Contains(node)) return true;
+            return false;
+        }
+        internal static void SetPower(bool powered)
+        {
+            if (PowerOn == powered) return;
+            PowerOn = powered;
+            Changed?.Invoke(PowerOn, EmergencyActive, WarningColor, Pulse);
+        }
+        internal static void SetEmergency(bool active, Color color, float pulse)
+        {
+            pulse = active ? Mathf.Clamp01(pulse) : 0f;
+            if (EmergencyActive == active && WarningColor == color && Pulse == pulse) return;
+            EmergencyActive = active; WarningColor = color; Pulse = pulse;
+            Changed?.Invoke(PowerOn, EmergencyActive, WarningColor, Pulse);
+        }
+        internal static void Reset()
+        {
+            Managed.RemoveWhere(root => root == null);
+            PowerOn = true; EmergencyActive = false; Pulse = 0f;
+            Changed?.Invoke(PowerOn, EmergencyActive, WarningColor, Pulse);
+        }
+    }
+
     public partial class ISBSpecialForcesAudio
     {
         private void RequestTakeoverAction(string action)

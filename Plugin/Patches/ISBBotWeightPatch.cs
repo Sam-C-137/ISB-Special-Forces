@@ -40,7 +40,10 @@ namespace ISBSpecialForces.Patches
         internal static float ForPlayer(float weight, Player player)
         {
             var settings = player?.Profile?.Info?.Settings;
-            return player != null && player.IsAI && settings != null && WildSpawnTypeExtensions.IsISB(settings.Role) ? 0f : weight;
+            if (player == null || !player.IsAI || settings == null)
+                return weight;
+            var spawnId = player.AIData?.BotOwner?.SpawnProfileData?.SpawnParams?.Id_spawn;
+            return WildSpawnTypeExtensions.IsISB(settings.Role) || spawnId?.StartsWith("isb_", StringComparison.Ordinal) == true ? 0f : weight;
         }
     }
 

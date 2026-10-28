@@ -16,6 +16,7 @@ namespace ISBSpecialForces
     [BepInDependency("me.sol.sain", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ISBPitFireTeamCompatibility.PitFireTeamGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.blackdiv.tacticaltoaster", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.sipto.devtools", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.PluginName, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
@@ -78,6 +79,7 @@ namespace ISBSpecialForces
             _incrementalMemoryBudget = Config.Bind("Performance", "Incremental Memory Budget", false, "Experimental memory control. Requests 0.5 ms incremental GC slices after 768 MB growth above the raid baseline, but native GC can exceed this budget and cause frame spikes. Disabled by default. Each process manages its own memory; enabled or externally manual GC is preserved.");
             this.GetOrAddComponent<ISBIncrementalMemoryGuard>();
             GhostBotSpawnBridge.Initialize();
+            ISBChaosVoice.Initialize(this);
             Behavior.ISB.ISBBrainBootstrap.Initialize(true);
             new ISBHeadlessDisplayPatch().Enable();
             new ISBOpticLifecyclePatch().Enable();

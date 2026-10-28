@@ -31,6 +31,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <DefineConstants>$(DefineConstants);ISB_LABS_CLIENT</DefineConstants>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Unity.TextMeshPro">
       <HintPath>$(SPTRoot)\EscapeFromTarkov_Data\Managed\Unity.TextMeshPro.dll</HintPath>

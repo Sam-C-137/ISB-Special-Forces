@@ -232,6 +232,11 @@ namespace ISBSSOFExtra
                     if (Singleton<GameWorld>.Instantiated && Singleton<GameWorld>.Instance != null)
                     {
                         gameWorld = Singleton<GameWorld>.Instance;
+                        if (gameWorld is HideoutGameWorld)
+                        {
+                            yield return new WaitForSecondsRealtime(0.5f);
+                            continue;
+                        }
                         if (FikaRequired && !NetworkBridge.Active)
                         {
                             if (Time.realtimeSinceStartup >= nextWaitingLog)
@@ -273,12 +278,12 @@ namespace ISBSSOFExtra
                     resolvedLocation = refreshedLocation;
                 if (FikaActive)
                 {
-                    float nextNetworkLog = 0f;
+                    float nextNetworkLog = Time.realtimeSinceStartup + 30f;
                     while (FikaActive && Singleton<GameWorld>.Instantiated && ReferenceEquals(Singleton<GameWorld>.Instance, gameWorld) && !NetworkBridge.Ready)
                     {
                         if (Time.realtimeSinceStartup >= nextNetworkLog)
                         {
-                            nextNetworkLog = Time.realtimeSinceStartup + 10f;
+                            nextNetworkLog = float.PositiveInfinity;
                             Log.LogWarning("ISB SOF Extras: Waiting for IFikaNetworkManager before starting synchronized raid logic. " + "server=" + NetworkBridge.IsServer + ", headless=" + IsHeadless + ", raidStarted=" + NetworkBridge.RaidStarted + ".");
                         }
 

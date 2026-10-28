@@ -9,7 +9,7 @@ namespace ISBSSOFExtra
     {
         internal static bool IsFacilityComponent(Component component)
         {
-            if (component == null)
+            if (component == null || FacilityLightingInterop.IsManaged(component))
                 return false;
             if (component is Renderer screen && OfficeScreenCanvas.IsTerminalScreen(screen))
                 return false;

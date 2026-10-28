@@ -7,9 +7,9 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
-    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <FileVersion>2.0.2</FileVersion>
     <SPTRoot Condition="'$(SPTRoot)' == ''">C:\SPTV</SPTRoot>
     <FikaCorePath>$(SPTRoot)\BepInEx\plugins\Fika\Fika.Core.dll</FikaCorePath>
     <FikaCorePath Condition="!Exists('$(FikaCorePath)')">$(SPTRoot)\BepInEx\plugins\Fika.Core.dll</FikaCorePath>

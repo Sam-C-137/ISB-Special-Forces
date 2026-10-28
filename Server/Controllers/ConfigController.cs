@@ -22,9 +22,10 @@ public class ConfigController
 
     public void Reload()
     {
-        _ghostNames = null;
         var pathToMod = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
+        IsbBotHealth.EnsureConfiguration(pathToMod);
         ModConfig = _modHelper.GetJsonDataFromFile<MainConfig>(pathToMod, "config.jsonc");
+        IsbBotHealth.Validate(ModConfig.botHealth);
         ISBDiagnostics.Enabled = ModConfig.diagnosticLogs;
         ModConfig.labsContainmentBreachEvent = ContainmentBreachConfigFile.Load(pathToMod, ModConfig.labsContainmentBreachEvent);
         AnomalousItemSpawns.Validate(AnomalousSpawns);
@@ -32,11 +33,8 @@ public class ConfigController
         ModConfig.MigrateLegacyIcebreakerLocation();
     }
 
-    private string? _ghostNames;
     public string GetGhostBotNamesJson()
     {
-        if (_ghostNames != null)
-            return _ghostNames;
         var folder = Path.Combine(_modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly()), "db", "BlackDivisionBotPresets");
         var names = new Dictionary<string, string>(StringComparer.Ordinal);
         var options = new JsonDocumentOptions
@@ -67,7 +65,9 @@ public class ConfigController
             }
         }
 
-        return _ghostNames = JsonSerializer.Serialize(names);
+        foreach (var entry in Patches.GhostBotGenerationPatch.GeneratedRoles)
+            names["profile|" + entry.Key] = entry.Value;
+        return JsonSerializer.Serialize(names);
     }
 
     private readonly object _chanceSync = new();

@@ -54,6 +54,8 @@ namespace ISBSpecialForces.Components
             if (_initialized)
                 return;
             var harmony = new Harmony("com.samc137.isbspecialforces.ghostvariant.client");
+            harmony.Patch(AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.GetGroupAndSetEnemies)), prefix: new HarmonyMethod(typeof(ISBEventHostility), nameof(ISBEventHostility.SelectChaosGroup)));
+            harmony.Patch(AccessTools.Method(typeof(BotsGroup), nameof(BotsGroup.IsAlly), new[] { typeof(IPlayer) }), postfix: new HarmonyMethod(typeof(ISBEventHostility), nameof(ISBEventHostility.ChaosAlliance)) { priority = Priority.Last });
             harmony.Patch(AccessTools.Method(typeof(EFT.UI.SessionEnd.KillListVictim), "Show"), postfix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DisplayRole)));
             harmony.Patch(AccessTools.Method(typeof(BossLocationSpawn), "Init"), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(PrepareWave)));
             harmony.Patch(AccessTools.Method(typeof(BossLocationSpawn), "ParseMainTypesTypes"), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(PrepareWave)));
@@ -69,7 +71,64 @@ namespace ISBSpecialForces.Components
 #endif
             harmony.Patch(AccessTools.Method(typeof(NativeSpawner), supportsMethod), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(SpawnSupports)));
             harmony.Patch(AccessTools.Method(typeof(NativeSpawner), escortMethod), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(SpawnEscort)));
+            harmony.Patch(AccessTools.Method(typeof(EFT.UI.SessionEnd.SessionResultKillList), "Show", new[] { typeof(Diz.Binding.UpdatableBindableList<VictimStats>), typeof(EFT.InventoryLogic.DogtagComponent[]) }), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(RefreshGhostNames)));
+            InitializeDevTools();
+            GameWorld.OnDispose += ISBEventHostility.ClearVariants;
             _initialized = true;
+        }
+
+        private static readonly AsyncLocal<string> DebugVariant = new AsyncLocal<string>();
+        private static void InitializeDevTools()
+        {
+#if ISB_SPT41
+            if (!BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue("com.sipto.devtools", out var debug) ||
+                !BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.blackdiv.tacticaltoaster")) return;
+            var harmony = new Harmony("com.isb.ghostvariant.devtools");
+            try
+            {
+                var type = debug.Instance.GetType().Assembly.GetType("DevTools.BotSpawn", true);
+                harmony.Patch(AccessTools.Method(type, "AllTypes"), postfix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DebugTypesPostfix)));
+                harmony.Patch(AccessTools.Method(type, "Resolve"), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DebugResolvePrefix)));
+                foreach (string method in new[] { "SpawnSquad", "SpawnLoners", "SpawnBossSquad" })
+                    harmony.Patch(AccessTools.Method(type, method), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DebugContextPrefix)), finalizer: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DebugContextFinalizer)));
+                harmony.Patch(AccessTools.Method(typeof(NativeCreation), "Create", new[] { typeof(IGetProfileData), typeof(IBotCreator), typeof(int), typeof(NativeToken) }), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DebugCreationPrefix)));
+                if (AccessTools.Field(debug.Instance.GetType(), "SpawnType").GetValue(null) is BepInEx.Configuration.ConfigEntry<string> entry &&
+                    entry.Description.AcceptableValues is BepInEx.Configuration.AcceptableValueList<string> acceptable)
+                    AccessTools.Field(acceptable.GetType(), "<AcceptableValues>k__BackingField").SetValue(acceptable, acceptable.AcceptableValues.Concat(GhostBotVariant.Names).Distinct(StringComparer.Ordinal).OrderBy(v => v, StringComparer.OrdinalIgnoreCase).ToArray());
+            }
+            catch (Exception error)
+            {
+                harmony.UnpatchSelf();
+                Plugin.LogSource.LogError("ISB variant selector compatibility failed: " + error.GetBaseException().Message);
+            }
+#endif
+        }
+
+        private static void DebugTypesPostfix(ref string[] __result) => __result = (__result ?? Array.Empty<string>()).Concat(GhostBotVariant.Names).Distinct(StringComparer.Ordinal).OrderBy(v => v, StringComparer.OrdinalIgnoreCase).ToArray();
+        private static bool DebugResolvePrefix(string name, ref WildSpawnType role, ref EPlayerSide side, ref bool __result)
+        {
+            if (!GhostBotVariant.Is(name)) return true;
+            role = (WildSpawnType)GhostBotVariant.BaseRoleValue(name);
+            side = EPlayerSide.Savage;
+            __result = true;
+            return false;
+        }
+
+        private static void DebugContextPrefix(string name, out string __state)
+        {
+            __state = DebugVariant.Value;
+            DebugVariant.Value = GhostBotVariant.CanonicalName(name);
+        }
+
+        private static void DebugContextFinalizer(string __state) => DebugVariant.Value = __state;
+        private static bool DebugCreationPrefix(IGetProfileData profileData, IBotCreator botCreator, int count, NativeToken token, ref Task<NativeCreation> __result)
+        {
+            var variant = DebugVariant.Value;
+            if (variant == null || !profileData.TryGetRole(out var role, out _) || (int)role != GhostBotVariant.BaseRoleValue(variant)) return true;
+            if (profileData.SpawnParams != null) profileData.SpawnParams.Id_spawn = "isb_debug_variant";
+            var data = new NativeCreation(profileData) { _tokenGetter = token, _botCreator = botCreator };
+            __result = LoadVariant(data, botCreator as NativeCreator, count, variant, token.GetCancelToken());
+            return false;
         }
 
         private static void PrepareWave(BossLocationSpawn __instance)
@@ -222,15 +281,35 @@ namespace ISBSpecialForces.Components
             return index >= 0 && index < flags.Supports.Length ? flags.Supports[index] : null;
         }
 
-        private static readonly Task<Dictionary<string, string>> GhostNames = Task.Run(() => JsonConvert.DeserializeObject<Dictionary<string, string>>(RequestHandler.GetJson("/ISB/ghostbots/names")) ?? new Dictionary<string, string>());
-        private static void DisplayRole(EFT.UI.SessionEnd.KillListVictim __instance, VictimStats victim)
+        private static Task<Dictionary<string, string>> GhostNames = FetchGhostNames();
+        private static Task<Dictionary<string, string>> FetchGhostNames() => Task.Run(() => JsonConvert.DeserializeObject<Dictionary<string, string>>(RequestHandler.GetJson("/ISB/ghostbots/names")) ?? new Dictionary<string, string>());
+        internal static Task<Dictionary<string, string>> FetchVoiceIdentities() => FetchGhostNames();
+        private static void RefreshGhostNames() => GhostNames = FetchGhostNames();
+        private sealed class VictimDisplay { public VictimDisplay() { } internal VictimStats Victim; }
+        private static bool _roleFailureLogged;
+        private static readonly ConditionalWeakTable<EFT.UI.SessionEnd.KillListVictim, VictimDisplay> VictimDisplays = new ConditionalWeakTable<EFT.UI.SessionEnd.KillListVictim, VictimDisplay>();
+        private static async void DisplayRole(EFT.UI.SessionEnd.KillListVictim __instance, VictimStats victim)
         {
-            if (victim == null || !GhostNames.IsCompleted || GhostNames.IsFaulted || GhostNames.IsCanceled)
+            if (victim == null || __instance == null)
                 return;
-            if (!GhostNames.Result.TryGetValue((int)victim.Role + "|" + victim.Name, out var key))
-                return;
-            if (AccessTools.Field(__instance.GetType(), "_faction")?.GetValue(__instance)is TMPro.TMP_Text text && ISBLocale.TryTranslate(key, out var translated))
-                text.text = translated.ToUpperInvariant();
+            var display = VictimDisplays.GetOrCreateValue(__instance);
+            display.Victim = victim;
+            try
+            {
+                var names = await GhostNames;
+                if (__instance == null || !ReferenceEquals(display.Victim, victim)) return;
+                if (!names.TryGetValue("profile|" + victim.ProfileId, out var key) && !names.TryGetValue((int)victim.Role + "|" + victim.Name, out key)) return;
+                if (AccessTools.Field(__instance.GetType(), "_faction")?.GetValue(__instance)is TMPro.TMP_Text text && ISBLocale.TryTranslate(key, out var translated))
+                    text.text = translated.ToUpperInvariant();
+            }
+            catch (Exception error)
+            {
+                if (!_roleFailureLogged)
+                {
+                    _roleFailureLogged = true;
+                    Plugin.LogSource.LogError("ISB variant role display failed: " + error.GetBaseException().Message);
+                }
+            }
         }
 
         private static Profile[] ParseProfiles(string json, int requested, string variant)
@@ -278,6 +357,8 @@ namespace ISBSpecialForces.Components
             if (data.SpawnStopped)
                 return null;
             data.AddProfiles(profiles);
+            ISBEventHostility.RememberVariants(profiles, variant);
+            ISBChaosVoice.Remember(profiles, variant);
             var resources = profiles.SelectMany(profile => profile.GetAllPrefabPaths(allCustomization: false)).Distinct().ToArray();
 #if ISB_SPT41
             if (creator != null)

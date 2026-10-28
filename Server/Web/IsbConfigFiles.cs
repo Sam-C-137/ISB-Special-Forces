@@ -181,6 +181,17 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
 
     public static string PatchJson(string text, IReadOnlyList<IsbChange> changes)
     {
+        using (var root = JsonDocument.Parse(text, JsonOptions))
+        {
+            var health = changes.FirstOrDefault(c => c.Path == "/botHealth");
+            if (health != null && health.Value.ValueKind == JsonValueKind.Object && !root.RootElement.TryGetProperty("botHealth", out _))
+            {
+                var start = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(text).AsSpan(0, Tokens(text)[""].Start + 1)).Length;
+                var lineBreak = text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
+                var value = JsonSerializer.Serialize(health.Value, OutputOptions).Replace("\r\n", "\n", StringComparison.Ordinal).Replace("\n", lineBreak, StringComparison.Ordinal);
+                text = text[..start] + lineBreak + "  \"botHealth\": " + value + (root.RootElement.EnumerateObject().Any() ? "," : "") + lineBreak + text[start..].TrimStart('\r', '\n');
+            }
+        }
         var map = Tokens(text);
         var replacements = new List<(int Start, int Length, byte[] Data)>();
         var paths = new HashSet<string>();
@@ -201,7 +212,7 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
             foreach (var key in c.Path.Split('/').Skip(1))
                 previous = previous.ValueKind == JsonValueKind.Array ? previous[int.Parse(key, CultureInfo.InvariantCulture)] : previous.GetProperty(Unescape(key));
             ValidateShape(previous, c.Value, c.Path);
-            var value = JsonSerializer.Serialize(c.Value, OutputOptions).Replace("\n", newline, StringComparison.Ordinal);
+            var value = JsonSerializer.Serialize(c.Value, OutputOptions).Replace("\r\n", "\n", StringComparison.Ordinal).Replace("\n", newline, StringComparison.Ordinal);
             replacements.Add((token.Start, token.Length, Encoding.UTF8.GetBytes(value)));
         }
 

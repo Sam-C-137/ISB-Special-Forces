@@ -4,12 +4,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>ISBSpecialForces</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DefineConstants>$(DefineConstants);ISB_LABS_SERVER</DefineConstants>
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <GenerateDependencyFile>false</GenerateDependencyFile>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
-    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <FileVersion>2.0.2</FileVersion>
     <OutputPath>bin\$(Configuration)\$(ProjectName)\$(AssemblyName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>ISBSpecialForces</AssemblyName>
@@ -107,6 +108,7 @@
     <None Update="Web\**\*" CopyToOutputDirectory="Never" CopyToPublishDirectory="Never" />
     <EmbeddedResource Include="Web\index.html" LogicalName="ISBSpecialForces.Web.index.html" />
     <EmbeddedResource Include="Web\app.js" LogicalName="ISBSpecialForces.Web.app.js" />
+    <EmbeddedResource Include="Web\formation-estimates.js" LogicalName="ISBSpecialForces.Web.formation-estimates.js" />
     <EmbeddedResource Include="Web/Defaults/config.jsonc" LogicalName="ISBSpecialForces.Web.Defaults.config.jsonc" />
     <EmbeddedResource Include="Web/Defaults/containment_breach_config.jsonc" LogicalName="ISBSpecialForces.Web.Defaults.containment_breach_config.jsonc" />
     <EmbeddedResource Include="Web/Defaults/audio.cfg" LogicalName="ISBSpecialForces.Web.Defaults.audio.cfg" />

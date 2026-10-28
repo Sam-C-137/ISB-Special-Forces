@@ -16,6 +16,12 @@ namespace ISBSpecialForces.Patches
         [PatchPrefix]
         protected static bool PatchPrefix(BotsGroup __instance, IPlayer person, EBotEnemyCause cause, ref bool __result)
         {
+            if (ISBEventHostility.TryGetChaosRelation(__instance, person, out bool chaosEnemy))
+            {
+                if (chaosEnemy) return true;
+                __result = false;
+                return false;
+            }
             if (ISBAishiLoyaltyConditionState.ShouldForceHostility(__instance, person))
                 return true;
             var initialBot = __instance._initialBot;

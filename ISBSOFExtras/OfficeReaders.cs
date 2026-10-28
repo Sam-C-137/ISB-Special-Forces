@@ -9,12 +9,21 @@ namespace ISBSSOFExtra
     {
         private const string OfficeBatteryTemplate = "264f194ae30547c55dfbf0d9";
         private static readonly HashSet<string> OfficeReaders = new HashSet<string>(StringComparer.Ordinal);
+        private static readonly HashSet<string> ExternalLowFrequencyReaders = new HashSet<string>(StringComparer.Ordinal);
+        internal static void RegisterExternalReader(KeycardDoor reader,bool lowFrequency)
+        {
+            if(reader==null)return;Doors.Add(reader);RememberReader(reader);if(lowFrequency)ExternalLowFrequencyReaders.Add(reader.Id);
+        }
+        internal static void UnregisterExternalReader(KeycardDoor reader)
+        {
+            if(reader==null)return;Doors.Remove(reader);Readers.Remove(reader.Id);Reservations.Remove(reader.Id);BatteryReceipts.Remove(reader.Id);PoweredReaders.Remove(reader.Id);ExternalLowFrequencyReaders.Remove(reader.Id);
+        }
         private static bool _officeEvent;
         private static float _officeReaderScanAt;
         private static string _officeAdmin;
         internal static bool OfficeAdminPowered => _officeEvent && _officeAdmin != null && PoweredReaders.Contains(_officeAdmin);
 
-        private static bool IsOfficeReader(WorldInteractiveObject door) => _officeEvent && door != null && OfficeReaders.Contains(door.Id ?? "");
+        private static bool IsOfficeReader(WorldInteractiveObject door) => door != null && (ExternalLowFrequencyReaders.Contains(door.Id ?? "") || _officeEvent && OfficeReaders.Contains(door.Id ?? ""));
         internal static void SetOfficeEvent(bool active)
         {
             if (_officeEvent == active && (!active || OfficeReaders.Count == 2 || UnityEngine.Time.unscaledTime < _officeReaderScanAt))

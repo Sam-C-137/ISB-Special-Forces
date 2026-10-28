@@ -9,11 +9,12 @@
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release</Configurations>
     <RootNamespace>ISBSpecialForces</RootNamespace>
-    <Version>2.0.1</Version>
-    <AssemblyVersion>2.0.1</AssemblyVersion>
-    <FileVersion>2.0.1</FileVersion>
+    <Version>2.0.2</Version>
+    <AssemblyVersion>2.0.2</AssemblyVersion>
+    <FileVersion>2.0.2</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <None Update="Assets\isb-ci-readable-speech.bundle" CopyToOutputDirectory="PreserveNewest" />
     <Compile Include="..\Shared\ISBEffectNotifications.cs" Link="ISBEffectNotifications.cs" />
     <Compile Include="..\Shared\BlackDivisionCheckpointPolicy.cs" Link="BlackDivisionCheckpointPolicy.cs" />
     <Reference Include="0Harmony">

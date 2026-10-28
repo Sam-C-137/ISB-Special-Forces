@@ -31,9 +31,10 @@ namespace ISBSpecialForces.Patches
                 ISBLabsGatePassage.Register(__instance);
                 var clashManager = MonoBehaviourSingleton<ISBBlackDivClashManager>.Instance;
                 clashManager?.RegisterBot(__instance);
+                if (ISBBotWeightPatch.ForPlayer(1f, __instance.GetPlayer) == 0f)
+                    __instance.GetPlayer.Physical.OnWeightUpdated();
                 if (WildSpawnTypeExtensions.IsISB(__instance.Profile.Info.Settings.Role))
                 {
-                    __instance.GetPlayer.Physical.OnWeightUpdated();
                     __instance.GetOrAddISBManager();
                     ISBTacticalAgent.GetOrAdd(__instance);
                     ApplyAishiLoyaltyCondition(__instance);

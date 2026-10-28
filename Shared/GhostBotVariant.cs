@@ -5,6 +5,7 @@ namespace ISB.Compatibility
 {
     internal static class GhostBotVariant
     {
+        internal const string ChaosName = "chaosInsurgency";
         internal const string Name = "blackDivAssaultGhostBuster";
         internal const string LeadName = "blackDivGhostBusterLead";
         internal const string BaseName = "blackDivAssault";
@@ -16,6 +17,7 @@ namespace ISB.Compatibility
         internal const double HealthMultiplier = 1.75d;
         internal static readonly string[] Names =
         {
+            ChaosName,
             LeadName,
             "blackDivGhostBuster01",
             "blackDivGhostBuster02",
@@ -33,6 +35,7 @@ namespace ISB.Compatibility
             return aliases;
         }
 
+        internal static double HealthScale(string role) => string.Equals(CanonicalName(role), ChaosName, StringComparison.OrdinalIgnoreCase) ? 1.90d : HealthMultiplier;
         internal static bool Is(string role) => CanonicalName(role) != null;
         internal static string CanonicalName(string role) => role != null && Aliases.TryGetValue(role, out var name) ? name : null;
         internal static string BaseRole(string role) => string.Equals(role, WedgeName, StringComparison.OrdinalIgnoreCase) ? WedgeBaseName : BaseName;

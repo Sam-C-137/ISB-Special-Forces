@@ -16,6 +16,7 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
     private static readonly ConditionalWeakTable<BotGenerationDetails, Request> Requests = new();
     private sealed record Request(string Role, string? EventRole);
     private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, int> Ready = new(StringComparer.OrdinalIgnoreCase);
+    internal static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> GeneratedRoles = new(StringComparer.Ordinal);
     public static bool DayReady { get => IsReady(GhostBotVariant.Name, false); set => Ready.AddOrUpdate(GhostBotVariant.LeadName, value ? 1 : 0, (_, old) => value ? old | 1 : old & ~1); }
     public static bool NightReady { get => IsReady(GhostBotVariant.Name, true); set => Ready.AddOrUpdate(GhostBotVariant.LeadName, value ? 2 : 0, (_, old) => value ? old | 2 : old & ~2); }
 
@@ -60,7 +61,7 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
 
     private static void AfterGeneration(BotGenerationDetails botGenerationDetails, BotBase __result)
     {
-        if (IsRequest(botGenerationDetails) && !ContainmentHealth.Apply(__result, true, GhostBotVariant.HealthMultiplier, GhostBotVariant.HealthMultiplier))
+        if (IsRequest(botGenerationDetails) && !ContainmentHealth.Apply(__result, true, GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails)), GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails))))
             throw new InvalidOperationException("ISB: invalid health data for GhostBuster.");
     }
 
@@ -73,6 +74,13 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
         botGenerationDetails.RoleLowercase = request.Role.ToLowerInvariant();
         botGenerationDetails.EventRole = request.EventRole;
         if (__exception == null && __result?.Info?.Settings != null)
+        {
             __result.Info.Settings.Role = GhostBotVariant.BaseRole(request.Role);
+            if (GeneratedRoles.Count >= 8192)
+                GeneratedRoles.Clear();
+            var profileId = __result.Id.ToString();
+            if (!string.IsNullOrEmpty(profileId))
+                GeneratedRoles[profileId] = "ScavRole/" + GhostBotVariant.CanonicalName(request.Role);
+        }
     }
 }

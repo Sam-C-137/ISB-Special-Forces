@@ -27,7 +27,7 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
     public List<string>? Contributors { get; init; } = new()
     {
     };
-    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 1);
+    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 2);
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.6");
     public List<string>? Incompatibilities { get; init; }
     public Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()

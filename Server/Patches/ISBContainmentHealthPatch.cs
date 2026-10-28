@@ -35,6 +35,7 @@ public sealed class ISBContainmentHealthPatch(ConfigController config, ISBSpawnC
             return;
         try
         {
+            IsbBotHealth.Apply(bot, config.ModConfig.botHealth);
             ContainmentHealth.Apply(bot, spawns.GetLabsPreBlackoutEventStatus(sessionId.ToString()).active, config.ModConfig.labsContainmentBreachEvent?.isbHealthMultiplier ?? 0.6, config.ModConfig.labsContainmentBreachEvent?.blackDivisionHealthMultiplier ?? 1.25);
         }
         catch (Exception ex)

@@ -309,6 +309,7 @@ namespace ISBSSOFExtra
         {
             DisableLightStage(0, 1);
             ManimalLabsBlackoutCompatibility.SetBlackout(true);
+            FacilityLightingInterop.SetPower(false);
         }
 
         private static void DisableLightStage(int stage, int stages)
@@ -676,10 +677,12 @@ namespace ISBSSOFExtra
             RestoreLights();
             RestoreMaterials();
             ManimalLabsBlackoutCompatibility.SetBlackout(false);
+            FacilityLightingInterop.SetPower(true);
         }
 
         public static void ResetRestorationState()
         {
+            FacilityLightingInterop.Reset();
             _materialGeneration++;
             RestoreLightDecals();
             PreparedLightDecals.Clear();

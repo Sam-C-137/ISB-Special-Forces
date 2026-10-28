@@ -63,6 +63,7 @@ namespace ISBSpecialForces.Components
         private string _statePath;
         private bool _runtimeReady;
         private bool _runtimePatchBusy;
+        private static PropertyInfo _forgetEnemyTime;
         private void Start()
         {
             if (!Chainloader.PluginInfos.ContainsKey(SainGuid))
@@ -413,6 +414,12 @@ namespace ISBSpecialForces.Components
                     return;
                 _harmony = new Harmony(HarmonyId);
                 _harmony.Patch(_initPresetFromDefinitionMethod, postfix: new HarmonyMethod(postfix));
+                var info = _sainAssembly.GetType("SAIN.SAINComponent.Classes.Info.SAINBotInfoClass", true);
+                _forgetEnemyTime = AccessTools.Property(info, "ForgetEnemyTime");
+                var search = AccessTools.Method(info, "CalcTimeBeforeSearch");
+                if (search == null || _forgetEnemyTime?.GetSetMethod(true) == null)
+                    throw new MissingMemberException("SAIN enemy memory settings");
+                _harmony.Patch(search, postfix: new HarmonyMethod(typeof(ISBSAINPresetMigration), nameof(SainMemoryPostfix)));
             }
             catch (Exception ex)
             {
@@ -427,6 +434,15 @@ namespace ISBSpecialForces.Components
                 return;
             bool isCopy = __args != null && __args.Length > 1 && __args[1] is bool copy && copy;
             instance.HandleLoadedPreset(isCopy, forceCurrentCustom: false);
+        }
+
+        private static void SainMemoryPostfix(object __instance)
+        {
+            var bot = GetMemberValue(__instance, "BotOwner") as EFT.BotOwner;
+            if (bot?.Profile?.Info?.Settings == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
+                return;
+            bot.Settings.FileSettings.Mind.TIME_TO_FORGOR_ABOUT_ENEMY_SEC = 952f;
+            _forgetEnemyTime.SetValue(__instance, 952f, null);
         }
 
         private void HandleLoadedPreset(bool isCopy, bool forceCurrentCustom)
@@ -449,18 +465,22 @@ namespace ISBSpecialForces.Components
                 return;
             if (isCopy)
             {
+                PatchLoadedPresetInMemory(persistCustomFiles: false, requestedOnly: true);
                 MarkPresetSeeded(presetName, saveImmediately: true);
                 return;
             }
 
             bool needsSeed = forceCurrentCustom || !IsPresetSeeded(presetName);
             if (!needsSeed)
+            {
+                PatchLoadedPresetInMemory(persistCustomFiles: false, requestedOnly: true);
                 return;
+            }
             if (PatchLoadedPresetInMemory(persistCustomFiles: true))
                 MarkPresetSeeded(presetName, saveImmediately: true);
         }
 
-        private bool PatchLoadedPresetInMemory(bool persistCustomFiles)
+        private bool PatchLoadedPresetInMemory(bool persistCustomFiles, bool requestedOnly = false)
         {
             if (_runtimePatchBusy || _loadedPresetField == null)
                 return false;
@@ -488,6 +508,25 @@ namespace ISBSpecialForces.Components
                     if (!TryGetRoleConfig(role, out ISBSAINRoleDefaults roleConfig) || roleConfig == null || !roleConfig.enabled)
                         continue;
                     JObject rolePatch = BuildRolePatch(roleConfig);
+                    if (requestedOnly && rolePatch["Settings"] is JObject difficulties)
+                    {
+                        var limited = new JObject();
+                        foreach (var difficulty in difficulties.Properties())
+                        {
+                            var settings = new JObject();
+                            foreach (var path in new[] { "Aiming.AIMING_TYPE", "Aiming.ANY_PART_SHOOT_TIME", "Look.GOAL_TO_FULL_DISSAPEAR", "Look.GOAL_TO_FULL_DISSAPEAR_GREEN", "Grenade.GrenadePrecision" })
+                            {
+                                var value = difficulty.Value.SelectToken(path);
+                                if (value == null) continue;
+                                var parts = path.Split('.');
+                                var category = settings[parts[0]] as JObject;
+                                if (category == null) settings[parts[0]] = category = new JObject();
+                                category[parts[1]] = value.DeepClone();
+                            }
+                            limited[difficulty.Name] = settings;
+                        }
+                        rolePatch = new JObject { ["Settings"] = limited };
+                    }
                     if (!rolePatch.HasValues)
                         continue;
                     object group = FindRuntimeGroup(dictionary, role.EnumValue);
@@ -506,6 +545,23 @@ namespace ISBSpecialForces.Components
                         init?.Invoke(group, null);
                         patched++;
                     }
+
+                    if (GetMemberValue(group, "Settings") is IDictionary runtimeDifficulties && roleConfig.difficulties != null)
+                        foreach (DictionaryEntry difficulty in runtimeDifficulties)
+                        {
+                            var configured = roleConfig.difficulties.FirstOrDefault(d => string.Equals(d.Key, difficulty.Key.ToString(), StringComparison.OrdinalIgnoreCase)).Value;
+                            if (configured == null) continue;
+                            foreach (var path in new[] { "Aiming.AIMING_TYPE", "Aiming.ANY_PART_SHOOT_TIME", "Look.GOAL_TO_FULL_DISSAPEAR", "Look.GOAL_TO_FULL_DISSAPEAR_GREEN", "Grenade.GrenadePrecision" })
+                            {
+                                var value = configured.SelectToken(path);
+                                if (value == null) continue;
+                                var parts = path.Split('.');
+                                var category = GetMemberValue(difficulty.Value, parts[0]);
+                                var field = category?.GetType().GetField(parts[1], BindingFlags.Public | BindingFlags.Instance);
+                                if (field == null) throw new MissingFieldException("SAIN native setting " + path);
+                                field.SetValue(category, value.ToObject(field.FieldType));
+                            }
+                        }
 
                     if (customBotSettingsDirectory != null)
                     {

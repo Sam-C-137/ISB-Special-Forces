@@ -1520,7 +1520,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                         spawn.Time = GetSpawnTime(formation.raidTimeMin, formation.raidTimeMax);
                         if (!containment && mainConfig.debug.spawnInstantlyAlways)
                             spawn.Time = -1;
-                        spawn.TriggerId = "hunt";
+                        spawn.TriggerId = "isb_formation_hunt";
                         spawn.TriggerName = string.Empty;
                         spawn.ForceSpawn = true;
                         break;
@@ -1614,7 +1614,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             },
             Supports = supports,
             Time = -1,
-            TriggerId = string.Empty,
+            TriggerId = "isb_formation",
             TriggerName = string.Empty
         };
     }
