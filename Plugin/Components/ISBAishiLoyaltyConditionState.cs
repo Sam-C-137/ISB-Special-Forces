@@ -12,6 +12,7 @@ namespace ISBSpecialForces.Components
 {
     public class ISBAishiLoyaltyConditionResponse
     {
+        public bool mapFriendly { get; set; }
         public bool enabled { get; set; }
         public bool active { get; set; }
         public string requiredItemTpl { get; set; }
@@ -60,6 +61,25 @@ namespace ISBSpecialForces.Components
         internal static bool HardDisabled => _hardDisabled;
 
         private static GameWorld _initializedWorld;
+        private static GameWorld _mapWorld;
+        private static bool _terminal;
+        internal static bool TerminalRaid
+        {
+            get
+            {
+                var world = Singleton<GameWorld>.Instance;
+                if (world == null || world is HideoutGameWorld) { _mapWorld = null; _terminal = false; return false; }
+                if (!ReferenceEquals(_mapWorld, world))
+                {
+                    var map = world.LocationId ?? RaidChangesUtil.LocationId;
+                    if (string.IsNullOrEmpty(map)) return false;
+                    _terminal = string.Equals(map, "terminal", StringComparison.OrdinalIgnoreCase) || string.Equals(map, "5704e5a4d2720bb45b8b4567", StringComparison.OrdinalIgnoreCase);
+                    _mapWorld = world;
+                }
+                return _terminal;
+            }
+        }
+        internal static bool TerminalProtection(IPlayer player) => TerminalRaid && player != null && !player.IsAI && !ISBAishiParticipantBridge.IsBroken(player.ProfileId);
         public static void EnsureRaidInitialized()
         {
             var world = Singleton<GameWorld>.Instance;
@@ -121,7 +141,7 @@ namespace ISBSpecialForces.Components
             _initializedWorld = world;
             var isScavRaid = mainPlayer != null && mainPlayer.Side == EPlayerSide.Savage;
             var locationId = RaidChangesUtil.LocationId ?? string.Empty;
-            if (isScavRaid)
+            if (isScavRaid && !TerminalRaid)
             {
                 if (Plugin.DiagnosticsEnabled)
                     Plugin.LogSource.LogInfo("[ISB] Scav raid detected. The Aishi loyalty condition is a PMC arrangement; disabling module.");
@@ -159,7 +179,7 @@ namespace ISBSpecialForces.Components
                 QuestTruceConfigured = response.questTruceConfigured;
                 QuestTruceActive = response.questTruceActive;
                 HadRequiredItemAtRaidStart = Enabled && ItemConditionConfigured && PlayerCarriesRequiredItem(mainPlayer, RequiredItemTpl);
-                Active = Enabled && !response.revengeActive && EvaluateFriendlyConditions(FriendlyConditionMode, ItemConditionConfigured, HadRequiredItemAtRaidStart, QuestTruceConfigured, QuestTruceActive);
+                Active = Enabled && (response.mapFriendly || !response.revengeActive && EvaluateFriendlyConditions(FriendlyConditionMode, ItemConditionConfigured, HadRequiredItemAtRaidStart, QuestTruceConfigured, QuestTruceActive));
                 EligibleForKillPenalty = Active;
                 ISBAishiParticipantBridge.SetLocal(mainPlayer.ProfileId, Active, response);
                 ISBReputationBridge.BeginRaid(HadRequiredItemAtRaidStart, false, locationId);
@@ -274,7 +294,7 @@ namespace ISBSpecialForces.Components
             Plugin.LogSource.LogInfo("[ISB] Player scav detected. The Aishi arrangement covers PMCs only.");
         }
 
-        public static bool ProtectsHuman(IPlayer player) => !_hardDisabled && IsEligibleAggressor(player) && ISBAishiParticipantBridge.Holding(player.ProfileId) && !(player.IsYourPlayer && ISBRevengeBridge.Active) && !ISBSpawnProgressBridge.IsTarget(player);
+        public static bool ProtectsHuman(IPlayer player) => TerminalProtection(player) || !_hardDisabled && IsEligibleAggressor(player) && ISBAishiParticipantBridge.Holding(player.ProfileId) && !(player.IsYourPlayer && ISBRevengeBridge.Active) && !ISBSpawnProgressBridge.IsTarget(player);
         public static bool ProtectsTarget(IPlayer player) => ProtectsHuman(player) || IsPlayerAllyBot(player);
         public static bool IsProtectedAllyGroup(BotsGroup group)
         {
@@ -323,7 +343,7 @@ namespace ISBSpecialForces.Components
         {
             if (person == null || person.IsAI)
                 return false;
-            return person.Side != EPlayerSide.Savage;
+            return TerminalRaid || person.Side != EPlayerSide.Savage;
         }
 
         public static bool IsCommander(WildSpawnType role)
@@ -333,7 +353,7 @@ namespace ISBSpecialForces.Components
 
         public static bool IsProtectedFrom(WildSpawnType role)
         {
-            if (IsCommander(role))
+            if (IsCommander(role) && !TerminalRaid)
                 return false;
             return WildSpawnTypeExtensions.IsISB(role);
         }
@@ -345,6 +365,7 @@ namespace ISBSpecialForces.Components
 
         public static bool ShouldForceHostility(BotsGroup group, IPlayer person)
         {
+            if (TerminalProtection(person) && group?._initialBot?.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role)) return false;
             if (ISBEventHostility.IsForcedEnemy(group, person))
                 return true;
             if (!IsBetrayer(person) || group?._initialBot?.Profile?.Info?.Settings == null)
@@ -354,6 +375,8 @@ namespace ISBSpecialForces.Components
 
         public static void Break(WildSpawnType victimRole, string aggressorProfileId, bool registerRevenge)
         {
+            if (TerminalRaid && !ISBAishiParticipantBridge.IsBroken(aggressorProfileId) && !ISBAishiParticipantBridge.Holding(aggressorProfileId))
+                ISBAishiParticipantBridge.SetLocal(aggressorProfileId, true, new ISBAishiLoyaltyConditionResponse { enabled = true, active = true, mapFriendly = true, breakOnHit = true, damageThreshold = 0f, extendToPlayerAllies = true });
             if (!ISBAishiParticipantBridge.Break(aggressorProfileId))
                 return;
             var aggressor = FindPlayer(aggressorProfileId);

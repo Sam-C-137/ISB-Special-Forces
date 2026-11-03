@@ -20,10 +20,34 @@ public static class LabsEventModes
         "848424",
         "848426"
     };
-    public static int PerformanceIsbReserve(LabsPreBlackoutEventConfig? config) => config?.performanceMode == true && !config.noISBMode && !config.noBlackDivMode && !config.whiteTuskOnly && !config.ghostBusterOnly ? 4 : 0;
+    public static int PerformanceIsbReserve(LabsPreBlackoutEventConfig? config) => config?.performanceMode == true && !config.noISBMode && !config.noBlackDivMode && !config.whiteTuskOnly && !config.ghostBusterOnly && !config.chaosInsurgencyOnly ? config.containementBreachQueue.performanceNormal.isb : 0;
+
+    public static ISB.Compatibility.EventPopulationConfig PopulationQueue(LabsPreBlackoutEventConfig config)
+    {
+        var queue = config.containementBreachQueue.ForPerformanceMode(config.performanceMode);
+        if (!config.chaosInsurgencyOnly)
+            return queue;
+        return new ISB.Compatibility.EventPopulationConfig
+        {
+            enabled = queue.enabled,
+            maximumBots = queue.maximumBots,
+            squadOverflow = queue.squadOverflow,
+            reinforcementIntervalSeconds = queue.reinforcementIntervalSeconds,
+            reinforcementWindowSeconds = queue.reinforcementWindowSeconds,
+            genericRefillDelaySeconds = queue.genericRefillDelaySeconds,
+            normal = new() { blackDivision = 0, isb = 0, chaosInsurgency = queue.maximumBots },
+            reinforcement = new() { blackDivision = 0, isb = 0, chaosInsurgency = queue.maximumBots },
+            performanceMaximumBots = queue.performanceMaximumBots,
+            performanceNormal = new() { blackDivision = 0, isb = 0, chaosInsurgency = queue.performanceMaximumBots },
+            performanceReinforcement = new() { blackDivision = 0, isb = 0, chaosInsurgency = queue.performanceMaximumBots }
+        };
+    }
 
     public static void Validate(LabsPreBlackoutEventConfig config)
     {
+        config.containementBreachQueue.Validate();
+        if (config.chaosInsurgencyOnly && (config.whiteTuskOnly || config.ghostBusterOnly))
+            throw new InvalidDataException("ISB: chaosInsurgencyOnly cannot be combined with whiteTuskOnly or ghostBusterOnly.");
         if (config.noISBMode && config.noBlackDivMode)
             throw new InvalidDataException("ISB: noISBMode and noBlackDivMode cannot be enabled together.");
         if (config.whiteTuskOnly && (config.noISBMode || config.ghostBusterOnly))
@@ -36,6 +60,10 @@ public static class LabsEventModes
     {
         if (string.IsNullOrEmpty(role))
             return role;
+        if (config.chaosInsurgencyOnly)
+            return ISB.Compatibility.GhostBotVariant.ChaosName;
+        if (ISB.Compatibility.GhostBotVariant.IsChaos(role))
+            return ISB.Compatibility.GhostBotVariant.ChaosName;
         bool bd = BlackDiv.Contains(role) || ISB.Compatibility.GhostBotVariant.Is(role);
         bool isb = role.StartsWith("ISB", StringComparison.OrdinalIgnoreCase) || int.TryParse(role, out var number) && number >= 13701 && number <= 13716;
         int Pick(int length) => Math.Clamp((int)(draw() * length), 0, length - 1);
@@ -60,7 +88,7 @@ public static class LabsEventModes
 
     public static SpawnFormationConfig Formation(SpawnFormationConfig source, LabsPreBlackoutEventConfig? config, Func<double> draw, Func<int, int, int> count)
     {
-        if (config == null || !config.whiteTuskOnly && !config.noISBMode && !config.noBlackDivMode && !config.ghostBusterOnly)
+        if (config == null || !config.whiteTuskOnly && !config.noISBMode && !config.noBlackDivMode && !config.ghostBusterOnly && !config.chaosInsurgencyOnly)
             return source;
         Validate(config);
         var result = new SpawnFormationConfig

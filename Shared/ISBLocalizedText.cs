@@ -20,5 +20,20 @@ namespace ISB.Compatibility
 
             return fallback ?? key;
         }
+
+        internal static string Format(string key, string fallback, params object[] arguments)
+        {
+            string value = Get(key, fallback);
+            if (arguments == null || arguments.Length == 0)
+                return value;
+            try
+            {
+                return string.Format(value, arguments);
+            }
+            catch (FormatException)
+            {
+                return string.Format(fallback, arguments);
+            }
+        }
     }
 }

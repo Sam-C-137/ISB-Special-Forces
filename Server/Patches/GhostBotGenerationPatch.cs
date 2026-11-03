@@ -11,8 +11,9 @@ using SPTarkov.Server.Core.Models.Spt.Config;
 
 namespace ISBSpecialForcesServer.Patches;
 [Injectable(TypePriority = OnLoadOrder.PostLoad + 4)]
-public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
+public sealed class GhostBotGenerationPatch(BotConfig botConfig, ConfigController config) : IOnLoad
 {
+    private static ConfigController? healthConfig;
     private static readonly ConditionalWeakTable<BotGenerationDetails, Request> Requests = new();
     private sealed record Request(string Role, string? EventRole);
     private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, int> Ready = new(StringComparer.OrdinalIgnoreCase);
@@ -29,7 +30,8 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
     public Task OnLoadAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        foreach (var role in GhostBotVariant.Names)
+        healthConfig = config;
+        foreach (var role in GhostBotVariant.Names.Where(role => !GhostBotVariant.IsChaos(role)))
         {
             botConfig.PresetBatch[role] = 10;
             botConfig.PresetBatch[role.ToLowerInvariant()] = 10;
@@ -45,7 +47,7 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
 
     private static void BeforeDifficulty(ref string type)
     {
-        if (GhostBotVariant.Is(type))
+        if (GhostBotVariant.Is(type) && !GhostBotVariant.IsChaos(type))
             type = GhostBotVariant.BaseRole(type).ToLowerInvariant();
     }
 
@@ -54,13 +56,15 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
         if (botGenerationDetails == null || !GhostBotVariant.Is(botGenerationDetails.Role))
             return;
         Requests.Add(botGenerationDetails, new Request(botGenerationDetails.Role, botGenerationDetails.EventRole));
-        botGenerationDetails.Role = GhostBotVariant.BaseRole(botGenerationDetails.Role).ToLowerInvariant();
+        botGenerationDetails.Role = (GhostBotVariant.IsChaos(botGenerationDetails.Role) ? GhostBotVariant.ChaosName : GhostBotVariant.BaseRole(botGenerationDetails.Role)).ToLowerInvariant();
         botGenerationDetails.RoleLowercase = botGenerationDetails.Role;
         botGenerationDetails.EventRole = null;
     }
 
     private static void AfterGeneration(BotGenerationDetails botGenerationDetails, BotBase __result)
     {
+        if (GhostBotVariant.IsChaos(RequestedRole(botGenerationDetails)) && healthConfig != null)
+            IsbBotHealth.Apply(__result, healthConfig.ModConfig.botHealth);
         if (IsRequest(botGenerationDetails) && !ContainmentHealth.Apply(__result, true, GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails)), GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails))))
             throw new InvalidOperationException("ISB: invalid health data for GhostBuster.");
     }
@@ -75,7 +79,7 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig) : IOnLoad
         botGenerationDetails.EventRole = request.EventRole;
         if (__exception == null && __result?.Info?.Settings != null)
         {
-            __result.Info.Settings.Role = GhostBotVariant.BaseRole(request.Role);
+            __result.Info.Settings.Role = GhostBotVariant.SpawnRole(request.Role);
             if (GeneratedRoles.Count >= 8192)
                 GeneratedRoles.Clear();
             var profileId = __result.Id.ToString();

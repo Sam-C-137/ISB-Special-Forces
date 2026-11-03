@@ -15,6 +15,7 @@ public class ISBBotPresetGenerationPatch : IOnLoad
     public const string HarmonyId = "com.samc137.isbspecialforces.botpresets.server";
     private static ISBBotPresetController _controller = null!;
     private static ILogger<ISBBotPresetGenerationPatch> _logger = null!;
+    private static int _failureReported;
     public ISBBotPresetGenerationPatch(ISBBotPresetController controller, ILogger<ISBBotPresetGenerationPatch> logger)
     {
         _controller = controller;
@@ -46,19 +47,19 @@ public class ISBBotPresetGenerationPatch : IOnLoad
         var ghostRole = GhostBotGenerationPatch.RequestedRole(botGenerationDetails);
         if (ghostRole != null)
         {
-            if (!_controller.TryApplyPreset(__result, ghostRole))
+            if (!_controller.TryApplyPreset(__result, ghostRole) && !GhostBotVariant.IsChaos(ghostRole))
                 throw new InvalidOperationException($"ISB: {ghostRole} needs a valid preset in db/BlackDivisionBotPresets/{ghostRole}/Day or Night for the current raid time.");
             return;
         }
 
-        if (string.Equals(__result?.Info?.Settings?.Role, GhostBotVariant.BaseName, StringComparison.OrdinalIgnoreCase))
-            return;
         try
         {
             _controller.TryApplyPreset(__result);
         }
-        catch (Exception)
+        catch (Exception exception)
         {
+            if (System.Threading.Interlocked.Exchange(ref _failureReported, 1) == 0)
+                _logger.LogWarning(exception, "[ISB BOT PRESETS] Could not apply a bot preset for role {Role}.", __result?.Info?.Settings?.Role);
         }
     }
 }

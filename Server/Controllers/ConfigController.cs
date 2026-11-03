@@ -23,14 +23,22 @@ public class ConfigController
     public void Reload()
     {
         var pathToMod = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
+        ExternalFactionConfiguration.MigrateFile(Path.Combine(pathToMod, "config.jsonc"), false);
         IsbBotHealth.EnsureConfiguration(pathToMod);
         ModConfig = _modHelper.GetJsonDataFromFile<MainConfig>(pathToMod, "config.jsonc");
         IsbBotHealth.Validate(ModConfig.botHealth);
         ISBDiagnostics.Enabled = ModConfig.diagnosticLogs;
         ModConfig.labsContainmentBreachEvent = ContainmentBreachConfigFile.Load(pathToMod, ModConfig.labsContainmentBreachEvent);
+        ModConfig.labsContainmentBreachEvent.containementBreachQueue.Validate();
+        ModConfig.blackoutQueue.Validate();
         AnomalousItemSpawns.Validate(AnomalousSpawns);
         ContainmentMapLoot.Validate(ModConfig.labsContainmentBreachEvent.mapLoot);
         ModConfig.MigrateLegacyIcebreakerLocation();
+        foreach (var map in ModConfig.locations.Values)
+        {
+            ISBScriptedMapSpawns.Validate(map.terminalScriptedSpawns);
+            ISBScriptedMapSpawns.Validate(map.icebreakerScriptedSpawns);
+        }
     }
 
     public string GetGhostBotNamesJson()
@@ -53,7 +61,7 @@ public class ConfigController
                 void Add(JsonElement entry)
                 {
                     if (entry.TryGetProperty("botName", out var name) && name.ValueKind == JsonValueKind.String && !string.IsNullOrWhiteSpace(name.GetString()))
-                        names[ISB.Compatibility.GhostBotVariant.BaseRoleValue(role) + "|" + name.GetString()!.Trim()] = "ScavRole/" + role;
+                        names[ISB.Compatibility.GhostBotVariant.SpawnRoleValue(role) + "|" + name.GetString()!.Trim()] = "ScavRole/" + role;
                 }
 
                 Add(json.RootElement);

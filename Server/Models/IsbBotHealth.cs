@@ -14,7 +14,7 @@ public static class IsbBotHealth
         if (values == null) throw new ArgumentException("Bot Health must be an object.");
         foreach (var role in values)
         {
-            if (!IsbBotCatalog.KnownIsb(role.Key) || role.Value == null || role.Value.Count != Parts.Length || Parts.Any(p => !role.Value.ContainsKey(p)))
+            if (!(IsbBotCatalog.KnownIsb(role.Key) || string.Equals(role.Key, "chaosInsurgency", StringComparison.OrdinalIgnoreCase)) || role.Value == null || role.Value.Count != Parts.Length || Parts.Any(p => !role.Value.ContainsKey(p)))
                 throw new ArgumentException("Bot Health requires every limb for a known ISB wildtype.");
             if (role.Value.Values.Any(hp => !double.IsFinite(hp) || hp < 1 || hp > 100000 || hp != Math.Truncate(hp)))
                 throw new ArgumentException("Limb health must be a whole number between 1 and 100000.");
@@ -25,10 +25,13 @@ public static class IsbBotHealth
         var path = Path.Combine(root, "config.jsonc");
         var source = File.ReadAllText(path);
         using var document = JsonDocument.Parse(source, IsbConfigFiles.JsonOptions);
-        if (document.RootElement.TryGetProperty("botHealth", out _)) return;
+        bool hasHealth = document.RootElement.TryGetProperty("botHealth", out var current);
+        if (hasHealth && current.TryGetProperty("chaosInsurgency", out _)) return;
         using var stream = typeof(IsbBotHealth).Assembly.GetManifestResourceStream("ISBSpecialForces.Web.Defaults.config.jsonc")!;
         using var defaults = JsonDocument.Parse(stream, IsbConfigFiles.JsonOptions);
-        var text = IsbConfigFiles.PatchJson(source, [new IsbChange("/botHealth", defaults.RootElement.GetProperty("botHealth").Clone())]);
+        var health = JsonSerializer.Deserialize<Dictionary<string, Dictionary<string, double>>>((hasHealth ? current : defaults.RootElement.GetProperty("botHealth")).GetRawText())!;
+        health.TryAdd("chaosInsurgency", JsonSerializer.Deserialize<Dictionary<string, double>>(defaults.RootElement.GetProperty("botHealth").GetProperty("chaosInsurgency").GetRawText())!);
+        var text = IsbConfigFiles.PatchJson(source, [new IsbChange("/botHealth", JsonSerializer.SerializeToElement(health))]);
         var temporary = path + ".health.tmp";
         try
         {

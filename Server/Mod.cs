@@ -27,7 +27,7 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
     public List<string>? Contributors { get; init; } = new()
     {
     };
-    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 2);
+    public SemanticVersioning.Version Version { get; init; } = new(2, 0, 3);
     public SemanticVersioning.Range SptVersion { get; init; } = new("~4.1.6");
     public List<string>? Incompatibilities { get; init; }
     public Dictionary<string, SemanticVersioning.Range>? ModDependencies { get; init; } = new()
@@ -38,15 +38,15 @@ public record ModMetadata : IModMetadata, SPTarkov.Server.Web.IModBlazorMetadata
         },
         {
             "com.wtt.commonlib",
-            new SemanticVersioning.Range(">=2.0.24")
+            new SemanticVersioning.Range(">=3.0.6")
         },
         {
             "com.wtt.contentbackport",
-            new SemanticVersioning.Range(">=1.1.5")
+            new SemanticVersioning.Range(">=2.0.5")
         },
         {
             "com.samc137.aishi",
-            new SemanticVersioning.Range(">=1.0.4")
+            new SemanticVersioning.Range(">=2.0.6")
         }
     };
     public string? Url { get; init; }
@@ -75,6 +75,7 @@ public class ISBSpecialForces : IOnLoad
     {
         cancellationToken.ThrowIfCancellationRequested();
         var pathToMod = _modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
+        ExternalFactionConfiguration.MigrateFile(Path.Combine(pathToMod, "config.jsonc"), false);
         ModConfig = _modHelper.GetJsonDataFromFile<MainConfig>(pathToMod, "config.jsonc");
         ModConfig.MigrateLegacyIcebreakerLocation();
         return Task.CompletedTask;
@@ -107,7 +108,8 @@ public class ISBBotRegistration(MoreBotsServer.MoreBotsAPI moreBotsLib, MoreBots
             "ISBFollowerNemesis"
         };
         var assembly = Assembly.GetExecutingAssembly();
-        await moreBotsLib.LoadBotsShared(assembly, "ISBSpecialForces", typeList);
+        var registrationTypes = typeList.Append(ISB.Compatibility.GhostBotVariant.ChaosName).ToList();
+        await moreBotsLib.LoadBotsShared(assembly, "ISBSpecialForces", registrationTypes);
         var maxBatch = ISBSpecialForces.ModConfig.maxBotPresetBatch;
         if (maxBatch < 1 || maxBatch > 150)
         {
@@ -115,7 +117,7 @@ public class ISBBotRegistration(MoreBotsServer.MoreBotsAPI moreBotsLib, MoreBots
         }
 
         var configFolder = Path.Combine(modHelper.GetAbsolutePathToModFolder(assembly), "db", "bots", "sharedConfig");
-        foreach (var role in typeList)
+        foreach (var role in registrationTypes)
         {
             var count = botConfig.PresetBatch.TryGetValue(role, out var sharedCount) ? sharedCount : maxBatch;
             var roleConfig = Path.Combine(configFolder, role + ".json");
@@ -140,8 +142,8 @@ public class ISBBotRegistration(MoreBotsServer.MoreBotsAPI moreBotsLib, MoreBots
         var loadoutDirectory = Path.Combine(modHelper.GetAbsolutePathToModFolder(assembly), "db", "bots", "loadouts");
         if (Directory.Exists(loadoutDirectory) && Directory.EnumerateFiles(loadoutDirectory, "*.json", SearchOption.AllDirectories).Any())
             await loadoutService.LoadLoadoutsWithTemplate(assembly, "ISBSpecialForces");
-        await customBotTypeService.LoadBotTypeReplace(Assembly.GetExecutingAssembly(), "ISBSpecialForces", typeList);
-        await customBotTypeService.LoadBotTypeReplaceByTypes(Assembly.GetExecutingAssembly(), typeList);
+        await customBotTypeService.LoadBotTypeReplace(Assembly.GetExecutingAssembly(), "ISBSpecialForces", registrationTypes);
+        await customBotTypeService.LoadBotTypeReplaceByTypes(Assembly.GetExecutingAssembly(), registrationTypes);
         factionService.AddEnemyByFaction(typeList, "savage");
         factionService.AddEnemyByFaction(typeList, "usec");
         factionService.AddEnemyByFaction(typeList, "bear");
@@ -229,6 +231,8 @@ public class ISBSpecialForces2(SPTarkov.Server.Core.Models.Spt.Tables.TemplateTa
         await commonLib.CustomAchievementService.CreateCustomAchievements(assembly);
         if (modList.Any(mod => mod.ModMetadata.ModGuid == "com.blackdiv.tacticaltoaster"))
             await commonLib.CustomAchievementService.CreateCustomAchievements(assembly, Path.Join("db", "ISBAndBlackDiv", "Achievements"));
+        ContainmentAchievements.ConfigureQuestline(templateTable, modHelper.GetAbsolutePathToModFolder(assembly),
+            modList.Any(mod => string.Equals(mod.ModMetadata.ModGuid, "com.luna.lunnayalunalotus", StringComparison.OrdinalIgnoreCase)));
         var specialLoadoutMods = new List<(string[][] RequirementGroups, string DisplayName, string LoadoutFolder)>
         {
             (new[] { new[] { "com.wtt.armory" } }, "WTT - Armory", "ArmoryLoadouts"),
@@ -240,6 +244,7 @@ public class ISBSpecialForces2(SPTarkov.Server.Core.Models.Spt.Tables.TemplateTa
             (new[] { new[] { "com.crackbone.artem-wtt" } }, "WTT - Artem", "ArtemLoadouts"),
             (new[] { new[] { "com.emilanderss0n.tgc" } }, "Tactical Gear Component", "TGCLoadouts"),
             (new[] { new[] { "com.manimal.csgas" } }, "Manimal's CS Gas", "ManimalGasLoadouts"),
+            (new[] { new[] { "com.sage.incendiarygrenade" } }, "Incendiary Grenade", "IncendiaryGrenadeLoadouts"),
             (new[] { new[] { "com.wtt.cag" } }, "WTT - Clothing and Gear", "CAGLoadouts"),
             (new[] { new[] { "com.wtt.waac" } }, "WAAC", "WAACSoloLoadouts"),
             (new[] { new[] { "com.wtt.waac", "com.20fpsguy.femalevoice" } }, "WAAC + Female PMC Voice", "WAACLoadouts"),
@@ -257,7 +262,7 @@ public class ISBSpecialForces2(SPTarkov.Server.Core.Models.Spt.Tables.TemplateTa
                 selectedWaacLoadoutFolder = "WAACSoloLoadouts";
         }
 
-        var detectedSpecialLoadoutMods = specialLoadoutMods.Where(m => m.RequirementGroups.Any(group => group.All(HasInstalledMod))).Where(m => !m.LoadoutFolder.StartsWith("WAAC", StringComparison.OrdinalIgnoreCase) || string.Equals(m.LoadoutFolder, selectedWaacLoadoutFolder, StringComparison.OrdinalIgnoreCase)).Where(m => configController.ModConfig?.IsCollabLoadoutEnabled(m.LoadoutFolder) == true).Where(m =>
+        var detectedSpecialLoadoutMods = specialLoadoutMods.Where(m => m.RequirementGroups.Any(group => group.All(HasInstalledMod))).Where(m => !m.LoadoutFolder.StartsWith("WAAC", StringComparison.OrdinalIgnoreCase) || string.Equals(m.LoadoutFolder, selectedWaacLoadoutFolder, StringComparison.OrdinalIgnoreCase)).Where(m => configController.ModConfig?.IsCollabLoadoutEnabled(m.LoadoutFolder) == true).Where(m => m.LoadoutFolder != "IncendiaryGrenadeLoadouts" || templateTable.Items.ContainsKey("6aabad0ff49370bbdc709173")).Where(m =>
         {
             var directory = Path.Combine(modHelper.GetAbsolutePathToModFolder(assembly), "db", "ExtraLoadouts", m.LoadoutFolder);
             return Directory.Exists(directory) && Directory.EnumerateFiles(directory, "*", SearchOption.AllDirectories).Any(file => file.EndsWith(".json", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".jsonc", StringComparison.OrdinalIgnoreCase));
@@ -287,6 +292,7 @@ public class ISBSpecialForcesLoadFaction(MoreBotsServer.Services.FactionService 
     public async Task OnLoadAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
+        factionService.Factions.Add("ChaosInsurgency", new Faction { Name = "ChaosInsurgency", BotTypes = { (WildSpawnType)13101 } });
         factionService.Factions.Add("ISB", new Faction() { Name = "ISB", BotTypes = { (WildSpawnType)13701, (WildSpawnType)13702, (WildSpawnType)13703, (WildSpawnType)13704, (WildSpawnType)13705, (WildSpawnType)13706, (WildSpawnType)13707, (WildSpawnType)13708, (WildSpawnType)13709, (WildSpawnType)13710, (WildSpawnType)13711, (WildSpawnType)13712, (WildSpawnType)13713, (WildSpawnType)13714, (WildSpawnType)13715, (WildSpawnType)13716, } });
         await Task.CompletedTask;
     }

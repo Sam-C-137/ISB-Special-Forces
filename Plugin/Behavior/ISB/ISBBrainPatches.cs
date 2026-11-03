@@ -75,7 +75,7 @@ namespace ISBSpecialForces.Behavior.ISB
 #endif
                     prefix: new HarmonyMethod(typeof(ISBFireControl), nameof(ISBFireControl.AimPrefix)));
                 harmony.Patch(AccessTools.Method(typeof(ShootData), "Shoot"),
-                    prefix: new HarmonyMethod(typeof(ISBFireControl), nameof(ISBFireControl.ShootPrefix)));
+                    prefix: new HarmonyMethod(typeof(ISBFireControl), nameof(ISBFireControl.ShootPrefix)) { priority = Priority.First });
                 harmony.Patch(AccessTools.Method(typeof(ShootData), "ManualUpdate"),
                     postfix: new HarmonyMethod(typeof(ISBFireControl), nameof(ISBFireControl.UpdatePostfix)));
                 harmony.Patch(AccessTools.Method(typeof(BotLay), "TryLay"),

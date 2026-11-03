@@ -69,7 +69,7 @@ namespace ISBSSOFExtra.Fika
             _active?._pending.Remove(__instance.NetId);
         }
 
-        private static bool Role(int role) => role >= 13701 && role <= 13716 || role >= 848420 && role <= 848424 || role == 848426;
+        private static bool Role(int role) => role >= 13701 && role <= 13716 || role >= 848420 && role <= 848424 || role == 848426 || role == 13101;
 
         private static bool Eligible(FikaPlayer player)
         {

@@ -56,7 +56,7 @@ namespace ISBSpecialForces.Components
                 if (!string.IsNullOrEmpty(profile?.Id)) instance._known[profile.Id] = chaos;
         }
 
-        private static bool Eligible(Player player) => player != null && !player.IsYourPlayer && (int?)player.Profile?.Info?.Settings?.Role == 848421;
+        private static bool Eligible(Player player) => player != null && !player.IsYourPlayer && ((int?)player.Profile?.Info?.Settings?.Role == 848421 || (int?)player.Profile?.Info?.Settings?.Role == ISB.Compatibility.GhostBotVariant.ChaosValue);
         private static void PlayerRegistered(IPlayer iPlayer)
         {
             var player = iPlayer as Player;
@@ -65,6 +65,7 @@ namespace ISBSpecialForces.Components
 
         private void Queue(Player player)
         {
+            if ((int?)player.Profile?.Info?.Settings?.Role == ISB.Compatibility.GhostBotVariant.ChaosValue) _known[player.ProfileId] = true;
             if (_known.ContainsKey(player.ProfileId)) return;
             _pending.Add(player);
             if (_refresh == null) _refresh = StartCoroutine(ResolveBatch());
@@ -74,6 +75,7 @@ namespace ISBSpecialForces.Components
         {
             if (_instance == null || !ISBFikaAuthority.CanPresentLocally) return true;
             if (!Eligible(__instance) || clip?.Clip == null) return true;
+            if ((int?)__instance.Profile?.Info?.Settings?.Role == ISB.Compatibility.GhostBotVariant.ChaosValue) _instance._known[__instance.ProfileId] = true;
             if (_instance._known.TryGetValue(__instance.ProfileId, out bool chaos))
             {
                 if (!chaos || _instance._failed.Contains(clip.Clip.GetInstanceID())) return true;

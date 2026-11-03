@@ -25,6 +25,11 @@ public static class IsbConfigValidation
             if (value?.locations == null || value.debug == null)
                 throw new ArgumentException("The configuration must retain locations and debug.");
             ValidateItemId(value.aishiLoyaltyCondition?.requiredItemTpl);
+            foreach (var map in value.locations.Values)
+            {
+                ISBSpecialForcesServer.Controllers.ISBScriptedMapSpawns.Validate(map.terminalScriptedSpawns);
+                ISBSpecialForcesServer.Controllers.ISBScriptedMapSpawns.Validate(map.icebreakerScriptedSpawns);
+            }
             IsbBotHealth.Validate(value.botHealth);
             if (value.dogtags?.dogtagTplByWildType != null)
                 foreach (var pair in value.dogtags.dogtagTplByWildType)
@@ -74,6 +79,18 @@ public static class IsbConfigValidation
         {
             foreach (var property in value.EnumerateObject())
             {
+                if (property.Name == "externalFactions")
+                {
+                    if (property.Value.ValueKind != JsonValueKind.Object || property.Value.EnumerateObject().Any(p => p.Name != "chaosInsurgency"))
+                        throw new ArgumentException("Choose a supported external faction.");
+                    foreach (var faction in property.Value.EnumerateObject())
+                        foreach (var kind in new[] { "patrols", "checkpoints", "hunts" })
+                            if (faction.Value.TryGetProperty(kind, out var formations))
+                                foreach (var formation in formations.EnumerateArray())
+                                    if (!ISB.Compatibility.GhostBotVariant.IsChaos(formation.GetProperty("boss").GetString() ?? "") ||
+                                        formation.TryGetProperty("followers", out var members) && members.EnumerateArray().Any(member => !ISB.Compatibility.GhostBotVariant.IsChaos(member.GetProperty("type").GetString() ?? "")))
+                                        throw new ArgumentException("Chaos Insurgency formations can contain only Chaos Insurgency operators.");
+                }
                 if (property.Name == "spawnChance" && (!property.Value.TryGetDouble(out var chance) || !double.IsFinite(chance) || chance < 0 || chance > 100))
                     throw new ArgumentException("Spawn chance must be between 0 and 100.");
                 if ((property.Name is "formations" or "patrols" or "checkpoints" or "hunts") && property.Value.ValueKind == JsonValueKind.Array)

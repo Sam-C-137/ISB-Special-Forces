@@ -143,6 +143,15 @@
       "RightArm": 130,
       "LeftLeg": 115,
       "RightLeg": 115
+    },
+    "chaosInsurgency": {
+      "Chest": 170,
+      "Head": 55,
+      "LeftArm": 105,
+      "LeftLeg": 105,
+      "RightArm": 105,
+      "RightLeg": 105,
+      "Stomach": 180
     }
   },
   "maxBotPresetBatch": 25,
@@ -50185,35 +50194,35 @@
     "internalSide": "Usec",
     "populateIdentityData": true,
     "dogtagTplByWildType": {
-      "ISBSpecialForces": "6a8f0a4350e8e920dd389fd7", // ISB Dogtag Pawn
-      "ISBBossFirefly": "6a8f1e3beb9811b096e224c3", // ISB Dogtag Queen
-      "ISBFollowerVipper": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBFollowerLoghan": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBFollowerSpearthrower": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBBossCommander": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBFollowerCommander": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBTeamLeader": "6a8f1e073b022db2a04c1b76", // ISB Dogtag Bishop
-      "ISBSecondLeader": "6a8f0e0be1730357d098267b", // ISB Dogtag Rook
-      "ISBScout": "6a8f540c650b4dbe25badff8", // ISB Dogtag Knight
-      "ISBHeavy": "6a8f0a4350e8e920dd389fd7", // ISB Dogtag Pawn
-      "ISBFollowerZofia": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBAssassin": "6a8f540c650b4dbe25badff8", // ISB Dogtag Knight
-      "ISBMarksman": "6a8f0a4350e8e920dd389fd7", // ISB Dogtag Pawn
-      "ISBFollowerEvernight": "6a8f1e1f60f1022c46406c5b", // ISB Dogtag King
-      "ISBFollowerNemesis": "6a8f1e1f60f1022c46406c5b" // ISB Dogtag King
+      "ISBSpecialForces": "6a8f0a4350e8e920dd389fd7",
+      "ISBBossFirefly": "6a8f1e3beb9811b096e224c3",
+      "ISBFollowerVipper": "6a8f1e1f60f1022c46406c5b",
+      "ISBFollowerLoghan": "6a8f1e1f60f1022c46406c5b",
+      "ISBFollowerSpearthrower": "6a8f1e1f60f1022c46406c5b",
+      "ISBBossCommander": "6a8f1e1f60f1022c46406c5b",
+      "ISBFollowerCommander": "6a8f1e1f60f1022c46406c5b",
+      "ISBTeamLeader": "6a8f1e073b022db2a04c1b76",
+      "ISBSecondLeader": "6a8f0e0be1730357d098267b",
+      "ISBScout": "6a8f540c650b4dbe25badff8",
+      "ISBHeavy": "6a8f0a4350e8e920dd389fd7",
+      "ISBFollowerZofia": "6a8f1e1f60f1022c46406c5b",
+      "ISBAssassin": "6a8f540c650b4dbe25badff8",
+      "ISBMarksman": "6a8f0a4350e8e920dd389fd7",
+      "ISBFollowerEvernight": "6a8f1e1f60f1022c46406c5b",
+      "ISBFollowerNemesis": "6a8f1e1f60f1022c46406c5b"
     }
   },
   "blackDivisionBotPresets": {
     "enabled": true,
     "logs": false,
-    "useChance": 15,
+    "useChance": 50,
     "useChanceByWildType": {
-      "blackDivLead": 15,
-      "blackDivAssault": 15,
-      "blackDivBreacher": 15,
-      "blackDivSupport": 15,
-      "bossWedge": 15,
-      "blackDivIb": 15
+      "blackDivLead": 50,
+      "blackDivAssault": 50,
+      "blackDivBreacher": 50,
+      "blackDivSupport": 50,
+      "bossWedge": 50,
+      "blackDivIb": 50
     },
     "allowMixedMagsByDefault": true
   },
@@ -50222,6 +50231,12 @@
     "logs": false,
     "useChance": 50,
     "useChanceByWildType": {
+      "ISBSpecialForces": 50,
+      "ISBTeamLeader": 50,
+      "ISBSecondLeader": 50,
+      "ISBScout": 100,
+      "ISBMarksman": 100,
+      "chaosInsurgency": 100,
       "ISBBossFirefly": 100,
       "ISBFollowerVipper": 100,
       "ISBFollowerLoghan": 100,
@@ -50247,6 +50262,8 @@
     "ArtemLoadouts": true,
     "TGCLoadouts": false,
     "ManimalGasLoadouts": true,
+    "IncendiaryGrenadeLoadouts": true,
+    "PackNStrapLoadouts": true,
     "CAGLoadouts": true,
     "WAACSoloLoadouts": true,
     "WAACLoadouts": true,
@@ -50284,7 +50301,7 @@
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 5 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 5
           }
         },
         "backpack": {
@@ -50299,13 +50316,13 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461bf82b2264dbe10d0ee6": 100 // BD dogtag •|| Green
+            "6a461bf82b2264dbe10d0ee6": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 5 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 5
           }
         },
         "backpack": {
@@ -50313,9 +50330,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50324,14 +50341,14 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461aed7391ab085a093760": 80, // BD dogtag •| Ferrum
-            "6a461bf82b2264dbe10d0ee6": 20 // BD dogtag •|| Green
+            "6a461aed7391ab085a093760": 80,
+            "6a461bf82b2264dbe10d0ee6": 20
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 5 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 5
           }
         },
         "backpack": {
@@ -50339,9 +50356,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50350,14 +50367,14 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461aed7391ab085a093760": 80, // BD dogtag •| Ferrum
-            "6a461bf82b2264dbe10d0ee6": 20 // BD dogtag •|| Green
+            "6a461aed7391ab085a093760": 80,
+            "6a461bf82b2264dbe10d0ee6": 20
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 5 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 5
           }
         },
         "backpack": {
@@ -50365,9 +50382,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50376,14 +50393,14 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461aed7391ab085a093760": 80, // BD dogtag •| Ferrum
-            "6a461bf82b2264dbe10d0ee6": 20 // BD dogtag •|| Green
+            "6a461aed7391ab085a093760": 80,
+            "6a461bf82b2264dbe10d0ee6": 20
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 5 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 5
           }
         },
         "backpack": {
@@ -50391,9 +50408,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50402,13 +50419,13 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461c41ec88c6b9a509fb17": 100 // BD dogtag •||| Red
+            "6a461c41ec88c6b9a509fb17": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 25 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 25
           }
         },
         "backpack": {
@@ -50423,13 +50440,13 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461c41ec88c6b9a509fb17": 100 // BD dogtag •||| Red
+            "6a461c41ec88c6b9a509fb17": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
           "pool": {},
           "independent": {
-            "4a4661aa041c7a92541e1933": 25 // C.A.S.S.I.E. data flash drive
+            "4a4661aa041c7a92541e1933": 25
           }
         },
         "backpack": {
@@ -50444,7 +50461,7 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461c41ec88c6b9a509fb17": 100 // BD dogtag •||| Red
+            "6a461c41ec88c6b9a509fb17": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
@@ -50455,9 +50472,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50466,7 +50483,7 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461c41ec88c6b9a509fb17": 100 // BD dogtag •||| Red
+            "6a461c41ec88c6b9a509fb17": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
@@ -50477,9 +50494,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50488,7 +50505,7 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461bf82b2264dbe10d0ee6": 100 // BD dogtag •|| Green
+            "6a461bf82b2264dbe10d0ee6": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
@@ -50499,9 +50516,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50510,7 +50527,7 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461bf82b2264dbe10d0ee6": 100 // BD dogtag •|| Green
+            "6a461bf82b2264dbe10d0ee6": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
@@ -50521,9 +50538,9 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       },
@@ -50532,7 +50549,7 @@
         "pockets": {
           "enabled": true,
           "oneOf": {
-            "6a461bf82b2264dbe10d0ee6": 100 // BD dogtag •|| Green
+            "6a461bf82b2264dbe10d0ee6": 100
           },
           "reserveOneOfSlot": true,
           "maxItems": 0,
@@ -50543,16 +50560,54 @@
           "oneOf": {},
           "maxItems": 1,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 5,
+            "6a5f9c25e8c84d8b0602f22a": 5,
+            "6a5f9cfcc409750b6e065592": 5
           }
         }
       }
     }
   },
+  "blackoutQueue": {
+  "enabled": true,
+  "maximumBots": 17,
+  "squadOverflow": 3,
+  "reinforcementIntervalSeconds": 300,
+  "reinforcementWindowSeconds": 60,
+  "genericRefillDelaySeconds": 15,
+  "normal": {
+    "blackDivision": 10,
+    "isb": 4,
+    "chaosInsurgency": 3,
+    "raiders": 0,
+    "pmcs": 0
+  },
+  "reinforcement": {
+    "blackDivision": 7,
+    "isb": 2,
+    "chaosInsurgency": 2,
+    "raiders": 3,
+    "pmcs": 3
+  },
+  "performanceMaximumBots": 13,
+  "performanceNormal": {
+    "blackDivision": 8,
+    "isb": 3,
+    "chaosInsurgency": 2,
+    "raiders": 0,
+    "pmcs": 0
+  },
+  "performanceReinforcement": {
+    "blackDivision": 6,
+    "isb": 2,
+    "chaosInsurgency": 1,
+    "raiders": 2,
+    "pmcs": 2
+  }
+},
   "labsBlackoutEvent": {
     "enabled": true,
+    "performanceMode": false,
     "blackoutActivated": {
       "enabled": true,
       "selectionMode": "both",
@@ -50740,6 +50795,14 @@
             "weight": 1
           }
         ]
+      },
+      "externalFactions": {
+        "chaosInsurgency": {
+          "enabled": true,
+          "patrols": [],
+          "checkpoints": [],
+          "hunts": []
+        }
       }
     },
     "powerRestored": {
@@ -50906,6 +50969,14 @@
             "weight": 1
           }
         ]
+      },
+      "externalFactions": {
+        "chaosInsurgency": {
+          "enabled": true,
+          "patrols": [],
+          "checkpoints": [],
+          "hunts": []
+        }
       }
     }
   },
@@ -50928,14 +50999,14 @@
   "aishiLoyaltyCondition": {
     "enabled": true,
     "logs": false,
-    "requiredItemTpl": "6aa5ff857a930fba7793141b", // ISB Model KW12 Advanced Modified SSTV Radio
+    "requiredItemTpl": "6aa5ff857a930fba7793141b",
     "breakOnHit": true,
     "damageThreshold": 100,
     "thresholdPerFaction": true,
     "loseReputationOnKill": true,
     "reputationLostPerKill": 0.15,
     "showReputationLossInRaidResults": true,
-    "reputationMessage": "I appreciate loyalty very much. You hurt my people for no reason. Don't expect me to understand this or let it slide, because they won't understand it either—and they certainly won't go easy on you. You're going to lose points with me, so don't push my patience too far.",
+    "reputationMessage": "I appreciate loyalty very much. You hurt my people for no reason. Don't expect me to understand this or let it slide, because they won't understand it eitherâ€”and they certainly won't go easy on you. You're going to lose points with me, so don't push my patience too far.",
     "extendToPlayerAllies": true,
     "friendlyConditions": {
       "mode": "any",
@@ -50947,7 +51018,7 @@
             "id": "ContainmentBreach_dd715e78ab984c14909da407",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "dd715e78ab984c14909da407", // [CONTAINMENT BREACH] Playing with Fire
+            "questId": "dd715e78ab984c14909da407",
             "maps": [
               "laboratory"
             ],
@@ -50967,7 +51038,7 @@
             "id": "ContainmentBreach_a38b841cae6d46dab703e8eb",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "a38b841cae6d46dab703e8eb", // [CONTAINMENT BREACH] Power Source
+            "questId": "a38b841cae6d46dab703e8eb",
             "maps": [
               "laboratory"
             ],
@@ -50987,7 +51058,7 @@
             "id": "ContainmentBreach_f1a90496778649e8b955e60d",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "f1a90496778649e8b955e60d", // [CONTAINMENT BREACH] Path to the Exit
+            "questId": "f1a90496778649e8b955e60d",
             "maps": [
               "laboratory"
             ],
@@ -51007,7 +51078,7 @@
             "id": "ContainmentBreach_c9304d1a70414b398f840595",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "c9304d1a70414b398f840595", // [CONTAINMENT BREACH] Powering Up
+            "questId": "c9304d1a70414b398f840595",
             "maps": [
               "laboratory"
             ],
@@ -51027,7 +51098,7 @@
             "id": "ContainmentBreach_9dfc181b7e2944bd9d40308b",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "9dfc181b7e2944bd9d40308b", // [CONTAINMENT BREACH] Helping a Friend
+            "questId": "9dfc181b7e2944bd9d40308b",
             "maps": [
               "laboratory"
             ],
@@ -51047,7 +51118,7 @@
             "id": "ContainmentBreach_0ca9dfa7d14d42f2bd5acdb0",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "0ca9dfa7d14d42f2bd5acdb0", // [CONTAINMENT BREACH] Breaking the Siege
+            "questId": "0ca9dfa7d14d42f2bd5acdb0",
             "maps": [
               "laboratory"
             ],
@@ -51067,7 +51138,7 @@
             "id": "ContainmentBreach_db3b1511110c41cdbab6d4f6",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "db3b1511110c41cdbab6d4f6", // [CONTAINMENT BREACH] Identification
+            "questId": "db3b1511110c41cdbab6d4f6",
             "maps": [
               "laboratory"
             ],
@@ -51087,7 +51158,7 @@
             "id": "ContainmentBreach_5387285ba1624dab9ac06d72",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "5387285ba1624dab9ac06d72", // [CONTAINMENT BREACH] Targeting Leadership
+            "questId": "5387285ba1624dab9ac06d72",
             "maps": [
               "laboratory"
             ],
@@ -51107,7 +51178,7 @@
             "id": "ContainmentBreach_a3f407eb22cd41769e6f4c5f",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "a3f407eb22cd41769e6f4c5f", // [CONTAINMENT BREACH] No Way Out
+            "questId": "a3f407eb22cd41769e6f4c5f",
             "maps": [
               "laboratory"
             ],
@@ -51127,7 +51198,7 @@
             "id": "ContainmentBreach_8b708ff6d7e641e38f6f2be0",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "8b708ff6d7e641e38f6f2be0", // [CONTAINMENT BREACH] Chain of Custody
+            "questId": "8b708ff6d7e641e38f6f2be0",
             "maps": [
               "laboratory"
             ],
@@ -51147,7 +51218,7 @@
             "id": "ContainmentBreach_0b69f84d68d74db7b5dea117",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "0b69f84d68d74db7b5dea117", // [CONTAINMENT BREACH] Darkness, No Power, Fire, can it get worse?
+            "questId": "0b69f84d68d74db7b5dea117",
             "maps": [
               "laboratory"
             ],
@@ -51167,7 +51238,7 @@
             "id": "ContainmentBreach_85baf5fc8723406a88b049a5",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "85baf5fc8723406a88b049a5", // [CONTAINMENT BREACH] Conflict of Interest (Pick Side)
+            "questId": "85baf5fc8723406a88b049a5",
             "maps": [
               "laboratory"
             ],
@@ -51187,7 +51258,7 @@
             "id": "ContainmentBreach_1f6a892b5dda4241868ffd09",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "1f6a892b5dda4241868ffd09", // [CONTAINMENT BREACH] Holding Your Breath
+            "questId": "1f6a892b5dda4241868ffd09",
             "maps": [
               "laboratory"
             ],
@@ -51207,7 +51278,7 @@
             "id": "ContainmentBreach_e4e78f48c1e44d898e8ad5e3",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "e4e78f48c1e44d898e8ad5e3", // [CONTAINMENT BREACH] Studies Come First
+            "questId": "e4e78f48c1e44d898e8ad5e3",
             "maps": [
               "laboratory"
             ],
@@ -51227,7 +51298,7 @@
             "id": "ContainmentBreach_64e6df2f30554b3ea6e4e1c9",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "64e6df2f30554b3ea6e4e1c9", // [CONTAINMENT BREACH] Health at Risk
+            "questId": "64e6df2f30554b3ea6e4e1c9",
             "maps": [
               "laboratory"
             ],
@@ -51247,7 +51318,7 @@
             "id": "ContainmentBreach_688a35cea49a4833a17c74b0",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "688a35cea49a4833a17c74b0", // [CONTAINMENT BREACH] Making a Profit
+            "questId": "688a35cea49a4833a17c74b0",
             "maps": [
               "laboratory"
             ],
@@ -51267,7 +51338,7 @@
             "id": "ContainmentBreach_a5933b154fe34593947956c8",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "a5933b154fe34593947956c8", // [CONTAINMENT BREACH] Rubbing Salt in the Wound (Pick Side)
+            "questId": "a5933b154fe34593947956c8",
             "maps": [
               "laboratory"
             ],
@@ -51287,7 +51358,7 @@
             "id": "ContainmentBreach_8e039d03e80f41788f9b9819",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "8e039d03e80f41788f9b9819", // [CONTAINMENT BREACH] The "White Tusks"
+            "questId": "8e039d03e80f41788f9b9819",
             "maps": [
               "laboratory"
             ],
@@ -51307,7 +51378,7 @@
             "id": "ContainmentBreach_8367ca4830984afeb8551aaa",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "8367ca4830984afeb8551aaa", // [CONTAINMENT BREACH] Global-Level Biohazard
+            "questId": "8367ca4830984afeb8551aaa",
             "maps": [
               "laboratory"
             ],
@@ -51327,7 +51398,7 @@
             "id": "ContainmentBreach_66a3c03136254144b3cf9e93",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "66a3c03136254144b3cf9e93", // [CONTAINMENT BREACH] Burning Files
+            "questId": "66a3c03136254144b3cf9e93",
             "maps": [
               "laboratory"
             ],
@@ -51347,7 +51418,7 @@
             "id": "ContainmentBreach_55ccb3bc5af1428fb03001df",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "55ccb3bc5af1428fb03001df", // [CONTAINMENT BREACH] Living is Good
+            "questId": "55ccb3bc5af1428fb03001df",
             "maps": [
               "laboratory"
             ],
@@ -51367,7 +51438,7 @@
             "id": "ContainmentBreach_ca7b2ef7bca84efe967f9b40",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "ca7b2ef7bca84efe967f9b40", // [CONTAINMENT BREACH] Active Connection
+            "questId": "ca7b2ef7bca84efe967f9b40",
             "maps": [
               "laboratory"
             ],
@@ -51387,7 +51458,7 @@
             "id": "ContainmentBreach_10413f0d043844c6a69a88db",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "10413f0d043844c6a69a88db", // [CONTAINMENT BREACH] Emergency Credentials
+            "questId": "10413f0d043844c6a69a88db",
             "maps": [
               "laboratory"
             ],
@@ -51407,7 +51478,7 @@
             "id": "ContainmentBreach_637a389d84da48a4a34dfd17",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "637a389d84da48a4a34dfd17", // [CONTAINMENT BREACH] Fully Isolated Circuit
+            "questId": "637a389d84da48a4a34dfd17",
             "maps": [
               "laboratory"
             ],
@@ -51427,7 +51498,7 @@
             "id": "ContainmentBreach_35dc82a3c84b4c0a8a0646d8",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "35dc82a3c84b4c0a8a0646d8", // [CONTAINMENT BREACH] Heavy Firewall
+            "questId": "35dc82a3c84b4c0a8a0646d8",
             "maps": [
               "laboratory"
             ],
@@ -51447,7 +51518,7 @@
             "id": "ContainmentBreach_b8432fd547b146bfa8b77dd6",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "b8432fd547b146bfa8b77dd6", // [CONTAINMENT BREACH] Data Extraction
+            "questId": "b8432fd547b146bfa8b77dd6",
             "maps": [
               "laboratory"
             ],
@@ -51467,7 +51538,7 @@
             "id": "ContainmentBreach_aishi-final-delivery",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "8e4f5535e0bf4135b8a90ec7", // [CONTAINMENT BREACH] Putting Out the Fire
+            "questId": "8e4f5535e0bf4135b8a90ec7",
             "maps": [
               "laboratory"
             ],
@@ -51487,7 +51558,7 @@
             "id": "ContainmentBreach_52588eccea984354a13b53f4",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "52588eccea984354a13b53f4", // [CONTAINMENT BREACH] I Don't Care About the Conflict of Interest (Pick Side)
+            "questId": "52588eccea984354a13b53f4",
             "maps": [
               "laboratory"
             ],
@@ -51507,7 +51578,7 @@
             "id": "ContainmentBreach_1184c00a9ec847be987be767",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "1184c00a9ec847be987be767", // [CONTAINMENT BREACH] You Shouldn't Interfere (Pick Side)
+            "questId": "1184c00a9ec847be987be767",
             "maps": [
               "laboratory"
             ],
@@ -51527,7 +51598,7 @@
             "id": "ContainmentBreach_cd993bfe6ed447dcaab85d04",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "cd993bfe6ed447dcaab85d04", // [CONTAINMENT BREACH] Fine Espionage (Pick Side)
+            "questId": "cd993bfe6ed447dcaab85d04",
             "maps": [
               "laboratory"
             ],
@@ -51547,7 +51618,7 @@
             "id": "ContainmentBreach_a3b3fae920584af7b941a2fc",
             "resetHostilityEachRaid": true,
             "enabled": true,
-            "questId": "a3b3fae920584af7b941a2fc", // [CONTAINMENT BREACH] Antidotes Are Never Unnecessary
+            "questId": "a3b3fae920584af7b941a2fc",
             "maps": [
               "laboratory"
             ],

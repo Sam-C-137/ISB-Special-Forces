@@ -22,7 +22,13 @@ public class LabsPreBlackoutEventConfig
     public bool enabled { get; set; }
     public LabsPreBlackoutFactionConfig isb { get; set; }
     public LabsPreBlackoutFactionConfig blackDivision { get; set; }
+    public ExternalFactionsConfig externalFactions { get; set; }
     public LabsBlackoutEventPhaseConfig labsChaos { get; set; }
+}
+
+public class ExternalFactionsConfig
+{
+    public LabsPreBlackoutFactionConfig chaosInsurgency { get; set; }
 }
 
 public class LabsPreBlackoutFactionConfig
@@ -43,6 +49,7 @@ public class LabsBlackoutEventPhaseConfig
     public bool enabled { get; set; }
     public LabsPreBlackoutFactionConfig isb { get; set; }
     public LabsPreBlackoutFactionConfig blackDivision { get; set; }
+    public ExternalFactionsConfig externalFactions { get; set; }
     public string selectionMode { get; set; }
 }
 

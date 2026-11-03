@@ -22,6 +22,8 @@ namespace ISBSpecialForces.Patches
                 __result = false;
                 return false;
             }
+            if (__instance?._initialBot?.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(__instance._initialBot.Profile.Info.Settings.Role) && ISBAishiLoyaltyConditionState.TerminalProtection(person))
+            { __result = false; return false; }
             if (ISBAishiLoyaltyConditionState.ShouldForceHostility(__instance, person))
                 return true;
             var initialBot = __instance._initialBot;

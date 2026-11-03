@@ -68,6 +68,8 @@ namespace ISBSpecialForces.Behavior.ISB
                     foreach (int role in WildSpawnTypeExtensions.ISBTypeEnums)
                         if (_settings.enableISBCustomBehavior && !exclusions.Contains((WildSpawnType)role))
                             exclusions.Add((WildSpawnType)role);
+                    if (exclusions.Contains((WildSpawnType)global::ISB.Compatibility.GhostBotVariant.BaseValue) && !exclusions.Contains((WildSpawnType)global::ISB.Compatibility.GhostBotVariant.ChaosValue))
+                        exclusions.Add((WildSpawnType)global::ISB.Compatibility.GhostBotVariant.ChaosValue);
                 }
                 ISBSainSquads.Configure(plugin?.Instance?.GetType().Assembly, _settings.useSainLayersChance);
                 try { ISBSainBridge.Install(); }

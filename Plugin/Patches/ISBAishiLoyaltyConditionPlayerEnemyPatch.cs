@@ -27,6 +27,8 @@ namespace ISBSpecialForces.Patches
                 __result = ISBEventHostility.IsBlackDivisionEnemy(__instance, player);
                 return;
             }
+            if (__instance?._initialBot?.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(__instance._initialBot.Profile.Info.Settings.Role) && ISBAishiLoyaltyConditionState.TerminalProtection(player))
+            { __result = false; return; }
             if (ISBAishiLoyaltyConditionState.ShouldForceHostility(__instance, player))
             {
                 __result = true;

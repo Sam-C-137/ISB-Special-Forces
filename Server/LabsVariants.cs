@@ -4,6 +4,7 @@ using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Models.Utils;
 using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Routers;
+using SPTarkov.Server.Core.Servers;
 #if ISB_SPT41
 using SPTarkov.Server.Core.Helpers.Server;
 #else
@@ -17,6 +18,7 @@ public sealed class LabsVariantState
     public bool enabled { get; set; }
     public bool unlocked { get; set; }
     public bool campaignActive { get; set; }
+    public int victoriaEarnedAt { get; set; }
     public string selected { get; set; } = "standard";
     public string profile { get; set; } = "";
     public string lastQuest { get; set; } = "";
@@ -27,29 +29,32 @@ public sealed class LabsVariantState
 public static class LabsVariantPolicy
 {
     public static bool IsChoice(string? mode) => mode is "standard" or "containment" or "blackout";
-    public static bool Unlocked(bool enabled, int? finalStatus) => enabled && finalStatus == 4;
+    public static bool Unlocked(bool enabled, bool hasVictoria) => enabled && hasVictoria;
     public static bool Campaign(bool eventEnabled, bool questForcesEvent, bool unlocked = false) => eventEnabled && questForcesEvent && !unlocked;
     public static string Resolve(bool enabled, bool unlocked, bool campaign, string? selection) => !enabled ? "legacy" : unlocked ? (IsChoice(selection) ? selection! : "standard") : campaign ? "containment" : "legacy";
 }
 
 [Injectable(InjectionType.Singleton)]
-public sealed class LabsVariantController(ConfigController config, ISBQuestTruceController quests, FikaRaidContext fika)
+public sealed class LabsVariantController(ConfigController config, ISBQuestTruceController quests, FikaRaidContext fika, SaveServer profiles)
 {
     private readonly object _sync = new();
     private readonly Dictionary<string, string> _selected = new(StringComparer.Ordinal);
     private readonly Dictionary<string, string> _raids = new(StringComparer.Ordinal);
     public LabsVariantState State(string session)
     {
+        Patches.ISBContainmentRewardsPatch.ReconcileVictoria(session);
         var c = config.ModConfig.labsContainmentBreachEvent;
         var enabled = c.labsVariantsEnabled;
-        var last = quests.TryGetQuestStatus(session, c.containmentBreachLastQuest);
-        var unlocked = LabsVariantPolicy.Unlocked(enabled, last);
+        var profile = profiles.GetProfile(session)?.CharacterData?.PmcData;
+        var hasVictoria = ContainmentAchievements.HasVictoria(profile);
+        var unlocked = LabsVariantPolicy.Unlocked(enabled, hasVictoria);
         var forced = c.questForceConditions?.ShouldForceEvent(id => quests.TryGetQuestStatus(session, id)) == true;
         lock (_sync)
             return new LabsVariantState
             {
                 enabled = enabled,
                 unlocked = unlocked,
+                victoriaEarnedAt = hasVictoria ? Convert.ToInt32(profile!.Achievements![ContainmentAchievements.Victoria]) : 0,
                 campaignActive = LabsVariantPolicy.Campaign(c.enabled, forced, unlocked),
                 selected = _selected.GetValueOrDefault(session, "standard"),
                 profile = session,
@@ -66,7 +71,7 @@ public sealed class LabsVariantController(ConfigController config, ISBQuestTruce
             if (!state.unlocked || !LabsVariantPolicy.IsChoice(mode) || _raids.ContainsKey(raid))
             {
                 state.accepted = false;
-                state.message = !state.unlocked ? "Conclua a última quest da operação para liberar as versões da Labs." : _raids.ContainsKey(raid) ? "A versão desta incursão já foi confirmada." : "Versão de Labs inválida.";
+                state.message = !state.unlocked ? "Conclua todas as missões do evento e obtenha Ms. VICTORIA para liberar as versões da Labs." : _raids.ContainsKey(raid) ? "A versão desta incursão já foi confirmada." : "Versão de Labs inválida.";
                 return state;
             }
 

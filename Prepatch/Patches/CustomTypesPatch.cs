@@ -289,6 +289,21 @@ namespace ISBSpecialForces.Prepatch
             };
             ISBSpecialForces.SetSAINSettings(settings4);
             RegisterBot(ISBSpecialForces, assembly);
+            var chaos = new CustomWildSpawnType(13101, "chaosInsurgency", "chaosInsurgency", 9, true, false, true);
+            chaos.SetCountAsBossForStatistics(true);
+            chaos.SetShouldUseFenceNoBossAttack(false, false);
+            chaos.SetExcludedDifficulties(new List<int> { 0, 1, 2 });
+            chaos.SetSAINSettings(new SAINSettings(13101)
+            {
+                Name = "Chaos Insurgency",
+                Description = "Chaos Insurgency operators.",
+                Section = "External Factions",
+                BaseBrain = "PMC",
+                BrainsToApply = ISBBrains,
+                LayersToRemove = ISBSpecialForcesLayers,
+                DifficultyModifier = 2.5f
+            });
+            RegisterBot(chaos, assembly);
             RegisterStandingSource(assembly);
             _registered = true;
             CustomWildSpawnTypeManager.AddSuitableGroup(new List<int> { 13701, 13702, 13703, 13704, 13705, 13706, 13707, 13708, 13709, 13710, 13711, 13712, 13713, 13714, 13715, 13716 });

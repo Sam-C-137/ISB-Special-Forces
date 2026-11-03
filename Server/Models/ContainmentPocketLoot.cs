@@ -40,6 +40,7 @@ public static class ContainmentPocketLoot
 {
     public static string? NormalizeRole(string? role) => role?.Trim() switch
     {
+        "13101" => "chaosInsurgency",
         "848420" => "blackDivLead",
         "848421" => "blackDivAssault",
         "848422" => "blackDivBreacher",
@@ -301,7 +302,7 @@ public static class ContainmentPocketLoot
         return independentAdded + guaranteed + result;
     }
 
-    private static List<(Grid Grid, bool[, ] Cells)> ReadGrids(Item container, List<Item> inventory, Func<MongoId, TemplateItem?> resolve, Func<Item, (int Width, int Height)> sizeOf, MongoId? excluded = null)
+    internal static List<(Grid Grid, bool[, ] Cells)> ReadGrids(Item container, List<Item> inventory, Func<MongoId, TemplateItem?> resolve, Func<Item, (int Width, int Height)> sizeOf, MongoId? excluded = null)
     {
         var available = new List<(Grid Grid, bool[, ] Cells)>();
         var grids = resolve(container.Template)?.Properties?.Grids;
@@ -361,7 +362,7 @@ public static class ContainmentPocketLoot
         }
     }
 
-    private static bool Allowed(MongoId tpl, Grid grid, Func<MongoId, TemplateItem?> resolve)
+    internal static bool Allowed(MongoId tpl, Grid grid, Func<MongoId, TemplateItem?> resolve)
     {
         var filters = grid.Properties?.Filters?.ToArray();
         if (filters == null || filters.Length == 0)
@@ -380,7 +381,7 @@ public static class ContainmentPocketLoot
         return filters.Any(f => f.Filter == null || f.Filter.Count == 0 || f.Filter.Overlaps(ancestors));
     }
 
-    private static ItemLocation? Find(bool[, ] cells, int width, int height)
+    internal static ItemLocation? Find(bool[, ] cells, int width, int height)
     {
         for (int rotation = 0; rotation < 2; rotation++)
         {
@@ -410,7 +411,7 @@ public static class ContainmentPocketLoot
         return null;
     }
 
-    private static void Fill(bool[, ] cells, int x, int y, int width, int height)
+    internal static void Fill(bool[, ] cells, int x, int y, int width, int height)
     {
         for (int yy = y; yy < y + height; yy++)
             for (int xx = x; xx < x + width; xx++)

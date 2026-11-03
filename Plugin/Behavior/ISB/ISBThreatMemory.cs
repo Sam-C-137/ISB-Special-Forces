@@ -19,6 +19,7 @@ namespace ISBSpecialForces.Behavior.ISB
             internal IPlayer Attacker;
             internal Vector3 HitPosition;
             internal float HitTime = -10f;
+            internal float NextSquadGoal;
         }
 
         private static readonly ConditionalWeakTable<BotOwner, ContactState> Contacts = new ConditionalWeakTable<BotOwner, ContactState>();
@@ -61,6 +62,7 @@ namespace ISBSpecialForces.Behavior.ISB
                 enemy.Distance = Vector3.Distance(bot.Position, position);
                 enemy.GroupInfo.EnemyLastPosition = position;
                 enemy.GroupInfo.IsLastPositionChecked = false;
+                enemy.GroupInfo.EnemyLastSeenTimeSense = Time.time;
             }
             enemy.SetIgnoreState(false);
             bot.CalcGoal();
@@ -94,6 +96,48 @@ namespace ISBSpecialForces.Behavior.ISB
             }
         }
 
+        internal static float KnownAt(EnemyInfo enemy) => enemy == null ? 0f :
+            Mathf.Max(enemy.PersonalLastSeenTime, Mathf.Max(enemy.LastGetHitTime,
+                Mathf.Max(enemy.GroupInfo?.EnemyLastSeenTimeReal ?? 0f, enemy.GroupInfo?.EnemyLastSeenTimeSense ?? 0f)));
+
+        private static bool ImmediateThreat(EnemyInfo enemy, float now) =>
+            enemy?.Person?.HealthController?.IsAlive == true &&
+            (enemy.IsVisible && enemy.Distance < 12f || enemy.LastGetHitTime > 0f && now - enemy.LastGetHitTime < 2f);
+
+        private static EnemyInfo SharedEnemy(BotOwner bot, float now)
+        {
+            var contact = (bot.Brain?.BaseBrain as ISBNativeBrain)?.Squad?.Contact;
+            if (contact?.Person?.HealthController?.IsAlive != true ||
+                !contact.IsVisible && (KnownAt(contact) <= 0f || now - KnownAt(contact) > 20f) ||
+                bot.BotsGroup?.IsPlayerEnemy(contact.Person) != true) return null;
+            var person = Identity(bot, contact.Person);
+            return bot.EnemiesController.EnemyInfos.TryGetValue(person, out var own) && !own.IgnoreUntilAggression ? own : null;
+        }
+
+        internal static void ShareContact(BotOwner bot, EnemyInfo contact, float now)
+        {
+            if (!Controls(bot) || contact?.Person?.HealthController?.IsAlive != true || bot.BotsGroup?.IsPlayerEnemy(contact.Person) != true)
+                return;
+            var person = Identity(bot, contact.Person);
+            if (!bot.EnemiesController.EnemyInfos.TryGetValue(person, out var own))
+            {
+                bot.BotsGroup.AddEnemy(person, EBotEnemyCause.addPlayer);
+                if (!bot.EnemiesController.EnemyInfos.TryGetValue(person, out own)) return;
+            }
+            if (own.GroupInfo != null && contact.GroupInfo != null && own.GroupInfo != contact.GroupInfo && !own.IsVisible)
+            {
+                own.GroupInfo.EnemyLastPosition = contact.EnemyLastPositionReal;
+                own.GroupInfo.EnemyLastSeenTimeSense = Mathf.Max(own.GroupInfo.EnemyLastSeenTimeSense, KnownAt(contact));
+                own.GroupInfo.IsLastPositionChecked = false;
+            }
+            own.SetIgnoreState(false);
+            if (!own.IsVisible) own.Distance = Vector3.Distance(bot.Position, contact.EnemyLastPositionReal);
+            var state = Contacts.GetValue(bot, _ => new ContactState());
+            if (now < state.NextSquadGoal || bot.Memory?.GoalEnemy?.ProfileId == own.ProfileId || ImmediateThreat(bot.Memory?.GoalEnemy, now)) return;
+            state.NextSquadGoal = now + 1f;
+            bot.CalcGoal();
+        }
+
         internal static void ChoosePostfix(BotEnemyChooser __instance, ref EnemyInfo __result)
         {
 #if SPT40
@@ -104,9 +148,12 @@ namespace ISBSpecialForces.Behavior.ISB
             if (!Controls(bot)) return;
             var current = bot.Memory?.GoalEnemy;
             var state = Contacts.GetValue(bot, _ => new ContactState());
+            var shared = SharedEnemy(bot, Time.time);
+            bool focus = shared != null && !ImmediateThreat(__result, Time.time) && !ImmediateThreat(current, Time.time);
+            if (focus) __result = shared;
             bool valid = current?.Person?.HealthController?.IsAlive == true && current.HaveSeen &&
                 current.ShallKnowEnemy() && !current.IgnoreUntilAggression && bot.BotsGroup.IsPlayerEnemy(current.Person);
-            if (valid && __result != current && __result != null && !__result.IsVisible && !current.IsVisible &&
+            if (!focus && valid && __result != current && __result != null && !__result.IsVisible && !current.IsVisible &&
                 Time.time - __result.LastGetHitTime > 2f && Time.time - state.SelectedAt < 3f)
                 __result = current;
             if (__result != state.Selected)
@@ -120,6 +167,8 @@ namespace ISBSpecialForces.Behavior.ISB
         {
             if (!Contacts.TryGetValue(bot, out var state) || Time.time - state.HitTime > 2f ||
                 state.Attacker?.HealthController?.IsAlive != true) return false;
+            if (bot.Memory?.GoalEnemy?.IsVisible == true ||
+                (bot.Brain?.BaseBrain as ISBNativeBrain)?.NeedsUrgentAction == true) return false;
             bot.Steering.LookToPoint(state.HitPosition + Vector3.up);
             return true;
         }

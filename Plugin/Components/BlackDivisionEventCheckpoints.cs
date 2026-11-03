@@ -49,6 +49,7 @@ namespace ISBSpecialForces.Components
             {
                 if (containment.blackDivision?.enabled == true)
                     Register(containment.blackDivision.checkpoints, BlackDivisionCheckpointPolicy.ContainmentTrigger);
+                RegisterExternal(containment.externalFactions, BlackDivisionCheckpointPolicy.ContainmentTrigger);
                 RegisterPhase(containment.labsChaos, BlackDivisionCheckpointPolicy.ChaosTrigger);
             }
 
@@ -59,13 +60,21 @@ namespace ISBSpecialForces.Components
             }
         }
 
+        private void RegisterExternal(ExternalFactionsConfig external, string trigger)
+        {
+            if (external?.chaosInsurgency?.enabled == true)
+                Register(external.chaosInsurgency.checkpoints, trigger, true);
+        }
+
         private void RegisterPhase(LabsBlackoutEventPhaseConfig phase, string trigger)
         {
+            if (phase?.enabled != true) return;
+            RegisterExternal(phase.externalFactions, trigger);
             if (BlackDivisionCheckpointPolicy.UseBlackDivision(true, phase?.enabled == true, phase?.blackDivision?.enabled == true, phase?.selectionMode))
                 Register(phase.blackDivision.checkpoints, trigger);
         }
 
-        private void Register(List<SpawnFormationConfig> formations, string phaseTrigger)
+        private void Register(List<SpawnFormationConfig> formations, string phaseTrigger, bool chaos = false)
         {
             var spawner = Singleton<IBotGame>.Instance?.BotsController?.BotSpawner;
             if (formations == null || spawner == null)
@@ -100,14 +109,14 @@ namespace ISBSpecialForces.Components
                     continue;
                 }
 
-                _checkpoints[BlackDivisionCheckpointPolicy.FormationTrigger(phaseTrigger, index)] = new ISBCheckpoint(zone, hit.position, formation.checkpointRadius);
+                _checkpoints[BlackDivisionCheckpointPolicy.FormationTrigger(phaseTrigger, index, chaos)] = new ISBCheckpoint(zone, hit.position, formation.checkpointRadius);
             }
         }
 
         internal bool TryGet(BotOwner bot, out ISBCheckpoint checkpoint)
         {
             checkpoint = null;
-            if (!Installed || bot?.Profile?.Info?.Settings == null || !BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role))
+            if (!Installed || bot?.Profile?.Info?.Settings == null || (!BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) && (int)bot.Profile.Info.Settings.Role != GhostBotVariant.ChaosValue))
                 return false;
             string spawnId = bot.SpawnProfileData?.SpawnParams?.Id_spawn;
             return spawnId != null && _checkpoints.TryGetValue(spawnId, out checkpoint);

@@ -55,6 +55,9 @@ namespace ISBSpecialForces.Behavior.ISB
                     harmony.Patch(update, prefix: new HarmonyMethod(typeof(ISBSainBridge), nameof(AutonomyPrefix)));
                 }
                 var aimSteering = assembly.GetTypes().Single(t => t.Name == "BotAimSteerPatch");
+                var shoot = assembly.GetTypes().Single(t => t.Name == "BotShootPatch");
+                harmony.Patch(AccessTools.Method(shoot, "PatchPrefix"),
+                    prefix: new HarmonyMethod(typeof(ISBFireControl), nameof(ISBFireControl.SainShootPrefix)));
                 harmony.Patch(AccessTools.Method(aimSteering, "Patch"),
                     postfix: new HarmonyMethod(typeof(ISBSainBridge), nameof(NativeAimPostfix)));
                 var activation = assembly.GetTypes().Single(t => t.Name == "SAINActivationClass");

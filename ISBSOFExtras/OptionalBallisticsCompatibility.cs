@@ -20,7 +20,7 @@ namespace ISBSSOFExtra
                 try
                 {
                     var helper = assembly.GetType("SAIN.Helpers.EnumValues", false);
-                    var parse = helper == null ? null : AccessTools.Method(helper, "ParseCaliber", new[] { typeof(string) });
+                    var parse = helper?.GetMethod("ParseCaliber", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static, null, new[] { typeof(string) }, null);
                     if (!_sainPatched && parse != null && parse.ReturnType.IsEnum && !Enum.IsDefined(parse.ReturnType, "Caliber58x42") && Enum.IsDefined(parse.ReturnType, "Caliber556x45NATO"))
                     {
                         var prefix = typeof(OptionalBallisticsCompatibility).GetMethod(nameof(ParseCaliber), BindingFlags.Static | BindingFlags.NonPublic).MakeGenericMethod(parse.ReturnType);

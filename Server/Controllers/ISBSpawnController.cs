@@ -36,7 +36,7 @@ public class ISBAppearanceOverride
 }
 
 [Injectable(InjectionType.Singleton)]
-public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, ConfigController configController, BotTable botTable, LocationTable locationTable, ISBLogger logger, ModHelper modHelper, WeatherHelper weatherHelper, TimeUtil timeUtil, IReadOnlyList<SptMod> modList, ISBWeaponPresetController weaponPresetController, ISBQuestTruceController questTruceController, FikaRaidContext fikaRaidContext, LabsVariantController labsVariants, ISBSpawnProgressController progress)
+public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, ConfigController configController, BotTable botTable, TemplateTable templateTable, LocationTable locationTable, ISBLogger logger, ModHelper modHelper, WeatherHelper weatherHelper, TimeUtil timeUtil, IReadOnlyList<SptMod> modList, ISBWeaponPresetController weaponPresetController, ISBQuestTruceController questTruceController, FikaRaidContext fikaRaidContext, LabsVariantController labsVariants, ISBSpawnProgressController progress, ISBScriptedMapSpawns scriptedMaps)
 {
     private const string SecretSpawnTriggerPrefix = "isb_secret_";
     private const string LabsBlackoutTriggerPrefix = "isb_labs_blackout_";
@@ -409,7 +409,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         var modFolder = modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
         var appearanceDir = IOPath.Combine(modFolder, "db", "appearance");
         ISBMixedAmmoState.ClearAll();
-        foreach (var botType in ISBBotTypes)
+        foreach (var botType in ISBBotTypes.Append(GhostBotVariant.ChaosName))
         {
             var filePath = IOPath.Combine(appearanceDir, $"{botType}_{suffix}.jsonc");
             if (!File.Exists(filePath))
@@ -585,6 +585,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                     if (!string.IsNullOrWhiteSpace(item.Key))
                     {
                         MongoId id = item.Key;
+                        if (additive && !templateTable.Items.ContainsKey(id)) continue;
                         pool[id] = item.Value;
                     }
                 }
@@ -635,6 +636,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                     if (!string.IsNullOrWhiteSpace(round.Key))
                     {
                         MongoId id = round.Key;
+                        if (additive && !templateTable.Items.ContainsKey(id)) continue;
                         pool[id] = round.Value;
                     }
                 }
@@ -684,6 +686,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                 if (parentEntry.Value is not { Count: > 0 })
                     continue;
                 MongoId parentId = parentEntry.Key;
+                if (additive && !templateTable.Items.ContainsKey(parentId)) continue;
                 Dictionary<string, HashSet<MongoId>> slotMap;
                 if (additive && mods.TryGetValue(parentId, out var existingParent) && existingParent is not null)
                     slotMap = existingParent;
@@ -706,6 +709,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                         if (!string.IsNullOrWhiteSpace(tpl))
                         {
                             MongoId id = tpl;
+                            if (additive && !templateTable.Items.ContainsKey(id)) continue;
                             set.Add(id);
                         }
                     }
@@ -783,6 +787,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         }
 
         var requestedMap = NormalizeMapId(info.Location);
+        if ((requestedMap == "terminal" || requestedMap == IcebreakerMapId) && fikaRaidContext.RaidInstance(sessionId) == null)
+            scriptedMaps.EndRaid(sessionId);
         EnsureEventRaidContext(sessionId, requestedMap);
         progress.Prepare(sessionId, requestedMap, string.Equals(info.Side?.ToString(), "Savage", StringComparison.OrdinalIgnoreCase));
         var configuredMap = configController.ModConfig.locations.Keys.FirstOrDefault(map => NormalizeMapId(map) == requestedMap);
@@ -796,7 +802,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         {
             EndRaid(sessionId);
             SetLabsPreBlackoutEventState(sessionId, false);
-            AdjustIcebreakerSpawns();
+            AdjustISBSpawnsForMapInternal(configuredMap, configController.ModConfig, scriptedSessionId: sessionId);
             return;
         }
 
@@ -807,7 +813,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         {
             if (labsEventActive && !string.IsNullOrWhiteSpace(sessionId) && _lockdownRaidPlans.ContainsKey(sessionId))
                 return;
-            AdjustISBSpawnsForMapInternal(configuredMap, configController.ModConfig, labsEventActive);
+            AdjustISBSpawnsForMapInternal(configuredMap, configController.ModConfig, labsEventActive, scriptedSessionId: sessionId);
             if (!string.IsNullOrWhiteSpace(sessionId))
             {
                 _lockdownRaidPlans.Remove(sessionId);
@@ -834,6 +840,10 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             return new LabsPreBlackoutEventStatus
             {
                 active = active,
+                chaosInsurgencyOnly = active && configController.ModConfig.labsContainmentBreachEvent.chaosInsurgencyOnly,
+                containementBreachQueue = LabsEventModes.PopulationQueue(configController.ModConfig.labsContainmentBreachEvent),
+                blackoutQueue = configController.ModConfig.blackoutQueue.ForPerformanceMode(configController.ModConfig.labsBlackoutEvent.performanceMode),
+                populationFactions = QueueFactions(active),
                 performanceMode = active && configController.ModConfig.labsContainmentBreachEvent?.performanceMode == true,
                 performanceIsbReserve = active ? LabsEventModes.PerformanceIsbReserve(configController.ModConfig.labsContainmentBreachEvent) : 0,
                 variant = labsVariants.RaidMode(sessionId),
@@ -845,6 +855,26 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                 disableDestroyedVehicles = active && configController.ModConfig.labsContainmentBreachEvent?.disableDestroyedVehicles == true
             };
         }
+    }
+
+    private bool[] QueueFactions(bool containment)
+    {
+        var config = configController.ModConfig;
+        var cb = config.labsContainmentBreachEvent;
+        if (containment)
+        {
+            if (cb.chaosInsurgencyOnly)
+                return [false, false, true, false, false];
+            bool ordinary = !cb.whiteTuskOnly && !cb.ghostBusterOnly;
+            return [ordinary && !cb.noBlackDivMode && cb.blackDivision.enabled && InstalledModGuids.Contains(BlackDivisionModGuid),
+                ordinary && !cb.noISBMode && cb.isb.enabled,
+                ordinary && cb.externalFactions.chaosInsurgency.enabled,
+                cb.raiders.enabled, cb.pmcs.enabled];
+        }
+        var phases = new[] { config.labsBlackoutEvent.blackoutActivated, config.labsBlackoutEvent.powerRestored }.Where(p => p.enabled).ToArray();
+        if (!config.labsBlackoutEvent.enabled) return new bool[5];
+        return [InstalledModGuids.Contains(BlackDivisionModGuid) && phases.Any(p => p.blackDivision.enabled), phases.Any(p => p.isb.enabled),
+            phases.Any(p => p.externalFactions.chaosInsurgency.enabled), phases.Any(p => p.raiders.enabled), phases.Any(p => p.pmcs.enabled)];
     }
 
     private ISB.Compatibility.OfficeAccessState? GetOfficeAccess(string? sessionId, bool active)
@@ -895,6 +925,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         var eventSpawns = jsonUtil.Deserialize<List<BossLocationSpawn>>(plan.EventSpawnsJson) ?? throw new InvalidOperationException("ISB Lockdown event snapshot could not be read.");
         ISBLockdownPopulation.Apply(location, eventSpawns, plan.BlockPmcs, plan.BlockRaiders);
     }
+
+    public void EndScriptedRaid(string? sessionId) => scriptedMaps.EndRaid(fikaRaidContext.EventSession(sessionId) ?? sessionId);
 
     public void EndRaid(string? sessionId)
     {
@@ -1022,7 +1054,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
         }
     }
 
-    private void AdjustISBSpawnsForMapInternal(string map, MainConfig mainConfig, bool labsPreBlackoutEventActive = false, bool allowBlackout = true)
+    private void AdjustISBSpawnsForMapInternal(string map, MainConfig mainConfig, bool labsPreBlackoutEventActive = false, bool allowBlackout = true, string? scriptedSessionId = null)
     {
         lock (_spawnAdjustmentSync)
         {
@@ -1044,6 +1076,12 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             var checkpointConfig = mapConfig.checkpoint;
             var huntConfig = mapConfig.hunt;
             var spawns = location.Base.BossLocationSpawn;
+            if ((map == "terminal" && InstalledModGuids.Contains("com.manimal.terminal")) || (map == IcebreakerMapId && InstalledModGuids.Contains(IcebreakerModGuid)))
+            {
+                scriptedMaps.Apply(map, mapConfig, spawns, scriptedSessionId, row => jsonUtil.Deserialize<BossLocationSpawn>(jsonUtil.Serialize(row))!);
+                return;
+            }
+            scriptedMaps.Restore(spawns);
             LabsEventSpawnModes.Restore(spawns);
             RestoreSuppressedBlackDivisionSpawns(map, spawns);
             RestoreSuppressedPmcSpawns(map, spawns);
@@ -1073,7 +1111,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             }
 
             if (string.Equals(NormalizeMapId(map), NormalizeMapId("laboratory"), StringComparison.Ordinal))
-                if (allowBlackout)
+                if (allowBlackout && !useEventPool)
                     ApplyLabsBlackoutEventSpawns(map, mainConfig.labsBlackoutEvent, mainConfig, spawns);
             if (useEventPool)
                 LabsEventSpawnModes.Apply(spawns, eventConfig);
@@ -1111,6 +1149,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             AddPreBlackoutEventFormations(map, eventConfig.raiders.checkpoints, SpawnFormationKind.Checkpoint, mainConfig, spawns, "Raider");
             AddPreBlackoutEventFormations(map, eventConfig.raiders.hunts, SpawnFormationKind.Hunt, mainConfig, spawns, "Raider");
         }
+
+        AddExternalFormations(eventConfig.externalFactions, (rows, kind) => AddPreBlackoutEventFormations(map, rows, kind, mainConfig, spawns, "Chaos Insurgency"));
 
         if (eventConfig.blackDivision?.enabled != true)
             return;
@@ -1185,12 +1225,22 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             AddTriggeredLabsEventFormations(map, phase.raiders.hunts, SpawnFormationKind.Hunt, triggerPrefix + "hunt", mainConfig, spawns, "Raider");
         }
 
+        AddExternalFormations(phase.externalFactions, (rows, kind) => AddTriggeredLabsEventFormations(map, rows, kind, triggerPrefix + (kind == SpawnFormationKind.Patrol ? "patrol" : kind == SpawnFormationKind.Checkpoint ? "checkpoint" : "hunt"), mainConfig, spawns, "Chaos Insurgency"));
+
         if (useBlackDivision)
         {
             AddTriggeredLabsEventFormations(map, phase.blackDivision.patrols, SpawnFormationKind.Patrol, triggerPrefix + "patrol", mainConfig, spawns, "Black Division");
             AddTriggeredLabsEventFormations(map, phase.blackDivision.checkpoints, SpawnFormationKind.Checkpoint, triggerPrefix + "checkpoint", mainConfig, spawns, "Black Division");
             AddTriggeredLabsEventFormations(map, phase.blackDivision.hunts, SpawnFormationKind.Hunt, triggerPrefix + "hunt", mainConfig, spawns, "Black Division");
         }
+    }
+
+    private static void AddExternalFormations(ExternalFactionsConfig? external, Action<List<SpawnFormationConfig>, SpawnFormationKind> add)
+    {
+        if (external?.chaosInsurgency?.enabled != true) return;
+        add(external.chaosInsurgency.patrols, SpawnFormationKind.Patrol);
+        add(external.chaosInsurgency.checkpoints, SpawnFormationKind.Checkpoint);
+        add(external.chaosInsurgency.hunts, SpawnFormationKind.Hunt);
     }
 
     private void AddTriggeredLabsEventFormations(string map, List<SpawnFormationConfig>? formations, SpawnFormationKind kind, string triggerId, MainConfig mainConfig, List<BossLocationSpawn> spawns, string factionLabel)
@@ -1216,6 +1266,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                 var spawn = GenerateFormationSpawn(formation, chance, _latestLabsPreBlackoutEventActive ? mainConfig.labsContainmentBreachEvent : null);
                 if (spawn == null)
                     continue;
+                if (_latestLabsPreBlackoutEventActive && HasWedge(spawn) && spawns.Any(HasWedge))
+                    continue;
                 if (availableZones.Count > 0)
                 {
                     spawn.BossZone = randomUtil.GetArrayValue(availableZones);
@@ -1229,7 +1281,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                     delay = 0;
                 spawn.Time = -1;
                 spawn.Delay = delay;
-                spawn.TriggerId = kind == SpawnFormationKind.Checkpoint && factionLabel == "Black Division" ? ISB.Compatibility.BlackDivisionCheckpointPolicy.FormationTrigger(triggerId, formations.IndexOf(formation)) : triggerId;
+                spawn.TriggerId = kind == SpawnFormationKind.Checkpoint && (factionLabel == "Black Division" || factionLabel == "Chaos Insurgency") ? ISB.Compatibility.BlackDivisionCheckpointPolicy.FormationTrigger(triggerId, formations.IndexOf(formation), factionLabel == "Chaos Insurgency") : triggerId;
                 spawn.TriggerName = "botEvent";
                 spawn.ForceSpawn = true;
                 spawn.IgnoreMaxBots = !triggerId.StartsWith(LabsChaosTriggerPrefix, StringComparison.Ordinal);
@@ -1496,6 +1548,8 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                 var spawn = GenerateFormationSpawn(formation, chance, containment ? mainConfig.labsContainmentBreachEvent : null);
                 if (spawn == null)
                     continue;
+                if (containment && HasWedge(spawn) && spawns.Any(HasWedge))
+                    continue;
                 if (containment)
                     spawn.IgnoreMaxBots = false;
                 if (validZones.Count > 0)
@@ -1538,9 +1592,9 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
                     spawn.TriggerName = string.Empty;
                 }
 
-                if (kind == SpawnFormationKind.Checkpoint && factionLabel == "Black Division")
+                if (kind == SpawnFormationKind.Checkpoint && (factionLabel == "Black Division" || factionLabel == "Chaos Insurgency"))
                 {
-                    spawn.TriggerId = ISB.Compatibility.BlackDivisionCheckpointPolicy.FormationTrigger(ISB.Compatibility.BlackDivisionCheckpointPolicy.ContainmentTrigger, formations.IndexOf(formation));
+                    spawn.TriggerId = ISB.Compatibility.BlackDivisionCheckpointPolicy.FormationTrigger(ISB.Compatibility.BlackDivisionCheckpointPolicy.ContainmentTrigger, formations.IndexOf(formation), factionLabel == "Chaos Insurgency");
                     spawn.TriggerName = string.Empty;
                 }
 
@@ -1550,6 +1604,10 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             }
         }
     }
+
+    private static bool HasWedge(BossLocationSpawn spawn) => ISB.Compatibility.ContainmentWedgeLimit.IsWedge(spawn.BossName)
+        || ISB.Compatibility.ContainmentWedgeLimit.IsWedge(spawn.BossEscortType)
+        || spawn.Supports?.Any(s => ISB.Compatibility.ContainmentWedgeLimit.IsWedge(s.BossEscortType)) == true;
 
     private static string DescribeFollowers(BossLocationSpawn spawn) => spawn.Supports == null ? spawn.BossEscortAmount ?? "0" : string.Join(",", spawn.Supports.Select(s => s.BossEscortType + ":" + s.BossEscortAmount));
     private int GetSpawnTime(int min, int max)
@@ -1569,7 +1627,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
     private BossLocationSpawn? GenerateFormationSpawn(SpawnFormationConfig formation, float chance, LabsPreBlackoutEventConfig? modes = null)
     {
         bool ghost = GhostBotVariant.Is(formation.boss?.Trim()) || formation.followers?.Any(f => f != null && f.max > 0 && GhostBotVariant.Is(f.type?.Trim())) == true;
-        if (ghost && GhostBotGenerationPatch.PresetsLoaded && (GhostBotVariant.Is(formation.boss?.Trim()) && !GhostBotGenerationPatch.IsReady(formation.boss.Trim(), CurrentRaidIsNight()) || formation.followers?.Any(f => f != null && f.max > 0 && GhostBotVariant.Is(f.type?.Trim()) && !GhostBotGenerationPatch.IsReady(f.type.Trim(), CurrentRaidIsNight())) == true))
+        if (ghost && GhostBotGenerationPatch.PresetsLoaded && (GhostBotVariant.Is(formation.boss?.Trim()) && !GhostBotVariant.IsChaos(formation.boss?.Trim()) && !GhostBotGenerationPatch.IsReady(formation.boss.Trim(), CurrentRaidIsNight()) || formation.followers?.Any(f => f != null && f.max > 0 && GhostBotVariant.Is(f.type?.Trim()) && !GhostBotVariant.IsChaos(f.type?.Trim()) && !GhostBotGenerationPatch.IsReady(f.type.Trim(), CurrentRaidIsNight())) == true))
         {
             if (!_ghostSpawnReported)
                 logger.Error("ISB: GhostBuster formation skipped; add valid presets to its Day/Night folders and ensure Black Division is installed.");
@@ -1577,7 +1635,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             return null;
         }
 
-        var bossType = string.IsNullOrWhiteSpace(formation.boss) ? "ISBTeamLeader" : GhostBotVariant.Is(formation.boss.Trim()) ? GhostBotVariant.BaseRole(formation.boss.Trim()) : formation.boss.Trim();
+        var bossType = string.IsNullOrWhiteSpace(formation.boss) ? "ISBTeamLeader" : GhostBotVariant.Is(formation.boss.Trim()) ? GhostBotVariant.SpawnRole(formation.boss.Trim()) : formation.boss.Trim();
         var supports = new List<BossSupport>();
         foreach (var follower in formation.followers ?? new List<SpawnFormationFollowerConfig>())
         {
@@ -1590,7 +1648,7 @@ public class ISBSpawnController(JsonUtil jsonUtil, RandomUtil randomUtil, Config
             var amount = min == max ? min : randomUtil.GetInt(min, max);
             if (amount <= 0)
                 continue;
-            supports.Add(new BossSupport { BossEscortAmount = amount.ToString(), BossEscortDifficulty = new ListOrT<string>([GhostBotVariant.Is(follower.type.Trim()) ? GhostBotVariant.Marker(follower.type.Trim()) : "impossible"], null), BossEscortType = GhostBotVariant.Is(follower.type.Trim()) ? GhostBotVariant.BaseRole(follower.type.Trim()) : follower.type.Trim() });
+            supports.Add(new BossSupport { BossEscortAmount = amount.ToString(), BossEscortDifficulty = new ListOrT<string>([GhostBotVariant.Is(follower.type.Trim()) ? GhostBotVariant.Marker(follower.type.Trim()) : "impossible"], null), BossEscortType = GhostBotVariant.Is(follower.type.Trim()) ? GhostBotVariant.SpawnRole(follower.type.Trim()) : follower.type.Trim() });
         }
 
         var primaryEscortType = supports.Count > 0 ? supports[0].BossEscortType : bossType;

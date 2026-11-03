@@ -75,13 +75,13 @@ namespace ISBSpecialForces.Patches
             {
                 if (player == null || player.IsAI)
                     continue;
-                if (player.Side == EPlayerSide.Savage)
+                if (player.Side == EPlayerSide.Savage && !ISBAishiLoyaltyConditionState.TerminalRaid)
                 {
                     group.AddEnemy(player, EBotEnemyCause.initial);
                     continue;
                 }
 
-                if (!ISBAishiLoyaltyConditionState.ProtectsHuman(player) || ISBRevengeBridge.HasPendingRevenge(group, player))
+                if (!ISBAishiLoyaltyConditionState.ProtectsHuman(player) || !ISBAishiLoyaltyConditionState.TerminalRaid && ISBRevengeBridge.HasPendingRevenge(group, player))
                     continue;
                 group.RemoveEnemy(player, EBotEnemyCause.initial);
                 group.AddNeutral(player);

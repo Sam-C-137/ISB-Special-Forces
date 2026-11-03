@@ -89,4 +89,26 @@ namespace ISBSpecialForces.Behavior.ISB
             Leader.IssueOrder(state, -1, contact.HasValue, contact?.IsAI ?? false, null, now, _ => Revision++);
         }
     }
+
+    internal static class ISBSquadCoordination
+    {
+        internal static float FocusScore(bool visible, bool canShoot, bool hit, bool leader, float age, float distance) =>
+            (visible ? 200f : 0f) + (visible && canShoot ? 40f : 0f) + (hit ? 80f : 0f) + (leader ? 12f : 0f) -
+            Math.Min(120f, Math.Max(0f, distance)) * 0.25f - Math.Min(20f, Math.Max(0f, age)) * 2f;
+
+        internal static bool KeepFocus(float currentScore, float alternativeScore, float heldSeconds) =>
+            alternativeScore < currentScore + (heldSeconds < 2.5f ? 45f : 15f);
+
+        internal static bool Regroup(bool active, bool follower, bool fixedPost, bool treating,
+            bool canEngage, bool immediateThreat, bool hasContact, bool flanking, float distance, float floorGap)
+        {
+            if (!follower || fixedPost || treating || canEngage || immediateThreat ||
+                float.IsNaN(distance) || float.IsInfinity(distance) || distance < 0f)
+                return false;
+            float start = flanking ? 28f : hasContact ? 18f : 12f;
+            float stop = flanking ? 14f : hasContact ? 9f : 6f;
+            return active ? distance > stop || floorGap > 2.5f : distance > start || floorGap > 2.5f && distance > 6f;
+        }
+    }
+
 }

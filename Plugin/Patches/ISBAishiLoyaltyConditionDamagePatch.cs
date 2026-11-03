@@ -17,7 +17,7 @@ namespace ISBSpecialForces.Patches
         {
             if (!ISBFikaAuthority.IsAiAuthority && !ISBAishiLoyaltyConditionState.IsEligiblePlayer(damageInfo.Player?.iPlayer))
                 return;
-            if (!ISBAishiLoyaltyConditionState.BreakOnHit)
+            if (!ISBAishiLoyaltyConditionState.BreakOnHit && !ISBAishiLoyaltyConditionState.TerminalRaid)
                 return;
             var aggressor = damageInfo.Player;
             if (aggressor == null)
@@ -35,7 +35,7 @@ namespace ISBSpecialForces.Patches
                 return;
             var botTotal = ISBAishiLoyaltyConditionDamageTracker.Accumulate(aggressorPlayer.ProfileId, __instance.ProfileId, damage);
             var factionTotal = ISBAishiLoyaltyConditionDamageTracker.GetFactionTotal(aggressorPlayer.ProfileId);
-            var threshold = ISBAishiLoyaltyConditionState.DamageThreshold;
+            var threshold = ISBAishiLoyaltyConditionState.TerminalRaid ? 0f : ISBAishiLoyaltyConditionState.DamageThreshold;
             var reached = ISBAishiLoyaltyConditionState.ThresholdPerFaction ? factionTotal >= threshold : botTotal >= threshold;
             ISBAishiLoyaltyConditionState.LogDamage(damage, botTotal, factionTotal, threshold, reached);
             if (!reached)

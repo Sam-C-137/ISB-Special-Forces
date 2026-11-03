@@ -14,7 +14,7 @@ namespace ISBSSOFExtra
     internal static partial class LabsKeycardLockdown
     {
         private const string HarmonyId = "com.samc137.isbsofextras.keycard-lockdown";
-        private const string FallbackMessage = "Card Reader unpowered. Activate the facility's auxiliary power or install a GreenBat battery or a modified battery with a toolset to restore power to the reader.";
+        private const string FallbackMessage = "Card Reader unpowered. Activate the facility's auxiliary power, install a GreenBat battery, or install a V2 Battery with a toolset.";
         private static readonly HashSet<KeycardDoor> Doors = new HashSet<KeycardDoor>();
         private static Harmony _harmony;
         private static bool _active;
@@ -148,10 +148,10 @@ namespace ISBSSOFExtra
             bool hasModified = FindBattery(__0?.Player, true, office) != null;
             bool hasTools = HasToolset(__0?.Player);
             if (office)
-                message = Text("isb_reader_low_frequency_required", "This reader requires a modified low-frequency battery and a toolset.");
+                message = Text("isb_reader_low_frequency_required", "This reader requires a V3 Battery and a toolset.");
             var modified = new InteractionAction
             {
-                Name = office ? Text("isb_reader_install_low_frequency", "Use low-frequency battery (1 charge + toolset)") : Text("isb_reader_install_modified", "Use modified battery (1 charge + toolset)"),
+                Name = office ? Text("isb_reader_install_low_frequency", "Install V3 Battery (1 Use + Toolset)") : Text("isb_reader_install_modified", "Install V2 Battery (1 Use + Toolset)"),
                 Disabled = _installation != null || !hasModified || !hasTools,
                 Action = () => InstallBattery(__0, __1, true)
             };

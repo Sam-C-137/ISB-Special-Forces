@@ -13,6 +13,7 @@ using System.Reflection;
 namespace ISBSpecialForcesServer.Controllers;
 public class ISBAishiLoyaltyConditionResponse
 {
+    public bool mapFriendly { get; set; }
     public bool enabled { get; set; }
     public bool active { get; set; }
     public string requiredItemTpl { get; set; } = string.Empty;
@@ -128,6 +129,7 @@ public class AishiLoyaltyConditionController
 
     public ISBAishiLoyaltyConditionResponse BuildResponse(string sessionId, string? locationId = null)
     {
+        if (IsTerminalMap(locationId)) return TerminalResponse();
         var condition = GetCondition();
         var friendlyConditions = condition.friendlyConditions ?? new FriendlyConditionsConfig();
         var questEvaluation = condition.enabled ? _questTruceController.Evaluate(sessionId, locationId) : new ISBQuestTruceEvaluation();
@@ -157,6 +159,13 @@ public class AishiLoyaltyConditionController
             _logger.LogInformation($"[ISB AISHI LOYALTY] Friendly condition check for '{sessionId}': radio={response.requiredItemTpl}, questTruce={response.questTruceActive}, revenge={revengeActive}, active={response.active}.");
         return response;
     }
+
+    public static bool IsTerminalMap(string? map) => string.Equals(map, "terminal", StringComparison.OrdinalIgnoreCase) || string.Equals(map, "5704e5a4d2720bb45b8b4567", StringComparison.OrdinalIgnoreCase);
+    public static ISBAishiLoyaltyConditionResponse TerminalResponse() => new()
+    {
+        enabled = true, active = true, mapFriendly = true, breakOnHit = true, damageThreshold = 0,
+        extendToPlayerAllies = true
+    };
 
     public List<ISBAishiParticipantState> Participants(string requester, ISBAishiParticipantsRequest request)
     {
@@ -237,7 +246,7 @@ public class AishiLoyaltyConditionController
             var itemConfigured = !string.IsNullOrWhiteSpace(condition.requiredItemTpl);
             var itemActive = itemConfigured && hasRequiredItem;
             var eligibleByFriendlyConditions = EvaluateFriendlyConditions(NormalizeFriendlyMode(friendlyConditions.mode), itemConfigured, itemActive, questEvaluation.configured, questEvaluation.active);
-            var eligibleAtRaidStart = condition.enabled && !isScavRaid && eligibleByFriendlyConditions && !revengeActiveAtRaidStart;
+            var eligibleAtRaidStart = IsTerminalMap(locationId) || condition.enabled && !isScavRaid && eligibleByFriendlyConditions && !revengeActiveAtRaidStart;
             lock (_raidStateSync)
             {
                 _raidStates[sessionId] = new ISBAishiRaidPenaltyState

@@ -8,9 +8,9 @@
     <Nullable>enable</Nullable>
     <OutputType>Library</OutputType>
     <GenerateDependencyFile>false</GenerateDependencyFile>
-    <Version>2.0.2</Version>
-    <AssemblyVersion>2.0.2</AssemblyVersion>
-    <FileVersion>2.0.2</FileVersion>
+    <Version>2.0.3</Version>
+    <AssemblyVersion>2.0.3</AssemblyVersion>
+    <FileVersion>2.0.3</FileVersion>
     <OutputPath>bin\$(Configuration)\$(ProjectName)\$(AssemblyName)\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>ISBSpecialForces</AssemblyName>
@@ -18,6 +18,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="db\bots\config\**" />
+    <Compile Include="..\Shared\EventPopulationConfig.cs" Link="EventPopulationConfig.cs" />
+    <Compile Include="..\Shared\ContainmentWedgeLimit.cs" Link="ContainmentWedgeLimit.cs" />
     <Compile Include="..\Shared\OfficeAccess.cs" Link="OfficeAccess.cs" />
     <Compile Include="..\Shared\OfficeKteBriefing.cs" Link="OfficeKteBriefing.cs" />
     <Compile Include="..\Shared\OfficeRaidOperations.cs" Link="OfficeRaidOperations.cs" />

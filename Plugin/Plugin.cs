@@ -8,15 +8,19 @@ using MoreBotsAPI.Components;
 using ISBSpecialForces.Components;
 using ISBSpecialForces.Patches;
 using ISBSpecialForces.Behavior.Tactics;
+using System.Linq;
 
 namespace ISBSpecialForces
 {
+    [BepInDependency("com.samc137.aishi", "2.0.6")]
     [BepInDependency("com.morebotsapi.tacticaltoaster", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("xyz.drakia.bigbrain", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("me.sol.sain", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ISBPitFireTeamCompatibility.PitFireTeamGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.blackdiv.tacticaltoaster", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.sipto.devtools", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(ISBIncendiaryCompatibility.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(ISBPackNStrapInventoryPatch.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.PluginName, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
@@ -72,6 +76,8 @@ namespace ISBSpecialForces
         private void Awake()
         {
             LogSource = Logger;
+            ISBIncendiaryCompatibility.Initialize(LogSource);
+            ISBPackNStrapInventoryPatch.Initialize();
             ISBVipperPoison.Initialize(this);
             ISBVipperTips.Initialize();
             _diagnosticLogs = Config.Bind("Logging", "Diagnostic Logs", false, "Enable informational and debug diagnostics for this plugin. Warnings and errors remain enabled.");
@@ -167,7 +173,8 @@ namespace ISBSpecialForces
             var huntTargets = new List<WildSpawnType>
             {
                 WildSpawnType.pmcUSEC,
-                WildSpawnType.pmcBEAR
+                WildSpawnType.pmcBEAR,
+                (WildSpawnType)ISB.Compatibility.GhostBotVariant.ChaosValue
             };
             foreach (var colab in ColabHuntTargets)
             {
@@ -183,6 +190,9 @@ namespace ISBSpecialForces
 
             MonoBehaviourSingleton<HuntManager>.Instance.AddHuntRoles(isbEnums, huntTargets);
             MonoBehaviourSingleton<HuntManager>.Instance.AddHuntSides(isbEnums, new List<EPlayerSide> { EPlayerSide.Usec, EPlayerSide.Bear, });
+            var chaosRoles = new List<WildSpawnType> { (WildSpawnType)ISB.Compatibility.GhostBotVariant.ChaosValue };
+            MonoBehaviourSingleton<HuntManager>.Instance.AddHuntRoles(chaosRoles, System.Enum.GetValues(typeof(WildSpawnType)).Cast<WildSpawnType>().Where(role => (int)role != ISB.Compatibility.GhostBotVariant.ChaosValue).ToList());
+            MonoBehaviourSingleton<HuntManager>.Instance.AddHuntSides(chaosRoles, new List<EPlayerSide> { EPlayerSide.Usec, EPlayerSide.Bear });
             LogSource.LogInfo(PluginInfo.PluginName + " v" + PluginInfo.Version + " loaded.");
         }
     }

@@ -10,7 +10,7 @@ namespace ISBSpecialForces.Behavior.ISB
 
         internal static bool IsEventBot(BotOwner bot)
         {
-            if (bot?.Profile?.Info?.Settings == null || !BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) ||
+            if (bot?.Profile?.Info?.Settings == null || (!BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) && (int)bot.Profile.Info.Settings.Role != GhostBotVariant.ChaosValue) ||
                 !BlackDivisionEventCheckpoints.Installed || !ISBBrainBootstrap.BlackDivEnabled ||
                 !ISBBrainBootstrap.BlackDivAllMaps && ISBCheckpointManager.Instance?.BlackDivisionContainmentActive != true)
                 return false;

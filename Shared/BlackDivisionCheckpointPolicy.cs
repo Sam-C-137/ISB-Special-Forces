@@ -20,11 +20,11 @@ namespace ISB.Compatibility
             848426
         };
         internal static bool IsRole(int role) => Array.IndexOf(Roles, role) >= 0;
-        internal static string FormationTrigger(string phaseTrigger, int formationIndex)
+        internal static string FormationTrigger(string phaseTrigger, int formationIndex, bool chaos = false)
         {
             if (!IsPhaseTrigger(phaseTrigger) || formationIndex < 0)
                 throw new ArgumentOutOfRangeException(nameof(formationIndex));
-            return phaseTrigger + "_bdcp_" + formationIndex.ToString(CultureInfo.InvariantCulture);
+            return phaseTrigger + (chaos ? "_cicp_" : "_bdcp_") + formationIndex.ToString(CultureInfo.InvariantCulture);
         }
 
         internal static bool IsPhaseTrigger(string trigger) => trigger == ContainmentTrigger || trigger == ChaosTrigger || trigger == BlackoutTrigger || trigger == PowerRestoredTrigger;
@@ -32,7 +32,7 @@ namespace ISB.Compatibility
         {
             if (!IsPhaseTrigger(phaseTrigger) || string.IsNullOrEmpty(trigger))
                 return false;
-            string prefix = phaseTrigger + "_bdcp_";
+            string prefix = phaseTrigger + (trigger.StartsWith(phaseTrigger + "_cicp_", StringComparison.Ordinal) ? "_cicp_" : "_bdcp_");
             return trigger.StartsWith(prefix, StringComparison.Ordinal) && int.TryParse(trigger.Substring(prefix.Length), NumberStyles.None, CultureInfo.InvariantCulture, out int index) && index >= 0;
         }
 

@@ -35,13 +35,14 @@ namespace ISBSSOFExtra
     }
 
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+    [BepInDependency("com.samc137.aishi", "2.0.6")]
     [BepInDependency(FikaPluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ManimalLabsBlackoutCompatibility.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     public partial class ISBSpecialForcesAudio : BaseUnityPlugin
     {
         public const string PluginGuid = "com.samc137.isbsofextras";
         public const string PluginName = "ISB SOF: Immersion Systems Plugin";
-        public const string PluginVersion = "2.0.2";
+        public const string PluginVersion = "2.0.3";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBSOF_Extras.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBSOF_Extras.Fika";

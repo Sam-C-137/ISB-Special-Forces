@@ -18,7 +18,8 @@ namespace ISBSpecialForces.Behavior.ISB
         Pursuit = 14,
         Hide = 15,
         FightRequest = 16,
-        ControlBuilding = 17
+        ControlBuilding = 17,
+        Regroup = 18
     }
 
     internal readonly struct ISBLayerSpec
@@ -44,6 +45,7 @@ namespace ISBSpecialForces.Behavior.ISB
             new ISBLayerSpec(ISBLayerId.AvoidDanger, "ISB Avoid Danger", 120, true),
             new ISBLayerSpec(ISBLayerId.FightRequest, "ISB Fight Request", 110, true),
             new ISBLayerSpec(ISBLayerId.ControlBuilding, "ISB Control Building", 108, true),
+            new ISBLayerSpec(ISBLayerId.Regroup, "ISB Regroup", 112, true),
             new ISBLayerSpec(ISBLayerId.Pursuit, "ISB Pursuit", 100, true),
             new ISBLayerSpec(ISBLayerId.SuppressAssault, "ISB Suppress Assault", 90, false),
             new ISBLayerSpec(ISBLayerId.Assault, "ISB Assault", 70, false),

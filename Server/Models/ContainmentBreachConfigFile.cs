@@ -58,6 +58,7 @@ public static class ContainmentBreachConfigFile
                 return legacy ?? new();
         }
 
+        ExternalFactionConfiguration.MigrateFile(path, true);
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,

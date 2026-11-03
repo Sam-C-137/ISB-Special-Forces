@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Comfort.Common;
 using EFT;
 using ISB.Compatibility;
@@ -10,7 +11,10 @@ namespace ISBSpecialForces.Components
         private static readonly HashSet<BotsGroup> Groups = new HashSet<BotsGroup>();
         private static readonly List<IPlayer> ManagedTargets = new List<IPlayer>();
         private static readonly HashSet<string> ChaosProfiles = new HashSet<string>(System.StringComparer.Ordinal);
-        private static System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup> ChaosGroups = new System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+        private static ConditionalWeakTable<BotSpawnParams, BotsGroup> ChaosGroups = new ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+
+        private static ConditionalWeakTable<ShallBeGroupParams, BotsGroup> ISBFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
+        private static ConditionalWeakTable<ShallBeGroupParams, BotsGroup> BlackDivisionFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
 
         internal static void RememberVariants(IEnumerable<Profile> profiles, string variant)
         {
@@ -26,15 +30,32 @@ namespace ISBSpecialForces.Components
         internal static void ClearVariants()
         {
             ChaosProfiles.Clear();
-            ChaosGroups = new System.Runtime.CompilerServices.ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+            ChaosGroups = new ConditionalWeakTable<BotSpawnParams, BotsGroup>();
+            ISBFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
+            BlackDivisionFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
         }
         internal static bool IsChaos(string profileId) => profileId != null && ChaosProfiles.Contains(profileId);
+        internal static bool IsChaos(Profile profile) => profile != null && ((int?)profile.Info?.Settings?.Role == GhostBotVariant.ChaosValue || IsChaos(profile.Id));
 
-        internal static bool SelectChaosGroup(BotSpawner __instance, BotOwner bot, BotZone zone, ref BotsGroup __result)
+        internal static bool SelectFormationGroup(BotSpawner __instance, BotOwner bot, BotZone zone, ref BotsGroup __result)
         {
-            if (bot?.Profile == null || !IsChaos(bot.Profile.Id)) return true;
+            if (bot?.Profile?.Info?.Settings == null) return true;
+            bool chaos = IsChaos(bot.Profile);
             var spawn = bot.SpawnProfileData?.SpawnParams;
-            if (spawn != null && ChaosGroups.TryGetValue(spawn, out var existing))
+            var formation = spawn?.ShallBeGroup;
+            ConditionalWeakTable<ShallBeGroupParams, BotsGroup> formations = null;
+            if (!chaos)
+            {
+                if (formation == null || formation.StartCount <= 1) return true;
+                var role = bot.Profile.Info.Settings.Role;
+                if (WildSpawnTypeExtensions.IsISB(role)) formations = ISBFormationGroups;
+                else if (BlackDivisionCheckpointPolicy.IsRole((int)role)) formations = BlackDivisionFormationGroups;
+                else return true;
+            }
+            BotsGroup existing = null;
+            if (chaos && spawn != null) ChaosGroups.TryGetValue(spawn, out existing);
+            else if (formations != null) formations.TryGetValue(formation, out existing);
+            if (existing != null)
             {
                 __instance.SetBotAsEnemy(bot);
                 __result = existing;
@@ -42,12 +63,13 @@ namespace ISBSpecialForces.Components
             }
             var enemies = new List<BotOwner>();
             foreach (var enemy in __instance.GetBotEnemiesList(bot))
-                if (enemy != null && !IsChaos(enemy.Profile?.Id)) enemies.Add(enemy);
+                if (enemy != null && (!chaos || !IsChaos(enemy.Profile))) enemies.Add(enemy);
             __instance.SetBotAsEnemy(bot);
             var group = new BotsGroup(zone, __instance.BotGame, bot, enemies, __instance._deadBodiesController, __instance._allPlayers, true);
-            if (spawn?.ShallBeGroup != null) group.TargetMembersCount = spawn.ShallBeGroup.StartCount;
+            if (formation != null) group.TargetMembersCount = formation.StartCount;
             __instance.Groups.AddNoKey(group, zone);
-            if (spawn != null) ChaosGroups.Add(spawn, group);
+            if (chaos && spawn != null) ChaosGroups.Add(spawn, group);
+            else if (formations != null) formations.Add(formation, group);
             __result = group;
             return false;
         }
@@ -62,7 +84,7 @@ namespace ISBSpecialForces.Components
             enemy = false;
             var source = group?._initialBot;
             if (source?.Profile == null || target == null) return false;
-            bool sourceChaos = IsChaos(source.Profile.Id), targetChaos = IsChaos(target.ProfileId);
+            bool sourceChaos = IsChaos(source.Profile), targetChaos = IsChaos(target.Profile);
             if (!sourceChaos && !targetChaos) return false;
             enemy = source.Profile.Id != target.ProfileId && sourceChaos != targetChaos;
             return true;
@@ -125,7 +147,7 @@ namespace ISBSpecialForces.Components
         }
 
         private static bool Relevant(BotsGroup group) => group?._initialBot?.Profile?.Info?.Settings != null &&
-            (IsChaos(group._initialBot.Profile.Id) || WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role) || IsBlackDivisionGroup(group));
+            (IsChaos(group._initialBot.Profile) || WildSpawnTypeExtensions.IsISB(group._initialBot.Profile.Info.Settings.Role) || IsBlackDivisionGroup(group));
 
         internal static void Refresh(GameWorld world)
         {

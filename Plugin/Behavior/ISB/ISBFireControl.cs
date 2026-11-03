@@ -19,6 +19,10 @@ namespace ISBSpecialForces.Behavior.ISB
             internal Vector3 TargetPosition;
             internal float Until;
             internal bool Memory;
+#if !SPT40
+            internal EnemyPart ExposedPart;
+            internal float NextPartProbe;
+#endif
         }
 
         private static readonly ConditionalWeakTable<BotOwner, AimState> States = new ConditionalWeakTable<BotOwner, AimState>();
@@ -39,7 +43,7 @@ namespace ISBSpecialForces.Behavior.ISB
             if (!Controls(bot)) return;
             var enemy = bot.Memory?.GoalEnemy;
             bool memory = __instance is ISBSuppressionAiming && enemy?.IsVisible != true;
-            if (enemy?.IsVisible == true) __0 = enemy.GetPartToShoot();
+            if (enemy?.IsVisible == true) __0 = VisiblePoint(bot, enemy);
             if (!__0.HasValue || enemy?.Person?.HealthController?.IsAlive != true ||
                 !memory && (!enemy.IsVisible || (__0.Value - enemy.CurrPosition).sqrMagnitude > 16f))
             {
@@ -53,6 +57,30 @@ namespace ISBSpecialForces.Behavior.ISB
             state.TargetPosition = enemy.Person.Position;
             state.Until = Time.time + 0.3f;
             state.Memory = memory;
+        }
+
+        private static Vector3? VisiblePoint(BotOwner bot, EnemyInfo enemy)
+        {
+            var point = enemy.GetPartToShoot();
+#if !SPT40
+            if (enemy.CanShoot && !Clear(bot, point))
+            {
+                var state = States.GetValue(bot, _ => new AimState());
+                if (state.ExposedPart?.EnemyPlayer?.ProfileId == enemy.ProfileId && Clear(bot, state.ExposedPart.Position))
+                    return state.ExposedPart.Position;
+                if (Time.time < state.NextPartProbe) return null;
+                state.NextPartProbe = Time.time + 0.15f;
+                state.ExposedPart = null;
+                foreach (var part in enemy._allParts.Values)
+                {
+                    if (part == null || !Clear(bot, part.Position)) continue;
+                    state.ExposedPart = part;
+                    return part.Position;
+                }
+                return null;
+            }
+#endif
+            return point;
         }
 
         internal static bool MayFire(BotOwner bot)
@@ -87,6 +115,13 @@ namespace ISBSpecialForces.Behavior.ISB
 #endif
             if (!Controls(bot) || MayFire(bot)) return true;
             __instance.EndShoot();
+            __result = false;
+            return false;
+        }
+
+        internal static bool SainShootPrefix(ShootData __0, ref bool __1, ref bool __result)
+        {
+            if (ShootPrefix(__0, ref __1)) return true;
             __result = false;
             return false;
         }

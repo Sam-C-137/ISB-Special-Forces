@@ -1,5 +1,5 @@
 "use strict";
-const populationModes = ["performanceMode", "ghostBusterOnly", "whiteTuskOnly", "noISBMode", "noBlackDivMode"];
+const populationModes = ["performanceMode", "ghostBusterOnly", "chaosInsurgencyOnly", "whiteTuskOnly", "noISBMode", "noBlackDivMode"];
 const questDogtags = new Set(["6963dede566c81e5c5dc9b4a", "6966abf2e6001880baf0ada0"]);
 const $ = (s) => document.querySelector(s),
     clone = (x) => JSON.parse(JSON.stringify(x)),
@@ -24,6 +24,20 @@ const state = {
     estimateSettings: {blackoutMinute: 10, powerMinute: 20, reinforcementMinute: 15, includeRestore: false},
 };
 const labels = {
+    containementBreachQueue: "Spawn Limit",
+    blackoutQueue: "Blackout Spawn Limit",
+    maximumBots: "Population target",
+    squadOverflow: "Extra slots for whole squads",
+    reinforcementIntervalSeconds: "PMC / Raider interval (s)",
+    reinforcementWindowSeconds: "PMC / Raider opportunity window (s)",
+    genericRefillDelaySeconds: "Generic refill delay (s)",
+    normal: "Normal faction targets",
+    reinforcement: "PMC / Raider faction targets",
+    performanceMaximumBots: "Performance population target",
+    performanceNormal: "Performance normal faction targets",
+    performanceReinforcement: "Performance PMC / Raider faction targets",
+    externalFactions: "External Factions",
+    chaosInsurgency: "Chaos Insurgency",
     locations: "Maps & Formations",
     laboratory: "The Lab",
     sandbox: "Ground Zero",
@@ -75,6 +89,7 @@ const labels = {
     enableBlackDivCustomBehavior: "Enable Custom Black Division Behavior",
     changeBlackDivBehaviorAllMaps: "Enable Custom Black Division Behavior in All Maps",
     collabLoadouts: "Collaboration loadouts",
+    PackNStrapLoadouts: "PackNStrap belts",
     collabPresets: "Collaboration Presets",
     enableCollabLoadoutsAndAppearances: "Collaboration Loadouts & Appearances",
     enableCollabPresets: "Collaboration Presets",
@@ -126,6 +141,7 @@ Object.assign(labels, {
     populationControl: "Population control",
     performanceMode: "Performance Mode",
     ghostBusterOnly: "Ghost Busters Only",
+    chaosInsurgencyOnly: "Chaos Insurgency Only",
     whiteTuskOnly: "White Tusks Only",
     noISBMode: "No ISB Mode",
     noBlackDivMode: "No Black Division Mode",
@@ -154,7 +170,6 @@ Object.assign(labels, {
 
 Object.assign(labels, {
     labsVariantsEnabled: "Enable Labs Map Variants Selector",
-    containmentBreachLastQuest: "Labs unlock quest",
     labsChaos: "Event reinforcements",
     patrols: "Patrols",
     checkpoints: "Checkpoints",
@@ -186,11 +201,12 @@ function visible(path) {
     const keys = path.split("/").slice(1).map(unesc),
         last = keys[keys.length - 1];
     if (state.current?.document.relativePath === "config.jsonc") {
+        if (keys[0] === "blackoutQueue") return keys.length >= 2;
         if (keys[0] === "botHealth") return keys.length === 3;
         if (keys[0] === "labsBlackoutEvent")
             return (
                 !keys.some((k) => ["zones", "followers"].includes(k)) &&
-                (spawnField.test(last) || last === "selectionMode")
+                (spawnField.test(last) || last === "selectionMode" || last === "performanceMode")
             );
         if (keys[0] === "locations")
             return (
@@ -247,12 +263,12 @@ function visible(path) {
             "disableNormalISBSpawnsDuringEvent",
             "disableNormalBlackDivisionSpawnsDuringEvent",
             "labsVariantsEnabled",
-            "containmentBreachLastQuest",
         ].includes(last);
     if (keys[0] === "populationControl") return keys.length === 2;
+    if (keys[0] === "containementBreachQueue") return keys.length >= 2;
 
     if (
-        ["isb", "blackDivision", "pmcs", "raiders", "labsChaos", "isbReinforcements"].includes(
+        ["isb", "blackDivision", "pmcs", "raiders", "labsChaos", "isbReinforcements", "externalFactions"].includes(
             keys[0],
         )
     )
@@ -264,11 +280,12 @@ function formationPath(path) {
         (/^\/labsBlackoutEvent\//.test(path) &&
             /\/(patrols|checkpoints|hunts|formations)$/.test(path)) ||
         /^\/locations\/[^/]+\/(patrol|hunt|checkpoint)\/formations$/.test(path) ||
-        (/^\/(isb|blackDivision|pmcs|raiders|labsChaos|isbReinforcements)\//.test(path) &&
+        (/^\/(isb|blackDivision|pmcs|raiders|labsChaos|isbReinforcements|externalFactions)\//.test(path) &&
             /\/(formations|patrols|checkpoints|hunts)$/.test(path))
     );
 }
 function hasVisible(value, path) {
+    if (path.includes("/externalFactions") && state.view !== "externalFactions") return false;
     if (path.startsWith("/containmentCaseSpawns")) return true;
     if (formationPath(path)) return true;
     return Object.entries(value).some(([k, v]) =>
@@ -440,6 +457,8 @@ async function confirmDiscard() {
 const mainTabs = [
     ["locations", "Maps & Formations"],
     ["labsBlackoutEvent", "Blackout formations"],
+    ["blackoutQueue", "Blackout Spawn Limit"],
+    ["externalFactions", "External Factions"],
     ["botHealth", "Bot Health"],
     ["__general", "Essentials & Debug"],
     ["dayNight", "Day & night"],
@@ -449,8 +468,10 @@ const mainTabs = [
 const eventTabs = [
     ["__general", "Event & Labs variants"],
     ["populationControl", "Map population"],
+    ["containementBreachQueue", "Spawn Limit"],
     ["isb", "ISB formations"],
     ["blackDivision", "Black Division formations"],
+    ["externalFactions", "External Factions"],
     ["pmcs", "PMCs"],
     ["raiders", "Raiders"],
     ["isbReinforcements", "Event reinforcements"],
@@ -623,9 +644,7 @@ function hint(path, key) {
             raidTimeMin: "Use -1 for a instant spawn.",
             raidTimeMax: "Use -1 for a instant spawn.",
             labsVariantsEnabled:
-                "Unlocks the variant selector after the final event quest is completed.",
-            containmentBreachLastQuest:
-                "Final C.A.S.S.I.E. SSD delivery quest. Completing it unlocks all three variants. The boss skull follows guaranteed event quests and the selected variant.",
+                "Unlocks the variant selector after earning Ms. VICTORIA by completing the entire Containment Breach questline, accepting quests failed through Pick a Side.",
         }[key] || ""
     );
 }
@@ -939,7 +958,9 @@ function botSelect(title, value, path) {
     const event =
         state.current.document.relativePath !== "config.jsonc" ||
         path.startsWith("/labsBlackoutEvent/");
-    const allowed = (v) => event || !/^(blackdiv|bossWedge)/i.test(String(v));
+    const external = path.includes("/externalFactions/");
+    const allowed = (v) => external ? /^(chaosInsurgency|13101)$/i.test(String(v)) :
+        !/^(chaosInsurgency|13101)$/i.test(String(v)) && (event || !/^(blackdiv|bossWedge)/i.test(String(v)));
     const choices = new Map(
         state.botTypes
             .filter((b) => allowed(b.value))
@@ -1039,7 +1060,7 @@ function followerList(list, path) {
     const add = el("button", "small", "+ Add follower");
     add.onclick = () => {
         const next = clone(at(path));
-        next.push({ type: "ISBSpecialForces", min: 1, max: 1 });
+        next.push({ type: path.includes("/externalFactions/") ? "chaosInsurgency" : "ISBSpecialForces", min: 1, max: 1 });
         set(path, next);
         render();
     };
@@ -1118,8 +1139,8 @@ function newFormation(path) {
         weight: 1,
         ...(path.startsWith("/locations/") ? {} : { chance: 100 }),
         squadCount: 1,
-        boss: "ISBSpecialForces",
-        followers: [{ type: "ISBSpecialForces", min: 1, max: 1 }],
+        boss: path.includes("/externalFactions/") ? "chaosInsurgency" : "ISBSpecialForces",
+        followers: [{ type: path.includes("/externalFactions/") ? "chaosInsurgency" : "ISBSpecialForces", min: 1, max: 1 }],
         zones: [],
         raidTimeMin: -1,
         raidTimeMax: -1,
@@ -1257,6 +1278,8 @@ function sectionGuide() {
         return "Configure the groups that respond when power goes out or returns. Selecting Blackout on the map guarantees a power failure and runs the configured spawn triggers.";
     if (state.view === "__blackout")
         return "In The Lab, automatic blackouts require ISB operators and a successful chance roll. The Blackout variant guarantees a power failure. Shutting down both power cells also cuts the power manually.";
+    if (state.view === "externalFactions")
+        return "Configure Chaos Insurgency separately from Black Division. Its squads remain hostile to other factions and allied to other CI squads.";
     if (state.view === "blackDivision")
         return "Black Division is available in event formations. Regular formations use the ISB operator roster.";
     return "";
@@ -1288,13 +1311,28 @@ function overviewGroups() {
         phase(config.powerRestored, "Power restored", state.estimateSettings.powerMinute * 60, config.enabled !== false && state.estimateSettings.includeRestore);
     } else if (["isb", "blackDivision", "pmcs", "raiders"].includes(state.view)) {
         faction(state.data[state.view], label(state.view), 0, state.data.enabled !== false && (state.view !== "blackDivision" || state.blackDivisionInstalled || state.data.noBlackDivMode === true));
+    } else if (state.view === "externalFactions") {
+        if (state.current.document.relativePath === "config.jsonc") {
+            const blackout = state.data.labsBlackoutEvent || {};
+            for (const [key, name, offset, allowed] of [["blackoutActivated", "Blackout begins", state.estimateSettings.blackoutMinute * 60, true], ["powerRestored", "Power restored", state.estimateSettings.powerMinute * 60, state.estimateSettings.includeRestore]]) {
+                const value = blackout[key];
+                faction(value?.externalFactions?.chaosInsurgency, name + " · Chaos Insurgency", offset, blackout.enabled !== false && value?.enabled !== false && allowed);
+            }
+        } else {
+            faction(state.data.externalFactions?.chaosInsurgency, "Chaos Insurgency", 0, state.data.enabled !== false);
+            const reinforcements = state.data.isbReinforcements;
+            if (reinforcements?.externalFactions?.chaosInsurgency)
+                faction(reinforcements.externalFactions.chaosInsurgency, "Chaos Insurgency · Reinforcements", state.estimateSettings.reinforcementMinute * 60, state.data.enabled !== false && reinforcements.enabled !== false);
+        }
     } else if (state.view === "isbReinforcements") {
         phase(state.data.isbReinforcements, "Reinforcements triggered", state.estimateSettings.reinforcementMinute * 60, state.data.enabled !== false);
     }
     return groups;
 }
 function overviewTiming(host) {
-    if (state.view !== "isbReinforcements") return;
+    const externalReinforcements = state.view === "externalFactions" && state.current?.document.relativePath !== "config.jsonc" &&
+        ["patrols", "checkpoints", "hunts"].some(kind => state.data.isbReinforcements?.externalFactions?.chaosInsurgency?.[kind]?.length);
+    if (state.view !== "isbReinforcements" && !externalReinforcements) return;
     const controls = el("div", "estimate-timing overview-wide");
     controls.append(el("strong", "", "Timeline scenario · elapsed raid time"));
     for (const [key, title] of [["reinforcementMinute", "Reinforcements trigger (min)"]]) {
@@ -1337,7 +1375,7 @@ function updateOverview() {
 }
 
 function renderBotHealth(host) {
-    host.append(el("p", "section-guide", "Base health for newly generated ISB bots. Containment Breach health multipliers continue to apply. Restart the server after saving."));
+    host.append(el("p", "section-guide", "Base health for newly generated ISB and Chaos Insurgency bots. Their respective health multipliers continue to apply. Restart the server after saving."));
     const ranks = new Map(state.botTypes.map((bot, index) => [bot.value.toLowerCase(), index]));
     const entries = Object.entries(state.data.botHealth || {}).sort(([a], [b]) => (ranks.get(a.toLowerCase()) ?? Number.MAX_SAFE_INTEGER) - (ranks.get(b.toLowerCase()) ?? Number.MAX_SAFE_INTEGER));
     for (const [role, parts] of entries) {
@@ -1363,6 +1401,18 @@ function render() {
         if (opened.has(d.dataset.path)) d.open = opened.get(d.dataset.path);
     for (const s of scrolls) { s.node.scrollLeft = s.x; s.node.scrollTop = s.y; }
 }
+function renderExternalFactions(host) {
+    const main = state.current.document.relativePath === "config.jsonc";
+    const entries = main
+        ? [["Power Down", state.data.labsBlackoutEvent?.blackoutActivated?.externalFactions, "/labsBlackoutEvent/blackoutActivated/externalFactions"], ["Labs Power Restored", state.data.labsBlackoutEvent?.powerRestored?.externalFactions, "/labsBlackoutEvent/powerRestored/externalFactions"]]
+        : [["Containment Breach", state.data.externalFactions, "/externalFactions"], ["Event reinforcements", state.data.isbReinforcements?.externalFactions, "/isbReinforcements/externalFactions"]];
+    for (const [title, value, path] of entries) {
+        if (!value) continue;
+        const card = section(value, path, title, 0);
+        if (card) host.append(card);
+    }
+}
+
 function renderContent() {
     updateOverview();
     const host = $("#content");
@@ -1370,6 +1420,7 @@ function renderContent() {
     if (!state.current) return;
     const guide = sectionGuide();
     if (guide) host.append(el("p", "section-guide", guide));
+    if (state.view === "externalFactions") { renderExternalFactions(host); return; }
     if (state.current.document.relativePath === "config.jsonc" && state.view === "botHealth") { renderBotHealth(host); return; }
     if (state.current.document.format === "cfg") {
         const fields = el("div", "fields");
@@ -1437,7 +1488,22 @@ function resetDefaults() {
     } else {
         const defaults = state.current.defaults;
         if (!defaults) return;
-        if (view === "__general") {
+        if (view === "externalFactions" && state.current.document.relativePath === "config.jsonc") {
+            for (const phase of ["blackoutActivated", "powerRestored"])
+                if (defaults.labsBlackoutEvent?.[phase]?.externalFactions)
+                    set("/labsBlackoutEvent/" + phase + "/externalFactions", clone(defaults.labsBlackoutEvent[phase].externalFactions));
+        } else if (view === "externalFactions") {
+            if (defaults.externalFactions) state.data.externalFactions = clone(defaults.externalFactions);
+            if (defaults.isbReinforcements?.externalFactions) state.data.isbReinforcements.externalFactions = clone(defaults.isbReinforcements.externalFactions);
+        } else if (view === "labsBlackoutEvent") {
+            const external = Object.fromEntries(["blackoutActivated", "powerRestored"].map(phase => [phase, clone(state.data.labsBlackoutEvent[phase].externalFactions)]));
+            state.data.labsBlackoutEvent = clone(defaults.labsBlackoutEvent);
+            for (const phase of Object.keys(external)) state.data.labsBlackoutEvent[phase].externalFactions = external[phase];
+        } else if (view === "isbReinforcements") {
+            const external = clone(state.data.isbReinforcements.externalFactions);
+            state.data.isbReinforcements = clone(defaults.isbReinforcements);
+            state.data.isbReinforcements.externalFactions = external;
+        } else if (view === "__general") {
             for (const [key, value] of Object.entries(defaults))
                 if ((value === null || typeof value !== "object") && visible("/" + esc(key))) state.data[key] = clone(value);
             if (state.current.document.relativePath === "config.jsonc")
@@ -1530,8 +1596,7 @@ $("#export").onclick = () => {
     a.href = url;
     a.download = state.current.document.relativePath
         .split("/")
-        .pop()
-        .replace(/\.jsonc$/, ".json");
+        .pop();
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
 };

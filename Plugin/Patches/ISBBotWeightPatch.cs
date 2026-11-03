@@ -43,7 +43,7 @@ namespace ISBSpecialForces.Patches
             if (player == null || !player.IsAI || settings == null)
                 return weight;
             var spawnId = player.AIData?.BotOwner?.SpawnProfileData?.SpawnParams?.Id_spawn;
-            return WildSpawnTypeExtensions.IsISB(settings.Role) || spawnId?.StartsWith("isb_", StringComparison.Ordinal) == true ? 0f : weight;
+            return WildSpawnTypeExtensions.IsISB(settings.Role) || (int)settings.Role == ISB.Compatibility.GhostBotVariant.ChaosValue || spawnId?.StartsWith("isb_", StringComparison.Ordinal) == true ? 0f : weight;
         }
     }
 

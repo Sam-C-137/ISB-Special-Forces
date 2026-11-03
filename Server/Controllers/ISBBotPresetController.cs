@@ -1,4 +1,4 @@
-﻿using ISB.Compatibility;
+using ISB.Compatibility;
 using ISBSpecialForcesServer.Patches;
 using SPTarkov.Server.Core.Helpers.Items;
 using SPTarkov.Server.Core.Helpers.Server;
@@ -196,7 +196,7 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
     private bool _loaded;
     private bool BlackDivisionPresetsEnabled => BlackDivisionPresetPolicy.Enabled(InstalledModGuids.Contains(BlackDivisionPresetPolicy.ModGuid), configController.ModConfig?.blackDivisionBotPresets);
 
-    private BotPresetConfig? PresetConfigFor(string role) => GhostBotVariant.Is(role) || BlackDivisionPresetPolicy.IsRole(role) ? configController.ModConfig?.blackDivisionBotPresets : configController.ModConfig?.botPresets;
+    private BotPresetConfig? PresetConfigFor(string role) => GhostBotVariant.Is(role) && !GhostBotVariant.IsChaos(role) || BlackDivisionPresetPolicy.IsRole(role) ? configController.ModConfig?.blackDivisionBotPresets : configController.ModConfig?.botPresets;
     private HashSet<string>? _installedModGuids;
     private bool IsCollabFolderActive(string folder, string[][] requirementGroups)
     {
@@ -227,11 +227,6 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
                 return;
             _loaded = true;
             GhostBotGenerationPatch.PresetsLoaded = true;
-            if (configController.ModConfig?.botPresets?.enabled != true && !InstalledModGuids.Contains(BlackDivisionPresetPolicy.ModGuid))
-            {
-                return;
-            }
-
             CacheUseChanceConfig();
             var modPath = modHelper.GetAbsolutePathToModFolder(Assembly.GetExecutingAssembly());
             var root = IOPath.Combine(modPath, "db", "BotPresets");
@@ -255,8 +250,7 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
                 }
             }
 
-            if (InstalledModGuids.Contains(BlackDivisionPresetPolicy.ModGuid))
-                LoadPresetRoot(IOPath.Combine(modPath, "db", "BlackDivisionBotPresets"), temp, ref filesRead, blackDivision: true);
+            LoadPresetRoot(IOPath.Combine(modPath, "db", "BlackDivisionBotPresets"), temp, ref filesRead, blackDivision: true);
             foreach (var role in GhostBotVariant.Names)
                 GhostBotGenerationPatch.SetReady(role, temp.TryGetValue(MakeKey(role, "Day"), out var day) && day.Count > 0, temp.TryGetValue(MakeKey(role, "Night"), out var night) && night.Count > 0);
             _cache = temp.ToDictionary(pair => pair.Key, pair => (IReadOnlyList<ISBBotPresetEntry>)pair.Value.AsReadOnly(), StringComparer.OrdinalIgnoreCase);
@@ -279,6 +273,10 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
             }
 
             if ((BlackDivisionPresetPolicy.IsRole(role) || GhostBotVariant.Is(role)) != blackDivision)
+                continue;
+            if (GhostBotVariant.IsChaos(role) && configController.ModConfig?.botPresets?.enabled != true)
+                continue;
+            if (blackDivision && GhostBotVariant.Is(role) && !GhostBotVariant.IsChaos(role) && !InstalledModGuids.Contains(BlackDivisionPresetPolicy.ModGuid))
                 continue;
             if (blackDivision && !GhostBotVariant.Is(role) && !BlackDivisionPresetsEnabled)
                 continue;
@@ -331,7 +329,8 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
         var rawRole = requestedRole ?? bot.Info?.Settings?.Role;
         if (!TryNormalizeRole(rawRole, out var role))
             return false;
-        bool ghost = GhostBotVariant.Is(role);
+        bool chaos = GhostBotVariant.IsChaos(role);
+        bool ghost = GhostBotVariant.Is(role) && !chaos;
         bool blackDivision = ghost || BlackDivisionPresetPolicy.IsRole(role);
         if (ghost ? !InstalledModGuids.Contains(BlackDivisionPresetPolicy.ModGuid) : blackDivision ? !BlackDivisionPresetsEnabled : configController.ModConfig?.botPresets?.enabled != true)
             return false;
@@ -341,11 +340,11 @@ public class ISBBotPresetController(ConfigController configController, ModHelper
         var period = spawnController.CurrentRaidIsNight() ? "Night" : "Day";
         if (!_cache.TryGetValue(MakeKey(role, period), out var presets) || presets.Count == 0)
         {
-            if (blackDivision || !needsEquipment || !_cache.TryGetValue(MakeKey("ISBScout", period), out presets) || presets.Count == 0)
+            if (blackDivision || chaos || !needsEquipment || !_cache.TryGetValue(MakeKey("ISBScout", period), out presets) || presets.Count == 0)
                 return false;
         }
 
-        var useChance = ghost || (needsEquipment && !blackDivision) ? 100d : ResolveUseChance(role);
+        var useChance = ghost || (needsEquipment && !blackDivision && !chaos) ? 100d : ResolveUseChance(role);
         if (useChance <= 0d || (useChance < 100d && Random.Shared.NextDouble() * 100d >= useChance))
         {
             return false;

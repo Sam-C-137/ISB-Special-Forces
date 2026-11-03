@@ -1,6 +1,43 @@
 {
+  "containementBreachQueue": {
+    "enabled": true,
+    "maximumBots": 17,
+    "squadOverflow": 3,
+    "reinforcementIntervalSeconds": 300,
+    "reinforcementWindowSeconds": 60,
+    "genericRefillDelaySeconds": 15,
+    "normal": {
+      "blackDivision": 10,
+      "isb": 4,
+      "chaosInsurgency": 3,
+      "raiders": 0,
+      "pmcs": 0
+    },
+    "reinforcement": {
+      "blackDivision": 7,
+      "isb": 2,
+      "chaosInsurgency": 2,
+      "raiders": 3,
+      "pmcs": 3
+    },
+    "performanceMaximumBots": 13,
+    "performanceNormal": {
+      "blackDivision": 8,
+      "isb": 3,
+      "chaosInsurgency": 2,
+      "raiders": 0,
+      "pmcs": 0
+    },
+    "performanceReinforcement": {
+      "blackDivision": 6,
+      "isb": 2,
+      "chaosInsurgency": 1,
+      "raiders": 2,
+      "pmcs": 2
+    }
+  },
   "labsVariantsEnabled": true,
-  "containmentBreachLastQuest": "8e4f5535e0bf4135b8a90ec7", // [CONTAINMENT BREACH] Putting Out the Fire
+  "containmentBreachLastQuest": "8e4f5535e0bf4135b8a90ec7",
   "enabled": true,
   "chance": 15,
   "isbHealthMultiplier": 0.65,
@@ -29,7 +66,7 @@
       "y": 1.368,
       "z": -323.89
     },
-    "cassieFlashDriveItem": "4fef2f1523c2754ade168cfa", // Flash drive with C.A.S.S.I.E. system data
+    "cassieFlashDriveItem": "4fef2f1523c2754ade168cfa",
     "deadManSwitch": {
       "audio": "DeadManSwitchV2.wav",
       "image": "DeadManSwitchImage.jpg",
@@ -48,7 +85,7 @@
       {
         "id": "ContainmentBreach_mechanic-craft",
         "enabled": true,
-        "questId": "ca7b2ef7bca84efe967f9b40", // [CONTAINMENT BREACH] Active Connection
+        "questId": "ca7b2ef7bca84efe967f9b40",
         "questStatuses": [
           2,
           3
@@ -58,7 +95,7 @@
       {
         "id": "ContainmentBreach_aishi-craft",
         "enabled": true,
-        "questId": "35dc82a3c84b4c0a8a0646d8", // [CONTAINMENT BREACH] Heavy Firewall
+        "questId": "35dc82a3c84b4c0a8a0646d8",
         "questStatuses": [
           2,
           3
@@ -68,7 +105,7 @@
       {
         "id": "ContainmentBreach_office-upload",
         "enabled": true,
-        "questId": "10413f0d043844c6a69a88db", // [CONTAINMENT BREACH] Emergency Credentials
+        "questId": "10413f0d043844c6a69a88db",
         "questStatuses": [
           2,
           3
@@ -78,7 +115,7 @@
       {
         "id": "ContainmentBreach_office-reader",
         "enabled": true,
-        "questId": "637a389d84da48a4a34dfd17", // [CONTAINMENT BREACH] Fully Isolated Circuit
+        "questId": "637a389d84da48a4a34dfd17",
         "questStatuses": [
           2,
           3
@@ -88,7 +125,7 @@
       {
         "id": "ContainmentBreach_aishi-office",
         "enabled": true,
-        "questId": "b8432fd547b146bfa8b77dd6", // [CONTAINMENT BREACH] Data Extraction
+        "questId": "b8432fd547b146bfa8b77dd6",
         "questStatuses": [
           2,
           3
@@ -98,7 +135,7 @@
       {
         "id": "ContainmentBreach_aishi-final-delivery",
         "enabled": true,
-        "questId": "8e4f5535e0bf4135b8a90ec7", // [CONTAINMENT BREACH] Putting Out the Fire
+        "questId": "8e4f5535e0bf4135b8a90ec7",
         "questStatuses": [
           2,
           3
@@ -108,7 +145,7 @@
       {
         "id": "ContainmentBreach_aishi-skier",
         "enabled": true,
-        "questId": "52588eccea984354a13b53f4", // [CONTAINMENT BREACH] I Don't Care About the Conflict of Interest (Pick Side)
+        "questId": "52588eccea984354a13b53f4",
         "questStatuses": [
           2,
           3
@@ -118,7 +155,7 @@
       {
         "id": "ContainmentBreach_aishi-fence",
         "enabled": true,
-        "questId": "1184c00a9ec847be987be767", // [CONTAINMENT BREACH] You Shouldn't Interfere (Pick Side)
+        "questId": "1184c00a9ec847be987be767",
         "questStatuses": [
           2,
           3
@@ -128,7 +165,7 @@
       {
         "id": "ContainmentBreach_aishi-peacekeeper",
         "enabled": true,
-        "questId": "cd993bfe6ed447dcaab85d04", // [CONTAINMENT BREACH] Fine Espionage (Pick Side)
+        "questId": "cd993bfe6ed447dcaab85d04",
         "questStatuses": [
           2,
           3
@@ -138,7 +175,7 @@
       {
         "id": "ContainmentBreach_lotus",
         "enabled": true,
-        "questId": "a3b3fae920584af7b941a2fc", // [CONTAINMENT BREACH] Antidotes Are Never Unnecessary
+        "questId": "a3b3fae920584af7b941a2fc",
         "questStatuses": [
           2,
           3
@@ -148,7 +185,7 @@
       {
         "id": "ContainmentBreach_lotus_anomalies",
         "enabled": true,
-        "questId": "6e49a30eafa8409bbf623897", // [CONTAINMENT BREACH] Known Threat Entity
+        "questId": "6e49a30eafa8409bbf623897",
         "questStatuses": [
           2,
           3
@@ -158,7 +195,7 @@
       {
         "id": "ContainmentBreach_m1",
         "enabled": true,
-        "questId": "dd715e78ab984c14909da407", // [CONTAINMENT BREACH] Playing with Fire
+        "questId": "dd715e78ab984c14909da407",
         "questStatuses": [
           2,
           3
@@ -168,7 +205,7 @@
       {
         "id": "ContainmentBreach_m2",
         "enabled": true,
-        "questId": "a38b841cae6d46dab703e8eb", // [CONTAINMENT BREACH] Power Source
+        "questId": "a38b841cae6d46dab703e8eb",
         "questStatuses": [
           2,
           3
@@ -178,7 +215,7 @@
       {
         "id": "ContainmentBreach_m3",
         "enabled": true,
-        "questId": "f1a90496778649e8b955e60d", // [CONTAINMENT BREACH] Path to the Exit
+        "questId": "f1a90496778649e8b955e60d",
         "questStatuses": [
           2,
           3
@@ -188,7 +225,7 @@
       {
         "id": "ContainmentBreach_m4",
         "enabled": true,
-        "questId": "c9304d1a70414b398f840595", // [CONTAINMENT BREACH] Powering Up
+        "questId": "c9304d1a70414b398f840595",
         "questStatuses": [
           2,
           3
@@ -198,7 +235,7 @@
       {
         "id": "ContainmentBreach_m5",
         "enabled": true,
-        "questId": "9dfc181b7e2944bd9d40308b", // [CONTAINMENT BREACH] Helping a Friend
+        "questId": "9dfc181b7e2944bd9d40308b",
         "questStatuses": [
           2,
           3
@@ -208,7 +245,7 @@
       {
         "id": "ContainmentBreach_a1",
         "enabled": true,
-        "questId": "0ca9dfa7d14d42f2bd5acdb0", // [CONTAINMENT BREACH] Breaking the Siege
+        "questId": "0ca9dfa7d14d42f2bd5acdb0",
         "questStatuses": [
           2,
           3
@@ -218,7 +255,7 @@
       {
         "id": "ContainmentBreach_a2",
         "enabled": true,
-        "questId": "db3b1511110c41cdbab6d4f6", // [CONTAINMENT BREACH] Identification
+        "questId": "db3b1511110c41cdbab6d4f6",
         "questStatuses": [
           2,
           3
@@ -228,7 +265,7 @@
       {
         "id": "ContainmentBreach_a4",
         "enabled": true,
-        "questId": "5387285ba1624dab9ac06d72", // [CONTAINMENT BREACH] Targeting Leadership
+        "questId": "5387285ba1624dab9ac06d72",
         "questStatuses": [
           2,
           3
@@ -238,7 +275,7 @@
       {
         "id": "ContainmentBreach_a5",
         "enabled": true,
-        "questId": "a3f407eb22cd41769e6f4c5f", // [CONTAINMENT BREACH] No Way Out
+        "questId": "a3f407eb22cd41769e6f4c5f",
         "questStatuses": [
           2,
           3
@@ -248,7 +285,7 @@
       {
         "id": "ContainmentBreach_a3",
         "enabled": true,
-        "questId": "8b708ff6d7e641e38f6f2be0", // [CONTAINMENT BREACH] Chain of Custody
+        "questId": "8b708ff6d7e641e38f6f2be0",
         "questStatuses": [
           2,
           3
@@ -258,7 +295,7 @@
       {
         "id": "ContainmentBreach_aRepair",
         "enabled": true,
-        "questId": "0b69f84d68d74db7b5dea117", // [CONTAINMENT BREACH] Darkness, No Power, Fire, can it get worse?
+        "questId": "0b69f84d68d74db7b5dea117",
         "questStatuses": [
           2,
           3
@@ -268,7 +305,7 @@
       {
         "id": "ContainmentBreach_s1",
         "enabled": true,
-        "questId": "85baf5fc8723406a88b049a5", // [CONTAINMENT BREACH] Conflict of Interest (Pick Side)
+        "questId": "85baf5fc8723406a88b049a5",
         "questStatuses": [
           2,
           3
@@ -278,7 +315,7 @@
       {
         "id": "ContainmentBreach_s2",
         "enabled": true,
-        "questId": "1f6a892b5dda4241868ffd09", // [CONTAINMENT BREACH] Holding Your Breath
+        "questId": "1f6a892b5dda4241868ffd09",
         "questStatuses": [
           2,
           3
@@ -288,7 +325,7 @@
       {
         "id": "ContainmentBreach_t1",
         "enabled": true,
-        "questId": "e4e78f48c1e44d898e8ad5e3", // [CONTAINMENT BREACH] Studies Come First
+        "questId": "e4e78f48c1e44d898e8ad5e3",
         "questStatuses": [
           2,
           3
@@ -298,7 +335,7 @@
       {
         "id": "ContainmentBreach_t2",
         "enabled": true,
-        "questId": "64e6df2f30554b3ea6e4e1c9", // [CONTAINMENT BREACH] Health at Risk
+        "questId": "64e6df2f30554b3ea6e4e1c9",
         "questStatuses": [
           2,
           3
@@ -308,7 +345,7 @@
       {
         "id": "ContainmentBreach_r1",
         "enabled": true,
-        "questId": "688a35cea49a4833a17c74b0", // [CONTAINMENT BREACH] Making a Profit
+        "questId": "688a35cea49a4833a17c74b0",
         "questStatuses": [
           2,
           3
@@ -318,7 +355,7 @@
       {
         "id": "ContainmentBreach_p1",
         "enabled": true,
-        "questId": "a5933b154fe34593947956c8", // [CONTAINMENT BREACH] Rubbing Salt in the Wound (Pick Side)
+        "questId": "a5933b154fe34593947956c8",
         "questStatuses": [
           2,
           3
@@ -328,7 +365,7 @@
       {
         "id": "ContainmentBreach_f1",
         "enabled": true,
-        "questId": "8e039d03e80f41788f9b9819", // [CONTAINMENT BREACH] The "White Tusks"
+        "questId": "8e039d03e80f41788f9b9819",
         "questStatuses": [
           2,
           3
@@ -337,7 +374,7 @@
       },
       {
         "id": "ContainmentBreach_aChem",
-        "questId": "8367ca4830984afeb8551aaa", // [CONTAINMENT BREACH] Global-Level Biohazard
+        "questId": "8367ca4830984afeb8551aaa",
         "enabled": true,
         "questStatuses": [
           2,
@@ -347,7 +384,7 @@
       },
       {
         "id": "ContainmentBreach_f2",
-        "questId": "66a3c03136254144b3cf9e93", // [CONTAINMENT BREACH] Burning Files
+        "questId": "66a3c03136254144b3cf9e93",
         "enabled": true,
         "questStatuses": [
           2,
@@ -357,7 +394,7 @@
       },
       {
         "id": "ContainmentBreach_j1",
-        "questId": "55ccb3bc5af1428fb03001df", // [CONTAINMENT BREACH] Living is Good
+        "questId": "55ccb3bc5af1428fb03001df",
         "enabled": true,
         "questStatuses": [
           2,
@@ -531,6 +568,14 @@
       "patrols": [],
       "checkpoints": [],
       "hunts": []
+    },
+    "externalFactions": {
+      "chaosInsurgency": {
+        "enabled": true,
+        "patrols": [],
+        "checkpoints": [],
+        "hunts": []
+      }
     }
   },
   "isb": {
@@ -899,27 +944,6 @@
         "raidTimeMax": -1
       },
       {
-        "id": "ContainmentBreachBDPatrol03",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "chaosInsurgency",
-        "followers": [
-          {
-            "type": "chaosInsurgency",
-            "min": 3,
-            "max": 3
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 285,
-        "raidTimeMax": 315
-      },
-      {
         "id": "ContainmentBreachBDPatrol05",
         "enabled": true,
         "chance": 75,
@@ -1012,27 +1036,6 @@
         "raidTimeMax": -1
       },
       {
-        "id": "ContainmentBreachBDHunt03",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "chaosInsurgency",
-        "followers": [
-          {
-            "type": "chaosInsurgency",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 135,
-        "raidTimeMax": 165
-      },
-      {
         "id": "ContainmentBreachBDHunt04",
         "enabled": true,
         "chance": 100,
@@ -1119,48 +1122,6 @@
         ],
         "raidTimeMin": 640,
         "raidTimeMax": 840
-      },
-      {
-        "id": "ContainmentBreachBDHunt06",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "chaosInsurgency",
-        "followers": [
-          {
-            "type": "chaosInsurgency",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1035,
-        "raidTimeMax": 1065
-      },
-      {
-        "id": "ContainmentBreachBDHunt07",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "chaosInsurgency",
-        "followers": [
-          {
-            "type": "chaosInsurgency",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1335,
-        "raidTimeMax": 1365
       }
     ]
   },
@@ -1441,397 +1402,358 @@
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivLead": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivBreacher": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivSupport": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivIb": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "bossWedge": {
         "pockets": {
           "independent": {
-            "264f194ae30547c55dfbf0d9": 40, // Modified low-frequency battery
-            "4fef2f1523c2754ade168cfa": 25 // Flash drive with C.A.S.S.I.E. system data
+            "264f194ae30547c55dfbf0d9": 40,
+            "4fef2f1523c2754ade168cfa": 25
           }
         },
         "backpack": {
           "maxItems": 0,
-          "pool": {
-          },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "pool": {},
+          "oneOf": {},
+          "independent": {}
         }
       },
       "*": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "bossWedgeGhostBuster": {
         "pockets": {
           "independent": {
-            "264f194ae30547c55dfbf0d9": 40, // Modified low-frequency battery
-            "4fef2f1523c2754ade168cfa": 25 // Flash drive with C.A.S.S.I.E. system data
+            "264f194ae30547c55dfbf0d9": 40,
+            "4fef2f1523c2754ade168cfa": 25
           }
         },
         "backpack": {
           "maxItems": 0,
-          "pool": {
-          },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "pool": {},
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivGhostBusterLead": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivGhostBuster01": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivGhostBuster02": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivGhostBuster03": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       },
       "blackDivGhostBuster04": {
         "pockets": {
           "maxItems": 2,
           "pool": {
-            "237feeaa44ee343bd4ebe5ab": 5, // Chemical container with a virus sample
-            "108e248f0640ee8a58fbe8b9": 5, // Chemical Container with biological material
-            "0948e0b1242f17ae65b80669": 5, // Fungal samples
-            "69439100a320344f805ba61f": 5, // Black Division Access Card
-            "29d3521830e5a078ac470990": 5, // Virus antidote
-            "890cc1ff79a9633e1d0b5a40": 5 // Modified virus sample
+            "237feeaa44ee343bd4ebe5ab": 20,
+            "108e248f0640ee8a58fbe8b9": 20,
+            "0948e0b1242f17ae65b80669": 20,
+            "69439100a320344f805ba61f": 5,
+            "29d3521830e5a078ac470990": 20,
+            "890cc1ff79a9633e1d0b5a40": 20
           },
-          "oneOf": {
-          },
+          "oneOf": {},
           "independent": {
-            "5e2aedd986f7746d404f3aa4": 40, // GreenBat lithium battery
-            "4d57eab7724cdd35474d84eb": 5, // Modified GreenBat lithium battery
-            "4fef2f1523c2754ade168cfa": 1, // Flash drive with C.A.S.S.I.E. system data
-            "544fb3f34bdc2d03748b456a": 100 // Morphine injector
+            "5e2aedd986f7746d404f3aa4": 40,
+            "4d57eab7724cdd35474d84eb": 5,
+            "4fef2f1523c2754ade168cfa": 1,
+            "544fb3f34bdc2d03748b456a": 100
           }
         },
         "backpack": {
           "maxItems": 2,
           "pool": {
-            "6a5f9c49b8281c31a1062aea": 5, // 14-4 KORD SSD
-            "6a5f9c25e8c84d8b0602f22a": 5, // Black Division rugged laptop
-            "6a5f9cfcc409750b6e065592": 5 // Black Division encryption keys
+            "6a5f9c49b8281c31a1062aea": 20,
+            "6a5f9c25e8c84d8b0602f22a": 20,
+            "6a5f9cfcc409750b6e065592": 20
           },
-          "oneOf": {
-          },
-          "independent": {
-          }
+          "oneOf": {},
+          "independent": {}
         }
       }
     }
@@ -1842,7 +1764,7 @@
       {
         "id": "BDEncryptionKeys",
         "enabled": true,
-        "item": "4fef2f1523c2754ade168cfa", // Flash drive with C.A.S.S.I.E. system data
+        "item": "4fef2f1523c2754ade168cfa",
         "chance": 100,
         "positions": [
           {
@@ -1890,7 +1812,7 @@
       {
         "id": "CassieCraftFlashDrive",
         "enabled": true,
-        "item": "4a4661aa041c7a92541e1933", // C.A.S.S.I.E. data flash drive
+        "item": "4a4661aa041c7a92541e1933",
         "count": 1,
         "chance": 100,
         "positions": [
@@ -1965,11 +1887,11 @@
         "id": "ContainmentChemicals",
         "enabled": true,
         "items": {
-          "237feeaa44ee343bd4ebe5ab": 1, // Chemical container with a virus sample
-          "108e248f0640ee8a58fbe8b9": 1, // Chemical Container with biological material
-          "0948e0b1242f17ae65b80669": 1, // Fungal samples
-          "29d3521830e5a078ac470990": 1, // Virus antidote
-          "890cc1ff79a9633e1d0b5a40": 1 // Modified virus sample
+          "237feeaa44ee343bd4ebe5ab": 1,
+          "108e248f0640ee8a58fbe8b9": 1,
+          "0948e0b1242f17ae65b80669": 1,
+          "29d3521830e5a078ac470990": 1,
+          "890cc1ff79a9633e1d0b5a40": 1
         },
         "count": 4,
         "chance": 100,
@@ -2090,9 +2012,9 @@
         "id": "BlackDivisionIntelligence",
         "enabled": true,
         "items": {
-          "6a5f9c49b8281c31a1062aea": 1, // 14-4 KORD SSD
-          "6a5f9c25e8c84d8b0602f22a": 1, // Black Division rugged laptop
-          "693a3989e77a08d438a73bb1": 1 // Black Division intelligence plans
+          "6a5f9c49b8281c31a1062aea": 1,
+          "6a5f9c25e8c84d8b0602f22a": 1,
+          "693a3989e77a08d438a73bb1": 1
         },
         "count": 2,
         "chance": 100,
@@ -2197,44 +2119,44 @@
       "enabled": true,
       "chancePerPoint": 5,
       "weights": {
-        "b27508815b9307ccd1bffa36": 1, // KTE 952
-        "1800c994e11cfa35b423e8ed": 1, // KTE 070
-        "6183f2a51cb013b5ab62a796": 1, // KTE 076
-        "fac4f1a658ad562cddde72c6": 1, // KTE 722
-        "72eb2bb2416ee48ee80d63d4": 1, // KTE 598
-        "a38cbf3abbfdcbedaa1b9a0e": 1, // KTE 949
-        "b543125009b989d7287b58ab": 1, // KTE 540
-        "9644da05612ad219e7fc4387": 1, // KTE 135
-        "cd19a7a32ec3820a6ea48800": 1, // KTE 636
-        "1254eb68d298789e43b45ed3": 1, // KTE 044
-        "36be503998aadd53701c57e3": 1, // KTE 652
-        "f131c988930a86c7e5610c57": 1, // KTE 665
-        "45e6cfe53aabe0b5e846cad5": 1, // KTE 876
-        "9df4b9812799170d2f7295f7": 1, // KTE 166
-        "57d2c307a64e179e8995e061": 1, // KTE 229
-        "90c688feeba7c89aa1a3c8a7": 1, // KTE 863
-        "4a2e4aaef50cda01112c41b2": 1, // KTE 294
-        "73cc246044b1d66dd70aedb7": 1, // KTE 218
-        "06f0d5bdc44c4ddcd0759d31": 1, // KTE 664
-        "a8d639d499ac25709f630d2c": 1, // KTE 292
-        "922129d70c57a265f61ee8b1": 1, // KTE 663
-        "d180bb453e8bb2027c5fa540": 1, // KTE 199
-        "51574a824fe10af4518191af": 1, // KTE 430
-        "0056a97d873bba252113c74b": 1, // KTE 728
-        "ae711ed0c5878f74a4264e27": 1, // KTE 711
-        "d94f4a94edf1050b40c93cdb": 1, // KTE 642
-        "eee72a686853f282c7cd01da": 1, // KTE 501
-        "25dd7397974f7d7940ad9742": 1, // KTE 787
-        "68c80d9fb3ef768bbe58a072": 1, // KTE 572
-        "d88925f5ddd4cd8795d5c9bd": 1, // KTE 111
-        "a2c16b836b441dc953652bd6": 1, // KTE 887
-        "571e1ce5aa8a32c10b70d206": 1, // KTE 991
-        "3ddc22a4b7e5ba67ee38edf9": 1, // KTE 325
-        "b7e0639e756abd3bbb872c2c": 1, // KTE 094
-        "337052e7f499ba2f52dfa089": 1, // KTE 611
-        "397495f6cda093c895814c0f": 1, // KTE 435
-        "e57cfb4c1b58a40f9032db70": 1, // KTE 101
-        "2b20c487a99515b22b11ff78": 1 // ISB Anomalous Property Detector
+        "b27508815b9307ccd1bffa36": 1,
+        "1800c994e11cfa35b423e8ed": 1,
+        "6183f2a51cb013b5ab62a796": 1,
+        "fac4f1a658ad562cddde72c6": 1,
+        "72eb2bb2416ee48ee80d63d4": 1,
+        "a38cbf3abbfdcbedaa1b9a0e": 1,
+        "b543125009b989d7287b58ab": 1,
+        "9644da05612ad219e7fc4387": 1,
+        "cd19a7a32ec3820a6ea48800": 1,
+        "1254eb68d298789e43b45ed3": 1,
+        "36be503998aadd53701c57e3": 1,
+        "f131c988930a86c7e5610c57": 1,
+        "45e6cfe53aabe0b5e846cad5": 1,
+        "9df4b9812799170d2f7295f7": 1,
+        "57d2c307a64e179e8995e061": 1,
+        "90c688feeba7c89aa1a3c8a7": 1,
+        "4a2e4aaef50cda01112c41b2": 1,
+        "73cc246044b1d66dd70aedb7": 1,
+        "06f0d5bdc44c4ddcd0759d31": 1,
+        "a8d639d499ac25709f630d2c": 1,
+        "922129d70c57a265f61ee8b1": 1,
+        "d180bb453e8bb2027c5fa540": 1,
+        "51574a824fe10af4518191af": 1,
+        "0056a97d873bba252113c74b": 1,
+        "ae711ed0c5878f74a4264e27": 1,
+        "d94f4a94edf1050b40c93cdb": 1,
+        "eee72a686853f282c7cd01da": 1,
+        "25dd7397974f7d7940ad9742": 1,
+        "68c80d9fb3ef768bbe58a072": 1,
+        "d88925f5ddd4cd8795d5c9bd": 1,
+        "a2c16b836b441dc953652bd6": 1,
+        "571e1ce5aa8a32c10b70d206": 1,
+        "3ddc22a4b7e5ba67ee38edf9": 1,
+        "b7e0639e756abd3bbb872c2c": 1,
+        "337052e7f499ba2f52dfa089": 1,
+        "397495f6cda093c895814c0f": 1,
+        "e57cfb4c1b58a40f9032db70": 1,
+        "2b20c487a99515b22b11ff78": 1
       }
     },
     "botLoot": {
@@ -2260,43 +2182,43 @@
         "Backpack"
       ],
       "weights": {
-        "b27508815b9307ccd1bffa36": 1, // KTE 952
-        "1800c994e11cfa35b423e8ed": 1, // KTE 070
-        "6183f2a51cb013b5ab62a796": 1, // KTE 076
-        "fac4f1a658ad562cddde72c6": 1, // KTE 722
-        "72eb2bb2416ee48ee80d63d4": 1, // KTE 598
-        "a38cbf3abbfdcbedaa1b9a0e": 1, // KTE 949
-        "b543125009b989d7287b58ab": 1, // KTE 540
-        "9644da05612ad219e7fc4387": 1, // KTE 135
-        "cd19a7a32ec3820a6ea48800": 1, // KTE 636
-        "1254eb68d298789e43b45ed3": 1, // KTE 044
-        "36be503998aadd53701c57e3": 1, // KTE 652
-        "f131c988930a86c7e5610c57": 1, // KTE 665
-        "45e6cfe53aabe0b5e846cad5": 1, // KTE 876
-        "9df4b9812799170d2f7295f7": 1, // KTE 166
-        "57d2c307a64e179e8995e061": 1, // KTE 229
-        "90c688feeba7c89aa1a3c8a7": 1, // KTE 863
-        "4a2e4aaef50cda01112c41b2": 1, // KTE 294
-        "73cc246044b1d66dd70aedb7": 1, // KTE 218
-        "06f0d5bdc44c4ddcd0759d31": 1, // KTE 664
-        "a8d639d499ac25709f630d2c": 1, // KTE 292
-        "922129d70c57a265f61ee8b1": 1, // KTE 663
-        "d180bb453e8bb2027c5fa540": 1, // KTE 199
-        "51574a824fe10af4518191af": 1, // KTE 430
-        "0056a97d873bba252113c74b": 1, // KTE 728
-        "ae711ed0c5878f74a4264e27": 1, // KTE 711
-        "d94f4a94edf1050b40c93cdb": 1, // KTE 642
-        "eee72a686853f282c7cd01da": 1, // KTE 501
-        "25dd7397974f7d7940ad9742": 1, // KTE 787
-        "68c80d9fb3ef768bbe58a072": 1, // KTE 572
-        "d88925f5ddd4cd8795d5c9bd": 1, // KTE 111
-        "a2c16b836b441dc953652bd6": 1, // KTE 887
-        "571e1ce5aa8a32c10b70d206": 1, // KTE 991
-        "3ddc22a4b7e5ba67ee38edf9": 1, // KTE 325
-        "b7e0639e756abd3bbb872c2c": 1, // KTE 094
-        "337052e7f499ba2f52dfa089": 1, // KTE 611
-        "397495f6cda093c895814c0f": 1, // KTE 435
-        "e57cfb4c1b58a40f9032db70": 1 // KTE 101
+        "b27508815b9307ccd1bffa36": 1,
+        "1800c994e11cfa35b423e8ed": 1,
+        "6183f2a51cb013b5ab62a796": 1,
+        "fac4f1a658ad562cddde72c6": 1,
+        "72eb2bb2416ee48ee80d63d4": 1,
+        "a38cbf3abbfdcbedaa1b9a0e": 1,
+        "b543125009b989d7287b58ab": 1,
+        "9644da05612ad219e7fc4387": 1,
+        "cd19a7a32ec3820a6ea48800": 1,
+        "1254eb68d298789e43b45ed3": 1,
+        "36be503998aadd53701c57e3": 1,
+        "f131c988930a86c7e5610c57": 1,
+        "45e6cfe53aabe0b5e846cad5": 1,
+        "9df4b9812799170d2f7295f7": 1,
+        "57d2c307a64e179e8995e061": 1,
+        "90c688feeba7c89aa1a3c8a7": 1,
+        "4a2e4aaef50cda01112c41b2": 1,
+        "73cc246044b1d66dd70aedb7": 1,
+        "06f0d5bdc44c4ddcd0759d31": 1,
+        "a8d639d499ac25709f630d2c": 1,
+        "922129d70c57a265f61ee8b1": 1,
+        "d180bb453e8bb2027c5fa540": 1,
+        "51574a824fe10af4518191af": 1,
+        "0056a97d873bba252113c74b": 1,
+        "ae711ed0c5878f74a4264e27": 1,
+        "d94f4a94edf1050b40c93cdb": 1,
+        "eee72a686853f282c7cd01da": 1,
+        "25dd7397974f7d7940ad9742": 1,
+        "68c80d9fb3ef768bbe58a072": 1,
+        "d88925f5ddd4cd8795d5c9bd": 1,
+        "a2c16b836b441dc953652bd6": 1,
+        "571e1ce5aa8a32c10b70d206": 1,
+        "3ddc22a4b7e5ba67ee38edf9": 1,
+        "b7e0639e756abd3bbb872c2c": 1,
+        "337052e7f499ba2f52dfa089": 1,
+        "397495f6cda093c895814c0f": 1,
+        "e57cfb4c1b58a40f9032db70": 1
       }
     }
   },
@@ -2306,7 +2228,7 @@
       {
         "id": "AnomalyContainmentBoxes",
         "enabled": true,
-        "item": "c5c72a7a3bf1f02421a145bb", // Anomalous Containment Case
+        "item": "c5c72a7a3bf1f02421a145bb",
         "count": 1,
         "chance": 100,
         "positions": [
@@ -2380,7 +2302,7 @@
       {
         "id": "AnomalyAnalysers",
         "enabled": true,
-        "item": "2b20c487a99515b22b11ff78", // ISB Anomalous Property Detector
+        "item": "2b20c487a99515b22b11ff78",
         "count": 1,
         "chance": 25,
         "positions": [
@@ -2455,7 +2377,102 @@
   },
   "performanceMode": false,
   "ghostBusterOnly": false,
+  "chaosInsurgencyOnly": false,
   "whiteTuskOnly": false,
   "noISBMode": false,
-  "noBlackDivMode": false
+  "noBlackDivMode": false,
+  "externalFactions": {
+    "chaosInsurgency": {
+      "enabled": true,
+      "patrols": [
+        {
+          "id": "ContainmentBreachBDPatrol03",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "chaosInsurgency",
+          "followers": [
+            {
+              "type": "chaosInsurgency",
+              "min": 3,
+              "max": 3
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": 285,
+          "raidTimeMax": 315
+        }
+      ],
+      "checkpoints": [],
+      "hunts": [
+        {
+          "id": "ContainmentBreachBDHunt03",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "chaosInsurgency",
+          "followers": [
+            {
+              "type": "chaosInsurgency",
+              "min": 2,
+              "max": 2
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": 135,
+          "raidTimeMax": 165
+        },
+        {
+          "id": "ContainmentBreachBDHunt06",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "chaosInsurgency",
+          "followers": [
+            {
+              "type": "chaosInsurgency",
+              "min": 1,
+              "max": 1
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": 1035,
+          "raidTimeMax": 1065
+        },
+        {
+          "id": "ContainmentBreachBDHunt07",
+          "enabled": true,
+          "chance": 100,
+          "squadCount": 1,
+          "boss": "chaosInsurgency",
+          "followers": [
+            {
+              "type": "chaosInsurgency",
+              "min": 1,
+              "max": 1
+            }
+          ],
+          "zones": [
+            "BotZoneFloor1",
+            "BotZoneFloor2",
+            "BotZoneBasement"
+          ],
+          "raidTimeMin": 1335,
+          "raidTimeMax": 1365
+        }
+      ]
+    }
+  }
 }

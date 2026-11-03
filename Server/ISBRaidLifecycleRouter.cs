@@ -24,6 +24,7 @@ public sealed class ISBRaidLifecycleRouter(JsonUtil jsonUtil, ISBSpawnController
     revengeController.EndRaid(sessionID);
     progress.Finish(sessionID);
     loyaltyController.EndRaid(sessionID);
+    spawnController.EndScriptedRaid(sessionID);
     spawnController.EndRaid(sessionID);
     return new ValueTask<object>(output ?? string.Empty);
 })]);

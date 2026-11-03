@@ -54,7 +54,7 @@ namespace ISBSpecialForces.Components
             if (_initialized)
                 return;
             var harmony = new Harmony("com.samc137.isbspecialforces.ghostvariant.client");
-            harmony.Patch(AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.GetGroupAndSetEnemies)), prefix: new HarmonyMethod(typeof(ISBEventHostility), nameof(ISBEventHostility.SelectChaosGroup)));
+            harmony.Patch(AccessTools.Method(typeof(BotSpawner), nameof(BotSpawner.GetGroupAndSetEnemies)), prefix: new HarmonyMethod(typeof(ISBEventHostility), nameof(ISBEventHostility.SelectFormationGroup)));
             harmony.Patch(AccessTools.Method(typeof(BotsGroup), nameof(BotsGroup.IsAlly), new[] { typeof(IPlayer) }), postfix: new HarmonyMethod(typeof(ISBEventHostility), nameof(ISBEventHostility.ChaosAlliance)) { priority = Priority.Last });
             harmony.Patch(AccessTools.Method(typeof(EFT.UI.SessionEnd.KillListVictim), "Show"), postfix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(DisplayRole)));
             harmony.Patch(AccessTools.Method(typeof(BossLocationSpawn), "Init"), prefix: new HarmonyMethod(typeof(GhostBotSpawnBridge), nameof(PrepareWave)));
@@ -108,7 +108,7 @@ namespace ISBSpecialForces.Components
         private static bool DebugResolvePrefix(string name, ref WildSpawnType role, ref EPlayerSide side, ref bool __result)
         {
             if (!GhostBotVariant.Is(name)) return true;
-            role = (WildSpawnType)GhostBotVariant.BaseRoleValue(name);
+            role = (WildSpawnType)GhostBotVariant.SpawnRoleValue(name);
             side = EPlayerSide.Savage;
             __result = true;
             return false;
@@ -124,7 +124,7 @@ namespace ISBSpecialForces.Components
         private static bool DebugCreationPrefix(IGetProfileData profileData, IBotCreator botCreator, int count, NativeToken token, ref Task<NativeCreation> __result)
         {
             var variant = DebugVariant.Value;
-            if (variant == null || !profileData.TryGetRole(out var role, out _) || (int)role != GhostBotVariant.BaseRoleValue(variant)) return true;
+            if (variant == null || !profileData.TryGetRole(out var role, out _) || (int)role != GhostBotVariant.SpawnRoleValue(variant)) return true;
             if (profileData.SpawnParams != null) profileData.SpawnParams.Id_spawn = "isb_debug_variant";
             var data = new NativeCreation(profileData) { _tokenGetter = token, _botCreator = botCreator };
             __result = LoadVariant(data, botCreator as NativeCreator, count, variant, token.GetCancelToken());
@@ -136,12 +136,12 @@ namespace ISBSpecialForces.Components
             var supports = __instance.Supports ?? new WildSpawnSupports[0];
             bool existing = Waves.TryGetValue(__instance, out var flags);
             flags = flags ?? new WaveFlags();
-            flags.Boss = GhostBotVariant.FromMarker(__instance.BossDifficult, __instance.BossName) ?? flags.Boss;
-            flags.Escort = GhostBotVariant.FromMarker(__instance.BossEscortDifficult, __instance.BossEscortType) ?? flags.Escort;
+            flags.Boss = GhostBotVariant.FromMarker(__instance.BossDifficult, __instance.BossName) ?? (GhostBotVariant.IsChaos(__instance.BossName) ? GhostBotVariant.ChaosName : flags.Boss);
+            flags.Escort = GhostBotVariant.FromMarker(__instance.BossEscortDifficult, __instance.BossEscortType) ?? (GhostBotVariant.IsChaos(__instance.BossEscortType) ? GhostBotVariant.ChaosName : flags.Escort);
             var variants = new string[supports.Length];
             for (int i = 0; i < supports.Length; i++)
                 variants[i] = supports[i]?.BossEscortDifficult?.Select(marker => GhostBotVariant.FromMarker(marker, supports[i].BossEscortType.ToString())).FirstOrDefault(value => value != null)
-                    ?? (flags.Supports != null && i < flags.Supports.Length ? flags.Supports[i] : null);
+                    ?? (supports[i] != null && GhostBotVariant.IsChaos(supports[i].BossEscortType.ToString()) ? GhostBotVariant.ChaosName : flags.Supports != null && i < flags.Supports.Length ? flags.Supports[i] : null);
             flags.Supports = variants;
             if (flags.Boss == null && flags.Escort == null && !variants.Any(value => value != null))
                 return;
@@ -159,8 +159,21 @@ namespace ISBSpecialForces.Components
                 Waves.GetValue(__result, _ => flags);
         }
 
+        internal static bool IsSpecialWave(BossLocationSpawn wave)
+        {
+            if (!Waves.TryGetValue(wave, out var flags)) return false;
+            return flags.Boss != null && !GhostBotVariant.IsChaos(flags.Boss) || flags.Escort != null && !GhostBotVariant.IsChaos(flags.Escort) ||
+                flags.Supports != null && flags.Supports.Any(value => value != null && !GhostBotVariant.IsChaos(value));
+        }
+
         private static void FilterPreload(BossLocationSpawn __instance, ref List<NativeWave> __result)
         {
+            if (__result != null && (__instance.TriggerId?.StartsWith("isb_labs_", StringComparison.Ordinal) == true ||
+                !__instance.IgnoreMaxBots && __instance.TriggerId?.StartsWith("isb_", StringComparison.Ordinal) == true))
+            {
+                __result.Clear();
+                return;
+            }
             if (!Waves.TryGetValue(__instance, out var flags) || __result == null)
                 return;
             for (int i = __result.Count - 1; i >= 0; i--)
@@ -254,7 +267,7 @@ namespace ISBSpecialForces.Components
             if (variant == null)
                 return NativeCreation.Create(data, creator, count, token);
             int role = mode == 0 ? (int)wave.BossType : mode == 1 ? (int)wave.EscortType : (int)escort.BossEscortType;
-            if (role != GhostBotVariant.BaseRoleValue(variant))
+            if (role != GhostBotVariant.SpawnRoleValue(variant) && !(GhostBotVariant.IsChaos(variant) && role == GhostBotVariant.BaseValue))
                 throw new InvalidOperationException("ISB GhostBuster wave has an unsupported native role.");
             var creation = new NativeCreation(data)
             {
@@ -315,7 +328,7 @@ namespace ISBSpecialForces.Components
         private static Profile[] ParseProfiles(string json, int requested, string variant)
         {
             var profiles = ParseDescriptors(json, requested).Select(descriptor => new Profile(descriptor)).ToArray();
-            if (profiles.Any(profile => profile?.Info?.Settings == null || (int)profile.Info.Settings.Role != GhostBotVariant.BaseRoleValue(variant)))
+            if (profiles.Any(profile => profile?.Info?.Settings == null || (int)profile.Info.Settings.Role != GhostBotVariant.SpawnRoleValue(variant)))
                 throw new InvalidOperationException("ISB GhostBuster received invalid native profiles.");
             return profiles;
         }

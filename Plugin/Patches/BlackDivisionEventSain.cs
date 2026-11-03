@@ -80,7 +80,7 @@ namespace ISBSpecialForces.Patches
                     _strictProperty.SetValue(null, _sainStrictExclusions);
                 }
 
-                foreach (int id in BlackDivisionCheckpointPolicy.Roles)
+                foreach (int id in BlackDivisionCheckpointPolicy.Roles.Concat(new[] { GhostBotVariant.ChaosValue }))
                 {
                     var role = (WildSpawnType)id;
                     if (!_sainStrictExclusions.Contains(role))
@@ -109,7 +109,7 @@ namespace ISBSpecialForces.Patches
                             if (type == null)
                                 continue;
                             var roles = new List<WildSpawnType>();
-                            foreach (int id in BlackDivisionCheckpointPolicy.Roles)
+                            foreach (int id in BlackDivisionCheckpointPolicy.Roles.Concat(new[] { GhostBotVariant.ChaosValue }))
                                 if (!HasLayerRegistration(type, brain, (WildSpawnType)id))
                                     roles.Add((WildSpawnType)id);
                             if (roles.Count == 0)
@@ -132,7 +132,7 @@ namespace ISBSpecialForces.Patches
                 if (GetStaticMember(FindType(assembly, "BigBrainHandler"), "SAINLayerNames")is IEnumerable<string> sainNames)
                     foreach (var name in sainNames)
                         foreach (var brain in EventSainBrains)
-                            foreach (int id in BlackDivisionCheckpointPolicy.Roles)
+                            foreach (int id in BlackDivisionCheckpointPolicy.Roles.Concat(new[] { GhostBotVariant.ChaosValue }))
                             {
                                 var role = (WildSpawnType)id;
                                 if (!BrainManager.ExcludeLayersReadOnly.Any(e => e.excludeLayerName == name && e.ExcludeLayerBrains.Contains(brain) && e.ExcludeLayerRoles.Contains(role)))
@@ -143,7 +143,7 @@ namespace ISBSpecialForces.Patches
 
                 foreach (var brain in EventSainBrains.Distinct(StringComparer.Ordinal))
                     foreach (string name in SainVanillaCombatLayers)
-                        foreach (int id in BlackDivisionCheckpointPolicy.Roles)
+                        foreach (int id in BlackDivisionCheckpointPolicy.Roles.Concat(new[] { GhostBotVariant.ChaosValue }))
                         {
                             var role = (WildSpawnType)id;
                             bool excluded = BrainManager.ExcludeLayersReadOnly.Any(e => e.excludeLayerName == name && e.ExcludeLayerBrains.Contains(brain) && e.ExcludeLayerRoles.Contains(role));

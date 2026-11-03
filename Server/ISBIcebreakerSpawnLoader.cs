@@ -10,6 +10,7 @@ public sealed class ISBIcebreakerSpawnLoader(ISBSpawnController spawnController)
     {
         cancellationToken.ThrowIfCancellationRequested();
         spawnController.AdjustIcebreakerSpawns();
+        spawnController.AdjustISBSpawnsForMap("terminal");
         return Task.CompletedTask;
     }
 }

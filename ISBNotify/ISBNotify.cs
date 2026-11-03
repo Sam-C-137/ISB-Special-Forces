@@ -18,12 +18,13 @@ using UnityEngine;
 namespace ISBInfo
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
+    [BepInDependency("com.samc137.aishi", "2.0.6")]
     [BepInDependency(FikaPluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     public class ISBInfoPlugin : BaseUnityPlugin
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "2.0.2";
+        public const string PluginVersion = "2.0.3";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBNotify.Fika";
@@ -1230,15 +1231,28 @@ namespace ISBInfo
             return bar.ToString();
         }
 
+        private static string NotifierText(string key, string fallback, params object[] arguments)
+        {
+            return ISB.Compatibility.ISBLocalizedText.Format("isb_notifier_" + key, fallback, arguments);
+        }
+
+        private static string NotifierRoleName(int role, bool shortName = false)
+        {
+            var names = shortName ? ISBShortNames : ISBNames;
+            if (names.TryGetValue(role, out var fallback))
+                return NotifierText((shortName ? "role_short_" : "role_") + role, fallback);
+            return shortName ? role.ToString() : NotifierText("unknown_role", "ISB Unknown ({0})", role);
+        }
+
         private static void ShowLabsPresenceMessage()
         {
             if (!CanPresentLocally() || !IsPluginEnabled())
                 return;
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("=== ISB SOF ACTIVITY DETECTED ===");
-            sb.AppendLine("An ISB Special Operation is currently in progress.");
-            sb.AppendLine("A large number of ISB Operatives have been reported in the area..");
-            sb.AppendLine("Extreme caution is advised.");
+            sb.AppendLine(NotifierText("activity_title", "=== ISB SOF ACTIVITY DETECTED ==="));
+            sb.AppendLine(NotifierText("labs_operation", "An ISB Special Operation is currently in progress."));
+            sb.AppendLine(NotifierText("labs_operator_report", "A large number of ISB Operatives have been reported in the area."));
+            sb.AppendLine(NotifierText("caution", "Extreme caution is advised."));
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
         }
 
@@ -1246,7 +1260,7 @@ namespace ISBInfo
         {
             if (!CanPresentLocally() || !IsPluginEnabled())
                 return;
-            EFT.Communications.NotificationManager.DisplayMessageNotification("No active ISB presence is currently detected within the Laboratory.", ENotificationDurationType.Long);
+            EFT.Communications.NotificationManager.DisplayMessageNotification(NotifierText("labs_no_presence", "No active ISB presence is currently detected within the Laboratory."), ENotificationDurationType.Long);
         }
 
         private static void ShowCurrentAliveMessage()
@@ -1265,19 +1279,19 @@ namespace ISBInfo
             if (total <= 0)
                 return;
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("=== ISB SOF ACTIVITY DETECTED ===");
-            sb.AppendLine("ISB SOF Operatives have been seen in your current raid.");
-            sb.AppendLine("Extreme caution is advised!");
+            sb.AppendLine(NotifierText("activity_title", "=== ISB SOF ACTIVITY DETECTED ==="));
+            sb.AppendLine(NotifierText("operation_report", "ISB SOF Operatives have been seen in your current raid."));
+            sb.AppendLine(NotifierText("caution_urgent", "Extreme caution is advised!"));
             sb.AppendLine();
-            sb.AppendLine($"Total Alive ({total}):  {BuildTotalEmojiBar()}");
-            sb.AppendLine("---------------------------------");
+            sb.AppendLine(NotifierText("alive_total", "Total Alive ({0}):  {1}", total, BuildTotalEmojiBar()));
+            sb.AppendLine(NotifierText("separator", "---------------------------------"));
             sb.AppendLine();
             foreach (int enumValue in GetOrderedAliveKeys())
             {
                 int count = ISBAliveCounts[enumValue];
                 string emoji = GetEmojiFor(enumValue);
-                string name = ISBNames.TryGetValue(enumValue, out string n) ? n : $"ISB Unknown ({enumValue})";
-                sb.AppendLine($"{emoji}  {name}  x{count}");
+                string name = NotifierRoleName(enumValue);
+                sb.AppendLine(NotifierText("operator_line", "{0}  {1}  x{2}", emoji, name, count));
             }
 
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
@@ -1292,16 +1306,16 @@ namespace ISBInfo
                 int count;
                 if (!ISBAliveCounts.TryGetValue(enumValue, out count) || count <= 0)
                     continue;
-                string name = ISBShortNames.TryGetValue(enumValue, out string shortName) ? shortName : enumValue.ToString();
-                names.Add(count > 1 ? name + " x" + count : name);
+                string name = NotifierRoleName(enumValue, true);
+                names.Add(count > 1 ? NotifierText("remaining_member", "{0} x{1}", name, count) : name);
             }
 
-            return string.Join(", ", names.ToArray());
+            return string.Join(NotifierText("list_separator", ", "), names.ToArray());
         }
 
         private static void AppendRemainingWhiteTuskList(StringBuilder sb)
         {
-            sb.AppendLine("Remaining White Tusks:");
+            sb.AppendLine(NotifierText("whitetusk_remaining_title", "Remaining White Tusks:"));
             for (int i = 0; i < WhiteTuskOrder.Length; i++)
             {
                 int enumValue = WhiteTuskOrder[i];
@@ -1309,8 +1323,8 @@ namespace ISBInfo
                 if (!ISBAliveCounts.TryGetValue(enumValue, out count) || count <= 0)
                     continue;
                 string emoji = GetEmojiFor(enumValue);
-                string name = ISBNames.TryGetValue(enumValue, out string displayName) ? displayName : ISBShortNames.TryGetValue(enumValue, out string shortName) ? shortName : enumValue.ToString();
-                sb.AppendLine($"{emoji}  {name}  x{count}");
+                string name = NotifierRoleName(enumValue);
+                sb.AppendLine(NotifierText("operator_line", "{0}  {1}  x{2}", emoji, name, count));
             }
         }
 
@@ -1320,14 +1334,14 @@ namespace ISBInfo
                 return;
             if (UseLabsSpecialNotifier())
                 return;
-            string who = ISBShortNames.TryGetValue((int)role, out string shortName) ? shortName : role.ToString();
+            string who = NotifierRoleName((int)role, true);
             string remaining = BuildRemainingGroupList(WhiteTuskOrder);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("♦ === WHITE TUSK KIA === ♦");
-            sb.AppendLine(who + " has been eliminated.");
+            sb.AppendLine(NotifierText("whitetusk_kia_title", "♦ === WHITE TUSK KIA === ♦"));
+            sb.AppendLine(NotifierText("eliminated", "{0} has been eliminated.", who));
             sb.AppendLine();
             if (string.IsNullOrEmpty(remaining))
-                sb.AppendLine("All White Tusk operators have been eliminated.");
+                sb.AppendLine(NotifierText("whitetusk_all_eliminated", "All White Tusk operators have been eliminated."));
             else
                 AppendRemainingWhiteTuskList(sb);
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
@@ -1339,16 +1353,16 @@ namespace ISBInfo
                 return;
             if (UseLabsSpecialNotifier())
                 return;
-            string who = ISBShortNames.TryGetValue((int)role, out string shortName) ? shortName : role.ToString();
+            string who = NotifierRoleName((int)role, true);
             string remaining = BuildRemainingGroupList(OperatorOrder);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("=== ISB MEMBER ELIMINATED ===");
-            sb.AppendLine(who + " has been eliminated.");
+            sb.AppendLine(NotifierText("operator_kia_title", "=== ISB MEMBER ELIMINATED ==="));
+            sb.AppendLine(NotifierText("eliminated", "{0} has been eliminated.", who));
             sb.AppendLine();
             if (string.IsNullOrEmpty(remaining))
-                sb.AppendLine("No standard ISB operators remain active.");
+                sb.AppendLine(NotifierText("operators_none_remaining", "No standard ISB operators remain active."));
             else
-                sb.AppendLine("Remaining ISB operatives: " + remaining);
+                sb.AppendLine(NotifierText("operators_remaining", "Remaining ISB operatives: {0}", remaining));
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
         }
 
@@ -1391,7 +1405,7 @@ namespace ISBInfo
                 return;
             if (UseLabsSpecialNotifier())
                 return;
-            EFT.Communications.NotificationManager.DisplayMessageNotification("No ISB Operatives remaining in the Current Raid. ISB HQ has ordered a complete withdrawal. You may rest, but remain on alert.", ENotificationDurationType.Long);
+            EFT.Communications.NotificationManager.DisplayMessageNotification(NotifierText("withdrawal", "No ISB Operatives remaining in the Current Raid. ISB HQ has ordered a complete withdrawal. You may rest, but remain on alert."), ENotificationDurationType.Long);
         }
 
         private static void ShowCommanderStatus()
@@ -1403,9 +1417,9 @@ namespace ISBInfo
             if (UseLabsSpecialNotifier())
                 return;
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("\u2716 === ISB HIGH-VALUE TARGET DETECTED === \u2716");
-            sb.AppendLine("ISB's Operation still active in this raid.");
-            sb.AppendLine("Stay alert.");
+            sb.AppendLine(NotifierText("commander_alert_title", "\u2716 === ISB HIGH-VALUE TARGET DETECTED === \u2716"));
+            sb.AppendLine(NotifierText("operation_active", "ISB's Operation still active in this raid."));
+            sb.AppendLine(NotifierText("stay_alert", "Stay alert."));
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
         }
 
@@ -1420,11 +1434,10 @@ namespace ISBInfo
             if (EnableCommanderAlert != null && !EnableCommanderAlert.Value)
                 return;
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("\u2716 === ISB HIGH-VALUE TARGET DETECTED === \u2716");
-            sb.AppendLine("Rumors suggest that a high-ranking ISB Commander was");
-            sb.AppendLine("deployed to your location. EXTREME CAUTION ADVISED.");
+            sb.AppendLine(NotifierText("commander_alert_title", "\u2716 === ISB HIGH-VALUE TARGET DETECTED === \u2716"));
+            sb.AppendLine(NotifierText("commander_deployed", "Rumors suggest that a high-ranking ISB Commander was\ndeployed to your location. EXTREME CAUTION ADVISED."));
             sb.AppendLine();
-            sb.AppendLine("Survive, or make them regret.");
+            sb.AppendLine(NotifierText("commander_taunt", "Survive, or make them regret."));
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
         }
 
@@ -1438,11 +1451,11 @@ namespace ISBInfo
                 return;
             if (EnableCommanderKIA != null && !EnableCommanderKIA.Value)
                 return;
-            string who = role == (WildSpawnType)ISBCommanderEnum ? "\"The Chosen One\"" : "\"The Dark Lord\"";
+            string who = NotifierRoleName(role == (WildSpawnType)ISBCommanderEnum ? ISBCommanderEnum : ISBFollowerCommanderEnum);
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("\u2716 === ISB HIGH-VALUE TARGET DOWN === \u2716");
-            sb.AppendLine($"{who} has been eliminated.");
-            sb.AppendLine("You'll definitely make it to ISB HQ if you remember that.");
+            sb.AppendLine(NotifierText("commander_kia_title", "\u2716 === ISB HIGH-VALUE TARGET DOWN === \u2716"));
+            sb.AppendLine(NotifierText("eliminated", "{0} has been eliminated.", who));
+            sb.AppendLine(NotifierText("commander_kia_afterword", "You'll definitely make it to ISB HQ if you remember that."));
             EFT.Communications.NotificationManager.DisplayMessageNotification(sb.ToString(), ENotificationDurationType.Long);
         }
 

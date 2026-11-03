@@ -34,6 +34,7 @@ namespace ISBSSOFExtra
     internal sealed class LabsMenuState
     {
         public bool enabled, unlocked, campaignActive, accepted = true;
+        public int victoriaEarnedAt;
         public string selected = "standard", profile, lastQuest, message;
     }
 
@@ -131,6 +132,7 @@ namespace ISBSSOFExtra
                     {
                         bool changed = _state == null || _state.enabled != state.enabled || _state.unlocked != state.unlocked || _state.campaignActive != state.campaignActive || _state.selected != state.selected || _state.profile != state.profile;
                         _state = state;
+                        ContainmentAchievementIcons.ApplyServerState(state);
                         _reported = false;
                         Retry.Succeeded(Time.realtimeSinceStartup);
                         if (!state.accepted)
@@ -382,9 +384,9 @@ namespace ISBSSOFExtra
             ShowNativeButton(_selector);
             _selector.Interactable = _state.unlocked && !_selecting && !_menuResetPending;
 #if ISB_SPT41
-            _selector.SetTooltips(ISBLocalizedText.Get("ISB/Labs/ChooseVariant", "Choose Labs version"), _state.unlocked ? "Confirmando a versão da Labs..." : "Conclua a última quest da colaboração com o Manimal Lab para liberar as versões da Labs.");
+            _selector.SetTooltips(ISBLocalizedText.Get("ISB/Labs/ChooseVariant", "Choose Labs version"), _state.unlocked ? "Confirmando a versão da Labs..." : ISBLocalizedText.Get("ISB/Labs/UnlockRequirement", "Complete the entire Containment Breach questline and earn Ms. VICTORIA to unlock Labs variants."));
 #else
-            _selector.method_2(ISBLocalizedText.Get("ISB/Labs/ChooseVariant", "Choose Labs version"), _state.unlocked ? "Confirmando a versão da Labs..." : "Conclua a última quest da colaboração com o Manimal Lab para liberar as versões da Labs.");
+            _selector.method_2(ISBLocalizedText.Get("ISB/Labs/ChooseVariant", "Choose Labs version"), _state.unlocked ? "Confirmando a versão da Labs..." : ISBLocalizedText.Get("ISB/Labs/UnlockRequirement", "Complete the entire Containment Breach questline and earn Ms. VICTORIA to unlock Labs variants."));
 #endif
             var mapRect = (RectTransform)toggle.transform;
             _selector.transform.position = mapRect.TransformPoint(new Vector3(mapRect.rect.xMax + 8, mapRect.rect.center.y, 0));

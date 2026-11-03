@@ -23,6 +23,7 @@ public class MainConfig
     public BotPresetConfig blackDivisionBotPresets { get; set; } = new();
     public LabsPreBlackoutEventConfig labsContainmentBreachEvent { get; set; } = new();
     public LabsBlackoutEventConfig labsBlackoutEvent { get; set; } = new();
+    public ISB.Compatibility.EventPopulationConfig blackoutQueue { get; set; } = new();
     public bool enableCollabLoadoutsAndAppearances { get; set; } = true;
     public Dictionary<string, bool> collabLoadouts { get; set; } = new();
     public bool enableCollabPresets { get; set; } = true;
@@ -308,9 +309,11 @@ public class SpawnFormationConfig
 
 public class LabsPreBlackoutEventConfig
 {
+    public ISB.Compatibility.EventPopulationConfig containementBreachQueue { get; set; } = new();
     public bool whiteTuskOnly { get; set; }
     public bool performanceMode { get; set; }
     public bool ghostBusterOnly { get; set; }
+    public bool chaosInsurgencyOnly { get; set; }
     public bool noISBMode { get; set; }
     public bool noBlackDivMode { get; set; }
     public bool labsVariantsEnabled { get; set; } = true;
@@ -338,6 +341,7 @@ public class LabsPreBlackoutEventConfig
     public LabsPreBlackoutFactionConfig blackDivision { get; set; } = new();
     public LabsPreBlackoutFactionConfig pmcs { get; set; } = new();
     public LabsPreBlackoutFactionConfig raiders { get; set; } = new();
+    public ExternalFactionsConfig externalFactions { get; set; } = new();
     public AnomalousItemSpawnsConfig anomalousItemSpawns { get; set; } = new();
 }
 
@@ -403,6 +407,7 @@ public class LabsPreBlackoutFactionConfig
 public class LabsBlackoutEventConfig
 {
     public bool enabled { get; set; } = true;
+    public bool performanceMode { get; set; }
     public LabsBlackoutEventPhaseConfig blackoutActivated { get; set; } = new();
     public LabsBlackoutEventPhaseConfig powerRestored { get; set; } = new();
 }
@@ -415,10 +420,15 @@ public class LabsBlackoutEventPhaseConfig
     public LabsPreBlackoutFactionConfig blackDivision { get; set; } = new();
     public LabsPreBlackoutFactionConfig pmcs { get; set; } = new();
     public LabsPreBlackoutFactionConfig raiders { get; set; } = new();
+    public ExternalFactionsConfig externalFactions { get; set; } = new();
 }
 
 public class LabsPreBlackoutEventStatus
 {
+    public bool chaosInsurgencyOnly { get; set; }
+    public ISB.Compatibility.EventPopulationConfig containementBreachQueue { get; set; } = new();
+    public ISB.Compatibility.EventPopulationConfig blackoutQueue { get; set; } = new();
+    public bool[] populationFactions { get; set; } = new bool[5];
     public int performanceIsbReserve { get; set; }
     public bool whiteTuskOnly { get; set; }
     public bool performanceMode { get; set; }
@@ -490,8 +500,24 @@ public class FactionHuntConfig
     public int raidTimeMax { get; set; } = -1;
 }
 
+public class ScriptedMapSpawnConfig
+{
+    public bool enabled { get; set; } = true;
+    public float spawnChance { get; set; } = 100;
+    public Dictionary<string, ScriptedMapSquadConfig> squads { get; set; } = new();
+}
+
+public class ScriptedMapSquadConfig
+{
+    public bool enabled { get; set; } = true;
+    public string primaryWildtype { get; set; } = "ISBTeamLeader";
+    public Dictionary<string, int> formation { get; set; } = new();
+}
+
 public class MapConfig
 {
+    public ScriptedMapSpawnConfig? terminalScriptedSpawns { get; set; }
+    public ScriptedMapSpawnConfig? icebreakerScriptedSpawns { get; set; }
     public bool enableSecrets { get; set; } = true;
     public MapPatrolConfig patrol { get; set; }
     public MapCheckpointConfig checkpoint { get; set; }

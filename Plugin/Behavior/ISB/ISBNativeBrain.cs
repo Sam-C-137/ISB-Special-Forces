@@ -89,6 +89,7 @@ namespace ISBSpecialForces.Behavior.ISB
                     case ISBLayerId.AvoidDanger: layer = _danger = new ISBDangerLayer(this, spec.Priority); break;
                     case ISBLayerId.FightRequest: layer = new ISBRequestLayer(this, spec.Priority); break;
                     case ISBLayerId.PatrolDefence: layer = new ISBPatrolDefenceLayer(this, spec.Priority); break;
+                    case ISBLayerId.Regroup: layer = new ISBRegroupLayer(this, spec.Priority); break;
                     default: layer = new ISBDecisionLayer(this, spec); break;
                 }
 #if SPT40
@@ -120,6 +121,7 @@ namespace ISBSpecialForces.Behavior.ISB
                 Squad = squad;
             }
             Squad?.Tick(Time.time);
+            ISBThreatMemory.LookAtRecentAttacker(Bot);
             var status = Squad?.Orders.Leader.Status ?? ISBTacticalState.Defence;
             if (_appliedState != status)
             {
@@ -242,6 +244,76 @@ namespace ISBSpecialForces.Behavior.ISB
         }
     }
 
+    internal sealed class ISBRegroupLayer : EngineLayer
+    {
+        private readonly ISBNativeBrain _brain;
+        private readonly NavMeshPath _path = new NavMeshPath();
+        private BotOwner _leader;
+        private Vector3 _point, _leaderAt;
+        private bool _regrouping, _hasPoint;
+        private float _nextPath, _decisionUntil;
+        internal ISBRegroupLayer(ISBNativeBrain brain, int priority) : base(brain.Bot, priority) { _brain = brain; }
+        public override string Name() => _brain.LayerName("ISB Regroup");
+
+        private bool Required()
+        {
+            var bot = _brain.Bot;
+            var squad = _brain.Squad;
+            var leader = squad?.Leader;
+            if (!_brain.Alive || !ISBRuntimeBindings.IsAuthority() || leader?.Alive != true || leader == _brain)
+                return _regrouping = false;
+            var enemy = bot.Memory?.GoalEnemy;
+            bool fixedPost = ISBRuntimeBindings.DefensivePoint(bot).HasValue || ISBRuntimeBindings.DefensivePoint(leader.Bot).HasValue;
+            bool immediate = enemy?.IsVisible == true && enemy.Distance < 12f ||
+                bot.Memory != null && bot.Memory.LastTimeHit > 0f && Time.time - bot.Memory.LastTimeHit < 2f;
+            float gap = Mathf.Abs(bot.Position.y - leader.Bot.Position.y);
+            bool flank = squad.Orders.Leader.Status == ISBTacticalState.Flank && squad.Orders.Leader.FlankPoint.HasValue;
+            return _regrouping = ISBSquadCoordination.Regroup(_regrouping, true, fixedPost, _brain.NeedsTreatment,
+                enemy?.IsVisible == true && enemy.CanShoot, immediate, squad.Contact != null, flank,
+                Vector3.Distance(bot.Position, leader.Bot.Position), gap);
+        }
+
+        public override bool ShallUseNow()
+        {
+            if (!Required()) return false;
+            var leader = _brain.Squad.Leader.Bot;
+            if (_leader != leader)
+            {
+                _leader = leader;
+                _hasPoint = false;
+                _nextPath = 0f;
+            }
+            if (Time.time < _nextPath) return _hasPoint;
+            if (_hasPoint && (_leaderAt - leader.Position).sqrMagnitude < 9f)
+            {
+                _nextPath = Time.time + 0.5f;
+                return true;
+            }
+            if (!ISBNavigationBudget.TryBeginSearch(Time.frameCount)) return _hasPoint;
+            _nextPath = Time.time + 1f;
+            var forward = leader.LookDirection;
+            forward.y = 0f;
+            forward = forward.sqrMagnitude > 0.01f ? forward.normalized : Vector3.forward;
+            var side = Vector3.Cross(Vector3.up, forward);
+            int index = Math.Max(0, _brain.Squad.Members.IndexOf(_brain) - 1);
+            var desired = leader.Position - forward * (2.5f + index / 2 * 1.5f) + side * (index % 2 == 0 ? -1.25f : 1.25f);
+            _hasPoint = NavMesh.SamplePosition(desired, out var sample, 2f, -1) &&
+                NavMesh.CalculatePath(_brain.Bot.Position, sample.position, -1, _path) && _path.status == NavMeshPathStatus.PathComplete;
+            if (_hasPoint) { _point = sample.position; _leaderAt = leader.Position; }
+            return _hasPoint;
+        }
+
+        public override EngineAction GetDecision()
+        {
+            _brain.Bot.GoToSomePointData.SetPoint(_point);
+            _decisionUntil = Time.time + 1f;
+            return new EngineAction(BotLogicDecision.goToPoint, Name());
+        }
+
+        public override EngineEnd ShallEndCurrentDecision(EngineAction current) =>
+            new EngineEnd(_brain.LayerName("ISB regroup reassess"), !Required() || Time.time >= _decisionUntil);
+    }
+
     internal sealed class ISBNativeSquad
     {
         private static readonly Dictionary<ISBSquadKey, ISBNativeSquad> Groups = new Dictionary<ISBSquadKey, ISBNativeSquad>();
@@ -257,6 +329,15 @@ namespace ISBSpecialForces.Behavior.ISB
         internal Vector3 Center { get; private set; }
         private float _nextTick, _lastHit, _nextHelp;
         private bool _replaceLeader;
+        private readonly Dictionary<string, FocusCandidate> _contacts = new Dictionary<string, FocusCandidate>(StringComparer.Ordinal);
+        private float _focusSince;
+        private struct FocusCandidate
+        {
+            internal EnemyInfo Enemy;
+            internal float Score;
+            internal int Observers;
+        }
+
         private ISBNativeSquad(ISBSquadKey key) { _key = key; Orders.Leader.NoAttackAi = false; }
 
         internal static object Formation(BotOwner bot) => (object)bot?.SpawnProfileData?.SpawnParams?.ShallBeGroup ?? bot?.SpawnProfileData?.SpawnParams;
@@ -322,7 +403,7 @@ namespace ISBSpecialForces.Behavior.ISB
                 Leader = Members[0];
             ReconcileFollowers();
             Center = Vector3.zero;
-            Contact = null;
+            SelectContact(now);
             bool hit = false;
             float latestHit = _lastHit;
             _assault.Clear();
@@ -335,9 +416,6 @@ namespace ISBSpecialForces.Behavior.ISB
                 if (hitAt > _lastHit && now - hitAt < 1f)
                     hit = true;
                 latestHit = Mathf.Max(latestHit, hitAt);
-                if (enemy != null && enemy.Person != null &&
-                    (Contact == null || enemy.PersonalLastSeenTime > Contact.PersonalLastSeenTime))
-                    Contact = enemy;
                 bool registered = Readiness.TryGetDeadline(member, out float readyAt);
                 _assault.Add(new ISBAssaultMember(enemy != null, enemy?.Distance ?? float.MaxValue,
                     true, registered, readyAt));
@@ -346,11 +424,59 @@ namespace ISBSpecialForces.Behavior.ISB
             _lastHit = latestHit;
             bool defending = ISBRuntimeBindings.DefensivePoint(Leader.Bot).HasValue;
             Orders.Update(now, ReadContact(now), hit, defending, _assault, () => UnityEngine.Random.value < 0.5f);
+            if (Contact != null)
+                foreach (var member in Members) ISBThreatMemory.ShareContact(member.Bot, Contact, now);
             if (Contact != null && now >= _nextHelp && Contact.IsVisible == false)
             {
                 _nextHelp = now + 10f;
                 AskForHelp(now);
             }
+        }
+
+        private void SelectContact(float now)
+        {
+            _contacts.Clear();
+            foreach (var member in Members)
+            {
+                var bot = member.Bot;
+                var enemies = bot.EnemiesController?.EnemyInfos;
+                if (enemies == null) continue;
+                foreach (var enemy in enemies.Values)
+                {
+                    if (enemy?.Person?.HealthController?.IsAlive != true || enemy.IgnoreUntilAggression ||
+                        !bot.BotsGroup.IsPlayerEnemy(enemy.Person)) continue;
+                    float knownAt = ISBThreatMemory.KnownAt(enemy);
+                    bool visible = enemy.IsVisible;
+                    if (!visible && (knownAt <= 0f || now - knownAt > 20f)) continue;
+                    float score = ISBSquadCoordination.FocusScore(visible, enemy.CanShoot,
+                        enemy.LastGetHitTime > 0f && now - enemy.LastGetHitTime < 2f,
+                        ReferenceEquals(member, Leader), visible ? 0f : now - knownAt, enemy.Distance);
+                    _contacts.TryGetValue(enemy.ProfileId, out var candidate);
+                    if (candidate.Enemy == null || score > candidate.Score)
+                    {
+                        candidate.Enemy = enemy;
+                        candidate.Score = score;
+                    }
+                    if (visible) candidate.Observers++;
+                    _contacts[enemy.ProfileId] = candidate;
+                }
+            }
+            EnemyInfo best = null;
+            float bestScore = float.MinValue;
+            foreach (var pair in _contacts)
+            {
+                float score = pair.Value.Score + pair.Value.Observers * 8f;
+                if (score > bestScore || score == bestScore && string.CompareOrdinal(pair.Key, best?.ProfileId) < 0)
+                {
+                    best = pair.Value.Enemy;
+                    bestScore = score;
+                }
+            }
+            if (Contact != null && _contacts.TryGetValue(Contact.ProfileId, out var retained) &&
+                ISBSquadCoordination.KeepFocus(retained.Score + retained.Observers * 8f, bestScore, now - _focusSince))
+                best = retained.Enemy;
+            if (best?.ProfileId != Contact?.ProfileId) _focusSince = now;
+            Contact = best;
         }
 
         private void ReconcileFollowers()

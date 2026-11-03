@@ -9,11 +9,13 @@
     <LangVersion>latest</LangVersion>
     <Configurations>Debug;Release</Configurations>
     <RootNamespace>ISBSpecialForces</RootNamespace>
-    <Version>2.0.2</Version>
-    <AssemblyVersion>2.0.2</AssemblyVersion>
-    <FileVersion>2.0.2</FileVersion>
+    <Version>2.0.3</Version>
+    <AssemblyVersion>2.0.3</AssemblyVersion>
+    <FileVersion>2.0.3</FileVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Shared\EventPopulationConfig.cs" Link="EventPopulationConfig.cs" />
+    <Compile Include="Shared\ContainmentWedgeLimit.cs" Link="ContainmentWedgeLimit.cs" />
     <Compile Include="Shared\ISBEffectNotifications.cs" Link="ISBEffectNotifications.cs" />
     <Compile Include="Shared\BlackDivisionCheckpointPolicy.cs" Link="BlackDivisionCheckpointPolicy.cs" />
     <Reference Include="0Harmony">
@@ -164,4 +166,9 @@
   <ItemGroup>
     <Compile Include="Shared\GhostBotVariant.cs" Link="GhostBotVariant.cs" />
   </ItemGroup>
-<ItemGroup><Compile Include="Plugin/**/*.cs" Exclude="Plugin/bin/**;Plugin/obj/**" /></ItemGroup></Project>
+  <ItemGroup>
+    <Compile Include="Shared/VipperPoisonIdentity.cs" Link="VipperPoisonIdentity.cs" />
+    <EmbeddedResource Include="Plugin/Components/PoisonTips.json" LogicalName="ISB.PoisonTips.json" />
+    <Compile Include="Plugin/**/*.cs" Exclude="Plugin/bin/**;Plugin/obj/**" />
+  </ItemGroup>
+</Project>

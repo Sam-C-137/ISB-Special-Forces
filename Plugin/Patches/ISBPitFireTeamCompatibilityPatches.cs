@@ -1,6 +1,7 @@
 using EFT;
 using HarmonyLib;
 using ISBSpecialForces.Components;
+using ISBSpecialForces.Behavior.ISB;
 using System;
 using System.Reflection;
 
@@ -15,6 +16,7 @@ namespace ISBSpecialForces.Patches
                 return;
             _enabled = true;
             var harmony = new Harmony("com.samc137.isb.pitfireteamcompatibility");
+            PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Patches.HostileNonCombatActiveLayerFilterPatch", false), "PatchPrefix", nameof(PreserveISBLayersPrefix));
             PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Utils.Enemy", false), "MakeEnemy", nameof(BlockOwnerTargetPrefix));
             PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false), "RegisterContactEnemyForFollower", nameof(BlockOwnerTargetPrefix));
             PatchMatchingMethods(harmony, pitFireAssembly.GetType("pitTeam.Components.pitAIBossPlayer", false), "PrioritizeEnemy", nameof(BlockOwnerBotPrefix));
@@ -63,6 +65,11 @@ namespace ISBSpecialForces.Patches
             }
 
             return !ISBPitFireTeamCompatibility.ShouldBlockOwnerEnemy(owner, target);
+        }
+
+        private static bool PreserveISBLayersPrefix(object __0)
+        {
+            return !(__0 is ISBNativeBrain);
         }
 
         private static bool BlockOwnerBotPrefix(object[] __args)

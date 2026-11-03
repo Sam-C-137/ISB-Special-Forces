@@ -28,7 +28,7 @@ internal static class LabsEventSpawnModes
         LabsEventModes.Role(role, config, () => 0) != role || LabsEventModes.Role(role, config, () => .9999) != role;
     internal static void Apply(IEnumerable<BossLocationSpawn> spawns, LabsPreBlackoutEventConfig config)
     {
-        if (!config.ghostBusterOnly && !config.whiteTuskOnly && !config.noISBMode && !config.noBlackDivMode)
+        if (!config.ghostBusterOnly && !config.whiteTuskOnly && !config.noISBMode && !config.noBlackDivMode && !config.chaosInsurgencyOnly)
             return;
         LabsEventModes.Validate(config);
         foreach (var spawn in spawns)
@@ -37,7 +37,7 @@ internal static class LabsEventSpawnModes
                 continue;
             Originals.Add(spawn, new(spawn.BossName, spawn.BossDifficulty, spawn.BossEscortType, spawn.BossEscortDifficulty, spawn.BossEscortAmount, spawn.Supports?.ToList()));
             var boss = LabsEventModes.Role(GhostBotVariant.FromMarker(spawn.BossDifficulty, spawn.BossName) ?? spawn.BossName, config, Random.Shared.NextDouble);
-            spawn.BossName = GhostBotVariant.Is(boss) ? GhostBotVariant.BaseRole(boss) : boss;
+            spawn.BossName = GhostBotVariant.Is(boss) ? GhostBotVariant.SpawnRole(boss) : boss;
             if (GhostBotVariant.Is(boss))
                 spawn.BossDifficulty = GhostBotVariant.Marker(boss);
             else if (GhostBotVariant.FromMarker(spawn.BossDifficulty, boss) != null)
@@ -59,7 +59,7 @@ internal static class LabsEventSpawnModes
                 for (var i = 0; i < total; i++)
                 {
                     var target = LabsEventModes.Role(role, config, Random.Shared.NextDouble);
-                    supports.Add(new BossSupport { BossEscortType = GhostBotVariant.Is(target) ? GhostBotVariant.BaseRole(target) : target, BossEscortAmount = "1", BossEscortDifficulty = GhostBotVariant.Is(target) ? new ListOrT<string>([GhostBotVariant.Marker(target)], null) : string.Equals(target, role, StringComparison.OrdinalIgnoreCase) ? difficulty : new ListOrT<string>(["impossible"], null) });
+                    supports.Add(new BossSupport { BossEscortType = GhostBotVariant.Is(target) ? GhostBotVariant.SpawnRole(target) : target, BossEscortAmount = "1", BossEscortDifficulty = GhostBotVariant.Is(target) ? new ListOrT<string>([GhostBotVariant.Marker(target)], null) : string.Equals(target, role, StringComparison.OrdinalIgnoreCase) ? difficulty : new ListOrT<string>(["impossible"], null) });
                 }
             }
             if (spawn.Supports?.Any() == true)

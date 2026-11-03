@@ -13,6 +13,7 @@ public sealed class ISBBotTypeRegistration(MoreBotsCustomBotTypeService customBo
         cancellationToken.ThrowIfCancellationRequested();
         using var stream = typeof(ISBBotTypeRegistration).Assembly.GetManifestResourceStream("ISBSpecialForces.ISBBotTypes.json") ?? throw new InvalidOperationException("ISB bot type metadata is missing.");
         var names = JsonSerializer.Deserialize<Dictionary<int, string>>(stream) ?? throw new InvalidOperationException("ISB bot type metadata is empty.");
+        names.Add(ISB.Compatibility.GhostBotVariant.ChaosValue, ISB.Compatibility.GhostBotVariant.ChaosName);
         customBotTypeService.AddCustomWildSpawnTypeNames(names.ToDictionary(pair => pair.Key, pair => pair.Value.ToLowerInvariant()));
         clientEnumDefinitions.AddRange(new ModMetadata().ModGuid, names.Select(pair => new EnumEntryDefinition { EnumType = "EFT.WildSpawnType", ConstantName = pair.Value, ConstantValue = pair.Key, JsonEnumName = pair.Value.ToLowerInvariant() }));
         clientEnumDefinitions.Add(new ModMetadata().ModGuid, new EnumEntryDefinition { EnumType = "EFT.Counters.EFenceStandingSource", ConstantName = "ISBKill", ConstantValue = 1000 });
