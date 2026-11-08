@@ -12,13 +12,14 @@ using SPTarkov.Server.Core.Helpers;
 using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Bot;
 using SPTarkov.Server.Core.Models.Spt.Bots;
+using SPTarkov.Server.Core.Models.Spt.Tables;
 using SPTarkov.Server.Core.Utils;
 using SPTarkov.Server.Core.Utils.Cloners;
 using ISB.Compatibility;
 
 namespace ISBSpecialForcesServer;
 [Injectable]
-public sealed class GhostBotController(BotController bots, BotGenerator generator, ProfileHelper profiles, ICloner cloner)
+public sealed class GhostBotController(BotController bots, BotGenerator generator, ProfileHelper profiles, ICloner cloner, BotTable botTable)
 {
     private static readonly System.Reflection.MethodInfo Details = AccessTools.Method(typeof(BotController), "GetBotGenerationDetailsForWave") ?? throw new MissingMethodException("ISB GhostBuster native generation details unavailable.");
     private static readonly System.Reflection.MethodInfo Raid = AccessTools.Method(typeof(BotController), "GetMostRecentRaidSettings") ?? throw new MissingMethodException("ISB GhostBuster native raid settings unavailable.");
@@ -43,6 +44,33 @@ public sealed class GhostBotController(BotController bots, BotGenerator generato
 
         return result;
     }
+
+    public List<SPTarkov.Server.Core.Models.Eft.Common.Tables.BotBase> GeneratePopulation(MongoId session, GenerateBotsRequestData request)
+    {
+        var conditions = request?.Conditions;
+        if (conditions == null || conditions.Count is < 1 or > 32 ||
+            conditions.Any(condition => condition == null || condition.Limit is < 1 or > 32 ||
+                string.IsNullOrWhiteSpace(condition.Role) ||
+                !GhostBotVariant.Is(condition.Role) && !botTable.Types.ContainsKey(condition.Role.ToLowerInvariant()) ||
+                condition.Difficulty?.ToLowerInvariant() is not ("easy" or "normal" or "hard" or "impossible")) ||
+            conditions.Sum(condition => (long)condition.Limit) > 32)
+            throw new InvalidOperationException("ISB population received an invalid native spawn request.");
+        var result = new List<SPTarkov.Server.Core.Models.Eft.Common.Tables.BotBase>();
+        var pmc = profiles.GetPmcProfile(session);
+        var raid = Raid.Invoke(bots, [session]);
+        foreach (var condition in conditions)
+        {
+            var source = cloner.Clone(condition);
+            source.Role = GhostBotVariant.CanonicalName(condition.Role) ?? condition.Role;
+            source.Difficulty = condition.Difficulty.ToLowerInvariant();
+            var details = (BotGenerationDetails)Details.Invoke(bots, [source, pmc, false, raid])!;
+            details.BotCountToGenerate = condition.Limit;
+            for (int i = 0; i < condition.Limit; i++)
+                result.Add(generator.PrepareAndGenerateBot(session, cloner.Clone(details)));
+        }
+
+        return result;
+    }
 }
 
 #if ISB_SPT41
@@ -56,4 +84,11 @@ public sealed class GhostBotRouter(JsonUtil json, HttpResponseUtil http, GhostBo
 #else
         (url, info, session, output) =>
 #endif
-new ValueTask<string>(http.GetBody(ghosts.Generate(session, info))))]);
+new ValueTask<string>(http.GetBody(ghosts.Generate(session, info)))),
+new RouteAction<GenerateBotsRequestData>("/ISB/population/generate",
+#if ISB_SPT41
+(url, info, session, output, cancellationToken) =>
+#else
+        (url, info, session, output) =>
+#endif
+new ValueTask<string>(http.GetBody(ghosts.GeneratePopulation(session, info))))]);

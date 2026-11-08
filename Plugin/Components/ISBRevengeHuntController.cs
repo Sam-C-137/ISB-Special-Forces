@@ -27,7 +27,8 @@ namespace ISBSpecialForces.Components
         internal static bool AppliesTo(BotOwner bot)
         {
             var c = Instance;
-            return bot != null && c != null && ReferenceEquals(c._world, Singleton<GameWorld>.Instance) && c._hunters.ContainsKey(bot) && !bot.IsDead;
+            return bot != null && c != null && ReferenceEquals(c._world, Singleton<GameWorld>.Instance) && c._hunters.ContainsKey(bot) && !bot.IsDead &&
+                !ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _);
         }
 
         private void Update()
@@ -39,7 +40,8 @@ namespace ISBSpecialForces.Components
                 _world = world;
             }
 
-            if (_world == null || _faulted || !ISBFikaAuthority.IsAiAuthority || Time.time < _next)
+            if (_world == null || _faulted || Time.time < _next ||
+                (_hunters.Count == 0 && !ISBSpawnProgressBridge.HasTargets) || !ISBFikaAuthority.IsAiAuthority)
                 return;
             _next = Time.time + 0.5f;
             try
@@ -53,7 +55,8 @@ namespace ISBSpecialForces.Components
                         _targets.Add(player);
                 _remove.Clear();
                 foreach (var entry in _hunters)
-                    if (_targets.Count == 0 || entry.Key == null || entry.Key.IsDead || !entry.Key.isActiveAndEnabled)
+                    if (_targets.Count == 0 || entry.Key == null || entry.Key.IsDead || !entry.Key.isActiveAndEnabled ||
+                        ISBEventPopulationQueue.TryGetHuntSquad(entry.Key, out _, out _))
                         _remove.Add(entry.Key);
                 foreach (var bot in _remove)
                 {
@@ -66,7 +69,8 @@ namespace ISBSpecialForces.Components
                 foreach (var player in _world.AllAlivePlayersList)
                 {
                     var bot = player?.AIData?.BotOwner;
-                    if (bot?.Profile?.Info?.Settings == null || bot.IsDead || !bot.isActiveAndEnabled || bot.BotsGroup == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
+                    if (bot?.Profile?.Info?.Settings == null || bot.IsDead || !bot.isActiveAndEnabled || bot.BotsGroup == null ||
+                        ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _) || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
                         continue;
                     if (!_hunters.TryGetValue(bot, out var saved))
                     {
@@ -100,6 +104,7 @@ namespace ISBSpecialForces.Components
 
         private void Target(BotOwner bot, BotHuntManager manager)
         {
+            if (ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _)) return;
             IPlayer target = null;
             float distance = float.MaxValue;
             foreach (var player in _targets)
@@ -138,10 +143,11 @@ namespace ISBSpecialForces.Components
             var m = saved.Manager;
             if (m == null)
                 return;
+            m.priorityTargets = saved.Priorities;
+            if (ISBEventPopulationQueue.TryGetHuntSquad(m.botOwner, out _, out _)) return;
             m.active = saved.Active;
             m.ignoreRegroup = saved.IgnoreRegroup;
             m.huntTarget = saved.Target;
-            m.priorityTargets = saved.Priorities;
             m.shouldSearch = m.shouldRegroup = m.isRegrouping = false;
             if (saved.Target?.HealthController?.IsAlive == true)
                 m.knownLocation = saved.Target.Position;

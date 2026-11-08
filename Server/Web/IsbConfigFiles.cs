@@ -65,6 +65,7 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
                 defaultFields = ParseCfg(defaults),
                 data = (JsonNode? )null
             };
+        text = NormalizeJson(d, text);
         var data = JsonNode.Parse(text, documentOptions: JsonOptions) ?? throw new ArgumentException("Configuration is empty.");
         return new
         {
@@ -72,7 +73,7 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
             revision = Revision(bytes),
             data,
             fields = JsonHints(text),
-            defaults = JsonNode.Parse(defaults, documentOptions: JsonOptions)
+            defaults = JsonNode.Parse(NormalizeJson(d, defaults), documentOptions: JsonOptions)
         };
     }
 
@@ -106,7 +107,8 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
             if (!string.Equals(Revision(old), request.Revision, StringComparison.Ordinal))
                 throw new IsbConflictException("The file was changed outside this page. Reload before saving.");
             var source = Decode(old);
-            var text = d.Format == "cfg" ? PatchCfg(source, request.Changes) : PatchJson(source, request.Changes);
+            var text = d.Format == "cfg" ? PatchCfg(source, request.Changes)
+                : NormalizeJson(d, PatchJson(NormalizeJson(d, source), request.Changes));
             validate?.Invoke(d, text);
             var encoded = Encoding.UTF8.GetBytes(text);
             if (old.AsSpan().StartsWith(Encoding.UTF8.Preamble))
@@ -133,6 +135,74 @@ public sealed class IsbConfigFiles(string modRoot, string? gameRoot, Action<IsbD
                 message = "Configuration saved. " + d.Apply
             };
         }
+    }
+
+    private static string NormalizeJson(IsbDocument document, string text)
+    {
+        bool containment = document.RelativePath.StartsWith("containment_breach_config.", StringComparison.Ordinal);
+        if (!containment && document.RelativePath != "config.jsonc") return text;
+        var root = JsonNode.Parse(text, documentOptions: JsonOptions) as JsonObject ?? throw new ArgumentException("Configuration must be an object.");
+        if (!containment && !root.ContainsKey("externalFactions"))
+        {
+            var external = ISBSpecialForcesServer.ExternalFactionConfiguration.EmptyMapConfiguration(root["locations"] as JsonObject);
+            var start = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(text).AsSpan(0, Tokens(text)[""].Start + 1)).Length;
+            var newline = text.Contains("\r\n", StringComparison.Ordinal) ? "\r\n" : "\n";
+            var value = external.ToJsonString(OutputOptions).Replace("\r\n", "\n", StringComparison.Ordinal).Replace("\n", newline, StringComparison.Ordinal);
+            text = text[..start] + newline + "  \"externalFactions\": " + value + (root.Count > 0 ? "," : "") + newline + text[start..];
+            root["externalFactions"] = external;
+        }
+        var original = root.DeepClone();
+        var paths = ISBSpecialForcesServer.LabsEventModes.NormalizeSpecialFormations(root, containment);
+        if (paths.Count == 0) return text;
+        var bytes = Encoding.UTF8.GetBytes(text);
+        var tokens = Tokens(text);
+        var replacements = new List<(int Start, int Length, byte[] Data)>();
+        JsonNode? Value(JsonNode? node, string path)
+        {
+            foreach (string part in path.Split('/').Skip(1)) node = node?[Unescape(part)];
+            return node;
+        }
+        foreach (string path in paths)
+        {
+            var token = tokens[path];
+            string replacement;
+            if (Value(original, path) is JsonArray rows)
+            {
+                var kept = new List<string>();
+                int previousEnd = token.Start + 1;
+                for (int i = 0; i < rows.Count; i++)
+                {
+                    var row = tokens[path + "/" + i];
+                    if (rows[i] is JsonObject formation && ISBSpecialForcesServer.LabsEventModes.IsSpecialFormation(formation))
+                        kept.Add(WithoutArrayComma(Encoding.UTF8.GetString(bytes.AsSpan(previousEnd, row.Start - previousEnd))) + Encoding.UTF8.GetString(bytes.AsSpan(row.Start, row.Length)));
+                    previousEnd = row.Start + row.Length;
+                }
+                var suffix = WithoutArrayComma(Encoding.UTF8.GetString(bytes.AsSpan(previousEnd, token.Start + token.Length - 1 - previousEnd)));
+                replacement = "[" + string.Join(",", kept) + suffix + "]";
+            }
+            else replacement = Value(root, path)!.ToJsonString();
+            replacements.Add((token.Start, token.Length, Encoding.UTF8.GetBytes(replacement)));
+        }
+        foreach (var replacement in replacements.OrderByDescending(item => item.Start))
+            bytes = bytes[..replacement.Start].Concat(replacement.Data).Concat(bytes[(replacement.Start + replacement.Length)..]).ToArray();
+        return Encoding.UTF8.GetString(bytes);
+    }
+
+    private static string WithoutArrayComma(string text)
+    {
+        bool line = false, block = false;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (line) { if (text[i] is '\r' or '\n') line = false; continue; }
+            if (block) { if (text[i] == '*' && i + 1 < text.Length && text[i + 1] == '/') { block = false; i++; } continue; }
+            if (text[i] == '/' && i + 1 < text.Length)
+            {
+                if (text[i + 1] == '/') { line = true; i++; continue; }
+                if (text[i + 1] == '*') { block = true; i++; continue; }
+            }
+            if (text[i] == ',') return text.Remove(i, 1);
+        }
+        return text;
     }
 
     private static Dictionary<string, (int Start, int Length, JsonValueKind Kind)> Tokens(string text)

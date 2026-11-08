@@ -18,13 +18,13 @@ using UnityEngine;
 namespace ISBInfo
 {
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
-    [BepInDependency("com.samc137.aishi", "2.0.6")]
+    [BepInDependency("com.samc137.aishi", "2.0.7")]
     [BepInDependency(FikaPluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     public class ISBInfoPlugin : BaseUnityPlugin
     {
         public const string PluginGuid = "com.samc137.ISBinfo";
         public const string PluginName = "ISB SOF Notifier";
-        public const string PluginVersion = "2.0.3";
+        public const string PluginVersion = "2.0.4";
         public const string FikaPluginGuid = "com.fika.core";
         private const string FikaBridgeAssemblyFileName = "ISBNotify.Fika.dll";
         private const string FikaBridgeAssemblyName = "ISBNotify.Fika";

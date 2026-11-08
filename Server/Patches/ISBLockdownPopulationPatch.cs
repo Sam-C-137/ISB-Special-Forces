@@ -22,13 +22,19 @@ public sealed class ISBLockdownPopulationPatch : IOnLoad
     {
         cancellationToken.ThrowIfCancellationRequested();
         var target = AccessTools.Method(typeof(LocationLifecycleService), "GenerateLocationAndLoot") ?? throw new MissingMethodException("LocationLifecycleService.GenerateLocationAndLoot");
-        new Harmony("com.samc137.isbspecialforces.lockdown.population").Patch(target, prefix: new HarmonyMethod(AccessTools.Method(typeof(ISBLockdownPopulationPatch), nameof(Prefix))) { priority = Priority.First }, postfix: new HarmonyMethod(AccessTools.Method(typeof(ISBLockdownPopulationPatch), nameof(Postfix))) { priority = Priority.Last });
+        new Harmony("com.samc137.isbspecialforces.lockdown.population").Patch(target, prefix: new HarmonyMethod(AccessTools.Method(typeof(ISBLockdownPopulationPatch), nameof(Prefix))) { priority = Priority.First }, postfix: new HarmonyMethod(AccessTools.Method(typeof(ISBLockdownPopulationPatch), nameof(Postfix))) { priority = Priority.Last }, finalizer: new HarmonyMethod(AccessTools.Method(typeof(ISBLockdownPopulationPatch), nameof(Finalizer))));
         return Task.CompletedTask;
     }
 
-    public static void Prefix(MongoId __0, string __1, bool __2)
+    public static void Prefix(MongoId __0, string __1, bool __2, out bool __state)
     {
-        _controller?.PrepareLabsLocationForGeneration(__0.ToString(), __1, __2);
+        __state = _controller?.BeginLocationGeneration(__0.ToString(), __1, __2) == true;
+    }
+
+    public static void Finalizer(bool __state)
+    {
+        if (__state)
+            _controller?.EndLocationGeneration();
     }
 
     public static void Postfix(MongoId __0, string __1, LocationBase __result)

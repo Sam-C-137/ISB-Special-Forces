@@ -86,7 +86,8 @@ namespace ISBSpecialForces.Behavior.ISB
             else _bot.StopMove();
             bool aim = _pulse.ShouldAim(Time.time, enemy.IsVisible, () => Random.Range(0.35f, 0.65f));
             var point = _aiming.GetTarget();
-            if (aim && point.HasValue)
+            bool activeAim = aim && point.HasValue;
+            if (activeAim)
                 _aiming.UpdateNodeByBrain(null);
             else
             {
@@ -97,7 +98,8 @@ namespace ISBSpecialForces.Behavior.ISB
             if (_bot.Mover.HasPathAndNoComplete)
             {
                 _bot.BotLay.GetUp(true);
-                _bot.SetTargetMoveSpeed(enemy.IsVisible ? 0.35f : 1f);
+                bool actualAim = _bot.GetPlayer?.HandsController is Player.FirearmController firearm && firearm.IsAiming;
+                _bot.SetTargetMoveSpeed(enemy.IsVisible || activeAim || actualAim || _bot.ShootData?.Shooting == true ? 0.35f : 1f);
                 _bot.SetPose(1f);
                 if (_bot.WeaponManager.UnderbarrelLauncherController.IsActive)
                 {

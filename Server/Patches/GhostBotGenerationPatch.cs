@@ -1,19 +1,21 @@
 using System.Runtime.CompilerServices;
 using HarmonyLib;
 using ISB.Compatibility;
+using ISBSpecialForcesServer.Controllers;
 using SPTarkov.DI.Annotations;
 using SPTarkov.Server.Core.Controllers;
 using SPTarkov.Server.Core.DI;
 using SPTarkov.Server.Core.Generators.Bot;
+using SPTarkov.Server.Core.Models.Common;
 using SPTarkov.Server.Core.Models.Eft.Common.Tables;
 using SPTarkov.Server.Core.Models.Spt.Bots;
 using SPTarkov.Server.Core.Models.Spt.Config;
 
 namespace ISBSpecialForcesServer.Patches;
 [Injectable(TypePriority = OnLoadOrder.PostLoad + 4)]
-public sealed class GhostBotGenerationPatch(BotConfig botConfig, ConfigController config) : IOnLoad
+public sealed class GhostBotGenerationPatch(BotConfig botConfig, ConfigController config, ISBSpawnController spawns) : IOnLoad
 {
-    private static ConfigController? healthConfig;
+    private static GhostBotGenerationPatch? _instance;
     private static readonly ConditionalWeakTable<BotGenerationDetails, Request> Requests = new();
     private sealed record Request(string Role, string? EventRole);
     private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, int> Ready = new(StringComparer.OrdinalIgnoreCase);
@@ -30,7 +32,7 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig, ConfigControlle
     public Task OnLoadAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        healthConfig = config;
+        _instance = this;
         foreach (var role in GhostBotVariant.Names.Where(role => !GhostBotVariant.IsChaos(role)))
         {
             botConfig.PresetBatch[role] = 10;
@@ -61,12 +63,24 @@ public sealed class GhostBotGenerationPatch(BotConfig botConfig, ConfigControlle
         botGenerationDetails.EventRole = null;
     }
 
-    private static void AfterGeneration(BotGenerationDetails botGenerationDetails, BotBase __result)
+    private static void AfterGeneration(MongoId sessionId, BotGenerationDetails botGenerationDetails, BotBase __result)
     {
-        if (GhostBotVariant.IsChaos(RequestedRole(botGenerationDetails)) && healthConfig != null)
-            IsbBotHealth.Apply(__result, healthConfig.ModConfig.botHealth);
-        if (IsRequest(botGenerationDetails) && !ContainmentHealth.Apply(__result, true, GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails)), GhostBotVariant.HealthScale(RequestedRole(botGenerationDetails))))
-            throw new InvalidOperationException("ISB: invalid health data for GhostBuster.");
+        if (!IsRequest(botGenerationDetails))
+            return;
+        var role = RequestedRole(botGenerationDetails) ?? GhostBotVariant.Name;
+        double multiplier = GhostBotVariant.HealthScale(role);
+        if (GhostBotVariant.IsChaos(role) && _instance != null)
+            multiplier = _instance.ApplyChaosBaseHealth(sessionId.ToString(), __result, multiplier);
+        if (!ContainmentHealth.Apply(__result, true, multiplier, multiplier))
+            throw new InvalidOperationException($"ISB: invalid health data for {role}.");
+    }
+
+    private double ApplyChaosBaseHealth(string session, BotBase bot, double fallback)
+    {
+        IsbBotHealth.Apply(bot, config.ModConfig.botHealth);
+        return spawns.HasActiveLabsEvent(session)
+            ? config.ModConfig.labsContainmentBreachEvent.chaosInsurgencyHealthMultiplier
+            : fallback;
     }
 
     private static void FinishGeneration(BotGenerationDetails botGenerationDetails, BotBase __result, Exception? __exception)

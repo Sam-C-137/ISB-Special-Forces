@@ -1,13 +1,13 @@
 {
   "containementBreachQueue": {
     "enabled": true,
-    "maximumBots": 17,
-    "squadOverflow": 3,
+    "maximumBots": 18,
+    "squadOverflow": 0,
     "reinforcementIntervalSeconds": 300,
-    "reinforcementWindowSeconds": 60,
+    "reinforcementWindowSeconds": 120,
     "genericRefillDelaySeconds": 15,
     "normal": {
-      "blackDivision": 10,
+      "blackDivision": 11,
       "isb": 4,
       "chaosInsurgency": 3,
       "raiders": 0,
@@ -15,25 +15,25 @@
     },
     "reinforcement": {
       "blackDivision": 7,
-      "isb": 2,
-      "chaosInsurgency": 2,
-      "raiders": 3,
-      "pmcs": 3
+      "isb": 0,
+      "chaosInsurgency": 3,
+      "raiders": 2,
+      "pmcs": 6
     },
     "performanceMaximumBots": 13,
     "performanceNormal": {
-      "blackDivision": 8,
-      "isb": 3,
-      "chaosInsurgency": 2,
+      "blackDivision": 6,
+      "isb": 4,
+      "chaosInsurgency": 3,
       "raiders": 0,
       "pmcs": 0
     },
     "performanceReinforcement": {
-      "blackDivision": 6,
-      "isb": 2,
-      "chaosInsurgency": 1,
-      "raiders": 2,
-      "pmcs": 2
+      "blackDivision": 2,
+      "isb": 0,
+      "chaosInsurgency": 3,
+      "raiders": 4,
+      "pmcs": 4
     }
   },
   "labsVariantsEnabled": true,
@@ -42,6 +42,7 @@
   "chance": 15,
   "isbHealthMultiplier": 0.65,
   "blackDivisionHealthMultiplier": 1.35,
+  "chaosInsurgencyHealthMultiplier": 1.50,
   "officeAccess": {
     "enabled": true,
     "keypad": {
@@ -421,71 +422,7 @@
       "enabled": true,
       "patrols": [],
       "checkpoints": [],
-      "hunts": [
-        {
-          "id": "ContainmentBreachISBReinforcements01",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "ISBAssassin",
-          "followers": [
-            {
-              "type": "ISBSpecialForces",
-              "min": 1,
-              "max": 2
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": -1,
-          "raidTimeMax": -1
-        },
-        {
-          "id": "ContainmentBreachISBReinforcements02",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "ISBScout",
-          "followers": [
-            {
-              "type": "ISBSpecialForces",
-              "min": 1,
-              "max": 2
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": -1,
-          "raidTimeMax": -1
-        },
-        {
-          "id": "ContainmentBreachISBReinforcements03",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "ISBTeamLeader",
-          "followers": [
-            {
-              "type": "ISBSpecialForces",
-              "min": 1,
-              "max": 2
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": -1,
-          "raidTimeMax": -1
-        }
-      ]
+      "hunts": []
     },
     "blackDivision": {
       "enabled": true,
@@ -501,48 +438,6 @@
           "followers": [
             {
               "type": "blackDivGhostBuster01",
-              "min": 1,
-              "max": 1
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": -1,
-          "raidTimeMax": -1
-        },
-        {
-          "id": "ContainmentBreachBDReinforcements02",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "blackDivAssault",
-          "followers": [
-            {
-              "type": "blackDivAssault",
-              "min": 1,
-              "max": 1
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": -1,
-          "raidTimeMax": -1
-        },
-        {
-          "id": "ContainmentBreachBDReinforcements03",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "blackDivAssault",
-          "followers": [
-            {
-              "type": "blackDivAssault",
               "min": 1,
               "max": 1
             }
@@ -580,250 +475,9 @@
   },
   "isb": {
     "enabled": true,
-    "patrols": [
-      {
-        "id": "ContainmentBreachISBPatrol01",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSpecialForces",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1
-      },
-      {
-        "id": "ContainmentBreachISBPatrol02",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSpecialForces",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 285,
-        "raidTimeMax": 315
-      },
-      {
-        "id": "ContainmentBreachISBPatrol03",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSpecialForces",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 585,
-        "raidTimeMax": 615
-      },
-      {
-        "id": "ContainmentBreachISBPatrol04",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSpecialForces",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1185,
-        "raidTimeMax": 1215
-      },
-      {
-        "id": "ContainmentBreachISBPatrol05",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSpecialForces",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1485,
-        "raidTimeMax": 1515
-      }
-    ],
-    "checkpoints": [
-      {
-        "id": "ContainmentBreachISBCheckPointOutsParkGate",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "ISBTeamLeader",
-        "followers": [
-          {
-            "type": "ISBHeavy",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1,
-        "checkpointRadius": 8,
-        "x": -232.728,
-        "y": 0.046,
-        "z": -420.636
-      },
-      {
-        "id": "ContainmentBreachISBCheckPointInsidParkGate",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "ISBTeamLeader",
-        "followers": [
-          {
-            "type": "ISBHeavy",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1635,
-        "raidTimeMax": 1665,
-        "checkpointRadius": 8,
-        "x": -230.977,
-        "y": 2.278,
-        "z": -450.041
-      }
-    ],
+    "patrols": [],
+    "checkpoints": [],
     "hunts": [
-      {
-        "id": "ContainmentBreachISBHunt01",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBTeamLeader",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1
-      },
-      {
-        "id": "ContainmentBreachISBHunt02",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBScout",
-        "followers": [
-          {
-            "type": "ISBScout",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 135,
-        "raidTimeMax": 165
-      },
-      {
-        "id": "ContainmentBreachISBHunt03",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBAssassin",
-        "followers": [
-          {
-            "type": "ISBAssassin",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 435,
-        "raidTimeMax": 465
-      },
-      {
-        "id": "ContainmentBreachISBHunt04",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBHeavy",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 735,
-        "raidTimeMax": 765
-      },
       {
         "id": "ContainmentBreachWhiteTuskHunt",
         "enabled": true,
@@ -869,172 +523,14 @@
         ],
         "raidTimeMin": 840,
         "raidTimeMax": 1020
-      },
-      {
-        "id": "ContainmentBreachISBHunt05",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBSecondLeader",
-        "followers": [
-          {
-            "type": "ISBSpecialForces",
-            "min": 1,
-            "max": 1
-          },
-          {
-            "type": "ISBAssassin",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1035,
-        "raidTimeMax": 1065
-      },
-      {
-        "id": "ContainmentBreachISBHunt06",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "ISBAssassin",
-        "followers": [
-          {
-            "type": "ISBAssassin",
-            "min": 1,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1335,
-        "raidTimeMax": 1365
       }
     ]
   },
   "blackDivision": {
     "enabled": true,
-    "patrols": [
-      {
-        "id": "ContainmentBreachBDPatrol01",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 2,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1
-      },
-      {
-        "id": "ContainmentBreachBDPatrol05",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1185,
-        "raidTimeMax": 1215
-      },
-      {
-        "id": "ContainmentBreachBDPatrol06",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 1,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1485,
-        "raidTimeMax": 1515
-      }
-    ],
-    "checkpoints": [
-      {
-        "id": "ContainmentBreachBDCheckPointOutsHangarGate",
-        "enabled": true,
-        "chance": 100,
-        "squadCount": 1,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1,
-        "checkpointRadius": 8,
-        "x": -170.805,
-        "y": 0.062,
-        "z": -254.991
-      }
-    ],
+    "patrols": [],
+    "checkpoints": [],
     "hunts": [
-      {
-        "id": "ContainmentBreachBDHunt01",
-        "enabled": true,
-        "chance": 75,
-        "squadCount": 2,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": -1,
-        "raidTimeMax": -1
-      },
       {
         "id": "ContainmentBreachBDHunt04",
         "enabled": true,
@@ -1065,27 +561,6 @@
         ],
         "raidTimeMin": 435,
         "raidTimeMax": 465
-      },
-      {
-        "id": "ContainmentBreachBDHunt05",
-        "enabled": true,
-        "chance": 70,
-        "squadCount": 2,
-        "boss": "blackDivAssault",
-        "followers": [
-          {
-            "type": "blackDivAssault",
-            "min": 2,
-            "max": 2
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 735,
-        "raidTimeMax": 765
       },
       {
         "id": "ContainmentBreachWedgeSquadHunt",
@@ -1127,267 +602,13 @@
   },
   "pmcs": {
     "enabled": true,
-    "patrols": [
-      {
-        "id": "ContainmentBreachUSECPatrol1",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcUSEC",
-        "followers": [
-          {
-            "type": "pmcUSEC",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 285,
-        "raidTimeMax": 300
-      },
-      {
-        "id": "ContainmentBreachUSECPatrol2",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcUSEC",
-        "followers": [
-          {
-            "type": "pmcUSEC",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 480,
-        "raidTimeMax": 660
-      },
-      {
-        "id": "ContainmentBreachUSECPatrol3",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcUSEC",
-        "followers": [
-          {
-            "type": "pmcUSEC",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 840,
-        "raidTimeMax": 1140
-      },
-      {
-        "id": "ContainmentBreachUSECPatrol4",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcUSEC",
-        "followers": [
-          {
-            "type": "pmcUSEC",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1320,
-        "raidTimeMax": 1800
-      },
-      {
-        "id": "ContainmentBreachBEARPatrol1",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBEAR",
-        "followers": [
-          {
-            "type": "pmcBEAR",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 285,
-        "raidTimeMax": 300
-      },
-      {
-        "id": "ContainmentBreachBEARPatrol2",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBEAR",
-        "followers": [
-          {
-            "type": "pmcBEAR",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 480,
-        "raidTimeMax": 660
-      },
-      {
-        "id": "ContainmentBreachBEARPatrol3",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBEAR",
-        "followers": [
-          {
-            "type": "pmcBEAR",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 840,
-        "raidTimeMax": 1140
-      },
-      {
-        "id": "ContainmentBreachBEARPatrol4",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBEAR",
-        "followers": [
-          {
-            "type": "pmcBEAR",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1320,
-        "raidTimeMax": 1800
-      }
-    ],
+    "patrols": [],
     "checkpoints": [],
     "hunts": []
   },
   "raiders": {
     "enabled": true,
-    "patrols": [
-      {
-        "id": "ContainmentBreachRaiderPatrol1",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBot",
-        "followers": [
-          {
-            "type": "pmcBot",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 285,
-        "raidTimeMax": 300
-      },
-      {
-        "id": "ContainmentBreachRaiderPatrol2",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBot",
-        "followers": [
-          {
-            "type": "pmcBot",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 480,
-        "raidTimeMax": 660
-      },
-      {
-        "id": "ContainmentBreachRaiderPatrol3",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBot",
-        "followers": [
-          {
-            "type": "pmcBot",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 840,
-        "raidTimeMax": 1140
-      },
-      {
-        "id": "ContainmentBreachRaiderPatrol4",
-        "enabled": true,
-        "chance": 50,
-        "squadCount": 1,
-        "boss": "pmcBot",
-        "followers": [
-          {
-            "type": "pmcBot",
-            "min": 1,
-            "max": 1
-          }
-        ],
-        "zones": [
-          "BotZoneFloor1",
-          "BotZoneFloor2",
-          "BotZoneBasement"
-        ],
-        "raidTimeMin": 1320,
-        "raidTimeMax": 1800
-      }
-    ],
+    "patrols": [],
     "checkpoints": [],
     "hunts": []
   },
@@ -2384,95 +1605,9 @@
   "externalFactions": {
     "chaosInsurgency": {
       "enabled": true,
-      "patrols": [
-        {
-          "id": "ContainmentBreachBDPatrol03",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "chaosInsurgency",
-          "followers": [
-            {
-              "type": "chaosInsurgency",
-              "min": 3,
-              "max": 3
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": 285,
-          "raidTimeMax": 315
-        }
-      ],
+      "patrols": [],
       "checkpoints": [],
-      "hunts": [
-        {
-          "id": "ContainmentBreachBDHunt03",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "chaosInsurgency",
-          "followers": [
-            {
-              "type": "chaosInsurgency",
-              "min": 2,
-              "max": 2
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": 135,
-          "raidTimeMax": 165
-        },
-        {
-          "id": "ContainmentBreachBDHunt06",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "chaosInsurgency",
-          "followers": [
-            {
-              "type": "chaosInsurgency",
-              "min": 1,
-              "max": 1
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": 1035,
-          "raidTimeMax": 1065
-        },
-        {
-          "id": "ContainmentBreachBDHunt07",
-          "enabled": true,
-          "chance": 100,
-          "squadCount": 1,
-          "boss": "chaosInsurgency",
-          "followers": [
-            {
-              "type": "chaosInsurgency",
-              "min": 1,
-              "max": 1
-            }
-          ],
-          "zones": [
-            "BotZoneFloor1",
-            "BotZoneFloor2",
-            "BotZoneBasement"
-          ],
-          "raidTimeMin": 1335,
-          "raidTimeMax": 1365
-        }
-      ]
+      "hunts": []
     }
   }
 }

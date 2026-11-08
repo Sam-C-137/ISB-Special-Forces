@@ -1,10 +1,12 @@
+#nullable enable
 using System;
+using System.Collections.Generic;
 
 namespace ISB.Compatibility
 {
     public sealed class PopulationTargets
     {
-        public int blackDivision { get; set; } = 10;
+        public int blackDivision { get; set; } = 11;
         public int isb { get; set; } = 4;
         public int chaosInsurgency { get; set; } = 3;
         public int raiders { get; set; }
@@ -14,19 +16,27 @@ namespace ISB.Compatibility
 
     public sealed class EventPopulationConfig
     {
-        public bool enabled { get; set; } = true;
-        public int maximumBots { get; set; } = 17;
-        public int squadOverflow { get; set; } = 3;
+        public bool enabled { get => true; set { } }
+        public int maximumBots { get; set; } = 18;
+        public int squadOverflow { get; set; }
         public int reinforcementIntervalSeconds { get; set; } = 300;
-        public int reinforcementWindowSeconds { get; set; } = 60;
+        public int reinforcementWindowSeconds { get; set; } = 120;
         public int genericRefillDelaySeconds { get; set; } = 15;
         public PopulationTargets normal { get; set; } = new PopulationTargets();
-        public PopulationTargets reinforcement { get; set; } = new PopulationTargets { blackDivision = 7, isb = 2, chaosInsurgency = 2, raiders = 3, pmcs = 3 };
+        public PopulationTargets reinforcement { get; set; } = new PopulationTargets { blackDivision = 7, isb = 0, raiders = 2, pmcs = 6 };
         public int performanceMaximumBots { get; set; } = 13;
-        public PopulationTargets performanceNormal { get; set; } = new PopulationTargets { blackDivision = 8, isb = 3, chaosInsurgency = 2 };
-        public PopulationTargets performanceReinforcement { get; set; } = new PopulationTargets { blackDivision = 6, isb = 2, chaosInsurgency = 1, raiders = 2, pmcs = 2 };
+        public PopulationTargets performanceNormal { get; set; } = new PopulationTargets { blackDivision = 6 };
+        public PopulationTargets performanceReinforcement { get; set; } = new PopulationTargets { blackDivision = 2, isb = 0, raiders = 4, pmcs = 4 };
         public int Ceiling => maximumBots + squadOverflow;
-        public bool IsReinforcementWindow(double seconds) => seconds >= reinforcementIntervalSeconds && seconds % reinforcementIntervalSeconds < reinforcementWindowSeconds;
+        public bool IsReinforcementWindow(double seconds) =>
+            seconds % (reinforcementIntervalSeconds + reinforcementWindowSeconds) >= reinforcementIntervalSeconds;
+        public static EventPopulationConfig BlackoutDefaults() => new EventPopulationConfig
+        {
+            normal = new PopulationTargets { blackDivision = 8, isb = 4, chaosInsurgency = 0 },
+            reinforcement = new PopulationTargets { blackDivision = 4, isb = 2, chaosInsurgency = 0, raiders = 3, pmcs = 6 },
+            performanceNormal = new PopulationTargets { blackDivision = 6, isb = 2, chaosInsurgency = 0 },
+            performanceReinforcement = new PopulationTargets { blackDivision = 3, isb = 2, chaosInsurgency = 0, raiders = 2, pmcs = 4 }
+        };
         public int[] Targets(double seconds) => (IsReinforcementWindow(seconds) ? reinforcement : normal).Counts();
         public EventPopulationConfig ForPerformanceMode(bool performanceMode)
         {
@@ -46,29 +56,120 @@ namespace ISB.Compatibility
                 performanceReinforcement = performanceReinforcement
             };
         }
-        public void Validate()
+        public void Validate(string path = "eventSpawnQueue")
         {
-            if (maximumBots < 1 || maximumBots > 100 || squadOverflow < 0 || squadOverflow > 10 ||
-                reinforcementIntervalSeconds < 60 || reinforcementIntervalSeconds > 3600 ||
-                reinforcementWindowSeconds < 1 || reinforcementWindowSeconds >= reinforcementIntervalSeconds ||
-                genericRefillDelaySeconds < 1 || genericRefillDelaySeconds > 600 ||
-                performanceMaximumBots < 1 || performanceMaximumBots > maximumBots ||
-                normal == null || reinforcement == null || performanceNormal == null || performanceReinforcement == null)
-                throw new ArgumentException("Invalid event spawn limit settings.");
-            ValidateTargets(normal, maximumBots);
-            ValidateTargets(reinforcement, maximumBots);
-            ValidateTargets(performanceNormal, performanceMaximumBots);
-            ValidateTargets(performanceReinforcement, performanceMaximumBots);
+            var errors = new List<string>();
+            CheckRange(maximumBots, 1, 100, path + ".maximumBots", errors);
+            CheckRange(squadOverflow, 0, 10, path + ".squadOverflow", errors);
+            CheckRange(reinforcementIntervalSeconds, 60, 3600, path + ".reinforcementIntervalSeconds", errors);
+            CheckRange(reinforcementWindowSeconds, 1, 3600, path + ".reinforcementWindowSeconds", errors);
+            CheckRange(genericRefillDelaySeconds, 1, 600, path + ".genericRefillDelaySeconds", errors);
+            CheckRange(performanceMaximumBots, 1, maximumBots, path + ".performanceMaximumBots", errors);
+            ValidateTargets(normal, maximumBots, path + ".normal", errors);
+            ValidateTargets(reinforcement, maximumBots, path + ".reinforcement", errors);
+            ValidateTargets(performanceNormal, performanceMaximumBots, path + ".performanceNormal", errors);
+            ValidateTargets(performanceReinforcement, performanceMaximumBots, path + ".performanceReinforcement", errors);
+            if (errors.Count > 0)
+                throw new ArgumentException(string.Join("; ", errors));
         }
-        private static void ValidateTargets(PopulationTargets targets, int limit)
+        private static readonly string[] Factions = { "blackDivision", "isb", "chaosInsurgency", "raiders", "pmcs" };
+        private static void CheckRange(int value, int minimum, int maximum, string path, List<string> errors)
         {
-            int sum = 0;
-            foreach (int count in targets.Counts())
+            if (value < minimum || value > maximum)
+                errors.Add(path + " = " + value + ": use a whole number between " + minimum + " and " + maximum + ".");
+        }
+        private static void ValidateTargets(PopulationTargets? targets, int limit, string path, List<string> errors)
+        {
+            if (targets == null)
             {
-                if (count < 0 || count > limit) throw new ArgumentException("Faction targets must be between zero and the population limit.");
-                sum += count;
+                errors.Add(path + ": expected an object with faction targets.");
+                return;
             }
-            if (sum > limit) throw new ArgumentException("Faction targets exceed the population limit.");
+            long sum = 0;
+            var counts = targets.Counts();
+            for (int i = 0; i < Factions.Length; i++)
+            {
+                CheckRange(counts[i], 0, limit, path + "." + Factions[i], errors);
+                sum += counts[i];
+            }
+            if (sum > limit)
+                errors.Add(path + ": faction targets total " + sum + ", but the population limit is " + limit + ".");
+        }
+        public static EventPopulationConfig Recover(EventPopulationConfig? value, string path, Action<string>? warning = null, EventPopulationConfig? defaults = null)
+        {
+            var changes = new List<string>();
+            defaults ??= new EventPopulationConfig();
+            if (value == null)
+            {
+                value = defaults;
+                changes.Add(path + ": missing queue; using the default queue.");
+            }
+            value.maximumBots = RepairRange(value.maximumBots, 1, 100, path + ".maximumBots", changes);
+            value.squadOverflow = RepairRange(value.squadOverflow, 0, 10, path + ".squadOverflow", changes);
+            value.reinforcementIntervalSeconds = RepairRange(value.reinforcementIntervalSeconds, 60, 3600, path + ".reinforcementIntervalSeconds", changes);
+            value.reinforcementWindowSeconds = RepairRange(value.reinforcementWindowSeconds, 1, 3600, path + ".reinforcementWindowSeconds", changes);
+            value.genericRefillDelaySeconds = RepairRange(value.genericRefillDelaySeconds, 1, 600, path + ".genericRefillDelaySeconds", changes);
+            value.performanceMaximumBots = RepairRange(value.performanceMaximumBots, 1, value.maximumBots, path + ".performanceMaximumBots", changes);
+            value.normal = RecoverTargets(value.normal, defaults.normal, value.maximumBots, path + ".normal", changes);
+            value.reinforcement = RecoverTargets(value.reinforcement, defaults.reinforcement, value.maximumBots, path + ".reinforcement", changes);
+            value.performanceNormal = RecoverTargets(value.performanceNormal, defaults.performanceNormal, value.performanceMaximumBots, path + ".performanceNormal", changes);
+            value.performanceReinforcement = RecoverTargets(value.performanceReinforcement, defaults.performanceReinforcement, value.performanceMaximumBots, path + ".performanceReinforcement", changes);
+            value.Validate(path);
+            if (changes.Count > 0)
+                warning?.Invoke("[ISB SOF] Invalid spawn settings corrected for this server session: " + string.Join("; ", changes) + " The configuration file was not rewritten. Correct these fields in the control panel or JSON file.");
+            return value;
+        }
+        private static int RepairRange(int value, int minimum, int maximum, string path, List<string> changes)
+        {
+            int repaired = Math.Max(minimum, Math.Min(maximum, value));
+            if (repaired != value)
+                changes.Add(path + ": " + value + " -> " + repaired);
+            return repaired;
+        }
+        private static PopulationTargets RecoverTargets(PopulationTargets? value, PopulationTargets fallback, int limit, string path, List<string> changes)
+        {
+            if (value == null)
+            {
+                value = fallback;
+                changes.Add(path + ": missing targets; using defaults within the configured limit.");
+            }
+            var original = value.Counts();
+            var repaired = new int[Factions.Length];
+            int sum = 0;
+            for (int i = 0; i < repaired.Length; i++)
+            {
+                repaired[i] = Math.Max(0, Math.Min(limit, original[i]));
+                sum += repaired[i];
+            }
+            if (sum > limit)
+            {
+                var remainder = new int[repaired.Length];
+                int allocated = 0;
+                for (int i = 0; i < repaired.Length; i++)
+                {
+                    int numerator = repaired[i] * limit;
+                    repaired[i] = numerator / sum;
+                    remainder[i] = numerator % sum;
+                    allocated += repaired[i];
+                }
+                while (allocated < limit)
+                {
+                    int best = 0;
+                    for (int i = 1; i < remainder.Length; i++)
+                        if (remainder[i] > remainder[best]) best = i;
+                    repaired[best]++;
+                    remainder[best] = -1;
+                    allocated++;
+                }
+            }
+            for (int i = 0; i < repaired.Length; i++)
+                if (original[i] != repaired[i]) changes.Add(path + "." + Factions[i] + ": " + original[i] + " -> " + repaired[i]);
+            value.blackDivision = repaired[0];
+            value.isb = repaired[1];
+            value.chaosInsurgency = repaired[2];
+            value.raiders = repaired[3];
+            value.pmcs = repaired[4];
+            return value;
         }
     }
 

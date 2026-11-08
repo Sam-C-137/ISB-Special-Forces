@@ -30,6 +30,7 @@ public sealed class SpawnProgressResponse
     public string token { get; set; } = string.Empty;
     public bool blackoutSelected { get; set; }
     public bool blackoutReady { get; set; }
+    public bool revengeEnabled { get; set; }
     public string[] revengeTargets { get; set; } = [];
 }
 
@@ -74,6 +75,12 @@ public sealed class ISBSpawnProgressController
             return _raids.TryGetValue(Raid(session), out var raid) ? raid.token : string.Empty;
     }
 
+    internal bool HasBlackoutOccurred(string eventSession)
+    {
+        lock (_sync)
+            return _raids.TryGetValue(eventSession, out var raid) && raid.blackoutOccurred;
+    }
+
     public void Prepare(string? session, string map, bool scav)
     {
         if (string.IsNullOrWhiteSpace(session))
@@ -101,7 +108,7 @@ public sealed class ISBSpawnProgressController
         }
     }
 
-    public double ContainmentChance(string? session, double baseline, bool eligible)
+    public double ContainmentChance(string? session, double baseline)
     {
         if (string.IsNullOrWhiteSpace(session))
             return baseline;
@@ -109,8 +116,23 @@ public sealed class ISBSpawnProgressController
         {
             if (!_raids.TryGetValue(Raid(session), out var raid))
                 return baseline;
-            raid.containmentEligible |= eligible && baseline > 0;
             return SpawnChanceLedger.Chance(baseline, _ledger.Profile(raid.owner, raid.revengeCycle).containment, 10);
+        }
+    }
+
+    public void RecordLabsDecision(string? session, string variant, bool active, bool rolled = false)
+    {
+        if (string.IsNullOrWhiteSpace(session))
+            return;
+        var key = Raid(session);
+        lock (_sync)
+        {
+            if (!_raids.TryGetValue(key, out var raid) || raid.map != "laboratory" || raid.containmentActive.HasValue)
+                return;
+            raid.labsVariant = variant;
+            raid.containmentActive = active;
+            if (rolled)
+                raid.containmentRoll = active;
         }
     }
 
@@ -120,7 +142,8 @@ public sealed class ISBSpawnProgressController
             return baseline;
         lock (_sync)
         {
-            if (!_raids.TryGetValue(Raid(session), out var raid) || !enabled || baseline <= 0 || !maps.Contains(raid.map, StringComparer.OrdinalIgnoreCase))
+            if (!_raids.TryGetValue(Raid(session), out var raid) || !enabled || baseline <= 0 || !maps.Contains(raid.map, StringComparer.OrdinalIgnoreCase)
+                || !ISBSSOFExtra.Scp173Config.IsContainmentRaid(raid.map, true, raid.containmentActive == true, raid.labsVariant))
                 return baseline;
             raid.scp173Eligible = true;
             return SpawnChanceLedger.Chance(baseline, _ledger.Profile(raid.owner, raid.revengeCycle).scp173, 5);
@@ -131,13 +154,13 @@ public sealed class ISBSpawnProgressController
     {
         lock (_sync)
         {
-            if (!_raids.TryGetValue(Raid(session), out var raid) || raid.map != map || location.BossLocationSpawn == null)
+            if (!_raids.TryGetValue(Raid(session), out var raid) || raid.map != map || raid.containmentActive == true || raid.labsVariant == "blackout" || location.BossLocationSpawn == null)
                 return;
             foreach (var spawn in location.BossLocationSpawn)
             {
-                if (spawn.BossName?.StartsWith("ISB", StringComparison.OrdinalIgnoreCase) != true || spawn.BossChance <= 0)
+                if (spawn.BossName?.StartsWith("ISB", StringComparison.OrdinalIgnoreCase) != true || spawn.BossChance is not > 0)
                     continue;
-                if (!string.IsNullOrEmpty(spawn.TriggerId) && spawn.TriggerId != "hunt" && !spawn.TriggerId.StartsWith("isb_config_checkpoint_", StringComparison.Ordinal))
+                if (!SpawnChanceLedger.IsNormalIsbTrigger(spawn.TriggerId))
                     continue;
                 raid.isbEligible = true;
                 var baseline = _baselines.GetValue(spawn, wave => new SpawnBaseline(wave.BossChance ?? 0));
@@ -148,26 +171,24 @@ public sealed class ISBSpawnProgressController
 
     public SpawnProgressResponse Update(string session, SpawnProgressRequest? request)
     {
-        var targets = _revenge.GetRaidTargets(Raid(session));
+        var key = Raid(session);
+        var targets = _revenge.GetRaidTargets(key);
         lock (_sync)
         {
-            if (!_raids.TryGetValue(Raid(session), out var raid))
+            if (!_raids.TryGetValue(key, out var raid))
                 return new()
                 {
+                    revengeEnabled = _revenge.Enabled,
                     revengeTargets = targets
                 };
-            if (request != null && request.token == raid.token)
+            if (request != null && session == key && request.token == raid.token)
             {
                 raid.started |= request.started;
                 raid.isbSpawned |= request.isbSpawned;
-                raid.containmentOccurred |= request.containmentOccurred;
-                raid.blackoutOccurred |= request.blackoutOccurred;
+                if (raid.map == "laboratory" && raid.containmentActive == false)
+                    raid.blackoutOccurred |= request.blackoutOccurred;
                 raid.scp173Spawned |= request.scp173Spawned;
-                if (raid.map == "laboratory" && request.blackoutBaseChance >= 0 && request.blackoutBaseChance <= 100)
-                {
-                    raid.blackoutEligible |= request.blackoutBaseChance > 0;
-                    raid.blackoutSelected ??= Random.Shared.NextDouble() * 100 < SpawnChanceLedger.Chance(request.blackoutBaseChance, _ledger.Profile(raid.owner, raid.revengeCycle).blackout, 10);
-                }
+                _ledger.RecordBlackoutRoll(raid, request.blackoutBaseChance, () => Random.Shared.NextDouble() * 100);
             }
 
             return new()
@@ -175,6 +196,7 @@ public sealed class ISBSpawnProgressController
                 token = raid.token,
                 blackoutReady = raid.blackoutSelected.HasValue,
                 blackoutSelected = raid.blackoutSelected == true,
+                revengeEnabled = _revenge.Enabled,
                 revengeTargets = targets
             };
         }
@@ -185,6 +207,11 @@ public sealed class ISBSpawnProgressController
         var key = Raid(session);
         if (key != session && _fika.QuestOwner(key) != session)
             return;
+        FinishRaidKey(key);
+    }
+
+    internal void FinishRaidKey(string key)
+    {
         lock (_sync)
         {
             if (!_raids.Remove(key, out var raid) || !raid.started)
@@ -213,13 +240,6 @@ public sealed class ISBSpawnProgressController
                 _logger.LogError(ex, "ISB: could not save spawn progression.");
             }
         }
-    }
-
-    public void CancelUnstarted(string session)
-    {
-        lock (_sync)
-            if (_raids.TryGetValue(Raid(session), out var raid) && !raid.started)
-                _raids.Remove(Raid(session));
     }
 }
 

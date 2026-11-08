@@ -173,9 +173,12 @@ namespace ISBSpecialForces.Components
 
         private static void ApplyStatus(ISBRevengeStatusResponse response)
         {
+            var activeChanged = Active != response.active;
             Enabled = response.enabled;
             Active = response.active;
             RemainingRaids = response.remainingRaids;
+            if (activeChanged)
+                ISBSpawnProgressBridge.RefreshRevengeTargets();
         }
     }
 }

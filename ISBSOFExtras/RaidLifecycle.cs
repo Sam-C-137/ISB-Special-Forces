@@ -154,6 +154,7 @@ namespace ISBSSOFExtra
         {
             _fakeblackoutisEnabled = false;
             ClearNetworkPresentationState();
+            PublishEventNightVisionStateLocal();
             Log.LogWarning("ISB SOF Extras: Ignored Labs-only presentation outside Laboratory. source=" + source + ", location='" + (_currentRaidLocation ?? string.Empty) + "'.");
         }
 
@@ -479,6 +480,7 @@ namespace ISBSSOFExtra
             StopRoutine(ref _audioCacheRoutine);
             InitializeDecontamination();
             _audioCacheRoutine = StartCoroutine(PreloadAudioCacheGradually());
+            PublishEventNightVisionStateLocal();
             if (global::ISBSSOFExtra.ISBSpecialForcesAudio.DiagnosticsEnabled)
             {
                 Log.LogInfo("ISB SOF Audio Plugin: Raid initialized.");
@@ -500,6 +502,7 @@ namespace ISBSSOFExtra
             _takeoverSirens.Dispose();
             _takeoverSceneryWorld = null;
             _raidisActive = false;
+            PublishEventNightVisionStateLocal(true);
             _activeRaidWorld = null;
             _sequenceStarted = false;
             _fakeblackoutisEnabled = false;

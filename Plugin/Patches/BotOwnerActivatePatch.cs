@@ -39,7 +39,8 @@ namespace ISBSpecialForces.Patches
                     ISBTacticalAgent.GetOrAdd(__instance);
                     ApplyAishiLoyaltyCondition(__instance);
                 }
-                else if (MonoBehaviourSingleton<ISBCheckpointManager>.Instance?.IsBlackDivisionCheckpointBot(__instance) == true)
+                else if (MonoBehaviourSingleton<ISBCheckpointManager>.Instance?.IsBlackDivisionCheckpointBot(__instance) == true ||
+                    MonoBehaviourSingleton<ISBCheckpointManager>.Instance?.IsExternalCheckpointBot(__instance) == true)
                 {
                     var checkpointBot = __instance.GetOrAddISBManager();
                     if (!checkpointBot.HasAssignedCheckpoint())

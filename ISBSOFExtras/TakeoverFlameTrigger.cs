@@ -2,6 +2,7 @@ using EFT;
 using System;
 using BepInEx.Logging;
 using HarmonyLib;
+using ISB.Compatibility;
 using EFT.Interactive;
 using UnityEngine;
 
@@ -58,7 +59,8 @@ namespace ISBSSOFExtra
             return settings == null || !ProtectedWireRole((int)settings.Role);
         }
 
-        internal static bool ProtectedWireRole(int role) => role >= 13701 && role <= 13716 || role >= 848420 && role <= 848424 || role == 848426;
+        internal static bool ProtectedWireRole(int role) => role == GhostBotVariant.ChaosValue ||
+            role >= 13701 && role <= 13716 || role >= 848420 && role <= 848424 || role == 848426;
         public override bool IsStatic => false;
         private void OnTriggerStay(Collider other) { }
 

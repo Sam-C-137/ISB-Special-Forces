@@ -1,3 +1,4 @@
+using BepInEx.Bootstrap;
 using Comfort.Common;
 using EFT;
 using Newtonsoft.Json;
@@ -17,6 +18,7 @@ namespace ISBSpecialForces.Components
             public string token { get; set; }
             public bool blackoutSelected { get; set; }
             public bool blackoutReady { get; set; }
+            public bool? revengeEnabled { get; set; }
             public string[] revengeTargets { get; set; }
         }
 
@@ -25,10 +27,12 @@ namespace ISBSpecialForces.Components
         private GameWorld _world;
         private string _token;
         private int _generation;
-        private int _revision, _sentRevision = -1;
-        private bool _started, _seen, _containment, _blackout, _scp173, _busy, _reported;
+        private int _revision, _sentRevision = -1, _tokenMisses;
+        private bool _started, _seen, _containment, _blackout, _scp173, _busy, _reported, _tokenRetired;
         private double _blackoutChance = -1;
         private float _next;
+        private static bool IsCoopRaid => Chainloader.PluginInfos.ContainsKey("com.fika.core") &&
+            !(Singleton<AbstractGame>.Instance is LocalGame);
         public static bool BlackoutDecisionReady { get; private set; }
         public static bool BlackoutSelected { get; private set; }
 
@@ -37,12 +41,15 @@ namespace ISBSpecialForces.Components
             _instance = this;
         }
 
+        internal static bool HasTargets => Targets.Count > 0;
         public static bool IsTarget(IPlayer player) => player != null && !player.IsAI && Targets.Contains(player.ProfileId);
         internal static void Init(GameWorld world, bool started)
         {
             var c = _instance;
             if (c == null)
                 return;
+            if (world is HideoutGameWorld)
+                world = null;
             if (!ReferenceEquals(c._world, world))
             {
                 c._generation++;
@@ -51,31 +58,58 @@ namespace ISBSpecialForces.Components
                 c._busy = false;
                 c._next = 0;
                 c._started = c._seen = c._containment = c._blackout = c._scp173 = c._reported = false;
+                c._tokenRetired = false;
                 c._blackoutChance = -1;
                 c._revision = 0;
+                c._tokenMisses = 0;
                 c._sentRevision = -1;
                 BlackoutDecisionReady = BlackoutSelected = false;
                 Targets.Clear();
             }
 
-            if (started && !c._started)
+            if (world != null && started && !c._started)
             {
                 c._started = true;
-                c._revision++;
-                c._next = 0;
+                c.RequestReport();
+                if (!c._seen && ISBFikaAuthority.IsAiAuthority && world.AllAlivePlayersList != null)
+                    foreach (var player in world.AllAlivePlayersList)
+                    {
+                        MarkSpawn(player?.AIData?.BotOwner);
+                        if (c._seen)
+                            break;
+                    }
             }
         }
 
         internal static void MarkSpawn(BotOwner bot)
         {
-            if (_instance == null || !ISBFikaAuthority.IsAiAuthority || bot?.Profile?.Info?.Settings == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
+            var c = _instance;
+            if (c == null || c._seen || bot?.Profile?.Info?.Settings == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
                 return;
-            if (!_instance._seen)
-            {
-                _instance._seen = true;
-                _instance._revision++;
-                _instance._next = 0;
-            }
+            var spawnId = bot.SpawnProfileData?.SpawnParams?.Id_spawn;
+            if (spawnId?.StartsWith("isb_secret_", StringComparison.Ordinal) == true ||
+                spawnId?.StartsWith("isb_labs_", StringComparison.Ordinal) == true)
+                return;
+            var world = Singleton<GameWorld>.Instance;
+            if (world == null || world is HideoutGameWorld)
+                return;
+            Init(world, false);
+            c._seen = true;
+            c.RequestReport();
+        }
+
+        private void RequestReport()
+        {
+            _revision++;
+            _tokenMisses = 0;
+            _next = 0;
+        }
+
+        internal static void RefreshRevengeTargets()
+        {
+            var c = _instance;
+            if (c?._world != null && ReferenceEquals(c._world, Singleton<GameWorld>.Instance))
+                c.RequestReport();
         }
 
         public static void ReportScp173Spawn()
@@ -87,8 +121,7 @@ namespace ISBSpecialForces.Components
             if (c._scp173)
                 return;
             c._scp173 = true;
-            c._revision++;
-            c._next = 0;
+            c.RequestReport();
         }
 
         public static void ReportLabs(bool containment, bool blackout, double baseChance)
@@ -102,10 +135,7 @@ namespace ISBSpecialForces.Components
             if (baseChance >= 0)
                 c._blackoutChance = baseChance;
             if (changed)
-            {
-                c._revision++;
-                c._next = 0;
-            }
+                c.RequestReport();
         }
 
         private void Update()
@@ -117,13 +147,16 @@ namespace ISBSpecialForces.Components
                 return;
             }
 
-            if (_busy || Time.unscaledTime < _next || !ISBFikaAuthority.IsAiAuthority)
+            if (_busy || _tokenRetired || Time.unscaledTime < _next || !ISBFikaAuthority.IsAiAuthority)
                 return;
-            if (!_seen && _world.AllAlivePlayersList != null)
-                foreach (var player in _world.AllAlivePlayersList)
-                    MarkSpawn(player?.AIData?.BotOwner);
+            if (_world.MainPlayer?.Side == EPlayerSide.Savage && !IsCoopRaid)
+            {
+                _next = float.PositiveInfinity;
+                return;
+            }
+
             _busy = true;
-            _next = Time.unscaledTime + 15;
+            _next = float.PositiveInfinity;
             var generation = _generation;
             var revision = _revision;
             var report = !string.IsNullOrEmpty(_token) && revision != _sentRevision ? JsonConvert.SerializeObject(new { token = _token, started = _started, isbSpawned = _seen, containmentOccurred = _containment, blackoutOccurred = _blackout, scp173Spawned = _scp173, blackoutBaseChance = _blackoutChance }) : null;
@@ -144,19 +177,30 @@ namespace ISBSpecialForces.Components
                     _busy = false;
                     if (state == null || string.IsNullOrEmpty(state.token))
                     {
-                        _next = Time.unscaledTime + 2;
+                        if (_revision != revision)
+                            _next = 0;
+                        else
+                        {
+                            _tokenMisses = Math.Min(_tokenMisses + 1, 8);
+                            _next = Time.unscaledTime + Math.Min(2 * _tokenMisses, 15);
+                        }
                         return;
                     }
 
-                    if (_token != state.token)
+                    if (!string.IsNullOrEmpty(token) && !string.Equals(token, state.token, StringComparison.Ordinal))
                     {
-                        _sentRevision = -1;
-                        _next = 0;
+                        _tokenRetired = true;
+                        Targets.Clear();
+                        return;
                     }
-                    else if (report != null)
+
+                    _tokenMisses = 0;
+                    if (report != null)
                         _sentRevision = revision;
                     if (_revision != _sentRevision)
                         _next = 0;
+                    else if (state.revengeEnabled != false && IsCoopRaid)
+                        _next = Time.unscaledTime + 15;
                     _token = state.token;
                     BlackoutDecisionReady = state.blackoutReady;
                     BlackoutSelected = state.blackoutSelected;
@@ -173,7 +217,7 @@ namespace ISBSpecialForces.Components
                     if (generation != _generation)
                         return;
                     _busy = false;
-                    _next = Time.unscaledTime + 5;
+                    _next = _revision != revision ? 0 : Time.unscaledTime + 5;
                     if (!_reported)
                     {
                         _reported = true;

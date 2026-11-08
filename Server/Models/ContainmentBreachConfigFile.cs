@@ -48,14 +48,14 @@ public static class ContainmentBreachConfigFile
         }
     }
 
-    public static LabsPreBlackoutEventConfig Load(string folder, LabsPreBlackoutEventConfig legacy)
+    public static LabsPreBlackoutEventConfig Load(string folder, LabsPreBlackoutEventConfig legacy, Action<string>? warning = null)
     {
         var path = Path.Combine(folder, FileName);
         if (!File.Exists(path))
         {
             path = Path.Combine(folder, "containment_breach_config.json");
             if (!File.Exists(path))
-                return legacy ?? new();
+                return Prepare(legacy ?? new(), warning);
         }
 
         ExternalFactionConfiguration.MigrateFile(path, true);
@@ -76,12 +76,19 @@ public static class ContainmentBreachConfigFile
             }
 
             var result = root.Deserialize<LabsPreBlackoutEventConfig>(options) ?? throw new JsonException("Expected a ContainmentBreach configuration object.");
-            LabsEventModes.Validate(result);
-            return result;
+            return Prepare(result, warning);
         }
         catch (JsonException exception)
         {
             throw new InvalidDataException("ISB: invalid " + path, exception);
         }
+    }
+
+    private static LabsPreBlackoutEventConfig Prepare(LabsPreBlackoutEventConfig config, Action<string>? warning)
+    {
+        config.containementBreachQueue = ISB.Compatibility.EventPopulationConfig.Recover(config.containementBreachQueue, FileName + ":containementBreachQueue", warning);
+        LabsEventModes.NormalizeSpecialFormations(config);
+        LabsEventModes.Validate(config);
+        return config;
     }
 }

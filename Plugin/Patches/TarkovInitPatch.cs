@@ -86,8 +86,17 @@ namespace ISBSpecialForces.Patches
             }
 
             var tacticalPriority = GetTacticalPriority(soloPriority, squadPriority);
+            var eventHuntRoles = GetISBRoles();
+            foreach (int role in ISB.Compatibility.BlackDivisionCheckpointPolicy.Roles)
+                eventHuntRoles.Add((WildSpawnType)role);
+            eventHuntRoles.Add((WildSpawnType)ISB.Compatibility.GhostBotVariant.ChaosValue);
+            eventHuntRoles.AddRange(new[] { WildSpawnType.pmcBot, WildSpawnType.pmcUSEC, WildSpawnType.pmcBEAR });
+            BrainManager.AddCustomLayer(typeof(ContainmentBreachHuntLayer), new List<string> { "ISB", "blackDiv" }, 35, eventHuntRoles);
+            BrainManager.AddCustomLayer(typeof(ContainmentBreachHuntLayer), new List<string> { "PMC", "ExUsec", "Assault", "CursAssault", "PmcUsec", "PmcBear", "PmcUSEC", "PmcBEAR" }, GetEventHuntPriority(soloPriority, squadPriority), eventHuntRoles);
             BrainManager.AddCustomLayer(typeof(ISBTacticalLayer), brainList.FindAll(name => name != "ISB" && name != "blackDiv"), tacticalPriority + 2, typesList);
             RegisterCheckpointLayers(brainList, typesList, tacticalPriority + 1);
+            RegisterCheckpointLayers(brainList, new List<WildSpawnType> { (WildSpawnType)ISB.Compatibility.GhostBotVariant.ChaosValue }, tacticalPriority + 1);
+            BrainManager.AddCustomLayer(typeof(ExternalChaosHuntLayer), brainList, tacticalPriority, new List<WildSpawnType> { (WildSpawnType)ISB.Compatibility.GhostBotVariant.ChaosValue });
             if (Components.BlackDivisionEventCheckpoints.Installed)
             {
                 var blackDivisionRoles = new List<int>(ISB.Compatibility.BlackDivisionCheckpointPolicy.Roles).ConvertAll(role => (WildSpawnType)role);
@@ -108,6 +117,7 @@ namespace ISBSpecialForces.Patches
         }
 
         internal static int GetTacticalPriority(int solo, int squad) => Math.Min(77, Math.Max(solo, squad) + 1);
+        internal static int GetEventHuntPriority(int solo, int squad) => Math.Min(35, Math.Max(0, Math.Min(solo, squad) - 1));
         internal static void ApplySainLayers()
         {
             if (_sainLayersApplied || !Chainloader.PluginInfos.TryGetValue("me.sol.sain", out var sainInfo) || sainInfo?.Instance == null)

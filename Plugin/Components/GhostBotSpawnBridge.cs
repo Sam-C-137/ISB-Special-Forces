@@ -195,6 +195,7 @@ namespace ISBSpecialForces.Components
 #endif
         private static bool SpawnBoss(NativeSpawner __instance, BossLocationSpawn wave, BotSpawnParams spawnParams, NativeCreation data, ref Task __result)
         {
+            if (ISBEventPopulationQueue.HasPreparedProfiles(spawnParams)) return true;
             if (data != null || Variant(wave, null, 0) == null)
                 return true;
             __result = SpawnVariantBoss(__instance, wave, spawnParams);
@@ -210,6 +211,7 @@ namespace ISBSpecialForces.Components
 
         private static bool SpawnSupports(NativeSpawner __instance, BotZone zone, int followersCount, BotSpawnParams spawnParams, BossLocationSpawn wave, List<ISpawnPoint> pointsToSpawn, bool forceSpawn, ref Task __result)
         {
+            if (ISBEventPopulationQueue.HasPreparedProfiles(spawnParams)) return true;
             if (wave == null || wave.GetEscors() != null || Variant(wave, null, 1) == null)
                 return true;
             __result = SpawnVariantSupports(__instance, zone, followersCount, spawnParams, wave, pointsToSpawn, forceSpawn);
@@ -227,6 +229,7 @@ namespace ISBSpecialForces.Components
 
         private static bool SpawnEscort(NativeSpawner __instance, BotZone zone, EPlayerSide side, BossLocationSpawn wave, List<BossLocationSpawnSubData> escorts, BotSpawnParams spawnParams, List<ISpawnPoint> pointsToSpawn, bool forceSpawn, ref Task __result)
         {
+            if (ISBEventPopulationQueue.HasPreparedProfiles(spawnParams)) return true;
             if (wave == null || escorts == null || !escorts.Any(escort => Variant(wave, escort, 2) != null))
                 return true;
             __result = SpawnVariantEscorts(__instance, zone, side, wave, escorts, spawnParams, pointsToSpawn, forceSpawn);

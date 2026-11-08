@@ -10,6 +10,10 @@ namespace ISB.Compatibility
         internal const string ChaosTrigger = "isb_labs_chaos_checkpoint";
         internal const string BlackoutTrigger = "isb_labs_blackout_checkpoint";
         internal const string PowerRestoredTrigger = "isb_labs_power_restored_checkpoint";
+        internal const string ExternalChaosCheckpointPrefix = "isb_external_chaos_checkpoint_";
+        internal static bool IsExternalChaosCheckpoint(int role, string trigger, bool registered) => role == GhostBotVariant.ChaosValue && registered
+            && trigger != null && trigger.StartsWith(ExternalChaosCheckpointPrefix, StringComparison.Ordinal)
+            && int.TryParse(trigger.Substring(ExternalChaosCheckpointPrefix.Length), NumberStyles.None, CultureInfo.InvariantCulture, out int index) && index >= 0;
         internal static readonly int[] Roles =
         {
             848420,

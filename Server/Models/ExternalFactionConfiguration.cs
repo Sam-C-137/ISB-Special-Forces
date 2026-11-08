@@ -8,8 +8,43 @@ public sealed class ExternalFactionsConfig
     public LabsPreBlackoutFactionConfig chaosInsurgency { get; set; } = new();
 }
 
+public sealed class ExternalMapFactionsConfig
+{
+    public ExternalMapFactionConfig chaosInsurgency { get; set; } = new();
+}
+
+public sealed class ExternalMapFactionConfig
+{
+    public bool enabled { get; set; } = false;
+    public Dictionary<string, MapConfig> locations { get; set; } = new();
+}
+
 public static class ExternalFactionConfiguration
 {
+    public const string SpawnTriggerPrefix = "isb_external_chaos_";
+    public static bool IsLabsMap(string? map)
+    {
+        var key = new string((map ?? string.Empty).Where(char.IsLetterOrDigit).Select(char.ToLowerInvariant).ToArray());
+        return key.StartsWith("laboratory", StringComparison.Ordinal) || key is "lab" or "labs" or "thelab" or "blackoutlabs"
+            or "containmentbreachlabs" or "containementbreachlabs" or "labsblackout" or "labscontainmentbreach" or "labscontainementbreach" or "5b0fc42d86f7744a585f9105";
+    }
+
+    public static bool IsChaosFormation(SpawnFormationConfig? formation) => formation != null && GhostBotVariant.IsChaos(formation.boss)
+        && formation.followers?.All(follower => follower != null && GhostBotVariant.IsChaos(follower.type)) != false;
+
+    public static JsonObject EmptyMapConfiguration(JsonObject? maps)
+    {
+        var locations = new JsonObject();
+        foreach (var key in maps?.Select(pair => pair.Key).Where(key => !IsLabsMap(key)) ?? Enumerable.Empty<string>())
+            locations[key] = new JsonObject
+            {
+                ["patrol"] = new JsonObject { ["PatrolDrawLimit"] = 1, ["spawnChance"] = 0, ["EnableISBPatrols"] = false, ["formations"] = new JsonArray() },
+                ["checkpoint"] = new JsonObject { ["CheckpointDrawLimit"] = 1, ["spawnChance"] = 0, ["enableISBHoldZones"] = false, ["formations"] = new JsonArray() },
+                ["hunt"] = new JsonObject { ["HuntDrawLimit"] = 1, ["spawnChance"] = 0, ["enableHunt"] = false, ["formations"] = new JsonArray() }
+            };
+        return new JsonObject { ["chaosInsurgency"] = new JsonObject { ["enabled"] = false, ["locations"] = locations } };
+    }
+
     public static bool Normalize(JsonObject root, bool containment)
     {
         bool changed = false;

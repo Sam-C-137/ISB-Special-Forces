@@ -1,4 +1,5 @@
 using ISBSpecialForces.Components;
+using ISBSpecialForces.Behavior.Layers;
 using MoreBotsAPI.Components;
 using SPT.Reflection.Patching;
 using System.Collections.Generic;
@@ -11,14 +12,14 @@ namespace ISBSpecialForces.Patches
     {
         protected override MethodBase GetTargetMethod() => typeof(HuntManager).GetMethod(nameof(HuntManager.FindFirstHuntTarget));
         [PatchPrefix]
-        private static bool Prefix(BotHuntManager hunter) => !ISBRevengeHuntController.TryRetarget(hunter) && !ISBCameraHuntController.TryRetarget(hunter) && !BlackDivisionEventHunt.TryRetarget(hunter);
+        private static bool Prefix(BotHuntManager hunter) => !ContainmentBreachHunt.TryRetarget(hunter) && !ISBRevengeHuntController.TryRetarget(hunter) && !ISBCameraHuntController.TryRetarget(hunter) && !BlackDivisionEventHunt.TryRetarget(hunter);
     }
 
     internal sealed class ISBCameraHuntNewTargetPatch : ModulePatch
     {
         protected override MethodBase GetTargetMethod() => typeof(HuntManager).GetMethod(nameof(HuntManager.FindNewHuntTarget));
         [PatchPrefix]
-        private static bool Prefix(BotHuntManager hunter) => !ISBRevengeHuntController.TryRetarget(hunter) && !ISBCameraHuntController.TryRetarget(hunter) && !BlackDivisionEventHunt.TryRetarget(hunter);
+        private static bool Prefix(BotHuntManager hunter) => !ContainmentBreachHunt.TryRetarget(hunter) && !ISBRevengeHuntController.TryRetarget(hunter) && !ISBCameraHuntController.TryRetarget(hunter) && !BlackDivisionEventHunt.TryRetarget(hunter);
     }
 
     internal sealed class ISBCameraHuntFollowersPatch : ModulePatch
@@ -40,6 +41,7 @@ namespace ISBSpecialForces.Patches
         [PatchPrefix]
         private static bool Prefix(BotHuntManager __instance, ref Vector3 __result)
         {
+            if (ContainmentBreachHunt.TryRegroupPoint(__instance, out __result)) return false;
             if (__instance == null || !ISBCameraHuntController.AppliesTo(__instance.botOwner))
                 return true;
             ISBCameraHuntController.PrepareRegroup(__instance);

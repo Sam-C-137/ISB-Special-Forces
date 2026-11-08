@@ -83,7 +83,7 @@ namespace ISBSpecialForces.Components
                 return false;
             if (string.Equals(spawn.BossName, "ISBTeamLeader", StringComparison.Ordinal))
                 return true;
-            return !string.IsNullOrEmpty(spawn.TriggerId) && (spawn.TriggerId.StartsWith(SecretSpawnTriggerPrefix, StringComparison.Ordinal) || spawn.TriggerId.StartsWith(LabsEventTriggerPrefix, StringComparison.Ordinal));
+            return !string.IsNullOrEmpty(spawn.TriggerId) && (spawn.TriggerId.StartsWith(SecretSpawnTriggerPrefix, StringComparison.Ordinal) || spawn.TriggerId.StartsWith(LabsEventTriggerPrefix, StringComparison.Ordinal) || spawn.TriggerId.StartsWith("isb_external_chaos_", StringComparison.Ordinal));
         }
     }
 }

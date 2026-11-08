@@ -328,9 +328,11 @@ public class ISBRevengeController
         return string.Join("|", sessions.Where(s => _fika.EventSession(s) == raid && !_questTruceController.Evaluate(s, map).resetHostilityEachRaid).OrderBy(s => s, StringComparer.Ordinal).Select(GetCycle).Where(cycle => !string.IsNullOrEmpty(cycle)));
     }
 
+    internal bool Enabled => GetConfig().enabled;
+
     public string[] GetRaidTargets(string raid)
     {
-        if (!GetConfig().enabled)
+        if (!Enabled)
             return[];
         string[] sessions;
         lock (_sync)

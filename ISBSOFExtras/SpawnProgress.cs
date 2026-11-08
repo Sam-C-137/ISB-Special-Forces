@@ -23,7 +23,7 @@ namespace ISBSSOFExtra
             if (_spawnProgressType == null)
                 return false;
             _spawnProgressType.GetMethod("ReportLabs", BindingFlags.Public | BindingFlags.Static)?.Invoke(null, new object[] { _labsPreBlackoutEventActive && _raidisActive, _blackoutApplied && !_labsPreBlackoutEventActive, chance });
-            if (_spawnProgressType.GetProperty("BlackoutDecisionReady")?.GetValue(null)is bool ready && ready)
+            if (chance >= 0 && _spawnProgressType.GetProperty("BlackoutDecisionReady")?.GetValue(null)is bool ready && ready)
             {
                 _blackoutSelectedForRaid = (bool)_spawnProgressType.GetProperty("BlackoutSelected").GetValue(null);
                 return true;

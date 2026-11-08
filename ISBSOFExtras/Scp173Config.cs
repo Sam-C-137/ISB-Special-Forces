@@ -93,6 +93,17 @@ namespace ISBSSOFExtra
         public float moveAudioCooldownSeconds = 2f;
         public float audioFadeInSeconds = 0.15f;
         public float audioFadeOutSeconds = 0.25f;
+        internal static bool IsContainmentRaid(string map, bool populationReady, bool active, string variant) =>
+            string.Equals(map, "laboratory", StringComparison.OrdinalIgnoreCase) && populationReady && active &&
+            (string.Equals(variant, "containment", StringComparison.OrdinalIgnoreCase) || string.Equals(variant, "legacy", StringComparison.OrdinalIgnoreCase));
+
+        internal static bool IsEligible(string map, bool containment, Scp173Config config) =>
+            containment && string.Equals(map, "laboratory", StringComparison.OrdinalIgnoreCase) && config?.enabled == true &&
+            config.maps != null && Array.Exists(config.maps, allowed => string.Equals(allowed, map, StringComparison.OrdinalIgnoreCase));
+
+        internal static bool IsSnapshotEligible(string map, bool localContainment, bool remoteContainment, bool selected, Scp173Config config) =>
+            selected && IsEligible(map, localContainment && remoteContainment, config);
+
         internal void Normalize()
         {
             activationLookSeconds = Clamp(activationLookSeconds, .1f, 60f, 5f);

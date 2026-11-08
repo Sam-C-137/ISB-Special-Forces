@@ -123,7 +123,7 @@ public sealed class LabsVariantRequest : IRequestData
 #else
 [Injectable(TypePriority = OnLoadOrder.GameCallbacks + 1)]
 #endif
-public sealed class LabsVariantRouter(JsonUtil json, HttpResponseUtil http, LabsVariantController variants, ISBSpawnController spawns, ISBSpawnProgressController progress) : StaticRouter(json, [new RouteAction("/ISB/labsVariants/status", 
+public sealed class LabsVariantRouter(JsonUtil json, HttpResponseUtil http, LabsVariantController variants, ISBSpawnController spawns, ISBSpawnProgressController progress, FikaRaidContext fika) : StaticRouter(json, [new RouteAction("/ISB/labsVariants/status", 
 #if ISB_SPT41
 (url, info, session, output, cancellationToken) => 
 #else
@@ -136,8 +136,11 @@ new ValueTask<object>(http.NoBody(variants.State(session)))), new RouteAction("/
             (url, info, session, output) =>
 #endif
 {
-    spawns.EndRaid(session);
-    progress.CancelUnstarted(session);
+    if (fika.EventSession(session) == session && fika.RaidInstance(session) == null && !fika.IsHeadlessSession(session))
+    {
+        progress.FinishRaidKey(session);
+        spawns.EndRaid(session);
+    }
     return new ValueTask<object>(http.NoBody(variants.State(session)));
 }), new RouteAction<LabsVariantRequest>("/ISB/labsVariants/select", 
 #if ISB_SPT41

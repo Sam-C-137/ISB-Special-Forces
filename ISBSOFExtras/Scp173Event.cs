@@ -137,6 +137,7 @@ namespace ISBSSOFExtra
         private CancellationTokenSource _audioCancellation;
         private string _pendingSound;
         private Task<Configuration> _configRequest;
+        private CancellationTokenSource _configCancellation;
         private string _map;
         private Scp173Identity _identity;
         private bool _authority, _headless, _selected, _attempted, _active, _observed, _failed;
@@ -357,7 +358,7 @@ namespace ISBSSOFExtra
                 _raidStart = Time.realtimeSinceStartup;
             }
 
-            if (_failed || _config == null || _authority && !_config.enabled)
+            if (_failed || _configRequest != null || _config == null || !_containmentRaid || _authority && !_config.enabled)
                 return;
             if (_authority && !_selected || !_authority && _receivedSequence != 0 && !_selected && !_active)
                 return;
@@ -444,33 +445,48 @@ namespace ISBSSOFExtra
                     enabled = false
                 };
                 if (_authority)
-                {
                     _entity = Guid.NewGuid().ToString("N");
-                    _configRequest = Task.Run(() =>
+                bool authority = _authority;
+                _configCancellation = new CancellationTokenSource();
+                var cancellation = _configCancellation.Token;
+                _configRequest = Task.Run(async () =>
+                {
+                    bool containment = false;
+                    if (string.Equals(map, "laboratory", StringComparison.OrdinalIgnoreCase))
                     {
-                        string json = RequestHandler.GetJson("/ISB/scp173/config");
-                        if (json == null || json.Length > 65536)
-                            throw new InvalidDataException("SCP-173 server configuration exceeds 64 KiB.");
-                        var config = JsonConvert.DeserializeObject<Scp173Config>(json);
-                        if (config == null)
-                            throw new InvalidDataException("SCP-173 server configuration is empty.");
-                        config.Normalize();
-                        bool containment = false;
-                        if (config.enabled && map == "laboratory")
+                        for (int attempt = 0; attempt < 10; attempt++)
                         {
+                            cancellation.ThrowIfCancellationRequested();
                             string statusJson = RequestHandler.GetJson("/ISB/labsPreBlackoutEvent/status");
                             if (statusJson == null || statusJson.Length > 65536)
                                 throw new InvalidDataException("SCP-173 containment status unavailable.");
-                            containment = JsonConvert.DeserializeObject<LabsPreBlackoutEventStatus>(statusJson)?.active == true;
+                            var status = JsonConvert.DeserializeObject<LabsPreBlackoutEventStatus>(statusJson);
+                            containment = status != null && Scp173Config.IsContainmentRaid(map, status.populationReady, status.active, status.variant);
+                            if (status?.populationReady == true || attempt == 9)
+                                break;
+                            await Task.Delay(500, cancellation).ConfigureAwait(false);
                         }
+                    }
 
-                        return new Configuration
-                        {
-                            config = config,
-                            containment = containment
-                        };
-                    });
-                }
+                    var config = new Scp173Config { enabled = false };
+                    if (authority && containment)
+                    {
+                        cancellation.ThrowIfCancellationRequested();
+                        string json = RequestHandler.GetJson("/ISB/scp173/config");
+                        if (json == null || json.Length > 65536)
+                            throw new InvalidDataException("SCP-173 server configuration exceeds 64 KiB.");
+                        config = JsonConvert.DeserializeObject<Scp173Config>(json);
+                        if (config == null)
+                            throw new InvalidDataException("SCP-173 server configuration is empty.");
+                        config.Normalize();
+                    }
+
+                    return new Configuration
+                    {
+                        config = config,
+                        containment = containment
+                    };
+                }, cancellation);
             }
             catch (Exception ex)
             {
@@ -486,10 +502,14 @@ namespace ISBSSOFExtra
             try
             {
                 var result = request.GetAwaiter().GetResult();
-                _config = result.config;
                 _containmentRaid = result.containment;
-                bool allowed = Array.Exists(_config.maps, x => string.Equals(x, _map, StringComparison.OrdinalIgnoreCase));
-                _selected = allowed && _config.enabled && _random.NextDouble() * 100d < _config.chancePercent;
+                if (!_authority)
+                {
+                    _nextSnapshot = 0f;
+                    return;
+                }
+                _config = result.config;
+                _selected = Scp173Config.IsEligible(_map, _containmentRaid, _config) && _random.NextDouble() * 100d < _config.chancePercent;
                 SendState(full: true);
             }
             catch (Exception ex)
@@ -501,6 +521,8 @@ namespace ISBSSOFExtra
 
         private void Spawn(float now)
         {
+            if (!Scp173Config.IsEligible(_map, _containmentRaid, _config) || !_selected)
+                return;
             if (IdentityTemplate() == null)
             {
                 _nextSpawnTry = now + .5f;
@@ -1007,12 +1029,12 @@ namespace ISBSSOFExtra
                 }
                 else if (payload.StartsWith("SC173|S|", StringComparison.Ordinal) && !_authority)
                 {
+                    if (_configRequest != null || !_containmentRaid)
+                        return true;
                     var state = JsonConvert.DeserializeObject<State>(payload.Substring(8));
                     if (state == null || state.pose < 0 || state.pose >= 7 || string.IsNullOrEmpty(state.entity) || state.entity.Length > 64 || state.sequence <= _receivedSequence || _receivedSequence == 0 && state.config == null)
                         return true;
                     if (float.IsNaN(state.x) || float.IsNaN(state.y) || float.IsNaN(state.z) || float.IsNaN(state.yaw) || float.IsInfinity(state.x) || float.IsInfinity(state.y) || float.IsInfinity(state.z) || float.IsInfinity(state.yaw) || double.IsNaN(state.sentAt) || double.IsInfinity(state.sentAt))
-                        return true;
-                    if (state.active && _body == null && IdentityTemplate() == null)
                         return true;
                     if (state.config != null)
                     {
@@ -1020,18 +1042,22 @@ namespace ISBSSOFExtra
                         _config = state.config;
                     }
 
+                    bool selected = Scp173Config.IsSnapshotEligible(_map, _containmentRaid, state.containment, state.selected, _config);
+                    if (selected && state.active && _body == null && IdentityTemplate() == null)
+                        return true;
+
                     _entity = state.entity;
                     _receivedSequence = state.sequence;
                     _receivedServerTime = state.sentAt;
                     _receivedLocalTime = Time.realtimeSinceStartup;
-                    _selected = state.selected;
-                    _active = state.active;
+                    _selected = selected;
+                    _active = selected && state.active;
                     _observed = state.observed;
                     _awakened = state.awakened;
-                    _containmentRaid = state.containment;
                     _poseIndex = state.pose;
-                    if (state.facility != null) Facility = state.facility;
-                    SetMoving(state.moving);
+                    if (selected && state.facility != null) Facility = state.facility;
+                    else if (!selected) Facility = new NightmareFacilityState();
+                    SetMoving(_active && state.moving);
                     var position = new Vector3(state.x, state.y, state.z);
                     if (_active && _body == null)
                         CreateBody(position);
@@ -1495,6 +1521,9 @@ namespace ISBSSOFExtra
 
         private void Reset()
         {
+            _configCancellation?.Cancel();
+            _configCancellation?.Dispose();
+            _configCancellation = null;
             _audioCancellation?.Cancel();
             _audioCancellation?.Dispose();
             _audioCancellation = null;

@@ -204,6 +204,7 @@
     <Compile Include="..\Shared\ISBLocalizedText.cs" />
     <Compile Include="NetworkBridge.cs" />
     <Compile Include="LabsBlackout.cs" />
+    <Compile Include="Audio\LabsRoomTonePower.cs" />
     <Compile Include="LabsEmergencyLighting.cs" />
     <Compile Include="EmergencyLightCulling.cs" />
     <Compile Include="CorpseLightBudget.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="TakeoverSirens.cs" />
     <Compile Include="ShorelineFireAssets.cs" />
     <Compile Include="TakeoverFlameTrigger.cs" />
+    <Compile Include="..\Shared\GhostBotVariant.cs" Link="GhostBotVariant.cs" />
     <Compile Include="TakeoverCarAssets.cs" />
     <Compile Include="WavefrontMesh.cs" />
     <Compile Include="BlackoutBridge.cs" />
@@ -344,4 +346,4 @@
       <LogicalName>ISB.Nightmare.SightSurfaces</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
-<ItemGroup><Compile Include="NightmareBehaviour.cs" /><Compile Include="NightmareContainmentRoom.cs" /><Compile Include="NightmareFacility.cs" /></ItemGroup><ItemGroup><Compile Include="LabsRenderTextureCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="LocalPlayerModCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="WttResourceCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="AishiGasMaskCompatibility.cs" /></ItemGroup><ItemGroup><Content Include="Nightmare\scp173_pose*.mesh;Nightmare\scp173_unity_albedo.png;Nightmare\scp173_unity_normal.png;Nightmare\scp173_unity_metallic.png"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup></Project>
+<ItemGroup><Compile Include="NightmareBehaviour.cs" /><Compile Include="NightmareContainmentRoom.cs" /><Compile Include="NightmareFacility.cs" /></ItemGroup><ItemGroup><Compile Include="LabsRenderTextureCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="LocalPlayerModCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="EventNightVisionState.cs" /></ItemGroup><ItemGroup><Compile Include="WttResourceCompatibility.cs" /></ItemGroup><ItemGroup><Compile Include="AishiGasMaskCompatibility.cs" /></ItemGroup><ItemGroup><Content Include="Nightmare\scp173_pose*.mesh;Nightmare\scp173_unity_albedo.png;Nightmare\scp173_unity_normal.png;Nightmare\scp173_unity_metallic.png"><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup></Project>

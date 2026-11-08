@@ -292,6 +292,7 @@ namespace ISBSSOFExtra
                         _facilitySequence.shutdownCommissioned = true;
                     _manualShutdownCompleted = true;
                     _takeoverFacilityRestored = false;
+                    PublishEventNightVisionStateLocal();
                     changed = true;
                     StartCoroutine(ApplyManualBlackoutAuthority());
                 }
@@ -323,6 +324,7 @@ namespace ISBSSOFExtra
             _manualShutdownCompleted = false;
             _manualShutdownA = _manualShutdownB = _manualShutdownC = _manualShutdownD = _labsPreBlackoutEventActive && _facilitySequence.shutdownCommissioned;
             _blackoutApplied = false;
+            PublishEventNightVisionStateLocal();
             if (CanPresentLocally)
             {
                 StartCoroutine(PlayTakeoverPowerRestorationSound());
@@ -487,8 +489,13 @@ namespace ISBSSOFExtra
             TakeoverFacilityPowerDefinition power = _takeoverInfrastructure?.facilityPower;
             if (power == null || !power.enabled)
                 return;
-            if (CanPresentLocally && power.restoreLights)
-                LabsBlackout.RestoreFacilityPower();
+            if (CanPresentLocally)
+            {
+                if (power.restoreLights)
+                    LabsBlackout.RestoreFacilityPower();
+                else
+                    LabsBlackout.RestoreElectricSounds();
+            }
             if (power.restoreElevators && !_decontaminationExfilsLocked)
                 BlackoutBridge.RestoreElevatorExfils(Log);
         }
@@ -541,6 +548,7 @@ namespace ISBSSOFExtra
             }
 
             _takeoverFacilityRestored = false;
+            PublishEventNightVisionStateLocal();
             _facilityControlMode = targetMode;
             if (CanPresentLocally)
             {

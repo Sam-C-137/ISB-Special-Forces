@@ -24,6 +24,10 @@ public static class IsbConfigValidation
             var value = JsonSerializer.Deserialize<MainConfig>(text, Options);
             if (value?.locations == null || value.debug == null)
                 throw new ArgumentException("The configuration must retain locations and debug.");
+            if (value.blackoutQueue == null)
+                throw new ArgumentException("config.jsonc:blackoutQueue must be an object.");
+            value.blackoutQueue.Validate("config.jsonc:blackoutQueue");
+            ValidateExternalMaps(value.externalFactions);
             ValidateItemId(value.aishiLoyaltyCondition?.requiredItemTpl);
             foreach (var map in value.locations.Values)
             {
@@ -70,6 +74,21 @@ public static class IsbConfigValidation
             )
                 if (string.IsNullOrWhiteSpace(id) || id.Length != 24 || !id.All(Uri.IsHexDigit))
                     throw new ArgumentException("Enter a valid quest ID with 24 hexadecimal characters.");
+        }
+    }
+
+    private static void ValidateExternalMaps(ExternalMapFactionsConfig? external)
+    {
+        if (external?.chaosInsurgency?.locations == null)
+            throw new ArgumentException("External faction locations must be an object.");
+        foreach (var pair in external.chaosInsurgency.locations)
+        {
+            if (string.IsNullOrWhiteSpace(pair.Key) || ExternalFactionConfiguration.IsLabsMap(pair.Key))
+                throw new ArgumentException("External faction formations cannot target The Lab. Configure its CI squads in Spawn Limit.");
+            var map = pair.Value ?? throw new ArgumentException("Each external faction map must be an object.");
+            foreach (var formations in new[] { map.patrol?.formations, map.checkpoint?.formations, map.hunt?.formations })
+                if (formations != null && formations.Any(formation => !ExternalFactionConfiguration.IsChaosFormation(formation)))
+                    throw new ArgumentException("Chaos Insurgency formations can contain only Chaos Insurgency operators.");
         }
     }
 

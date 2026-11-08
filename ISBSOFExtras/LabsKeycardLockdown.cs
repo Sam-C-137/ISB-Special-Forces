@@ -14,7 +14,7 @@ namespace ISBSSOFExtra
     internal static partial class LabsKeycardLockdown
     {
         private const string HarmonyId = "com.samc137.isbsofextras.keycard-lockdown";
-        private const string FallbackMessage = "Card Reader unpowered. Activate the facility's auxiliary power, install a GreenBat battery, or install a V2 Battery with a toolset.";
+        private const string FallbackMessage = "Card Reader unpowered. Activate the facility's auxiliary power, install a GreenBat battery, or install a V2 Battery.";
         private static readonly HashSet<KeycardDoor> Doors = new HashSet<KeycardDoor>();
         private static Harmony _harmony;
         private static bool _active;
@@ -146,17 +146,14 @@ namespace ISBSSOFExtra
                 Action = () => InstallBattery(__0, __1)
             };
             bool hasModified = FindBattery(__0?.Player, true, office) != null;
-            bool hasTools = HasToolset(__0?.Player);
             if (office)
-                message = Text("isb_reader_low_frequency_required", "This reader requires a V3 Battery and a toolset.");
+                message = Text("isb_reader_low_frequency_required", "This reader requires a V3 Battery.");
             var modified = new InteractionAction
             {
-                Name = office ? Text("isb_reader_install_low_frequency", "Install V3 Battery (1 Use + Toolset)") : Text("isb_reader_install_modified", "Install V2 Battery (1 Use + Toolset)"),
-                Disabled = _installation != null || !hasModified || !hasTools,
+                Name = office ? Text("isb_reader_install_low_frequency", "Install V3 Battery") : Text("isb_reader_install_modified", "Install V2 Battery"),
+                Disabled = _installation != null || !hasModified,
                 Action = () => InstallBattery(__0, __1, true)
             };
-            if (hasModified && !hasTools)
-                message = Text("isb_reader_toolset_required", "A toolset is required. It will not be consumed.");
             __result = new AvailableInteractionState
             {
                 Actions = office ? new List<InteractionAction>

@@ -5,6 +5,7 @@ public class MainConfig
 {
     public BrainDebugConfig debug { get; set; } = new BrainDebugConfig();
     public Dictionary<string, MapConfig> locations { get; set; }
+    public ExternalMapFactionsConfig externalFactions { get; set; }
     public LabsPreBlackoutEventConfig labsContainmentBreachEvent { get; set; }
     public LabsBlackoutEventConfig labsBlackoutEvent { get; set; }
 }
@@ -29,6 +30,17 @@ public class LabsPreBlackoutEventConfig
 public class ExternalFactionsConfig
 {
     public LabsPreBlackoutFactionConfig chaosInsurgency { get; set; }
+}
+
+public class ExternalMapFactionsConfig
+{
+    public ExternalMapFactionConfig chaosInsurgency { get; set; }
+}
+
+public class ExternalMapFactionConfig
+{
+    public bool enabled { get; set; }
+    public Dictionary<string, MapConfig> locations { get; set; }
 }
 
 public class LabsPreBlackoutFactionConfig

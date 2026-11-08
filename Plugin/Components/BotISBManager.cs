@@ -24,7 +24,7 @@ namespace ISBSpecialForces.Components
             var checkpointManager = MonoBehaviourSingleton<ISBCheckpointManager>.Instance;
             if (checkpointManager == null)
                 return;
-            if (!WildSpawnTypeExtensions.IsISB(botOwner.Profile.Info.Settings.Role) && !checkpointManager.IsBlackDivisionCheckpointBot(botOwner))
+            if (!WildSpawnTypeExtensions.IsISB(botOwner.Profile.Info.Settings.Role) && !checkpointManager.IsBlackDivisionCheckpointBot(botOwner) && !checkpointManager.IsExternalCheckpointBot(botOwner))
                 return;
             if (RaidTimeUtil.GetSecondsSinceSpawning() <= 120 || checkpointManager.CanAssignRuntimeCheckpoint(botOwner))
             {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using EFT;
+using ISBSpecialForces.Behavior.Layers;
 using ISBSpecialForces.Behavior.Tactics;
 using UnityEngine;
 using UnityEngine.AI;
@@ -62,6 +63,8 @@ namespace ISBSpecialForces.Behavior.ISB
         private bool _retired;
         private ISBTacticalState? _appliedState;
         private float _nextBodyCheck, _nextReload;
+        private int _missionFrame = -1;
+        private bool _readyQueuedMission;
 
         internal ISBNativeBrain(BotOwner owner) : this(owner, "ISB") { }
         internal ISBNativeBrain(BotOwner owner, string name) : base(owner)
@@ -109,6 +112,16 @@ namespace ISBSpecialForces.Behavior.ISB
         internal bool Alive => !Disposed && !_retired && Bot != null && !Bot.IsDead && Bot.GetPlayer?.HealthController?.IsAlive == true;
         internal bool NeedsTreatment => Bot.Medecine?.Using == true || Bot.Medecine?.FirstAid?.Have2Do == true || Bot.Medecine?.SurgicalKit?.HaveWork == true;
         internal bool NeedsUrgentAction => NeedsTreatment || _danger.ShallUseNow();
+
+        internal bool HasReadyQueuedMission()
+        {
+            if (_missionFrame != Time.frameCount)
+            {
+                _missionFrame = Time.frameCount;
+                _readyQueuedMission = ContainmentBreachHunt.HasReadyMission(Bot);
+            }
+            return _readyQueuedMission;
+        }
 
         public override void ManualUpdate()
         {
@@ -181,7 +194,8 @@ namespace ISBSpecialForces.Behavior.ISB
         private readonly ISBNativeBrain _brain;
         internal ISBCombatFallbackLayer(ISBNativeBrain brain) : base(brain.Bot, 35) { _brain = brain; }
         public override string Name() => _brain.LayerName("ISB Combat");
-        public override bool ShallUseNow() => _brain.Alive && ISBRuntimeBindings.IsAuthority() && base.ShallUseNow();
+        public override bool ShallUseNow() => _brain.Alive && ISBRuntimeBindings.IsAuthority() &&
+            !_brain.HasReadyQueuedMission() && base.ShallUseNow();
     }
 
     internal sealed class ISBSearchLayer : NativeSearch
@@ -190,7 +204,7 @@ namespace ISBSpecialForces.Behavior.ISB
         internal ISBSearchLayer(ISBNativeBrain brain) : base(brain.Bot, 31, true) { _brain = brain; }
         public override string Name() => _brain.LayerName("ISB Search");
         public override bool ShallUseNow() => _brain.Alive && ISBRuntimeBindings.IsAuthority() &&
-            _brain.Bot.Memory?.GoalEnemy == null && base.ShallUseNow();
+            !_brain.HasReadyQueuedMission() && _brain.Bot.Memory?.GoalEnemy == null && base.ShallUseNow();
     }
 
     internal sealed class ISBMalfunctionLayer : NativeMalfunction
@@ -215,6 +229,7 @@ namespace ISBSpecialForces.Behavior.ISB
         internal ISBRequestLayer(ISBNativeBrain brain, int priority) : base(brain.Bot, priority) { _brain = brain; }
         public override string Name() => _brain.LayerName("ISB Fight Request");
         public override bool ShallUseNow() => _brain.Alive && ISBRuntimeBindings.IsAuthority() &&
+            !_brain.HasReadyQueuedMission() &&
             (!ISBRuntimeBindings.DefensivePoint(_brain.Bot).HasValue || ISBTacticalAgent.GetOrAdd(_brain.Bot, false)?.CanRunMission() != true) && base.ShallUseNow();
     }
 
@@ -645,6 +660,7 @@ namespace ISBSpecialForces.Behavior.ISB
         {
             if (!_brain.Alive || !ISBRuntimeBindings.IsAuthority())
                 return false;
+            if (_brain.HasReadyQueuedMission()) return false;
             var enemy = _bot.Memory?.GoalEnemy;
             var squad = _brain.Squad;
             bool defence = squad?.Orders.Leader.HasDefensivePlace == true;

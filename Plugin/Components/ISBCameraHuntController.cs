@@ -53,7 +53,7 @@ namespace ISBSpecialForces.Components
         internal static bool AppliesTo(BotOwner bot)
         {
             var controller = MonoBehaviourSingleton<ISBCameraHuntController>.Instance;
-            return bot != null && controller != null && controller._active && controller._world != null && ReferenceEquals(controller._world, Singleton<GameWorld>.Instance) && controller._hunters.ContainsKey(bot) && !bot.IsDead && bot.GetManager()?.HasAssignedCheckpoint() != true;
+            return bot != null && !ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _) && controller != null && controller._active && controller._world != null && ReferenceEquals(controller._world, Singleton<GameWorld>.Instance) && controller._hunters.ContainsKey(bot) && !bot.IsDead && bot.GetManager()?.HasAssignedCheckpoint() != true;
         }
 
         internal void Activate()
@@ -169,7 +169,7 @@ namespace ISBSpecialForces.Components
 
         private static bool EligibleHunter(BotOwner bot)
         {
-            if (bot == null || bot.IsDead || !bot.isActiveAndEnabled || bot.GetPlayer?.HealthController?.IsAlive != true || bot.BotsGroup == null || bot.Profile?.Info?.Settings == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role))
+            if (bot == null || bot.IsDead || !bot.isActiveAndEnabled || bot.GetPlayer?.HealthController?.IsAlive != true || bot.BotsGroup == null || bot.Profile?.Info?.Settings == null || !WildSpawnTypeExtensions.IsISB(bot.Profile.Info.Settings.Role) || ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _))
                 return false;
             return bot.GetManager()?.HasAssignedCheckpoint() == false;
         }

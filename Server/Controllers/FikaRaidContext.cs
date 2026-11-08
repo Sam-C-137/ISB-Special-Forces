@@ -95,6 +95,19 @@ public sealed class FikaRaidContext(IServiceProvider services, ILogger<FikaRaidC
         return null;
     }
 
+    internal bool IsHeadlessSession(string session)
+    {
+        try
+        {
+            return HeadlessClient(session) != null;
+        }
+        catch (Exception ex)
+        {
+            Report(ex);
+            return false;
+        }
+    }
+
     private object? HeadlessClient(string session)
     {
         var headless = Service("FikaServer.Services.Headless.HeadlessService");

@@ -301,6 +301,7 @@ namespace ISBSSOFExtra
                         _blackoutApplied = false;
                         _takeoverFacilityRestored = true;
                         _manualShutdownCompleted = false;
+                        PublishEventNightVisionStateLocal();
                         if (CanPresentLocally)
                         {
                             StartCoroutine(PlayTakeoverPowerRestorationSound());
@@ -595,68 +596,77 @@ namespace ISBSSOFExtra
                 return;
             }
 
-            _networkRestrictExfils = restrict;
-            _networkDisableAutomaticDoors = disableDoors;
-            if (blackout && !_blackoutApplied && _fakeblackoutisEnabled)
+            _eventNightVisionSnapshotApplying = true;
+            try
             {
-                _pendingNetworkBlackout = true;
-                TryApplyPendingNetworkBlackout();
-            }
-
-            if (gateB)
-                ApplyNetworkGateBClosed();
-            if (parts.Length >= 15)
-            {
-                if (!_fikaSceneryStateReceived)
+                _networkRestrictExfils = restrict;
+                _networkDisableAutomaticDoors = disableDoors;
+                if (blackout && !_blackoutApplied && _fakeblackoutisEnabled)
                 {
-                    if (global::ISBSSOFExtra.ISBSpecialForcesAudio.DiagnosticsEnabled)
-                    {
-                        Log.LogInfo("ISB SOF Fika: First scenery snapshot received; periodic recovery snapshots remain enabled.");
-                    }
+                    _pendingNetworkBlackout = true;
+                    TryApplyPendingNetworkBlackout();
                 }
 
-                _fikaSceneryStateReceived = true;
-                int alarmChoice;
-                if (parts.Length > 41 && int.TryParse(parts[41], NumberStyles.Integer, CultureInfo.InvariantCulture, out alarmChoice))
-                    ReceiveTakeoverAlarmChoice(alarmChoice);
-                else if (!TakeoverAlarmChoice.Valid(_takeoverAlarmChoice))
-                    ReceiveTakeoverAlarmChoice(0);
-                bool takeoverActive = parts[8] == "1";
-                bool alarmStarted = parts[9] == "1";
-                bool alarmDisabled = parts[10] == "1";
-                bool gatesOpened = parts[11] == "1";
-                bool powerA = parts[12] == "1";
-                bool powerB = parts[13] == "1";
-                bool facilityRestored = parts[14] == "1";
-                ApplyNetworkTakeoverState(takeoverActive, alarmStarted, alarmDisabled, gatesOpened, powerA, powerB, facilityRestored, parts.Length > 19 && parts[19] == "1", parts.Length > 20 && parts[20] == "1", parts.Length > 21 && parts[21] == "1", parts.Length > 22 && parts[22] == "1", parts.Length > 23 && parts[23] == "1", parts.Length > 27 && parts[27] == "1", parts.Length > 28 && parts[28] == "1", parts.Length > 29 && parts[29] == "1", parts.Length > 30 ? parts[30] == "1" : alarmStarted, parts.Length > 31 && parts[31] == "1");
-            }
+                if (gateB)
+                    ApplyNetworkGateBClosed();
+                if (parts.Length >= 15)
+                {
+                    if (!_fikaSceneryStateReceived)
+                    {
+                        if (global::ISBSSOFExtra.ISBSpecialForcesAudio.DiagnosticsEnabled)
+                        {
+                            Log.LogInfo("ISB SOF Fika: First scenery snapshot received; periodic recovery snapshots remain enabled.");
+                        }
+                    }
 
-            if (parts.Length >= 19 && int.TryParse(parts[15], NumberStyles.Integer, CultureInfo.InvariantCulture, out int modeValue))
+                    _fikaSceneryStateReceived = true;
+                    int alarmChoice;
+                    if (parts.Length > 41 && int.TryParse(parts[41], NumberStyles.Integer, CultureInfo.InvariantCulture, out alarmChoice))
+                        ReceiveTakeoverAlarmChoice(alarmChoice);
+                    else if (!TakeoverAlarmChoice.Valid(_takeoverAlarmChoice))
+                        ReceiveTakeoverAlarmChoice(0);
+                    bool takeoverActive = parts[8] == "1";
+                    bool alarmStarted = parts[9] == "1";
+                    bool alarmDisabled = parts[10] == "1";
+                    bool gatesOpened = parts[11] == "1";
+                    bool powerA = parts[12] == "1";
+                    bool powerB = parts[13] == "1";
+                    bool facilityRestored = parts[14] == "1";
+                    ApplyNetworkTakeoverState(takeoverActive, alarmStarted, alarmDisabled, gatesOpened, powerA, powerB, facilityRestored, parts.Length > 19 && parts[19] == "1", parts.Length > 20 && parts[20] == "1", parts.Length > 21 && parts[21] == "1", parts.Length > 22 && parts[22] == "1", parts.Length > 23 && parts[23] == "1", parts.Length > 27 && parts[27] == "1", parts.Length > 28 && parts[28] == "1", parts.Length > 29 && parts[29] == "1", parts.Length > 30 ? parts[30] == "1" : alarmStarted, parts.Length > 31 && parts[31] == "1");
+                }
+
+                if (parts.Length >= 19 && int.TryParse(parts[15], NumberStyles.Integer, CultureInfo.InvariantCulture, out int modeValue))
+                {
+                    ApplyNetworkFacilityControlState((LabsFacilityControlMode)modeValue, parts[16] == "1", parts[17] == "1", parts[18] == "1", IsShutdownControlMode((LabsFacilityControlMode)modeValue) ? parts.Length > 24 && parts[24] == "1" : parts.Length > 19 && parts[19] == "1", IsShutdownControlMode((LabsFacilityControlMode)modeValue) ? parts.Length > 25 && parts[25] == "1" : parts.Length > 20 && parts[20] == "1");
+                }
+
+                if (parts.Length > 26 && int.TryParse(parts[26], NumberStyles.Integer, CultureInfo.InvariantCulture, out int mask) && mask >= 0 && mask <= 7)
+                    _emergencyElevatorMask = mask;
+                SyncBlackoutSafetyLocal();
+                if (parts.Length > 37)
+                    ReceiveOfficeSnapshot(parts[37]);
+                ApplyOfficePause();
+                if (parts.Length > 32)
+                    ReceiveDecontamination(parts[32]);
+                if (parts.Length > 33)
+                    ReceiveDecontaminationEventState(parts[33]);
+                if (parts.Length > 34)
+                    LabsKeycardLockdown.ApplyBatterySnapshot(DecodeNetworkString(parts[34]));
+                if (parts.Length > 35)
+                    ReceiveDecontaminationVideo(parts[35]);
+                if (parts.Length > 36)
+                    ReceiveSharedAuthorizationEffects(parts[36]);
+                if (parts.Length > 38)
+                    ReceiveFacilitySequence(parts[38]);
+                SetAnnouncementMutes(parts.Length > 39 && parts[39] == "1", parts.Length > 40 && parts[40] == "1");
+                if (!string.IsNullOrEmpty(clipName))
+                    StartNetworkAnnouncement(clipName, startTime, clipLength);
+            }
+            finally
             {
-                ApplyNetworkFacilityControlState((LabsFacilityControlMode)modeValue, parts[16] == "1", parts[17] == "1", parts[18] == "1", IsShutdownControlMode((LabsFacilityControlMode)modeValue) ? parts.Length > 24 && parts[24] == "1" : parts.Length > 19 && parts[19] == "1", IsShutdownControlMode((LabsFacilityControlMode)modeValue) ? parts.Length > 25 && parts[25] == "1" : parts.Length > 20 && parts[20] == "1");
+                _eventNightVisionSnapshotApplying = false;
+                PublishEventNightVisionStateLocal();
             }
-
-            if (parts.Length > 26 && int.TryParse(parts[26], NumberStyles.Integer, CultureInfo.InvariantCulture, out int mask) && mask >= 0 && mask <= 7)
-                _emergencyElevatorMask = mask;
-            SyncBlackoutSafetyLocal();
-            if (parts.Length > 37)
-                ReceiveOfficeSnapshot(parts[37]);
-            ApplyOfficePause();
-            if (parts.Length > 32)
-                ReceiveDecontamination(parts[32]);
-            if (parts.Length > 33)
-                ReceiveDecontaminationEventState(parts[33]);
-            if (parts.Length > 34)
-                LabsKeycardLockdown.ApplyBatterySnapshot(DecodeNetworkString(parts[34]));
-            if (parts.Length > 35)
-                ReceiveDecontaminationVideo(parts[35]);
-            if (parts.Length > 36)
-                ReceiveSharedAuthorizationEffects(parts[36]);
-            if (parts.Length > 38)
-                ReceiveFacilitySequence(parts[38]);
-            SetAnnouncementMutes(parts.Length > 39 && parts[39] == "1", parts.Length > 40 && parts[40] == "1");
-            if (!string.IsNullOrEmpty(clipName))
-                StartNetworkAnnouncement(clipName, startTime, clipLength);
         }
 
         private void StartNetworkAnnouncement(string clipName, double startTime, float clipLength)

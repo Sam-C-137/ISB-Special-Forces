@@ -73,6 +73,7 @@ namespace ISBSSOFExtra
                 _takeoverFacilityRestored = completed;
             }
 
+            PublishEventNightVisionStateLocal();
             if (!CanPresentLocally)
                 return;
             if (modeChanged)
@@ -139,6 +140,7 @@ namespace ISBSSOFExtra
                 OpenTakeoverGatesLocal();
             }
 
+            PublishEventNightVisionStateLocal();
             if (!CanPresentLocally)
                 return;
             if (_takeoverAlarmStarted)

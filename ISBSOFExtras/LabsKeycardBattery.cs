@@ -16,7 +16,6 @@ namespace ISBSSOFExtra
     {
         private const string BatteryTemplate = "5e2aedd986f7746d404f3aa4";
         private const string ModifiedBatteryTemplate = "4d57eab7724cdd35474d84eb";
-        private const string ToolsetTemplate = "590c2e1186f77425357b6124";
         private const int BatteryCharges = 5;
         private const float InstallSeconds = 8f;
         private sealed class BatteryInstallation
@@ -79,8 +78,7 @@ namespace ISBSSOFExtra
             return item != null && item.StackObjectsCount > 0 && key != null && key.NumberOfUsages >= 0 && key.NumberOfUsages < (item.TemplateId.ToString() == OfficeBatteryTemplate ? 2 : BatteryCharges);
         }
 
-        private static bool HasToolset(Player player) => player?.Profile?.Inventory?.GetPlayerItems(EPlayerItems.Equipment).Any(item => item.TemplateId.ToString() == ToolsetTemplate) == true;
-        private static bool CanUseBattery(Player player, Item battery, WorldInteractiveObject door) => battery != null && battery.StackObjectsCount > 0 && player?.Profile?.Inventory?.GetPlayerItems(EPlayerItems.Equipment).Any(item => ReferenceEquals(item, battery)) == true && (IsOfficeReader(door) ? battery.TemplateId.ToString() == OfficeBatteryTemplate && HasCharge(battery) && HasToolset(player) : battery.TemplateId.ToString() == BatteryTemplate || battery.TemplateId.ToString() == ModifiedBatteryTemplate && HasCharge(battery) && HasToolset(player));
+        private static bool CanUseBattery(Player player, Item battery, WorldInteractiveObject door) => battery != null && battery.StackObjectsCount > 0 && player?.Profile?.Inventory?.GetPlayerItems(EPlayerItems.Equipment).Any(item => ReferenceEquals(item, battery)) == true && (IsOfficeReader(door) ? battery.TemplateId.ToString() == OfficeBatteryTemplate && HasCharge(battery) : battery.TemplateId.ToString() == BatteryTemplate || battery.TemplateId.ToString() == ModifiedBatteryTemplate && HasCharge(battery));
         private static void InstallBattery(GamePlayerOwner owner, WorldInteractiveObject door, bool modified = false)
         {
             if (_installation != null || owner?.Player == null || !IsBlocked(door) || !Readers.ContainsKey(door.Id))

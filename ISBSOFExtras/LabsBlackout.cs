@@ -1,4 +1,3 @@
-using Audio.SpatialSystem;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using EFT.Communications;
 using SPT.Reflection.Patching;
-using System.Reflection;
 using HarmonyLib;
 using Newtonsoft.Json;
 
@@ -65,13 +63,6 @@ namespace ISBSSOFExtra
             public bool Active;
         }
 
-        private sealed class RoomToneState
-        {
-            public object Target;
-            public MemberInfo Member;
-            public object Value;
-        }
-
         private sealed class MaterialState
         {
             public bool HasSpec;
@@ -86,7 +77,6 @@ namespace ISBSSOFExtra
         private static readonly List<SimpleLightState> SavedSimpleLights = new List<SimpleLightState>();
         private static readonly List<AdvancedLightState> SavedAdvancedLights = new List<AdvancedLightState>();
         private static readonly List<GameObjectState> SavedElectricObjects = new List<GameObjectState>();
-        private static readonly List<RoomToneState> SavedRoomTones = new List<RoomToneState>();
         private static readonly Dictionary<Material, MaterialState> SavedMaterials = new Dictionary<Material, MaterialState>();
         private static GameObjectState SavedAutomaticLights;
         private static bool LightsCaptured;
@@ -394,93 +384,51 @@ namespace ISBSSOFExtra
 
         public static void DisableElectricSounds()
         {
-            var spatialAudioSystem = MonoBehaviourSingleton<SpatialAudioSystem>.Instance;
-            if (spatialAudioSystem != null)
+            LabsRoomTonePower.Mute();
+            if (ElectricSoundsCaptured)
+                return;
+            var scene = SceneManager.GetSceneByName("Laboratory_Scripts");
+            if (!scene.IsValid() || !scene.isLoaded)
+                return;
+
+            foreach (var root in scene.GetRootGameObjects())
             {
-                var audioRoomStorage = spatialAudioSystem.GetField<SpatialAudioSystem, AudioRoomStorage>("_audioRoomStorage");
-                var allRooms = audioRoomStorage.GetField<AudioRoomStorage, List<SpatialAudioRoom>>("_validSpatialAudioRooms");
-                var currentRooms = audioRoomStorage.GetField<AudioRoomStorage, List<ISpatialAudioRoom>>("list_3");
-                if (!ElectricSoundsCaptured)
-                    SavedRoomTones.Clear();
-                foreach (var room in allRooms)
-                {
-                    object ambientData = room?.AmbientData;
-                    if (ambientData == null)
-                        continue;
-                    Type type = ambientData.GetType();
-                    PropertyInfo property = type.GetProperty("RoomTone", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                    FieldInfo field = property == null ? type.GetField("RoomTone", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) : null;
-                    MemberInfo member = (MemberInfo)property ?? field;
-                    if (member == null)
-                        continue;
-                    object value = property != null ? property.GetValue(ambientData, null) : field.GetValue(ambientData);
-                    if (!ElectricSoundsCaptured)
-                    {
-                        SavedRoomTones.Add(new RoomToneState { Target = ambientData, Member = member, Value = value });
-                    }
-
-                    if (property != null)
-                        property.SetValue(ambientData, null, null);
-                    else
-                        field.SetValue(ambientData, null);
-                }
-
-                foreach (var room in currentRooms)
-                    room?.StopRoomToneSound();
-            }
-
-            var sceneName = "Laboratory_Scripts";
-            var scene = SceneManager.GetSceneByName(sceneName);
-            if (!ElectricSoundsCaptured)
-                SavedElectricObjects.Clear();
-            foreach (var sceneRootGO in scene.GetRootGameObjects())
-            {
-                if (sceneRootGO.name != "Laboratory_Sounds")
+                if (root.name != "Laboratory_Sounds")
                     continue;
-                var sceneRootTransform = sceneRootGO.transform;
-                var childrenCount = sceneRootTransform.childCount;
-                for (var i = 0; i < childrenCount; i++)
+                for (int i = 0; i < root.transform.childCount; i++)
                 {
-                    var child = sceneRootTransform.GetChild(i);
-                    var childName = child.name;
-                    if (childName.Contains("server") || childName.Contains("generator") || childName.Contains("electric") || childName.Contains("airvent") || childName.Contains("turbine"))
-                    {
-                        if (!ElectricSoundsCaptured)
-                        {
-                            SavedElectricObjects.Add(new GameObjectState { Object = child.gameObject, Active = child.gameObject.activeSelf });
-                        }
-
-                        child.gameObject.SetActive(false);
-                    }
+                    var child = root.transform.GetChild(i);
+                    if (!IsElectricSound(child.name))
+                        continue;
+                    SavedElectricObjects.Add(new GameObjectState { Object = child.gameObject, Active = child.gameObject.activeSelf });
+                    child.gameObject.SetActive(false);
                 }
 
+                ElectricSoundsCaptured = true;
                 break;
             }
-
-            ElectricSoundsCaptured = true;
         }
+
+        private static bool IsElectricSound(string name) =>
+            name.IndexOf("server", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            name.IndexOf("generator", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            name.IndexOf("electric", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            name.IndexOf("airvent", StringComparison.OrdinalIgnoreCase) >= 0 ||
+            name.IndexOf("turbine", StringComparison.OrdinalIgnoreCase) >= 0;
 
         public static void RestoreElectricSounds()
         {
-            if (!ElectricSoundsCaptured)
-                return;
-            foreach (RoomToneState state in SavedRoomTones)
-            {
-                if (state.Target == null || state.Member == null)
-                    continue;
-                PropertyInfo property = state.Member as PropertyInfo;
-                FieldInfo field = state.Member as FieldInfo;
-                if (property != null)
-                    property.SetValue(state.Target, state.Value, null);
-                else if (field != null)
-                    field.SetValue(state.Target, state.Value);
-            }
+            RestoreElectricEmitters();
+            LabsRoomTonePower.Restore();
+        }
 
-            foreach (GameObjectState state in SavedElectricObjects)
-            {
+        private static void RestoreElectricEmitters()
+        {
+            foreach (var state in SavedElectricObjects)
                 if (state.Object != null)
                     state.Object.SetActive(state.Active);
-            }
+            SavedElectricObjects.Clear();
+            ElectricSoundsCaptured = false;
         }
 
         public static void DisableAutomaticDoors(Dictionary<string, Dictionary<int, List<List<int>>>> automaticDoorsPaths)
@@ -695,12 +643,11 @@ namespace ISBSSOFExtra
             SavedAmbient.TodAmbientBrightness = null;
             SavedSimpleLights.Clear();
             SavedAdvancedLights.Clear();
-            SavedElectricObjects.Clear();
-            SavedRoomTones.Clear();
+            LabsRoomTonePower.Reset();
+            RestoreElectricEmitters();
             SavedMaterials.Clear();
             SavedAutomaticLights = null;
             LightsCaptured = false;
-            ElectricSoundsCaptured = false;
         }
 #if DEBUG
         public static Dictionary<string, Dictionary<int, List<List<int>>>> RecordAutomaticDoors(string outputPath, ManualLogSource logger)

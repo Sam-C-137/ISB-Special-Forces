@@ -6,11 +6,14 @@ public class MainConfig
     public Dictionary<string, Dictionary<string, double>> botHealth { get; set; } = new();
     public DebugConfig debug { get; set; }
     public Dictionary<string, MapConfig> locations { get; set; }
+    public ExternalMapFactionsConfig externalFactions { get; set; } = new();
 
     public void MigrateLegacyIcebreakerLocation()
     {
         if (locations?.Remove("suburbs", out var legacy) == true)
             locations.TryAdd("icebreaker", legacy);
+        if (externalFactions?.chaosInsurgency?.locations?.Remove("suburbs", out var externalLegacy) == true)
+            externalFactions.chaosInsurgency.locations.TryAdd("icebreaker", externalLegacy);
     }
 
     public DayNightConfig dayNight { get; set; } = new();
@@ -23,7 +26,7 @@ public class MainConfig
     public BotPresetConfig blackDivisionBotPresets { get; set; } = new();
     public LabsPreBlackoutEventConfig labsContainmentBreachEvent { get; set; } = new();
     public LabsBlackoutEventConfig labsBlackoutEvent { get; set; } = new();
-    public ISB.Compatibility.EventPopulationConfig blackoutQueue { get; set; } = new();
+    public ISB.Compatibility.EventPopulationConfig blackoutQueue { get; set; } = ISB.Compatibility.EventPopulationConfig.BlackoutDefaults();
     public bool enableCollabLoadoutsAndAppearances { get; set; } = true;
     public Dictionary<string, bool> collabLoadouts { get; set; } = new();
     public bool enableCollabPresets { get; set; } = true;
@@ -320,6 +323,7 @@ public class LabsPreBlackoutEventConfig
     public string containmentBreachLastQuest { get; set; } = "8e4f5535e0bf4135b8a90ec7";
     public double isbHealthMultiplier { get; set; } = 0.6;
     public double blackDivisionHealthMultiplier { get; set; } = 1.25;
+    public double chaosInsurgencyHealthMultiplier { get; set; } = 1.50;
     public ISB.Compatibility.LabsOfficeConfig officeAccess { get; set; } = new();
     public bool disableFire { get; set; }
     public bool disableSirens { get; set; }
@@ -425,6 +429,7 @@ public class LabsBlackoutEventPhaseConfig
 
 public class LabsPreBlackoutEventStatus
 {
+    public bool populationReady { get; set; }
     public bool chaosInsurgencyOnly { get; set; }
     public ISB.Compatibility.EventPopulationConfig containementBreachQueue { get; set; } = new();
     public ISB.Compatibility.EventPopulationConfig blackoutQueue { get; set; } = new();

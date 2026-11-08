@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SPT.Common.Http;
 using SPT.SinglePlayer.Utils.InRaid;
 using System.Collections.Generic;
+using System.Linq;
 using ISBSpecialForces.Controllers;
 using ISBSpecialForces.Models;
 using UnityEngine;
@@ -51,13 +52,15 @@ namespace ISBSpecialForces.Components
                 return;
             }
 
-            if (botOwner == null || !WildSpawnTypeExtensions.IsISB(botOwner.Profile.Info.Settings.Role))
-                return;
-            if (ConfiguredCheckpoints.TryGetValue(GetSpawnId(botOwner), out var configuredCheckpoint))
+            bool isIsb = WildSpawnTypeExtensions.IsISB(botOwner.Profile.Info.Settings.Role);
+            bool isChaos = (int)botOwner.Profile.Info.Settings.Role == ISB.Compatibility.GhostBotVariant.ChaosValue;
+            if ((isIsb || isChaos) && ConfiguredCheckpoints.TryGetValue(GetSpawnId(botOwner), out var configuredCheckpoint))
             {
                 AssignBotToCheckpoint(botOwner, configuredCheckpoint);
                 return;
             }
+
+            if (!isIsb) return;
 
             if (ContainmentCheckpoints.TryGetValue(GetSpawnId(botOwner), out var ownCheckpoint))
             {
@@ -192,6 +195,7 @@ namespace ISBSpecialForces.Components
                 return;
             }
 
+            RegisterExternalCheckpoints(mainConfig);
             var mapConfig = FindMapConfig(mainConfig, RaidChangesUtil.LocationId);
             if (mapConfig == null)
             {
@@ -249,6 +253,33 @@ namespace ISBSpecialForces.Components
         }
 
         public bool IsBlackDivisionCheckpointBot(BotOwner botOwner) => _blackDivision.TryGet(botOwner, out _);
+        public bool IsExternalCheckpointBot(BotOwner botOwner) => botOwner?.Profile?.Info?.Settings != null &&
+            ISB.Compatibility.BlackDivisionCheckpointPolicy.IsExternalChaosCheckpoint((int)botOwner.Profile.Info.Settings.Role, GetSpawnId(botOwner), ConfiguredCheckpoints.ContainsKey(GetSpawnId(botOwner)));
+        private void RegisterExternalCheckpoints(MainConfig config)
+        {
+            var key = NormalizeExternalMap(RaidChangesUtil.LocationId);
+            if (key.StartsWith("laboratory", System.StringComparison.Ordinal) || key == "lab" || key == "labs" || key == "thelab" || key == "blackoutlabs" || key == "containmentbreachlabs" || key == "containementbreachlabs" || key == "labsblackout" || key == "labscontainmentbreach" || key == "labscontainementbreach" || key == "5b0fc42d86f7744a585f9105")
+                return;
+            var faction = config.externalFactions?.chaosInsurgency;
+            if (faction?.enabled != true || faction.locations == null) return;
+            MapConfig map = null;
+            foreach (var pair in faction.locations)
+                if (NormalizeExternalMap(pair.Key) == key) { map = pair.Value; break; }
+            if (map?.checkpoint?.enableISBHoldZones != true || map.checkpoint.formations == null) return;
+            for (int index = 0; index < map.checkpoint.formations.Count; index++)
+            {
+                var points = new Dictionary<BotZone, ISBCheckpoint>();
+                RegisterFormationCheckpoints(new[] { map.checkpoint.formations[index] }, points);
+                foreach (var point in points.Values)
+                {
+                    ConfiguredCheckpoints[ISB.Compatibility.BlackDivisionCheckpointPolicy.ExternalChaosCheckpointPrefix + index.ToString(System.Globalization.CultureInfo.InvariantCulture)] = point;
+                    break;
+                }
+            }
+        }
+
+        private static string NormalizeExternalMap(string value) => new string((value ?? string.Empty).Where(char.IsLetterOrDigit).Select(char.ToLowerInvariant).ToArray());
+
         private List<SpawnFormationConfig> GetActiveLabsPreBlackoutCheckpoints(MainConfig mainConfig)
         {
             if (Normalize(RaidChangesUtil.LocationId) != "laboratory")

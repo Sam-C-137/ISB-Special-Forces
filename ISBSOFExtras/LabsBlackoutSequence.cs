@@ -40,19 +40,31 @@ namespace ISBSSOFExtra
 
         private void ResolveBlackoutChanceOnce()
         {
-            UpdateSpawnProgress(-1);
             if (_blackoutChanceResolved)
+            {
+                PublishEventNightVisionStateLocal();
                 return;
+            }
             if (!IsLaboratoryPresentationAllowed())
                 return;
             if (_labsPreBlackoutEventActive || _selectedLabsVariant == "blackout")
             {
                 _blackoutChanceResolved = true;
                 _blackoutSelectedForRaid = true;
+                PublishEventNightVisionStateLocal();
+                return;
+            }
+
+            if (_selectedLabsVariant == "standard")
+            {
+                _blackoutChanceResolved = true;
+                _blackoutSelectedForRaid = false;
+                PublishEventNightVisionStateLocal();
                 return;
             }
 
             _blackoutChanceResolved = UpdateSpawnProgress(Mathf.Clamp(_laboratoryBlackoutChance.Value, 0, 100));
+            PublishEventNightVisionStateLocal();
         }
 
         private IEnumerator DisableLaboratoryBlackout(bool networkForced = false, bool networkRestrictExfils = false, bool networkDisableDoors = false, bool networkManualBlackoutTransition = false)
@@ -99,6 +111,7 @@ namespace ISBSSOFExtra
             _blackoutApplied = true;
             UpdateSpawnProgress(-1);
             _takeoverFacilityRestored = false;
+            PublishEventNightVisionStateLocal();
             if (IsEventAuthority)
                 _emergencyElevatorMask = 0;
             SyncBlackoutSafetyLocal();
@@ -123,6 +136,7 @@ namespace ISBSSOFExtra
             if (!IsLaboratoryPresentationAllowed())
             {
                 _blackoutApplied = false;
+                PublishEventNightVisionStateLocal();
                 _blackoutTransitionInProgress = false;
                 _blackoutRoutine = null;
                 yield break;

@@ -15,6 +15,7 @@ namespace ISBSpecialForces.Components
 
         private static ConditionalWeakTable<ShallBeGroupParams, BotsGroup> ISBFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
         private static ConditionalWeakTable<ShallBeGroupParams, BotsGroup> BlackDivisionFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
+        private static ConditionalWeakTable<object, BotsGroup> ManagedFormationGroups = new ConditionalWeakTable<object, BotsGroup>();
 
         internal static void RememberVariants(IEnumerable<Profile> profiles, string variant)
         {
@@ -33,6 +34,7 @@ namespace ISBSpecialForces.Components
             ChaosGroups = new ConditionalWeakTable<BotSpawnParams, BotsGroup>();
             ISBFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
             BlackDivisionFormationGroups = new ConditionalWeakTable<ShallBeGroupParams, BotsGroup>();
+            ManagedFormationGroups = new ConditionalWeakTable<object, BotsGroup>();
         }
         internal static bool IsChaos(string profileId) => profileId != null && ChaosProfiles.Contains(profileId);
         internal static bool IsChaos(Profile profile) => profile != null && ((int?)profile.Info?.Settings?.Role == GhostBotVariant.ChaosValue || IsChaos(profile.Id));
@@ -43,8 +45,9 @@ namespace ISBSpecialForces.Components
             bool chaos = IsChaos(bot.Profile);
             var spawn = bot.SpawnProfileData?.SpawnParams;
             var formation = spawn?.ShallBeGroup;
+            bool managed = ISBEventPopulationQueue.TryGetHuntSquad(bot, out var managedFormation, out _);
             ConditionalWeakTable<ShallBeGroupParams, BotsGroup> formations = null;
-            if (!chaos)
+            if (!chaos && !managed)
             {
                 if (formation == null || formation.StartCount <= 1) return true;
                 var role = bot.Profile.Info.Settings.Role;
@@ -53,7 +56,8 @@ namespace ISBSpecialForces.Components
                 else return true;
             }
             BotsGroup existing = null;
-            if (chaos && spawn != null) ChaosGroups.TryGetValue(spawn, out existing);
+            if (managed) ManagedFormationGroups.TryGetValue(managedFormation, out existing);
+            else if (chaos && spawn != null) ChaosGroups.TryGetValue(spawn, out existing);
             else if (formations != null) formations.TryGetValue(formation, out existing);
             if (existing != null)
             {
@@ -66,9 +70,11 @@ namespace ISBSpecialForces.Components
                 if (enemy != null && (!chaos || !IsChaos(enemy.Profile))) enemies.Add(enemy);
             __instance.SetBotAsEnemy(bot);
             var group = new BotsGroup(zone, __instance.BotGame, bot, enemies, __instance._deadBodiesController, __instance._allPlayers, true);
-            if (formation != null) group.TargetMembersCount = formation.StartCount;
+            if (managed) group.TargetMembersCount = ISBEventPopulationQueue.GetManagedSquadSize(managedFormation);
+            else if (formation != null) group.TargetMembersCount = formation.StartCount;
             __instance.Groups.AddNoKey(group, zone);
-            if (chaos && spawn != null) ChaosGroups.Add(spawn, group);
+            if (managed) ManagedFormationGroups.Add(managedFormation, group);
+            else if (chaos && spawn != null) ChaosGroups.Add(spawn, group);
             else if (formations != null) formations.Add(formation, group);
             __result = group;
             return false;

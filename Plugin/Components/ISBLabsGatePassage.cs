@@ -17,11 +17,11 @@ namespace ISBSpecialForces.Components
         private readonly Dictionary<Collider, HashSet<Collider>> _changed = new Dictionary<Collider, HashSet<Collider>>();
         private float _nextCheck;
         private bool _subscribed;
-        internal static bool Eligible(string location, int role, bool authority) => authority && string.Equals(location, "laboratory", StringComparison.OrdinalIgnoreCase) && (WildSpawnTypeExtensions.IsISB((WildSpawnType)role) || role == 848424 || role == 848426 || ISBBlackDivisionUtility.IsBlackDivisionRole((WildSpawnType)role));
+        internal static bool Eligible(string location, int role, bool authority, bool managed = false) => authority && string.Equals(location, "laboratory", StringComparison.OrdinalIgnoreCase) && (managed || WildSpawnTypeExtensions.IsISB((WildSpawnType)role) || role == GhostBotVariant.ChaosValue || role == 848424 || role == 848426 || ISBBlackDivisionUtility.IsBlackDivisionRole((WildSpawnType)role));
         internal static void Register(BotOwner bot)
         {
             var world = Singleton<GameWorld>.Instance;
-            if (world == null || bot?.Profile?.Info?.Settings == null || !Eligible(world.LocationId, (int)bot.Profile.Info.Settings.Role, ISBFikaAuthority.IsAiAuthority))
+            if (world == null || bot?.Profile?.Info?.Settings == null || !Eligible(world.LocationId, (int)bot.Profile.Info.Settings.Role, ISBFikaAuthority.IsAiAuthority, ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _)))
                 return;
             var controller = world.GetComponent<ISBLabsGatePassage>() ?? world.gameObject.AddComponent<ISBLabsGatePassage>();
             controller.Add(bot);

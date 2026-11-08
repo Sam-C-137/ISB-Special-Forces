@@ -15,7 +15,7 @@ namespace ISBSpecialForces.Components
         private static bool Eligible(BotHuntManager manager)
         {
             var bot = manager?.botOwner;
-            return manager != null && manager.active && manager.huntManager != null && bot != null && bot.GetPlayer != null && !bot.IsDead && bot.isActiveAndEnabled && bot.BotsGroup != null && bot.Profile?.Info?.Settings != null && BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) && bot.GetManager()?.HasAssignedCheckpoint() != true;
+            return manager != null && manager.active && manager.huntManager != null && bot != null && bot.GetPlayer != null && !bot.IsDead && bot.isActiveAndEnabled && bot.BotsGroup != null && bot.Profile?.Info?.Settings != null && BlackDivisionCheckpointPolicy.IsRole((int)bot.Profile.Info.Settings.Role) && !ISBEventPopulationQueue.TryGetHuntSquad(bot, out _, out _) && bot.GetManager()?.HasAssignedCheckpoint() != true;
         }
 
         private static bool IsTarget(IPlayer target, BotOwner hunter) => target?.IsAI == true && target.HealthController?.IsAlive == true && target.Profile?.Info?.Settings != null && WildSpawnTypeExtensions.IsISB(target.Profile.Info.Settings.Role) && target.AIData?.BotOwner?.BotsGroup != hunter.BotsGroup && hunter.BotsGroup.IsPlayerEnemy(target);

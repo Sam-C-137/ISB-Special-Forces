@@ -14,9 +14,11 @@ public class ConfigController
     public AnomalousItemSpawnsConfig AnomalousSpawns => ModConfig.labsContainmentBreachEvent.anomalousItemSpawns;
 
     public readonly ModHelper _modHelper;
-    public ConfigController(ModHelper modHelper)
+    private readonly Microsoft.Extensions.Logging.ILogger<ConfigController> _logger;
+    public ConfigController(ModHelper modHelper, Microsoft.Extensions.Logging.ILogger<ConfigController> logger)
     {
         _modHelper = modHelper;
+        _logger = logger;
         Reload();
     }
 
@@ -28,9 +30,11 @@ public class ConfigController
         ModConfig = _modHelper.GetJsonDataFromFile<MainConfig>(pathToMod, "config.jsonc");
         IsbBotHealth.Validate(ModConfig.botHealth);
         ISBDiagnostics.Enabled = ModConfig.diagnosticLogs;
-        ModConfig.labsContainmentBreachEvent = ContainmentBreachConfigFile.Load(pathToMod, ModConfig.labsContainmentBreachEvent);
-        ModConfig.labsContainmentBreachEvent.containementBreachQueue.Validate();
-        ModConfig.blackoutQueue.Validate();
+        ModConfig.labsContainmentBreachEvent = ContainmentBreachConfigFile.Load(pathToMod, ModConfig.labsContainmentBreachEvent, ReportQueueRecovery);
+        ModConfig.blackoutQueue = ISB.Compatibility.EventPopulationConfig.Recover(ModConfig.blackoutQueue, "config.jsonc:blackoutQueue",
+            ReportQueueRecovery, ISB.Compatibility.EventPopulationConfig.BlackoutDefaults());
+        LabsEventModes.NormalizeSpecialFormations(ModConfig.labsBlackoutEvent?.blackoutActivated);
+        LabsEventModes.NormalizeSpecialFormations(ModConfig.labsBlackoutEvent?.powerRestored);
         AnomalousItemSpawns.Validate(AnomalousSpawns);
         ContainmentMapLoot.Validate(ModConfig.labsContainmentBreachEvent.mapLoot);
         ModConfig.MigrateLegacyIcebreakerLocation();
@@ -40,6 +44,8 @@ public class ConfigController
             ISBScriptedMapSpawns.Validate(map.icebreakerScriptedSpawns);
         }
     }
+
+    private void ReportQueueRecovery(string message) => Microsoft.Extensions.Logging.LoggerExtensions.LogWarning(_logger, "{QueueRecovery}", message);
 
     public string GetGhostBotNamesJson()
     {

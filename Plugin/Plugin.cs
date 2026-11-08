@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ISBSpecialForces
 {
-    [BepInDependency("com.samc137.aishi", "2.0.6")]
+    [BepInDependency("com.samc137.aishi", "2.0.7")]
     [BepInDependency("com.morebotsapi.tacticaltoaster", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("xyz.drakia.bigbrain", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("me.sol.sain", BepInDependency.DependencyFlags.SoftDependency)]
@@ -21,6 +21,7 @@ namespace ISBSpecialForces
     [BepInDependency("com.sipto.devtools", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ISBIncendiaryCompatibility.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(ISBPackNStrapInventoryPatch.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(ISBBotPlacementCompatibility.PluginGuid, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInPlugin(PluginInfo.GUID, PluginInfo.PluginName, PluginInfo.Version)]
     public class Plugin : BaseUnityPlugin
     {
@@ -73,11 +74,14 @@ namespace ISBSpecialForces
         internal static bool IncrementalMemoryBudgetEnabled => _incrementalMemoryBudget?.Value ?? false;
         public static bool DiagnosticsEnabled => _diagnosticLogs?.Value ?? false;
 
+        public void PublishEventNightVisionState(GameWorld world, int state) => ISBEventNightVision.Publish(world, state);
+
         private void Awake()
         {
             LogSource = Logger;
             ISBIncendiaryCompatibility.Initialize(LogSource);
             ISBPackNStrapInventoryPatch.Initialize();
+            ISBBotPlacementCompatibility.Initialize();
             ISBVipperPoison.Initialize(this);
             ISBVipperTips.Initialize();
             _diagnosticLogs = Config.Bind("Logging", "Diagnostic Logs", false, "Enable informational and debug diagnostics for this plugin. Warnings and errors remain enabled.");
@@ -103,6 +107,11 @@ namespace ISBSpecialForces
             this.GetOrAddComponent<ISBEventPopulationQueue>();
             this.GetOrAddComponent<ISBRevengeHuntController>();
             new ISBNightVisionHelmetPatch().Enable();
+            this.GetOrAddComponent<ISBEventNightVisionDriver>();
+            ISBEventNightVision.EnableWearTaskObserver();
+            new ISBEventNightVisionUpdatePatch().Enable();
+            new ISBEventNightVisionDecisionPatch().Enable();
+            new ISBEventNightVisionStowPatch().Enable();
             new ISBArenaAchievementIconPatch().Enable();
             this.GetOrAddComponent<ISBCheckpointManager>();
             this.GetOrAddComponent<ShorelineItemSecretManager>();
